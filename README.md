@@ -58,12 +58,12 @@
 
   * Red, Green, Blue vary from 0 to 100% intensity.
 
-    RGB can specify 101*101*101 different colors (almost 2^20).
+    RGB can specify 101×101×101 different colors (almost 2^20).
 
   * Hue varies from 0 to 360 degrees, Lightness and Saturation vary
     from 0 to 100%. (Hue 0 and 360 are identical).
 
-    HLS can specify 359*101*101 different colors (almost 2^22).
+    HLS can specify 359×101×101 different colors (almost 2^22).
 
   * Thus there are roughly 250 different RGB values and 1000 different
     HLS values for each possible color that can actually be shown.
