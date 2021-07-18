@@ -1,6 +1,8 @@
 ## Test files and output
 
-Please see the [j4james](j4james) directory for test files and their output.
+* Please see the [j4james](j4james) directory for test files and their output.
+
+* See [sixeltests](sixeltests) for a few sixel test images.
 
 ## Notes on Hardware VT340 
 
