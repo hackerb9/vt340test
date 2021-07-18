@@ -92,9 +92,47 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
     echo -n $'\e\\'		# Exit REGIS mode
 
 
+* MEDIA COPY TO HOST ("screenshot"): This isn't working quite right
+  yet, but to send the screen to the host as sixel data, you can do
+  something like this:
+
+      CSI=$'\e['			# Control Sequence Introducer
+      DCS=$'\eP'			# Device Control String
+      ST=$'\e\\'			# String Terminator
+
+      # MC: Media Copy ('2' meands send graphics to host, not printer)
+      echo -n ${CSI}'?2i'		
+      # DECGPCM: Print Graphics Color Mode
+      #echo -n ${CSI}'?44l'		# Print in black and white
+      echo -n ${CSI}'?46h'		# Print in Color
+      # DECGPBM: Print Graphics Background Mode
+      echo -n ${CSI}'?46l'		# Do not send background when printing
+      #echo -n ${CSI}'?46h'		# Include background when printing
+
+      echo -n ${DCS}'p'			# Enter REGIS mode
+      echo -n $'S(H)'			# Screen hard copy
+      echo -n ${ST}			# Exit REGIS mode
+
+  I was able to capture a simple REGIS image using this method, but
+  when trying to read the results after drawing on the screen with
+  sixels, I'm having troubles. 
+
+  The problem I have at the moment is attempting to read the results
+  sent from the terminal. For some reason, the usual trick of putting
+  the escape sequence in the prompt of bash's `read` fails and the
+  last part of the sixel data gets splatted to the screen. It takes
+  over three minutes to send a complex image, so maybe something is
+  timing out. Or, it's possible I have flow control problem.
+
+  Capturing the data with `script` worked slightly better, but the
+  resulting output was strangely misaligned horizontally. (Could it be
+  the sixel level (e.g., 1 or 2) I'm sending back is incorrect?)
+
 ### Keyboard
 
 * The ESC key on the LK-201 keyboard only functions in VT100 mode. 
   Instead, you must use ^[ or ^3.
 
+* Despite what the manual says, you cannot use "Return" to select
+  elements in Setup. You must use the "Do" key.
   
