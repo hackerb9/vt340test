@@ -1,7 +1,6 @@
 ## Test files and output
 
-* [j4james-test01.txt](j4james-test01.txt)
-  [j4james-test01.jpg](j4james-test01.jpg)
+Please see the [j4james](j4james) directory for test files and their output.
 
 ## Notes on Hardware VT340 
 
