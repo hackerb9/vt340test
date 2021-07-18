@@ -1,3 +1,8 @@
+#!/bin/bash
+#
+# Use REGIS to draw some graphics on the VT340 screen and then use the
+# MC (Media Copy) command to read the graphics back as Sixel data.
+
 CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
@@ -26,8 +31,12 @@ echo -n ${ST}			# Exit REGIS mode
 
 if ! IFS=$'\e' read -a REPLY -s -p ${CSI}'i' -r -d '\\'; then
     echo Terminal did not respond.
-#    exit 1
+    exit 1
 fi
 
-showargs "${REPLY[@]}" | cat -v | tee print.out
-
+echo "Received sixel image. Writing to 'print.out'"
+rm print.out
+for line in "${REPLY[@]}"; do
+     echo "$line" >> print.out
+     echo "DATA: $line" | cat -v
+done
