@@ -2,6 +2,17 @@
 # hackerb9 July 7, 2021
 # Reset VT340 color map to system default
 
+# NOTE THIS IS CURRENTLY DONE IN AN UGLY WAY, USING THE ORDER THE
+# SIXEL COLORS ARE ASSIGNED. DO NOT USE THIS YET.
+
+# The right way is to use DECRSTS (DEC Reset Terminal State), however,
+# the docs specifically say that the strings are not portable across
+# VT300 family members, so it would be useful only for the VT340. I
+# believe DECRSTS should be added to TERMINFO so that a soft reset
+# will fix color map problems.
+# 
+
+
 DCS=$'\eP'			# Device Control String
 RA='"'				# Raster Attributes (pixel shape, dimensions)
 ST=$'\e\\'			# String Terminator
