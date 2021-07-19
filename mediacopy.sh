@@ -3,11 +3,14 @@
 # BUGGY. This doesn't work to read all the sixel data.
 # I'm just using 'script' and even then it doesn't reproduce correctly.
 # Probably should just capture output to the Printer port.
-( if ! IFS=$'\e' read -a REPLY -s -r -d '\\'; then
-    echo Terminal did not respond.
+
+
+# Testing reading before sending print. Nope, that didn't help.
+#( if ! IFS=$'\e' read -a REPLY -s -r -d '\\'; then
+#    echo Terminal did not respond.
 #    exit 1
-   echo "$REPLY" > print.out
-fi ) &
+#   echo "$REPLY" > print.out
+#fi ) &
 
 
 CSI=$'\e['			# Control Sequence Introducer

@@ -20,23 +20,36 @@ echo -n ${CSI}'?46l'		# Do not send background when printing
 
 
 
+echo "Roundels and printing @ $(date)" > err.out
 echo -n ${DCS}'3p'		# Enter interactive REGIS mode
 echo -n $'P[150,200]W(S1)C(W(I1))[+100]C[+66]C(W(I2))[+33]' # RAF roundels
 echo -n $'S(H)'			# Send hard copy [Note: redirected to host]
 echo -n ${ST}			# Exit REGIS mode
+echo "Done w/ printing command @ $(date)" >>err.out
 
 
-#echo -n ${CSI}'?2i'		# Send graphics to host, not printer
+
+# BUGGY: DOES NOT SEEM TO WORK FOR GRAPHICS TO HOST. MUST USE REGIS?
 #echo -n ${CSI}'i'		# Print screen (MC, Media Copy)
 
-if ! IFS=$'\e' read -a REPLY -s -p ${CSI}'i' -r -d '\\'; then
-    echo Terminal did not respond.
-    exit 1
-fi
+# THIS STANZA IS BUGGY. DOES NOT GET A RESPONSE.
+#if ! IFS=$'\e' read -a REPLY -s -p ${CSI}'i' -r -d '\\'; then
+#    echo Terminal did not respond.
+#    exit 1
+#fi
 
-echo "Received sixel image. Writing to 'print.out'"
-rm print.out
-for line in "${REPLY[@]}"; do
-     echo "$line" >> print.out
-     echo "DATA: $line" | cat -v
+while ! read -t 0; do
+    sleep 1
+    echo -n "." >>err.out
 done
+
+stty cbreak
+while true; do
+    read -t 1 -n 80
+    echo -n "$REPLY" 
+    echo "DATA: $REPLY" | cat -v >>err.out
+    if [[ "$REPLY" == *\\* ]]; then break; fi
+    sleep 1
+    echo -n "," >>err.out
+done > print.out
+stty -cbreak
