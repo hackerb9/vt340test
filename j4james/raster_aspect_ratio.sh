@@ -50,10 +50,11 @@ range_test() {
 }
 
 aspect_ratio_test  8 ''     2
-aspect_ratio_test 20 '0;0'  2
-aspect_ratio_test 32 '1;3' 10
-aspect_ratio_test 44 '3;2'  5
-aspect_ratio_test 56 '7;4'  5
+aspect_ratio_test 18 '0;0'  2
+aspect_ratio_test 28 '0;1'  2
+aspect_ratio_test 38 '1;3' 10
+aspect_ratio_test 48 '3;2'  5
+aspect_ratio_test 58 '7;4'  5
 aspect_ratio_test 68 '37;4' 1
 
 range_test
