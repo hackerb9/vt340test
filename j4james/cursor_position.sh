@@ -43,13 +43,16 @@ test_case() {
   echo '---'
 }
 
-test_case 4 6 11 false
-test_case 4 15 10 true
-test_case 3 24 14 false
-test_case 3 33 13 true
-test_case 4 42 10 false
-test_case 4 51 9 true
-test_case 4 60 13 false
-test_case 4 69 12 true
+test_case 3  6 14 false
+test_case 3 15 13 true
+test_case 3 24 13 false
+test_case 3 33 12 true
+test_case 3 42 11 false
+test_case 3 51 10 true
+test_case 4 60 10 false
+test_case 4 69  9 true
+
+set_cursor_pos 6 1
+echo '>'${CSI}'80C<'
 
 set_cursor_pos 10 1
