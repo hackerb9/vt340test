@@ -49,12 +49,12 @@ range_test() {
   done
 }
 
-aspect_ratio_test  8 ''    10
-aspect_ratio_test 20 '0;0' 10
+aspect_ratio_test  8 ''     2
+aspect_ratio_test 20 '0;0'  2
 aspect_ratio_test 32 '1;3' 10
 aspect_ratio_test 44 '3;2'  5
 aspect_ratio_test 56 '7;4'  5
-aspect_ratio_test 68 '9;4'  5
+aspect_ratio_test 68 '37;4' 1
 
 range_test
 
