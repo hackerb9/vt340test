@@ -54,6 +54,6 @@ macro_param_test 8 20 6  5
 macro_param_test 8 32 7  10
 macro_param_test 8 44 8  10
 macro_param_test 8 56 9  10
-macro_param_test 8 68 10 5
+macro_param_test 8 68 10 10
 
 set_cursor_pos 13 1
