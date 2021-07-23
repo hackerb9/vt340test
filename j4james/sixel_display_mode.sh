@@ -54,13 +54,14 @@ test_pattern() {
 }
 
 test_pattern 22 57 '#1' '--'
+echo -e '\n'
 cursor_home
 
 # Set DECSDM
 echo ${CSI}'?80h'
 
 test_pattern 3 34 '#2' '----' '--------' '!120?'
-cursor_down 5
+cursor_down 6
 cursor_right 3
 echo ' DECSDM '
 
