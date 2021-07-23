@@ -30,26 +30,37 @@ test_pattern() {
   local row=${1}
   local col=${2}
   local center_line=${3}
-  local upper_prefix=${4}
-  local lower_prefix=${5}
 
   set_cursor_pos ${row} ${col}
   echo ${DCS}'2;1q'
-  echo ${upper_prefix}'#1!90~#2!30~-'
-  echo ${upper_prefix}'#1!60~#2!30~#0!30~-'
+  echo '#1!90~#2!30~-'
+  echo '#1!60~#2!30~#0!30~-'
   echo -n ${center_line}
-  echo ${lower_prefix}'#1!30~#2!30~#0!60~-'
-  echo ${lower_prefix}'#2!30~#0!90~'
+  echo '#1!30~#2!30~#0!60~-'
+  echo '#2!30~#0!90~'
   echo ${ST}
 }
 
-test_pattern 3 26
+small_test_pattern() {
+  local row=${1}
+  local col=${2}
+
+  set_cursor_pos ${row} ${col}
+  echo ${DCS}'2;1q'
+  echo '#2!30~#0!30~#3!170o-'
+  echo '#2!30~#3!200~'
+  echo ${ST}
+  set_cursor_pos $((${row} + 1)) 1
+  echo '   '${CSI}'40C   '
+}
+
+test_pattern 3 49
 
 # Insert 3 lines.
 echo -n ${CSI}'6H'
 echo ${CSI}'3L'
 
-test_pattern 3 8 '#3!999~-!999~-'
+test_pattern 3 21 '#3!999~-!999~-'
 
 # Delete 3 lines.
 echo -n ${CSI}'1;13r'
@@ -57,18 +68,14 @@ echo -n ${CSI}'6H'
 echo -n ${CSI}'3M'
 echo ${CSI}'r'
 
-test_pattern 3 44 '' '' '!30?'
+small_test_pattern 16 38
 
-# Delete 3 characters over 3 lines.
-echo ${CSI}'6;44H'${CSI}'3P'
-echo ${CSI}'7;44H'${CSI}'3P'
-echo ${CSI}'8;44H'${CSI}'3P'
+# Delete 3 characters.
+set_cursor_pos 17 41
+echo ${CSI}'3P'
 
-test_pattern 3 59 '' '!30?'
-
-# Insert 3 characters over 3 lines.
-echo ${CSI}'6;59H'${CSI}'3@EEE'
-echo ${CSI}'7;59H'${CSI}'3@EEE'
-echo ${CSI}'8;59H'${CSI}'3@EEE'
+# Insert 3 characters.
+set_cursor_pos 18 41
+echo ${CSI}'3@'
 
 set_cursor_pos 12 1
