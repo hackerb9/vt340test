@@ -27,7 +27,7 @@ set_cursor_pos() {
 }
 
 xor_test_pattern() {
-  set_cursor_pos 3 11
+  set_cursor_pos 7 11
   echo ${DCS}'2;1q'
   local patterns=('~F' 'w~')
   for color1 in {0..7}
@@ -45,9 +45,9 @@ xor_test_pattern() {
 }
 
 home_command() {
-  set_cursor_pos 3 47
+  set_cursor_pos 7 47
   echo ${DCS}'2;1q'
-  for color in 0 2 1 0 3
+  for color in 0 2 1 3
   do
     if [[ ${color} = 3 ]]; then echo '+'; fi
     echo '#'${color}'!240~-'
@@ -59,4 +59,4 @@ home_command() {
 xor_test_pattern
 home_command
 
-set_cursor_pos 20 1
+set_cursor_pos 1 1
