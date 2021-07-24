@@ -14,28 +14,41 @@ DECDWL=$'\e#6'			# Double Width Line
 echo -n ${CSI}'!p'
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
-echo -n ${CSI}'?7h'
-yes E | tr -d '\n' | head -c 1920
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
 }
 
-test_pattern() {
-  local row=${1}
-
-  set_cursor_pos ${row} 3
-  echo ${DCS}'2;1q'
-  echo '#1!120~-'
-  echo '#1!120~-'
-  echo '#1!120~-'
-  echo '#1!120~'
+large_block() {
+  set_cursor_pos ${1} ${2}
+  echo ${DCS}'2;1q#1'
+  if [[ ${3} == true ]]
+  then
+    echo '!200~-'
+    echo '!200~-'
+    echo '!200~-'
+    echo '!200~-'
+  else
+    echo '!20~!160N!20~-'
+    echo '!20~!160?!20~-'
+    echo '!20~!160?!20~-'
+    echo '!20~!160{!20~-'
+  fi
   echo ${ST}
+}
 
-  set_cursor_pos $((${row} + 2)) 19
-  echo ${DCS}'2;1q'
-  echo '#1!40~-'
-  echo '#1!40F-'
+small_block() {
+  set_cursor_pos ${1} ${2}
+  echo ${DCS}'2;1q#1'
+  echo '!40~-'
+  echo '!40B-'
+  echo ${ST}
+}
+
+error_line() {
+  set_cursor_pos ${1} ${2}
+  echo ${DCS}'2;1q#2'
+  echo '!200N-'
   echo ${ST}
 }
 
@@ -45,28 +58,28 @@ test_message() {
   echo "${3}"
 }
 
-test_message 3 33 ' DECDWL ' ${DECDWL}
-test_message 4 33 ' DECDWL ' ${DECDWL}
-test_message 5 33 ' DECDHL ' ${DECDHLT}
-test_message 6 33 ' DECDHL ' ${DECDHLB}
+test_message 5 33 '  Regular Size  '
+test_message 6 17 ' DECDWL ' ${DECDWL}
+test_message 7 17 ' DECDHL ' ${DECDHLT}
+test_message 8 17 ' DECDHL ' ${DECDHLB}
 
-test_pattern 2
+large_block 4 31 false
+small_block 6 14
+small_block 6 64
 
-test_message 3 4 'DW'
-test_message 4 4 'DW'
-test_message 5 4 'DH'
-test_message 6 4 'DH'
+large_block 13 31 true
+small_block 15 14
+small_block 15 64
 
-test_message 10 33 ' DECDWL '
-test_message 11 33 ' DECDWL '
-test_message 12 33 ' DECDHL '
-test_message 13 33 ' DECDHL '
+test_message 14 33 '  Regular Size  '
+test_message 15 17 ' DECDWL ' ${DECDWL}
+test_message 16 17 ' DECDHL ' ${DECDHLT}
+test_message 17 17 ' DECDHL ' ${DECDHLB}
 
-test_pattern 9
+set_cursor_pos 11 20
+echo '||'
+error_line 11 31
+set_cursor_pos 11 1
+echo ${DECDWL}
 
-test_message 10 4 'DW' ${DECDWL}
-test_message 11 4 'DW' ${DECDWL}
-test_message 12 4 'DH' ${DECDHLT}
-test_message 13 4 'DH' ${DECDHLB}
-
-set_cursor_pos 23 1
+set_cursor_pos 22 1
