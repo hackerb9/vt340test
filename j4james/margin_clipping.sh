@@ -51,28 +51,31 @@ multicolor_lines() {
   done
 }
 
-hidden_lines() {
-  echo '#2!240B-'
-  echo '#4!60?!120B-'
-  echo '#6!90?!60B-'
-}
+set_cursor_pos 13 9
+echo ${DCS}'2;1q'
+solid_lines  2 '#2'
+multicolor_lines 2 '#3' '#1' false
+echo -n ${ST}
 
 set_margin 10 15
 set_cursor_pos 7 9
-echo ${DCS}'3;1q'
-multicolor_lines 4 '#1' '#3' true
-solid_lines  10 '#2'
-multicolor_lines 3 '#1' '#3' true
-echo '#1!120N#3!120N$'
-echo '#3!120o#1!120o-'
-multicolor_lines 3 '#3' '#1' false
+echo ${DCS}'2;1q'
+multicolor_lines 2 '#1' '#3' true
+solid_lines  4 '#2'
+multicolor_lines 2 '#1' '#3' true
+multicolor_lines 2 '#3' '#1' false
 echo -n ${ST}
 
-set_cursor_pos 16 9
+set_cursor_pos 10 9
+echo -n $'\eM'
+echo ${DCS}'1;1q'
+multicolor_lines 2 '#1' '#3' false
+echo -n ${ST}
+
+set_cursor_pos 19 9
 echo ${DCS}'2;1q'
-multicolor_lines 2 '#3' '#1' true
-blank_lines 4
-hidden_lines
+solid_lines  2 '#2'
+blank_lines 2
 echo -n ${ST}
 
 set_margin 4 21
