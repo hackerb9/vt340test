@@ -25,16 +25,17 @@ set_cursor_pos() {
 test_case() {
   local row=${1}
   local col=${2}
-  local height=${3}
-  local end_with_lf=${4}
+  local macro_param=${3}
+  local height=${4}
+  local end_with_lf=${5}
 
   set_cursor_pos ${row} ${col}
-  echo ${DCS}'9;1q'
+  echo ${DCS}${macro_param}';1q'
   echo -n '#1'
   
   for i in $(seq ${height})
   do
-    echo -n '!70~'
+    echo -n '!60~'
     if [[ ${i} -lt ${height} || ${end_with_lf} = true ]]; then echo -n '-'; fi
   done
 
@@ -43,16 +44,22 @@ test_case() {
   echo '---'
 }
 
-test_case 3  6 14 false
-test_case 3 15 13 true
-test_case 3 24 13 false
-test_case 3 33 12 true
-test_case 3 42 11 false
-test_case 3 51 10 true
-test_case 4 60 10 false
-test_case 4 69  9 true
+test_case  3  8 9 14 false
+test_case  3 20 9 13 true
+test_case  3 32 9 13 false
+test_case  3 44 9 12 true
+test_case  3 56 9 11 false
+test_case  3 68 9 10 true
+test_case 10  8 2  2 false
+test_case 10 20 2  1 true
+test_case  9 32 9 10 false
+test_case  9 44 9  9 true
+test_case  8 56 2  3 false
+test_case  8 68 2  2 true
 
 set_cursor_pos 6 1
 echo '>'${CSI}'80C<'
+set_cursor_pos 11 1
+echo '>'${CSI}'80C<'
 
-set_cursor_pos 10 1
+set_cursor_pos 15 1
