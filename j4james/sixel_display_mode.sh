@@ -15,43 +15,58 @@ ST=$'\e\\'			# String Terminator
 
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
-echo -n $'\e#8'
+echo -n ${CSI}'?7h'
+yes E | tr -d '\n' | head -c 1920
 
-echo -n ${CSI}'22;57H'
-echo -n ${DCS}'2;1q#1'
-echo '!120~-'
-echo '!120~-'
-echo '!120~-'
-echo '!120~-'
-echo '--'
-echo -n ${ST}
-echo -n ${CSI}'H'
+set_cursor_pos() {
+  echo -n ${CSI}${1}';'${2}'H'
+}
+
+cursor_home() {
+  echo ${CSI}'H'
+}
+
+cursor_down() {
+  echo -n ${CSI}${1}'B'
+}
+
+cursor_right() {
+  echo -n ${CSI}${1}'C'
+}
+
+test_pattern() {
+  local row=${1}
+  local col=${2}
+  local color=${3}
+  local suffix=${4}
+  local prefix=${5}
+  local padding=${6}
+
+  set_cursor_pos ${row} ${col}
+  echo ${DCS}'2;1q'${color}
+  echo ${prefix}
+  echo ${padding}'!120~-'
+  echo ${padding}'!120~-'
+  echo ${padding}'!120~-'
+  echo ${padding}'!120~-'
+  echo ${suffix}
+  echo -n ${ST}
+}
+
+test_pattern 22 57 '#1' '--'
+echo -e '\n'
+cursor_home
 
 # Set DECSDM
-echo -n ${CSI}'?80h'
+echo ${CSI}'?80h'
 
-echo -n ${CSI}'3;34H'
-echo -n ${DCS}'2;1q#2'
-echo '--------'
-echo '!120?!120~-'
-echo '!120?!120~-'
-echo '!120?!120~-'
-echo '!120?!120~-'
-echo '----'
-echo -n ${ST}
-
-echo -n ${CSI}'5B'
-echo -n ${CSI}'3C DECSDM '
+test_pattern 3 34 '#2' '----' '--------' '!120?'
+cursor_down 6
+cursor_right 3
+echo ' DECSDM '
 
 # Reset DECSDM
-echo -n ${CSI}'?80l'
+echo ${CSI}'?80l'
 
-echo -n ${CSI}'13;35H'
-echo -n ${DCS}'2;1q#3'
-echo '!120~-'
-echo '!120~-'
-echo '!120~-'
-echo '!120~-'
-echo '-----'
-echo -n ${ST}
-echo -n ${CSI}22H
+test_pattern 13 35 '#3' '-----'
+set_cursor_pos 22 1
