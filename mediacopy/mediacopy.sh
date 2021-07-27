@@ -103,8 +103,8 @@ echo -n ${ST}			# Exit REGIS mode
 
 
 # Read until the first backslash to dispose of the String Terminator
-# (`␛\`) sent before the print out. Note that ImageMagick and
-# libsixel fail to read images that begin with `␛\`.
+# (`Esc \`) sent before the print out. Note that ImageMagick and
+# libsixel fail to read images that begin with `Esc \`.
 read -r -s -d "\\"
 
 # Read until second backslash to get all data up to the String Terminator.
@@ -154,15 +154,15 @@ echo -n ${ST} >> print.six
 # * It takes several minutes to send a full screen of sixel data, so
 #   you'll want to print just a cropped part if you're debugging this.
 
-# * Before sending the sixel data, the VT340 sends ST (`␛\`). 
+# * Before sending the sixel data, the VT340 sends ST (`Esc \`). 
 #   However, ImageMagick gets confused by sixel images that start with
 #   the String Terminator (it thinks they have only one pixel).
 
 # * VT340 defaults to printing in "mono". Must set to "color" using
-#   the DECGPCM (`␛[?44h`) escape sequence.
+#   the DECGPCM (`Esc [?44h`) escape sequence.
   
 # * ImageMagick cannot handle HLS sixel graphics. Must set to RGB by
-#   using DECGPCS (`␛[?45h`).
+#   using DECGPCS (`Esc [?45h`).
 
 # * When sending compressed prints, I can't seem to read the VT340
 #   String Terminator sequence that marks the end of the print.
