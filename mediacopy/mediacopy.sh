@@ -11,7 +11,6 @@
 
 # Questions:
 #
-# * Should this script print the background by default or not? 
 # * How do I inquire the geometry of the graphics screen? 
 
 # TODO:
@@ -22,7 +21,6 @@
 # * After saving to print.six convert to PNG if ImageMagick is installed.
 # * Add command line options to print just a region of the screen.
 # * Command line args should allow percentage, not required pixel coords.
-# * Maybe change default to print background by default.
 # * Don't presume ST will be at start, but remove it if it is. (sed).
 
 ########################################
@@ -59,9 +57,9 @@ echo -n ${CSI}'?44h'		# Print in color
 #echo -n ${CSI}'?45l'		# Print using HLS colors
 echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 
-# DECGPBM: Print Graphics Background Mode (only works with Level 2 Graphics)
-echo -n ${CSI}'?46l'		# Do not send background when printing
-#echo -n ${CSI}'?46h'		# Include background when printing
+# DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
+#echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
+echo -n ${CSI}'?46h'		# Include background when printing
 
 # DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
 echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
