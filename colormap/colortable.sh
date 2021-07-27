@@ -77,7 +77,6 @@ showargs "${REPLY[@]}" | cat -v
 # 	DCS	2	$	s	D...D	ST
 # 	9/0	3/2	2/4	7/3	...	9/12
 #
-#
 # where
 #
 #	DCS is the Device Control String (0x90 or ESC P in 7-bit environments),
