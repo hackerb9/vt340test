@@ -2,31 +2,28 @@
 
 # Save current screen from a VT340 as a sixel screenshot in print.six. 
 
-# THIS WORKS ON A GENUINE VT340, BUT IS NOT WELL TESTED.
+# THIS WORKS ON A GENUINE VT340, BUT COULD USE SOME POLISHING.
 
 # For this to work, the VT340 probably has to have the following
-# settings changed in the Setup menu:
+# setting changed in the Setup menu:
 #
-# 1. Printer Set-up -> Print terminator = Send form feed
-# 2. Printer Set-up -> Sixel graphics level = Level 2
+# 1. Printer Set-Up -> Sixel Graphics Level = level 2
 
 # Questions:
 #
-# * Why doesn't Compressed mode send last line of sixel data?
-# * Why doesn't Expanded mode send form feed as print terminator?
-# * Do we truly need Level 2 graphics? No.
-# * If I only use Expanded mode, can I avoid asking user to change Setup?
-# * Should this script print the background by default or not? Probably so.
+# * Should this script print the background by default or not? 
 # * How do I inquire the geometry of the graphics screen? 
-# * Does the VT340 send 1:1 pixel aspect ratio sixel data when the
-#   Set-up -> Printer Type is set to DEC's LA75 or LN03 printer?
 
 # TODO:
-# * After saving to print.six convert to PNG and rescale correctly.
-# * Don't presume ST will be at start, but remove it if it is. (sed).
+# * When image has finished saving, make sure it is a level 2 image.
+#   If not, show the commands needed to rescale to 1:1 aspect ratio.
+#   (Also, give a message suggesting that the user change the mode to level2).
+
+# * After saving to print.six convert to PNG if ImageMagick is installed.
 # * Add command line options to print just a region of the screen.
 # * Command line args should allow percentage, not required pixel coords.
-# * Maybe change default to print background.
+# * Maybe change default to print background by default.
+# * Don't presume ST will be at start, but remove it if it is. (sed).
 
 ########################################
 
@@ -121,9 +118,16 @@ while read -r -s -d "\\"; do
 done > print.six   2> err.out
 
 
-# XXX we were not receiving the final line in "compressed" mode.
+# TODO: Do we still need this now that we only use expanded mode?
+# We were not receiving the final line in "compressed" mode.
 # Kludge: Don't leave terminal in sixel mode after catting file.
 #echo -n ${ST} >> print.six
+
+# TODO: Check if image got saved to print.six correctly as Level 2.
+# If it didn't, then use ImageMagick to convert the image to the
+# proper aspect ratio. (E.g., convert -sample 50%x100%).
+
+
 
 
 # Notes:
