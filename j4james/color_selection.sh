@@ -22,7 +22,7 @@ echo -n ${CSI}'!p'
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
 echo -n ${CSI}'?7h'
-yes E | tr -d '\n' | head -c 1920
+yes . | tr -d '\n' | head -c 1920
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
