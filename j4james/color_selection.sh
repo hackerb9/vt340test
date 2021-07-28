@@ -22,7 +22,10 @@ echo -n ${CSI}'!p'
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
 echo -n ${CSI}'?7h'
-yes . | tr -d '\n' | head -c 1920
+
+# Fill screen with an identifiable background that is sixel compressible
+LINES=$(tput lines); COLUMNS=$(tput cols)
+yes . | tr -d '\n' | head -c $((LINES*COLUMNS))
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
