@@ -14,25 +14,43 @@
 # * How do I inquire the geometry of the graphics screen? 
 
 # TODO:
+
+# * Figure out why sometimes the VT340 will erroneously send a byte
+#   with the eighth bit set high and then pause for a long time before
+#   transmitting again. Test image tty.jpg triggers this glitch.
+#
+#   Perhaps my RS232 cable is flakey and it is just that the complex
+#   images take longer to send? Should double check, but it seems to
+#   always glitch at the same spot in the image.
+
 # * When image has finished saving, make sure it is a level 2 image.
 #   If not, show the commands needed to rescale to 1:1 aspect ratio.
-#   (Also, give a message suggesting that the user change the mode to level2).
-
+#   (Also, give a message suggesting that the user change the printing
+#   mode to level2 in the VT340 Set-Up screen).
+#
 # * After saving to print.six convert to PNG if ImageMagick is installed.
+#
 # * Add command line options to print just a region of the screen.
+#
 # * Command line args should allow percentage, not required pixel coords.
-# * Don't presume ST will be at start, but remove it if it is. (sed).
+#
+# * Don't presume ST will be at start, but remove it if it is. (sed?).
+#
+# * Investigate if there is some secret, undocumented way to enable
+#   level 2 printing from the application side.
 
 ########################################
 
 # REGIS Screen Hard Copy with no parameters sends the whole screen, 
 # offset 50 pixels to the right. We use P[0,0] to disable the offset.
+# Full screen on VT340 is equivalent to X1=0; Y1=0; X2=799; Y2=479
 REGIS_H="S(H(P[0,0]))"
 
-# Full screen on VT340 is equivalent to X1=0; Y1=0; X2=799; Y2=479
-X1=0; Y1=0; X2=1023; Y2=1023
-# For debugging, we can send just a small cropped part. (100x100 ~ 10 seconds)
-#X1=351; Y1=191; X2=450; Y2=290
+# Requests larger than the screen get cropped to full screen.
+X1=0; Y1=0; X2=4095; Y2=4095
+
+# For debugging, we can send just a small cropped part. (100x100, ~30 seconds)
+if [[ "$1" == "-debug" ]]; then X1=350; X2=449; Y1=190; Y2=289; fi
 
 if (( X1>0 || Y1>0 || X2>0 || Y2>0 )); then
     REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"
@@ -104,17 +122,33 @@ read -r -s -d "\\"
 # Read until second backslash to get all data up to the String Terminator.
 while read -r -s -d "\\"; do
     if [[ -z "$REPLY" ]]; then
+	# Debugging 
 	echo >&2
-	echo End of transmission. >&2
-	break;
+	echo 'WARNING: Got an empty REPLY.' >&2
+	# How is this happening? Even for ST, we should get an ESC first.
+	# If read is timing out, the 'while' loop should just exit.
+	# But even after this the terminal keeps sending more data...
+	# Trying to Media Copy complex images like cp16gray.six triggers this.
     fi
+
+    if LANG=C egrep -q "[^[:print:][:cntrl:]]" <<<"$REPLY"; then
+	# Debugging: check for non ASCII characters
+	echo >&2
+	echo 'WARNING: 8-bit Glitch. Received data with the eighth bit set high.'>&2
+    fi
+
+    # Debugging: log it to err.out
+    date +"%s: " | tr -d '\n' >&2
+    echo -n "$REPLY" | sed $'s/\e/Esc /g' |  cat -v >&2
+
+
+    # Write the response to the file
     echo -n "$REPLY" 
-    echo -n "$REPLY" | cat -v >&2
+
     # read's delimiter is backslash '\', so make sure it isn't consumed.
     if [[ "$REPLY\\" == *$ST ]]; then echo -n "\\"; break; fi
     echo "," >&2
 done > print.six   2> err.out
-
 
 # TODO: Do we still need this now that we only use expanded mode?
 # We were not receiving the final line in "compressed" mode.
