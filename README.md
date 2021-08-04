@@ -1,8 +1,18 @@
+## What is this?
+
+In the decades since the DEC VT340 terminal was released, knowledge of
+how it functioned has been lost. Mostly for archaeological purposes,
+but also so that the [lsix](https://github.com/hackerb9/lsix) program
+works correctly, [hackerb9] purchased a VT340+ and is running tests,
+many of which were submitted by [j4james](https://github.com/j4james),
+and documenting the results here.
+
+
 ## Test files and output
 
 * Please see the [j4james](j4james) directory for test files and their output.
 
-* See [sixeltests](sixeltests) for a few sixel test images.
+* See [sixeltests](sixeltests) for a few sixel test images and scripts.
 
 ## Notes on Hardware VT340 
 
@@ -29,18 +39,24 @@
 
     That pulls up the palette editor and recalls the saved color map.
 
-  * Unlike REGIS, sixel color numbering is different from VT340's setup
-    screen numbering!!! No matter what number you assign a sixel color,
-    it is only the order that you did the assignment that matters in
-    terms of where it is put in the VT340 color map. Annoyingly, the
-    first sixel color defined is mapped to VT color #1, not color #0.
-    The sixth color assigned (color #7) becomes the foreground color. To
-    set the background color, one must set all the other colors first.
-    The sixteenth assigned color wraps around and modifies VT color #0.
+  * Unlike REGIS, sixel color numbering is different from VT340's
+    setup screen numbering! No matter what number you assign a sixel
+    color, it is only the order that you did the assignment that
+    matters in terms of where it is put in the VT340 color map.
+    Strangely, the first sixel color defined is mapped to VT color #1,
+    not color #0. The sixth color assigned (color #7) becomes the
+    foreground color. The sixteenth assigned color wraps around and
+    modifies VT color #0, so to set the background color, one must set
+    all the other colors first. This is probably intentional: a sixel
+    file that doesn't make use of all 16 colors would not make
+    annoying changes to the background.
 
-  * For resetting the color palette programmatically, try using
-    DECRQTSR to get the Color Table Report instead of using sixel
-    commands.
+  * To reset the color palette programmatically, try hackerb9's
+    [resetpalette.sh](colormap/resetpalette.sh) script which uses
+    DECRSTS (Reset Terminal State) to set the color table directly
+    instead of using sixel commands. It uses the actual Color Table
+    Report returned by his VT340+ in response to DECRQTSR (Request
+    Terminal State Report).
 
   * QUESTION: How do I convert an image to sixteen colors, but with
     three of the colors (fg, bg, and bright) fixed and the others free?
@@ -53,21 +69,26 @@
 
 ### Number of colors on a genuine VT340
 
-  * A genuine VT340 can show 16 colors from a 12-bit palette,
-
-    Which means there are 4096 (2^12) different colors available.
+  * A genuine VT340 can show 16 colors from a 12-bit palette, which
+    means there are 4096 (2^12) different colors available.
+    ImageMagick calls this `-depth 4`, because there are 4-bits per
+    color channel.
 
   * Red, Green, Blue vary from 0 to 100% intensity.
 
-    RGB can specify 101×101×101 different colors (almost 2^20).
+    RGB can specify 101×101×101 different colors (nearly 2^20).
 
   * Hue varies from 0 to 360 degrees, Lightness and Saturation vary
     from 0 to 100%. (Hue 0 and 360 are identical).
 
-    HLS can specify 359×101×101 different colors (almost 2^22).
+    HLS can specify 360×101×101 different colors (over 2^21).
 
   * Thus there are roughly 250 different RGB values and 1000 different
     HLS values for each possible color that can actually be shown.
+
+  * When quantizing colors (reducing the color palette to 16) using
+    ImageMagick, it may help to specify `-depth 4` so ImageMagick
+    doesn't allocate two colors that are functionally identical.
 
 ### VT340 Screen Resolution 
 
