@@ -81,6 +81,7 @@ echo -n ${ST}
 set_margin 4 21
 set_cursor_pos 4 41
 echo ${DCS}'2;0q'
+echo '?' # trigger background fill
 blank_lines 2
 multicolor_lines 4 '#9' '#11' true '!80?'
 multicolor_lines 4 '#11' '#9' false '!80?'
