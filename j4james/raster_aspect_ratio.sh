@@ -3,9 +3,11 @@
 # Test of the raster attributes aspect ratio in a Sixel image.
 
 # If an image includes a raster attributes command, the first two parameters
-# define numerator and denominator of the pixel aspect ratio. On a genuine
-# VT340, this ratio is rounded up to the nearest integer value. For example.
-# 3:2 is 1.5, which rounds up to 2 (i.e. an aspect ratio of 2:1). 
+# define the numerator and denominator of the pixel aspect ratio. On a genuine
+# VT340, this ratio is rounded up to the nearest integer value, with a minimum
+# value of 1. For example, 3:2 is 1.5, which rounds up to 2 (i.e. an aspect
+# ratio of 2:1). If the denominator is zero, the aspect ratio is ignored, and
+# will fall back to the value determined by the initial macro parameter.
 
 CSI=$'\e['			# Control Sequence Introducer 
 DCS=$'\eP'			# Device Control String
@@ -49,13 +51,13 @@ range_test() {
   done
 }
 
-aspect_ratio_test  8 ''     2
-aspect_ratio_test 18 '0;0'  2
-aspect_ratio_test 28 '0;1'  2
-aspect_ratio_test 38 '1;3' 10
-aspect_ratio_test 48 '3;2'  5
-aspect_ratio_test 58 '7;4'  5
-aspect_ratio_test 68 '37;4' 1
+aspect_ratio_test  8 ''     2    # a blank AR falls back to the macro parameter value (5:1)
+aspect_ratio_test 18 '0;0'  2    # a zero denominator also falls back to 5:1
+aspect_ratio_test 28 '0;1' 10    # 0:1 = 0, but the minimum is 1:1
+aspect_ratio_test 38 '1;3' 10    # 1:3 = 0.333, which rounds up to 1:1
+aspect_ratio_test 48 '3;2'  5    # 3:2 = 1.5, which rounds up to 2:1
+aspect_ratio_test 58 '7;4'  5    # 7:4 = 1.75, which rounds up to 2:1
+aspect_ratio_test 68 '37;4' 1    # 37:4 = 9.25, which rounds up to 10:1
 
 range_test
 
