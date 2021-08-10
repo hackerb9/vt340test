@@ -45,6 +45,7 @@
 # offset 50 pixels to the right. We use P[0,0] to disable the offset.
 # Full screen on VT340 is equivalent to X1=0; Y1=0; X2=799; Y2=479
 REGIS_H="S(H(P[0,0]))"
+REGIS_H="S(H)"
 
 # Requests larger than the screen get cropped to full screen.
 X1=0; Y1=0; X2=4095; Y2=4095
@@ -76,8 +77,8 @@ echo -n ${CSI}'?44h'		# Print in color
 echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 
 # DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
-#echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
-echo -n ${CSI}'?46h'		# Include background when printing
+echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
+#echo -n ${CSI}'?46h'		# Include background when printing
 
 # DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
 echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
@@ -150,10 +151,6 @@ while read -r -s -d "\\"; do
     echo "," >&2
 done > print.six   2> err.out
 
-# TODO: Do we still need this now that we only use expanded mode?
-# We were not receiving the final line in "compressed" mode.
-# Kludge: Don't leave terminal in sixel mode after catting file.
-#echo -n ${ST} >> print.six
 
 # TODO: Check if image got saved to print.six correctly as Level 2.
 # If it didn't, then use ImageMagick to convert the image to the
@@ -224,6 +221,13 @@ done > print.six   2> err.out
 #   with 'stty -echo' set, which should have prevented anything from
 #   showing. It must be some bizzaro vt340 firmware fluke.
 #   Fortunately, it's unlikely anybody wants a compressed print.
+#   Unfortunately, that is the default setting for the VT340.
+#
+#   Here is the kludge we used to do:
+#
+    ## The final line is not received in "compressed" mode.
+    ## Kludge: Don't leave terminal in sixel mode after catting file.
+    #echo -n ${ST} >> print.six
 
 # * Since I couldn't read the end of print message (ST), I tried using
 #   a repeated 1 second time out. However, that doesn't always work.
