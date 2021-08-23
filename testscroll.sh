@@ -4,7 +4,7 @@ CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 
-exec 5>testscroll.md	# Send output to filedescriptor 5 to a file.
+exec 5>testscroll.md	# Send output sent to filedescriptor 5 to a file.
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
@@ -54,7 +54,7 @@ test_case() {
 
 printf "|%12s" "**AR**" "**Height**" "**Overflow**" "**Scroll**" >&5
 echo "|" >&5
-echo "|:-:|:-:|:-:|:-:|:-:|" >&5
+echo "|:-:|:-:|:-:|:-:|" >&5
 
 for sixel_count in 10 15 20 25
 do
