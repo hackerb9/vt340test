@@ -126,12 +126,12 @@ echo "#15;2;40;40;40"
 echo "#0;2;66;66;66"
 draw_ball
 
-if [[ ${1} == 'bounce' ]]
-then
-  echo ${ST}
-  bounce_ball 10
-else
-  spin_ball
-  echo ${ST}
-fi
+case "$1" in
+    spin) spin_ball
+	     ;;
+    bounce|*) bounce_ball 10
+	      ;;
+esac
+
+echo ${ST}
 
