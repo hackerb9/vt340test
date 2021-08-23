@@ -22,7 +22,7 @@ test_case() {
 
   set_cursor_pos ${start_row} 40
 
-  echo ${DCS}'0;1;0q"'${ar}';1'
+  echo ${DCS}'1q"'${ar}';1'
   for i in $(seq ${sixel_count})
   do
     echo -n '#'$((i%2 + 1))
