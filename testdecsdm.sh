@@ -33,10 +33,11 @@ getmode() {
     # 
     mode=${1:-80}
     if ! IFS=";$" read -a REPLY -t 0.25 -s -p ${CSI}'?'$mode'$p' -d y; then
-	echo Terminal did not respond to inquiry for mode $mode.
-	exit 1
+	echo "Terminal did not respond to inquiry for mode $mode." >&2
+	echo 0			# Pretend terminal responded, "not recognized"
+    else
+	echo "${REPLY[1]}"
     fi
-    echo "${REPLY[1]}"
 }
 
 setmode() {
@@ -57,7 +58,7 @@ setmode() {
 
     mode=${1:-80}		# Default mode is 80 (DECSDM)
     if [[ $mode -le 0 ]]; then
-	echo "Error: mode must be a number greater than 0, not '$mode'"
+	echo "Bug: mode must be a number greater than 0, not '$mode'" >&2
 	exit 1
     fi
 
