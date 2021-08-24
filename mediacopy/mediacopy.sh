@@ -77,8 +77,8 @@ echo -n ${CSI}'?44h'		# Print in color
 echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 
 # DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
-echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
-#echo -n ${CSI}'?46h'		# Include background when printing
+#echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
+echo -n ${CSI}'?46h'		# Include background when printing
 
 # DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
 echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
