@@ -2,10 +2,12 @@
 
 # Test of Sixel palette animation.
 cleanup() {
-    set_cursor_pos 1 1
-    echo -n ${CSI}'2J'
-    echo -n ${CSI}'?25h'
-    reset_palette
+  echo ${ST}
+  set_cursor_pos 1 1
+  echo -n ${CSI}'2J'
+  echo -n ${CSI}'?25h'
+  reset_palette
+  select_status_line_type default
 }
 
 trap cleanup EXIT
@@ -118,6 +120,27 @@ reset_palette() {
   echo ${ST}
 }
 
+select_status_line_type() {
+  local Ps
+  case "$1" in
+      none|0) 
+	  Ps=0
+	  ;;
+      host-writable|2)
+	  Ps=2
+	  ;;
+      *|default|1)
+	  Ps=1
+	  ;;
+  esac
+  echo -n ${CSI}${Ps}'$~'
+}
+
+
+# Main starts here
+
+select_status_line_type none
+
 set_cursor_pos 10 35
 
 echo ${DCS}'9;1q'
@@ -132,6 +155,4 @@ case "$1" in
     bounce|*) bounce_ball 10
 	      ;;
 esac
-
-echo ${ST}
 
