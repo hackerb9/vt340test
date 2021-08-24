@@ -24,20 +24,26 @@ and documenting the results here.
   * Soft Terminal Reset does *not* reset color palette.
 
         CSI ! p
-        echo $'\x9b!p'
+        echo $'\x9b!p'	 # or $'\e[!p'
+
 
   * Hard Terminal Reset does reset palette, but it takes a long time to
     execute as it goes through the whole power-on self-test again.
     echo $'\ec'
 
-  * It is hard to reset colors from the builtin setup because the
-    current color map is used for the color setup screen.
+  * It is difficult to reset colors from the builtin setup because the
+    current color map is used for the color setup screen so you can't
+    see what you're doing.
 
   * To reset colors from keyboard (without needing to look):
 
         [Set-Up] [Prev Screen] [Do] [Set-Up]
 
     That pulls up the palette editor and recalls the saved color map.
+
+  * Switching to Tektronix mode and back does not restore the palette.
+
+        echo $'\e[?38h\e[?38l'		# Colors do not change
 
   * Unlike REGIS, sixel color numbering is different from VT340's
     setup screen numbering! No matter what number you assign a sixel
