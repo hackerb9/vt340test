@@ -225,9 +225,9 @@ print outs from the VT340. Just use Level 2.
 
   Here is the kludge I used before I found out about Level 2:
 
-    # The final line is not received in "compressed" mode.
-    # Kludge: Don't leave terminal in sixel mode after catting file.
-    echo -n ${ST} >> print.six
+      # The final line is not received in "compressed" mode.
+      # Kludge: Don't leave terminal in sixel mode after catting file.
+      echo -n ${ST} >> print.six
 
 * Since I couldn't read the end of print message (ST), I tried using
   a repeated 1 second time out. However, that doesn't always work.
