@@ -121,41 +121,25 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
     echo -n $'\e\\'		# Exit REGIS mode
 
 
-* MEDIA COPY TO HOST ("screenshot"): This isn't working quite right
-  yet, but to send the screen to the host as sixel data, you can do
-  something like this:
+### MEDIA COPY TO HOST ("screenshot"):
 
-      CSI=$'\e['			# Control Sequence Introducer
-      DCS=$'\eP'			# Device Control String
-      ST=$'\e\\'			# String Terminator
+Media Copy tells the VT340 to transmit a sixel copy of the current
+screen to the host.
 
-      # MC: Media Copy ('2' meands send graphics to host, not printer)
-      echo -n ${CSI}'?2i'		
-      # DECGPCM: Print Graphics Color Mode
-      #echo -n ${CSI}'?44l'		# Print in black and white
-      echo -n ${CSI}'?46h'		# Print in Color
-      # DECGPBM: Print Graphics Background Mode
-      echo -n ${CSI}'?46l'		# Do not send background when printing
-      #echo -n ${CSI}'?46h'		# Include background when printing
+See:
 
-      echo -n ${DCS}'p'			# Enter REGIS mode
-      echo -n $'S(H)'			# Screen hard copy
-      echo -n ${ST}			# Exit REGIS mode
+* [mediacopy/README.md](mediacopy/README.md): Investigations of how Media Copy works on VT340.
+* [mediacopy/mediacopy.sh](mediacopy/mediacopy.sh): script that saves a screenshot in "print.six".
 
-  I was able to capture a simple REGIS image using this method, but
-  when trying to read the results after drawing on the screen with
-  sixels, I'm having troubles. 
+At the moment, it is required to use the VT340's Printer Set-Up to
+manually change the Sixel Graphics Mode to "Level 2" before using
+media copy. Without that, it sends Level 1 output with pixel aspect
+ratio set to 2:1. 
 
-  The problem I have at the moment is attempting to read the results
-  sent from the terminal. For some reason, the usual trick of putting
-  the escape sequence in the prompt of bash's `read` fails and the
-  last part of the sixel data gets splatted to the screen. It takes
-  over three minutes to send a complex image, so maybe something is
-  timing out. Or, it's possible I have flow control problem.
-
-  Capturing the data with `script` worked slightly better, but the
-  resulting output was strangely misaligned horizontally. (Could it be
-  the sixel level (e.g., 1 or 2) I'm sending back is incorrect?)
+The script isn't working quite right yet because occasionally the
+VT340 pauses transmission in the middle and causes an 8-bit glitch in
+the output data. (Could just be hackerb9's terminal or his serial port
+connection?)
 
 ### Keyboard
 
