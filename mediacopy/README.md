@@ -89,32 +89,19 @@ when set to Level 2 graphics, which is a bit mysterious).
 
 * There are multiple options that affect the sixel data:
 
-  1. __[Level 1]__/Level 2 graphics	  	
-
+  1. __[Level 1]__/Level 2 graphics<br/>
      Only in Set-Up
-
-  2. __[No Terminator]__/Send formfeed
-
+  2. __[No Terminator]__/Send formfeed<br/>
      Only in Set-Up
-
-  3. __[Compressed]__/Expanded,
-
+  3. __[Compressed]__/Expanded<br/>
      DECGEPM, 43
-
-  4. __[Mono]__/Color
-
+  4. __[Mono]__/Color<br/>
      DECGPCM, 44
-
-  5. __[HLS]__/RGB
-
+  5. __[HLS]__/RGB<br/>
      DECGPCS, 45
-
-  6. __[No Background]__/Print Background
-
+  6. __[No Background]__/Print Background<br/>
      DECGPBM, 46
-
-  7. __[Compressed+Expanded]__/Rotated
-
+  7. __[Compressed+Expanded]__/Rotated<br/>
      DECGRPM, 47
 
   __[VT340 defaults are in square brackets.]__
