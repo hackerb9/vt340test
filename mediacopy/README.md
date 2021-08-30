@@ -89,15 +89,22 @@ when set to Level 2 graphics, which is a bit mysterious).
 
 * There are multiple options that affect the sixel data:
 
-1. __[Level 1]__/Level 2 graphics	  	# Only in Set-Up
-2. __[No Terminator]__/Send formfeed,	# Only in Set-Up
-3. __[Compressed]__/Expanded,		# DECGEPM, 43
-4. __[Mono]__/Color,			# DECGPCM, 44
-5. __[HLS]__/RGB,				# DECGPCS, 45
-6. __[No Background]__/Print Background,	# DECGPBM, 46
-7. __[Compressed+Expanded]__/Rotated,	# DECGRPM, 47
-  
-__[VT340 defaults are in square brackets.]__
+  1. __[Level 1]__/Level 2 graphics	  	
+     Only in Set-Up
+  2. __[No Terminator]__/Send formfeed
+     Only in Set-Up
+  3. __[Compressed]__/Expanded,
+     DECGEPM, 43
+  4. __[Mono]__/Color
+     DECGPCM, 44
+  5. __[HLS]__/RGB
+     DECGPCS, 45
+  6. __[No Background]__/Print Background
+     DECGPBM, 46
+  7. __[Compressed+Expanded]__/Rotated
+     DECGRPM, 47
+
+  __[VT340 defaults are in square brackets.]__
 
 * Level 2 prints are the only known way to get a proper 1:1 pixel
   aspect ratio. However, that requires the user to first go into the
