@@ -121,8 +121,9 @@ when set to Level 2 graphics, which is a bit mysterious).
   that the order of nesting parentheses is *incorrect* in the VT3xx
   documentation:
 
-	REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"	This works
-	REGIS_H="S(H(P[0,0][$X1,$Y1][$X2,$Y2]))"	This does not
+      REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"	# This works
+
+      REGIS_H="S(H(P[0,0][$X1,$Y1][$X2,$Y2]))"	# This does not
 
 * It takes several minutes to send a full screen of sixel data, so
   you'll want to print just a cropped part if you're debugging this.
