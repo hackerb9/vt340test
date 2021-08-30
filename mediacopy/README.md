@@ -69,7 +69,7 @@ look like:
 
 ```
 [Esc] \ [Newline]
-[Esc] 2 [Space] I
+[Esc] [ 2 [Space] I
 [Esc] P 0 ; 1 ; 6 q
 " 1 ; 1 ; 800 ; 480
 # 1 ; 2 ; 20 ; 20 
@@ -79,10 +79,35 @@ look like:
 [ Esc ] \
 ```
 
-The purpose of the introductory sequence, `Esc 2 Space I`, is
-currently unknown but likely was a signal to printers to prepare them
-for the data that was coming. (The VT340 only outputs that sequence
-when set to Level 2 graphics, which is a bit mysterious).
+The purpose of the introductory sequence, `Esc [ 2 Space I`, is defined in
+[ECMA-48](https://www.ecma-international.org/publications-and-standards/standards/ecma-48/) 
+as setting the unit of measurement for all numeric parameters to the
+"Computer Decipoint" = 1/720th of an inch.
+
+> **8.3.139 SSU - SELECT SIZE UNIT** <br/>
+> Notation: (Ps) <br/>
+> Representation: CSI Ps 02/00 04/09 <br/>
+> Parameter default value: Ps = 0 <br/>
+> <br/>
+> SSU is used to establish the unit in which the numeric parameters of
+> certain control functions are expressed. The established unit
+> remains in effect until the next occurrence of SSU in the data
+> stream.<br/>
+> <br/>
+> The parameter values are <br/>
+> 0 CHARACTER  - The dimensions of this unit are device-dependent <br/>
+> 1 MILLIMETRE     <br/>
+> 2 COMPUTER DECIPOINT - 0,035 28 mm (1/720 of 25,4 mm)   <br/>
+> 3 DECIDIDOT - 0,037 59 mm (10/266 mm)   <br/>
+> 4 MIL - 0,025 4 mm (1/1 000 of 25,4 mm)   <br/>
+> 5 BASIC MEASURING UNIT (BMU) - 0,021 17 mm (1/1 200 of 25,4 mm)   <br/>
+> 6 MICROMETRE - 0,001 mm   <br/>
+> 7 PIXEL - The smallest increment that can be specified in a device   <br/>
+> 8 DECIPOINT - 0,035 14 mm (35/996 mm)  
+
+*Side note:* Reminder to self, when searching the control sequence
+standards look for "04/09" instead of simply the ASCII letter "I".
+("04/09" == hexadecimal 0x49 == 'I'. Likewise, "02/00" == Space).
 
 
 # Scattered notes as I figure things out
