@@ -4,7 +4,12 @@ This is a page for accruing the errors I've found in the manuals.
 
 ### EK-VT3XX-GP-002
 
-* DECSDM reversed regarding sixel scrolling
+DEC VT330/340 Graphics Programming, second edition
+
+* DECSDM reversed regarding sixel scrolling.
+
+  On hackerb9's vt340, when DECSDM is set (`Esc` `[?80h`), sixel scrolling is
+  disabled. When DECSDM is reset (`Esc` `[?80l`), sixel scrolling is enabled.
 
 * DECLBD "Ky1" is merely the first Ky, not an identifier. Also,
   indentation for Pc is incorrect.
@@ -35,8 +40,9 @@ DEC VT330/340 Text Programming, second edition
 
 ### EK-VT3XX-TP-001
 
-There is a newer version of this manual which may not have these
-errors, but it has not yet been checked.
+First edition of text programming. There is a newer version of this
+manual which may not have these errors, but it has not yet been
+checked.
 
 * DECSSDT: Select Status Line Type incorrectly uses a hyphen as the
   terminating character instead of a tilde. The manual should read:
