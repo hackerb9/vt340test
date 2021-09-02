@@ -37,6 +37,18 @@ DEC VT330/340 Text Programming, second edition
   ^[P0$r^[\
   ```
 
+* DECSTGLT should be left curly brace, not right.
+
+  The escape sequence for DECSTGLT that works on a VT340 is:
+
+  |       |      |   |    |
+  |:------|:-----|:--|:---|
+  |**CSI**|**Ps**| ) | {  |
+  |  9/11 |  3/? |2/9|7/11|
+
+  @j4james points out in issue #12 that the manual incorrectly lists
+  it as right curly brace, but does give the correct code point
+  underneath. A right curly brace is ignored by the VT340.
 
 ### EK-VT3XX-TP-001
 
