@@ -10,11 +10,33 @@ This is a page for accruing the errors I've found in the manuals.
   indentation for Pc is incorrect.
 
 
+### EK-VT3XX-TP-002
+
+DEC VT330/340 Text Programming, second edition
+
+* DECRPSS response to DECRQSS query is inverted
+
+  VT340 manual states that 0 = host's request is valid, 1 = invalid.
+  However, the way the VT340 actually works is the opposite. (See
+  @j4james's test in #13).
+
+  On hackerb9's vt340, a valid query for SGR returns 1:
+  ```
+  $ printf '\eP$qm\e\\'; read -rd '/'; echo
+  ^[P1$r0m^[\
+  ```
+
+  An invalid query returns 0:
+  ```
+  $ printf '\eP$qx\e\\'; read -rd '/'; echo
+  ^[P0$r^[\
+  ```
+
+
 ### EK-VT3XX-TP-001
 
 There is a newer version of this manual which may not have these
-errors. However, it isn't available online at the time of writing
-(August 2021).
+errors, but it has not yet been checked.
 
 * DECSSDT: Select Status Line Type incorrectly uses a hyphen as the
   terminating character instead of a tilde. The manual should read:
