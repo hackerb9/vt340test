@@ -50,23 +50,15 @@ DEC VT330/340 Text Programming, second edition
   it as right curly brace, but does give the correct code point
   underneath. A right curly brace is ignored by the VT340.
 
-### EK-VT3XX-TP-001
+* Default for DECSSDT (Select status line type)
 
-First edition of text programming. There is a newer version of this
-manual which may not have these errors, but it has not yet been
-checked.
+  |       |      |   |    |
+  |:------|:-----|:--|:---|
+  |**CSI**|**Ps**| $ | ~  |
+  |  9/11 |  3/? |2/4|7/14|
 
-* DECSSDT: Select Status Line Type incorrectly uses a hyphen as the
-  terminating character instead of a tilde. The manual should read:
+  Ps=1 ("Indicator status line") is marked as the default, which is
+  true for the VT340's power on configuration. However, in terms of
+  the default when Ps is omitted, the correct default would be Ps=0
+  ("No status line").
 
->> |       |      |   |    |
->> |:------|:-----|:--|:---|
->> |**CSI**|**Ps**| $ | ~  |
->> |  9/11 |  3/? |2/4|7/14|
-
-> Also the default if Ps is omitted is **0** (no status line), not
-> **1** (indicator status line).
-
-
-
-  
