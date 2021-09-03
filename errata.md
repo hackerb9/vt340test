@@ -27,13 +27,13 @@ DEC VT330/340 Text Programming, second edition
 
   On hackerb9's vt340, a valid query for SGR returns 1:
   ```
-  $ printf '\eP$qm\e\\'; read -rd '/'; echo
+  $ printf '\eP$qm\e\\'; read -rd '\'; echo
   ^[P1$r0m^[\
   ```
 
   An invalid query returns 0:
   ```
-  $ printf '\eP$qx\e\\'; read -rd '/'; echo
+  $ printf '\eP$qx\e\\'; read -rd '\'; echo
   ^[P0$r^[\
   ```
 
