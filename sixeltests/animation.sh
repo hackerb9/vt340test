@@ -3,6 +3,7 @@
 # Test of Sixel palette animation.
 cleanup() {
   echo ${ST}
+  echo ${CSI}'80$|'		# DECSCPP, 80 cols per page
   set_cursor_pos 1 1
   echo -n ${CSI}'2J'
   echo -n ${CSI}'?25h'
@@ -16,11 +17,14 @@ CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 
+
 echo -n ${CSI}'!p'
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
 echo -n ${CSI}'?7h'
 echo -n ${CSI}'?25l'
+echo ${CSI}'132$|'   # DECSCPP, set 132 cols per page, but don't change font
+echo ${CSI}'26 @'    # Shift screen 26 columns to the left (26+80+26=132)
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
@@ -78,7 +82,7 @@ bounce_ball() {
   local i=$((start_row-1))
   while true
   do
-    echo -n ${DCS}';1q'
+    echo -n ${DCS}';1q'		# Sixel header
     update_palette ${step} ${dir}
     echo -n ${ST}
 
@@ -106,6 +110,29 @@ spin_ball() {
     update_palette ${step} 1
     read -sn 1 -t 0.01  2>/dev/null  && break
     step=$(((step+1)%14))
+  done
+}
+
+roll_ball() {
+  local step=78
+  local dir=1
+  local i=0
+  while true
+  do
+    echo -n ${DCS}';1q'		# Sixel header
+    update_palette ${step} ${dir}
+    read -sn 1 -t 0.01  2>/dev/null  && break
+
+    if [[ ${step} -lt 52 && ${step} -ge 0 ]]
+    then
+      echo -n ${CSI}'1 @'	# Scroll left
+      dir=-1
+    else
+      echo -n ${CSI}'1 A'	# Scroll right
+      dir=1
+    fi
+
+    step=$(((step+1)%104))	# 52 steps forward and 52 steps back
   done
 }
 
@@ -141,7 +168,7 @@ select_status_line_type() {
 
 select_status_line_type none
 
-set_cursor_pos 10 35
+set_cursor_pos 10 60
 
 echo ${DCS}'9;1q'
 update_palette 0 1
@@ -152,6 +179,8 @@ draw_ball
 case "$1" in
     spin) spin_ball
 	     ;;
+    roll) roll_ball
+	      ;;
     bounce|*) bounce_ball 10
 	      ;;
 esac
