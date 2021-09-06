@@ -132,8 +132,8 @@ print_row "${z[$Pu]}"  " % "  "${Az[@]}"   	    # "Saturation" or "Blue"
 
 
 # Show sixel color swatch
-echo
 show_sixel_swatch 40
+echo
 
 
 
