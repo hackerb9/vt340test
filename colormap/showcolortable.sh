@@ -7,13 +7,18 @@ ST=$'\e\\'			# String Terminator
 hlsrgb2hex() {
     # Convert percent RGB (eventually HLS) to web RGB hexadecimal color format.
     local hex
+    local r="255*$2/100"	# Convert from 0--100% to 0--255 
+    local g="255*$3/100"
+    local b="255*$4/100"
 
     case $1 in
 	1) 			# HLS not implemented yet
 	    
 	   ;;
 	2) 			# RGB
-	    hex=$(echo "obase=16; $2 * 256 * 256 + $3 * 256 + $4" | bc -q)
+	    hex=$(echo "scale=0; 
+	    	        obase=16; 
+			$r * 256 * 256 + $g * 256 + $b"  |  bc -q)
 	    ;; 
 	*) echo "Unknown universal color space '$1'." >&2
 	   exit 1
@@ -24,6 +29,26 @@ hlsrgb2hex() {
     done
     echo $hex
 }
+
+
+printrow() {
+    local channel="${1}"
+    shift
+    local symbol="${1}"
+    shift
+    local data=("$@")
+    
+    printf "%10s" "${channel}"	# "Hue" or "Red" 
+    echo -n "${symbol}"		# Degree or percent symbol.
+    for i in {0..15}; do
+	printf "%4s" ${data[$i]}
+    done
+    echo
+}
+
+####
+# Main
+
 
 # Request Color Table Report
 # NB: at 9600 bps, it takes over 1.25s for a genuine VT340 to respond.
@@ -47,7 +72,10 @@ REPLY=("${REPLY[@]:2}")
 if ! degree=$(echo $'\xb0' | iconv -f latin1 2>/dev/null); then
     degree=$'\e(0f\e(B'		# Degree symbol using VT100 ACS charset 
 fi
-    degree=$'\e(0f\e(B'		# Degree symbol using VT100 ACS charset 
+
+if [[ $DEBUG ]]; then
+    degree=$'\e(0f\e(B'		# Force using VT100 ACS charset 
+fi
 
 # Now, each element is of the form  Pc ; Pu ; Px ; Py ; Pz where
 # 	Pc is color index (0 to 15)
@@ -59,15 +87,16 @@ fi
 #
 
 # Table header
-x=(. "Hue Angle "  "Red ")
-y=(. "Lightness "  "Green ")
-z=(. "Saturation " "Blue ")
+x=(. "Hue Angle"  "Red")
+y=(. "Lightness"  "Green")
+z=(. "Saturation" "Blue")
 
 # Symbol: degree for Hue or percent for Red.
-symbol=(. "$degree" "%")
+symbol=(.  " $degree "  " % ")
 
-#        Lightness
-echo -n "      Index:"
+
+# Print index row
+echo -n "      Index: "
 tput smul
 printf "%4s" {0..15}
 tput rmul
@@ -85,26 +114,13 @@ for entry in "${REPLY[@]}"; do
     Ah+=( $(hlsrgb2hex $Pu $Px $Py $Pz) )
 done
 
+# Pu is last entry's color space. 1==HLS, 2==RGB.
 if [[ $DEBUG -gt 0 ]]; then Pu=$DEBUG; fi
 
-printf "%11s" "${x[$Pu]}"	# Hue or Red (Pu is last entry's color space.)
-echo -n ${symbol[$Pu]}		# Degree or percent symbol.
-for i in {0..15}; do
-    printf "%4s" ${Ax[$i]}
-done
-echo
-printf "%11s" "${y[$Pu]}"	# Lightness or Green
-echo -n %
-for i in {0..15}; do
-    printf "%4s" ${Ay[$i]}
-done
-echo
-printf "%11s" "${z[$Pu]}"	# Saturation or Blue
-echo -n %
-for i in {0..15}; do
-    printf "%4s" ${Az[$i]}
-done
-echo
+printrow "${x[$Pu]}"  "${symbol[$Pu]}"  "${Ax[@]}" # "Hue" or "Red"
+printrow "${y[$Pu]}"  " % "  "${Ay[@]}"		   # "Lightness" or "Green"
+printrow "${z[$Pu]}"  " % "  "${Az[@]}"   	   # "Saturation" or "Blue"
+
 
 # Show sixel color swatch
 #XXX
