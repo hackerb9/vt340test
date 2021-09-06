@@ -31,7 +31,7 @@ hlsrgb2hex() {
 }
 
 
-printrow() {
+print_row() {
     local channel="${1}"
     shift
     local symbol="${1}"
@@ -46,9 +46,18 @@ printrow() {
     echo
 }
 
+show_sixel_swatch() {
+    tput cuf 13
+    echo -n ${DCS}'q'
+    for ((i=0; i<16; i++)); do
+	echo -n "#${i}!${1}~"
+    done
+    echo -n ${ST}
+}
+
+
 ####
 # Main
-
 
 # Request Color Table Report
 # NB: at 9600 bps, it takes over 1.25s for a genuine VT340 to respond.
@@ -117,13 +126,15 @@ done
 # Pu is last entry's color space. 1==HLS, 2==RGB.
 if [[ $DEBUG -gt 0 ]]; then Pu=$DEBUG; fi
 
-printrow "${x[$Pu]}"  "${symbol[$Pu]}"  "${Ax[@]}" # "Hue" or "Red"
-printrow "${y[$Pu]}"  " % "  "${Ay[@]}"		   # "Lightness" or "Green"
-printrow "${z[$Pu]}"  " % "  "${Az[@]}"   	   # "Saturation" or "Blue"
+print_row "${x[$Pu]}"  "${symbol[$Pu]}"  "${Ax[@]}" # "Hue" or "Red"
+print_row "${y[$Pu]}"  " % "  "${Ay[@]}"	    # "Lightness" or "Green"
+print_row "${z[$Pu]}"  " % "  "${Az[@]}"   	    # "Saturation" or "Blue"
 
 
 # Show sixel color swatch
-#XXX
+echo
+show_sixel_swatch 40
+
 
 
 ######################################################################
