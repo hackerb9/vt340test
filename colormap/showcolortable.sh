@@ -5,16 +5,24 @@ DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 
 hlsrgb2hex() {
-    # Convert RGB (eventually HLS) to web hexadecimal color format.
+    # Convert percent RGB (eventually HLS) to web RGB hexadecimal color format.
+    local hex
+
     case $1 in
 	1) 			# HLS not implemented yet
-	;;
+	    
+	   ;;
 	2) 			# RGB
-	    echo "obase=16; $2 * 256 * 256 + $3 * 256 + $4" | bc -q
+	    hex=$(echo "obase=16; $2 * 256 * 256 + $3 * 256 + $4" | bc -q)
 	    ;; 
 	*) echo "Unknown universal color space '$1'." >&2
 	   exit 1
     esac
+
+    while [[ ${#hex} -lt 6 ]]; do
+	hex=0$hex
+    done
+    echo $hex
 }
 
 # Request Color Table Report
@@ -39,6 +47,7 @@ REPLY=("${REPLY[@]:2}")
 if ! degree=$(echo $'\xb0' | iconv -f latin1 2>/dev/null); then
     degree=$'\e(0f\e(B'		# Degree symbol using VT100 ACS charset 
 fi
+    degree=$'\e(0f\e(B'		# Degree symbol using VT100 ACS charset 
 
 # Now, each element is of the form  Pc ; Pu ; Px ; Py ; Pz where
 # 	Pc is color index (0 to 15)
@@ -49,18 +58,56 @@ fi
 # (Also note that Hue 0 == Hue 360.)
 #
 
-hr=(. "$degree Hue," "% Red, ")
-lg=(. "% Lightness, " "% Green, ")
-sb=(. "% Saturation" "% Blue")
+# Table header
+x=(. "Hue Angle "  "Red ")
+y=(. "Lightness "  "Green ")
+z=(. "Saturation " "Blue ")
 
+# Symbol: degree for Hue or percent for Red.
+symbol=(. "$degree" "%")
+
+#        Lightness
+echo -n "      Index:"
+tput smul
+printf "%4s" {0..15}
+tput rmul
+echo
+
+# Read reply into arrays for easier printing  
 for entry in "${REPLY[@]}"; do
     IFS=";" read Pc Pu Px Py Pz <<<"$entry"
-    printf "%2d:  %3d%s %3d%s %3d%s    #%s\n" \
-	   $Pc $Px "${hr[$Pu]}" $Py "${lg[$Pu]}" $Pz "${sb[$Pu]}" \
-	   $(hlsrgb2hex $Pu $Px $Py $Pz) 
+    Ac+=($Pc)
+    Au+=($Pu)
+    Axs+=("${symbol[$Pu]}")
+    Ax+=($Px)
+    Ay+=($Py)
+    Az+=($Pz)
+    Ah+=( $(hlsrgb2hex $Pu $Px $Py $Pz) )
 done
 
+if [[ $DEBUG -gt 0 ]]; then Pu=$DEBUG; fi
 
+printf "%11s" "${x[$Pu]}"	# Hue or Red (Pu is last entry's color space.)
+echo -n ${symbol[$Pu]}		# Degree or percent symbol.
+for i in {0..15}; do
+    printf "%4s" ${Ax[$i]}
+done
+echo
+printf "%11s" "${y[$Pu]}"	# Lightness or Green
+echo -n %
+for i in {0..15}; do
+    printf "%4s" ${Ay[$i]}
+done
+echo
+printf "%11s" "${z[$Pu]}"	# Saturation or Blue
+echo -n %
+for i in {0..15}; do
+    printf "%4s" ${Az[$i]}
+done
+echo
+
+# Show sixel color swatch
+#XXX
 
 
 ######################################################################
