@@ -7,22 +7,55 @@ ST=$'\e\\'			# String Terminator
 hlsrgb2hex() {
     # Convert percent RGB (eventually HLS) to web RGB hexadecimal color format.
     local hex
-    local r="255*$2/100"	# Convert from 0--100% to 0--255 
-    local g="255*$3/100"
-    local b="255*$4/100"
+    local r g b;
 
     case $1 in
-	1) 			# HLS not implemented yet
+	1)
+ 	    # XXXX  HLS not debugged yet
+	    read r g b < <( awk -v h="$2" -v l="$3" -v s="$4" '
+	    BEGIN { 
+		h=h/360;	# Scale to [0,1]
+		l=l/100;
+		s=s/100;
+		
+		if (s == 0) {
+		    print l  " "  l  " "  l;
+		    exit;
+		}
+
+		q = (l<0.5) ? l*(1+s) : l+s - l*s;
+		p = 2*l -q;
+		r = hue2rgb(p, q, h+1/3);
+		g = hue2rgb(p, q, h);
+		b = hue2rgb(p, q, h-1/3);
+		
+		print int(255*r)  " "  int(255*g)  " "  int(255*b);
+	    }
+	    function hue2rgb(p, q, t) {
+		if (t < 0) t += 1;
+		if (t > 1) t -= 1;
+		if (t < 1/6) return p + (q - p) * 6 * t;
+		if (t < 1/2) return q;
+		if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+		return p;
+     	    }
+	  ' < /dev/null)
 	    
 	   ;;
 	2) 			# RGB
-	    hex=$(echo "scale=0; 
-	    	        obase=16; 
-			$r * 256 * 256 + $g * 256 + $b"  |  bc -q)
+	    r="255*$2/100"	# Convert from 0--100% to 0--255 
+	    g="255*$3/100"
+	    b="255*$4/100"
+
 	    ;; 
 	*) echo "Unknown universal color space '$1'." >&2
 	   exit 1
     esac
+
+
+    hex=$(echo "scale=0; 
+	        obase=16; 
+		$r * 256 * 256 + $g * 256 + $b"  |  bc -q)
 
     while [[ ${#hex} -lt 6 ]]; do
 	hex=0$hex
@@ -52,6 +85,19 @@ show_sixel_swatch() {
     for ((i=0; i<16; i++)); do
 	echo -n "#${i}!${1}~"
     done
+
+    echo "-"
+    echo -n "#7!19@~"		# @ == just top pixel, ~ == all six pixels
+    for ((i=0; i<15; i++)); do
+	echo -n "#7!19@?!19@~"	# ? == no pixels
+    done
+
+    echo "-"
+    echo -n "#7!19?~"
+    for ((i=0; i<15; i++)); do
+	echo -n "#7!39?~"
+    done
+
     echo -n ${ST}
 }
 
@@ -120,11 +166,11 @@ for entry in "${REPLY[@]}"; do
     Ax+=($Px)
     Ay+=($Py)
     Az+=($Pz)
+    # Pu is last entry's color space. 1==HLS, 2==RGB.
+    if [[ $DEBUG -gt 0 ]]; then Pu=$DEBUG; fi
     Ah+=( $(hlsrgb2hex $Pu $Px $Py $Pz) )
 done
 
-# Pu is last entry's color space. 1==HLS, 2==RGB.
-if [[ $DEBUG -gt 0 ]]; then Pu=$DEBUG; fi
 
 print_row "${x[$Pu]}"  "${symbol[$Pu]}"  "${Ax[@]}" # "Hue" or "Red"
 print_row "${y[$Pu]}"  " % "  "${Ay[@]}"	    # "Lightness" or "Green"
@@ -133,8 +179,19 @@ print_row "${z[$Pu]}"  " % "  "${Az[@]}"   	    # "Saturation" or "Blue"
 
 # Show sixel color swatch
 show_sixel_swatch 40
-echo
+if [[ ! $XTERM_VERSION ]]; then echo; fi # Work around xterm sixel newine bug
 
+# Show RGB hex value		     
+echo -n "           "
+for i in {0..15..2}; do
+    echo -n " ${Ah[i]} "
+done
+echo
+echo -n "               "
+for i in {1..15..2}; do
+    echo -n " ${Ah[i]} "
+done
+echo
 
 
 ######################################################################
