@@ -79,30 +79,122 @@ print_row() {
     echo
 }
 
+get_screen_width() {
+    # Default width is 800px, as on a VT340
+    local width=800
+
+    # Send control sequence to query the sixel graphics geometry to
+    # find out how large of a sixel image can be shown.
+    IFS=";"  read -a REPLY -s -t 0.25 -d "S" -p $'\e[?2;1;0S' >&2
+    if [[ ${REPLY[2]} -gt 0 ]]; then
+        width=${REPLY[2]}
+    else
+        # Nope. Fall back to dtterm WindowOps to approximate sixel geometry.
+        IFS=";" read -a REPLY -s -t 0.25 -d "t" -p $'\e[14t' >&2
+        if [[ $? == 0  &&  ${REPLY[2]} -gt 0 ]]; then
+            width=${REPLY[2]}
+	else
+	    if [[ "$DEBUG" ]]; then
+		echo "Unable to detect screen width in pixels. Using $width.">&2
+	    fi
+        fi
+    fi
+
+    echo ${width}
+}
+
+get_char_cell_width() {
+    # Detect, if we can, the width in pixels of each character cell.
+
+    # On a VT340, the resolution is always 800x480, but the terminal
+    # can show 80 or 132 character lines. On terminal emulators, the
+    # screen resolution can change as well.
+
+    local char_width
+
+    # First try $'\e[16t' which may return the char cell size directly
+    IFS=";" read -a REPLY -s -t 0.25 -d "t" -p $'\e[16t' >&2
+    if [[ $? == 0  &&  ${REPLY[2]} -gt 0 ]]; then
+        char_width=${REPLY[2]}
+    else
+	# That didn't work, let's derive it from the screen width 
+	local screen_width=$(get_screen_width)
+	local cols=$(tput cols)
+	if [[ $cols -eq 0 ]]; then
+	    cols=80
+	    if [[ "$DEBUG" ]]; then
+		echo "Unable to detect number of text columns. Using $cols." >&2
+	    fi
+	fi
+	char_width=$((screen_width/cols))
+    fi
+
+    if [[ $char_width -eq 0 ]]; then
+	char_width=10		# Default, but this should never happen.
+    fi	
+
+    echo $char_width
+}
+
+sixchar() {
+    # Given a binary representation of six pixels (from bottom to top),
+    # output the ASCII character that represents that sixel.
+    if [[ -z $1 ]]; then
+	echo "Usage: sixchar 000010" >&2
+    else
+	for b; do
+	    printf "\x$(bc -q <<<'obase=16; ibase=2; x='$b'; x+111111')"
+	done
+    fi
+}
+
+
 show_sixel_swatch() {
-    tput cuf 13
-    echo -n ${DCS}'q'
+    # Width of each color swatch = 4 character cells. (Usually 40px)
+    local width=$(( 4 * $(get_char_cell_width) ))
+    local half=$((width/2-1))	# Almost half the width.
+    local h=$((half-3))		# A little extra space for a curvy brace.
+
+    tput cuf 13			# Cursor forward 13 spaces
+    echo -n ${DCS}'9;1;q'	# Sixel header
     for ((i=0; i<16; i++)); do
-	echo -n "#${i}!${1}~"
+	echo -n "#${i}!${width}~" 	# ~ == all six pixels
     done
-
-    echo "-"
-    echo -n "#7!19@~"		# @ == just top pixel, ~ == all six pixels
-    for ((i=0; i<15; i++)); do
-	echo -n "#7!19@?!19@~"	# ? == no pixels
+    echo "-"			# Graphics newline
+    
+    # Just for fun, draw an indicator to point to the hex representation.
+    brace=""
+    brace+="#7"        # Color index 7 is fg text, so hopefully visible.
+    brace+="@"	       # @ == just top pixel.		000001
+    brace+="A"	       # A == just second pixel.	000010
+		       # 				000100
+    brace+="!${h}C"    # C == row of just third pixel.	000100
+		       # 				000100
+    brace+="G"	       # G == just fourth pixel		001000
+    brace+="o"	       # all but top four        111111 110000
+    brace+="G"	       # 				001000
+		       # 				000100
+    brace+="!${h}C"    # C == row of just third pixel.	000100
+		       # 				000100
+    brace+="A"	       # A == just second pixel.	000010
+    brace+="@"	       # @ == just top pixel.		000001
+    brace+="?"	       # ? == Graphics space (none)	000000
+    for ((i=0; i<16; i++)); do
+	echo -n ${brace}
     done
-
     echo "-"
-    echo -n "#7!19?~"
+
+    echo -n "#7!${half}?~"
     for ((i=0; i<15; i++)); do
-	echo -n "#7!39?~"
+	echo -n "#7!$((width-1))?~"
     done
 
     echo -n ${ST}
 }
 
 
-####
+
+########################################################################
 # Main
 
 # Request Color Table Report
@@ -129,7 +221,7 @@ if ! degree=$(echo $'\xb0' | iconv -f latin1 2>/dev/null); then
 fi
 
 if [[ $DEBUG ]]; then
-    degree=$'\e(0f\e(B'		# Force using VT100 ACS charset 
+    degree=$'\e(0f\e(B'		# Force testing VT100 ACS charset 
 fi
 
 # Now, each element is of the form  Pc ; Pu ; Px ; Py ; Pz where
@@ -151,10 +243,11 @@ symbol=(.  " $degree "  " % ")
 
 
 # Print index row
+tput rev
 echo -n "      Index: "
-tput smul
 printf "%4s" {0..15}
-tput rmul
+echo -n "   "
+tput sgr0
 echo
 
 # Read reply into arrays for easier printing  
@@ -178,11 +271,11 @@ print_row "${z[$Pu]}"  " % "  "${Az[@]}"   	    # "Saturation" or "Blue"
 
 
 # Show sixel color swatch
-show_sixel_swatch 40
+show_sixel_swatch
 if [[ ! $XTERM_VERSION ]]; then echo; fi # Work around xterm sixel newine bug
 
 # Show RGB hex value		     
-echo -n "           "
+echo -n "   RGB hex:"
 for i in {0..15..2}; do
     echo -n " ${Ah[i]} "
 done
