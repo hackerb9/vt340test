@@ -2,20 +2,31 @@
 
 # Test cursor placement after sixel image is sent.
 
-# After a sixel image is sent, the text cursor is moved down
-# to the row which contained the last sixel cursor position.
-# The column does not change.
+# After a sixel image is displayed, the text cursor is moved to the
+# row of the last sixel cursor position, but the column stays the same
+# as it was before the sixel image was sent.
 
-# Sixel images often do *not* end with a `-` (Graphics NewLine) which
-# sends the sixel cursor down 6 pixels and to the left edge of the graphic.
+# This can be thought of as sixel images always ending with an
+# implicit Graphics Carriage Return (`$`). 
 
-# Anything printed next will potentially overlap the last row of sixels!
-# In general, a text newline (^J) is sent by the application after
-# showing a sixel image and before sending more text or graphics.
+# Sixel images often do *not* end with a `-` (Graphics New Line == GNL)
+# which sends the sixel cursor down 6 pixels and to the left edge of
+# the graphic. Anything printed next will potentially overlap the last
+# row of sixels!
 
-# However, it is important to note that a newline is not always wanted.
-# For example, if an image is full screen, a newline would cause the
-# top line to scroll off the screen.
+# In general, applications should send sixel images without a GNL but then
+# send `^J`, a text newline (NL), before displaying more text or graphics.
+
+# However, it is important to note that sometimes neither a graphics
+# nor a text newline is wanted. For example, if an image is full
+# screen, a either newline would cause the top line to scroll off the screen.
+
+#           Text cursor column | Text cursor row
+# !GNL !NL: Unchanged	       | Same as last graphics cursor
+# !GNL  NL: Column=1	       | Row = first line immediately after graphic
+#  GNL !NL: Unchanged	       | Row = usually overlapping graphics
+#  GNL  NL: Column=1	       | Row = first or second line after graphic
+
 
 
 CSI=$'\e['			# Control Sequence Introducer 
