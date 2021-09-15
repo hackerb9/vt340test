@@ -9,10 +9,17 @@
 # This can be thought of as sixel images always ending with an
 # implicit Graphics Carriage Return (`$`). 
 
+# ADDENDUM: It is not as simple as I thought. When a row of sixels
+# straddles two rows of text, the text cursor can be left on the upper row.
+# It seems up to three lines of pixels may be beneath any words printed.
+#
+# The rule for when this happens is not obvious to me, but can be seen
+# with images of height: 21, 22, 23, 24, 41, 42, 81, 82, 83, 84...
+
 # Sixel images often do *not* end with a `-` (Graphics New Line = GNL)
 # which sends the sixel cursor down 6 pixels and to the left edge of
-# the graphic. Anything text printed next will potentially overlap the
-# last row of sixels!
+# the graphic. Any text printed next will potentially overlap the last
+# row of sixels!
 
 # In general, applications should send sixel images without a GNL but then
 # send `^J`, a text newline (NL), before displaying more text or graphics.
@@ -24,7 +31,7 @@
 #         | Text cursor column | Text cursor row
 # --------|--------------------|-------------------------------------
 # !GNL !NL| Unchanged	       | Overlapping last line of graphics
-# !GNL  NL| Column=1	       | First line immediately after graphic
+# !GNL  NL| Column=1	       | First line immediately after graphic (usually)
 #  GNL !NL| Unchanged	       | _Sometimes_ overlapping graphics
 #  GNL  NL| Column=1	       | First *or* second line after graphic
 
@@ -157,9 +164,11 @@ middle_stack() {
 
 left_stack() {
     # Left stack, 100x100
-    # USING A TEXT NEWLINE (NL) after an sixel image that does NOT have GNL 
-    # is the only guaranteed way to be on the text line immediately below
-    # the image. However, text newline always sends to the cursor to column 1.
+
+    # USING A TEXT NEWLINE (NL) after an sixel image that does NOT
+    # have GNL is the best way to be on the text line immediately
+    # below the image. However, the text will still occasionally
+    # overlap the last three rows of pixels.
 
     set_cursor_pos 3 1
     echo -n "Text newline only"
