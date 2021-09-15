@@ -80,7 +80,7 @@ print_row() {
 }
 
 get_screen_width() {
-    # Default width is 800px, as on a VT340
+    # By default, return 800px if terminal does not reply.
     local width=800
 
     # Send control sequence to query the sixel graphics geometry to
@@ -103,14 +103,80 @@ get_screen_width() {
     echo ${width}
 }
 
+get_cols() {
+    # Return number of text columns the screen is displaying
+    local -i c
+    c=$(tput cols 2>/dev/null)
+
+    if [[ $c -eq 0 ]]; then
+	if [[ $DEBUG ]]; then
+	    echo "Trying stty to detect number of columns." >&2
+	fi
+	local s=$(stty -a | egrep -o 'columns [0-9]+' 2>/dev/null)
+	s=${s#* }		# chop of the word "columns ".
+	c=${s:-0}		# set c if it worked.
+    fi
+
+    if [[ $c -eq 0 ]]; then
+	# Stty no good. Try detecting 132/80 column mode.
+	if [[ $DEBUG ]]; then
+	    echo "Checking for 132 column mode." >&2
+	fi
+	case $(get_mode 3) in
+	    1)  # 132 column mode is enabled
+		c=132
+		;;
+	    2)  # 132 column mode disabled, so it has 80 columns.
+		c=80
+		;;
+	    *)  # Huh. Terminal doesn't know if it is in 132-column mode.
+		c=80
+		;;
+	esac
+    fi	
+
+    if [[ $c -eq 0 ]]; then
+	c=80
+	if [[ "$DEBUG" ]]; then
+	    echo "Unable to detect number of text columns. Using $c.">&2
+	fi
+    fi
+    if [[ $DEBUG ]]; then echo "Number of columns is $c" >&2; fi
+    echo $c
+}
+# Array for printing results from getmode()
+status=("not recognized" "set" "reset" "permanently set" "permanently reset")
+
+get_mode() {
+    # Inquires if mode in $1 is set or reset in the terminal.
+    # Prints an integer as result:
+    #   0: "not recognized"
+    #   1: "set"
+    #   2: "reset"
+    #   3: "permanently set"
+    #   4: "permanently reset"
+    # 
+    mode=${1:-3}
+    if ! IFS=";$" read -a REPLY -t 0.25 -s -p ${CSI}'?'$mode'$p' -d y; then
+	echo "Terminal did not respond to inquiry for mode $mode." >&2
+	echo 0			# Pretend terminal responded, "not recognized"
+    else
+	echo "${REPLY[1]}"
+    fi
+}
+
 get_char_cell_width() {
     # Detect, if we can, the width in pixels of each character cell.
 
-    # On a VT340, the resolution is always 800x480, but the terminal
-    # can show 80 or 132 character lines. On terminal emulators, the
-    # screen resolution can change as well.
+    # On a VT340/330/240, the resolution is always 800x480, but the
+    # terminal can show 80 or 132 character lines. On terminal
+    # emulators, the screen resolution can change as well.
 
-    local char_width
+    # 800/80 columns == 10px and 800/132 columns =~ 6px.
+
+    local char_width=0
+    local screen_width
+    local cols
 
     # First try $'\e[16t' which may return the char cell size directly
     IFS=";" read -a REPLY -s -t 0.25 -d "t" -p $'\e[16t' >&2
@@ -118,21 +184,12 @@ get_char_cell_width() {
         char_width=${REPLY[2]}
     else
 	# That didn't work, let's derive it from the screen width 
-	local screen_width=$(get_screen_width)
-	local cols=$(tput cols)
-	if [[ $cols -eq 0 ]]; then
-	    cols=80
-	    if [[ "$DEBUG" ]]; then
-		echo "Unable to detect number of text columns. Using $cols." >&2
-	    fi
-	fi
+	screen_width=$(get_screen_width) 	# Defaults to 800
+	cols=$(get_cols)			# Default to 80
 	char_width=$((screen_width/cols))
     fi
 
-    if [[ $char_width -eq 0 ]]; then
-	char_width=10		# Default, but this should never happen.
-    fi	
-
+    if [[ $DEBUG ]]; then echo "Character width is $char_width" >&2; fi
     echo $char_width
 }
 
