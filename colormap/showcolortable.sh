@@ -197,9 +197,21 @@ show_sixel_swatch() {
 ########################################################################
 # Main
 
+colorspace=2
+case "$1" in
+    1|hls|HLS|hsl|HSL)
+	colorspace=1			# 1==Hue Lightness Saturation
+	;;
+    2|rgb|RGB|*)
+	colorspace=2			# 2==Red Green Blue
+	;;
+esac
+
+
 # Request Color Table Report
 # NB: at 9600 bps, it takes over 1.25s for a genuine VT340 to respond.
-if ! IFS=$'/\es' read -a REPLY -t 2 -s -p ${CSI}'2;2$u' -r -d '\\'; then
+if ! IFS=$'/\es' read -a REPLY -t 2 -s -p ${CSI}'2;'${colorspace}'$u' -r -d '\'
+ then
     echo Terminal did not respond. >&2
     if [[ ! $DEBUG ]]; then
 	exit 1
