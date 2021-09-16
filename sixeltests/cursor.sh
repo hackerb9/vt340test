@@ -15,6 +15,24 @@
 #
 # The rule for when this happens is not obvious to me, but can be seen
 # with images of height: 21, 22, 23, 24, 41, 42, 81, 82, 83, 84...
+#
+# My guess:
+# for a sixel image of height h, let a=(h-1)%6 and b=(h-1)%20,
+# then, the text will overlap the image when a>b.
+#
+# If that is the case, then the entire list of heights for which this
+# will happen on the VT340's 480 pixel high screen is:
+#
+# 21 22 23 24  41 42  81 82 83 84  101 102  141 142 143 144  161 162 
+# 201 202 203 204  221 222  261 262 263 264  281 282 
+# 321 322 323 324  341 342  381 382 383 384
+# 401 402  441 442 443 444  461 462
+#
+# Note that there are 48 entries, so that means there's a 10% chance
+# if heights are chosen randomly from 1 to 480. However, if one were
+# to always pick heights which are a multiple of the character cell
+# height (20px), then the chances are 0% as there are no problematic
+# heights
 
 # Sixel images often do *not* end with a `-` (Graphics New Line = GNL)
 # which sends the sixel cursor down 6 pixels and to the left edge of
