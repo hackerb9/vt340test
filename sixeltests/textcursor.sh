@@ -32,15 +32,17 @@
 # if heights are chosen randomly from 1 to 480. However, if one were
 # to always pick heights which are a multiple of the character cell
 # height (20px), then the chances are 0% as there are no problematic
-# heights
+# heights divisible by 20. 
+
 
 # Sixel images often do *not* end with a `-` (Graphics New Line = GNL)
 # which sends the sixel cursor down 6 pixels and to the left edge of
 # the graphic. Any text printed next will potentially overlap the last
 # row of sixels!
 
-# In general, applications should send sixel images without a GNL but then
-# send `^J`, a text newline (NL), before displaying more text or graphics.
+# I am not yet positive, but I believe that, in general, applications
+# should send sixel images without a GNL but then send `^J`, a text
+# newline (NL), before displaying more text or graphics.
 
 # IMPORTANT: sometimes neither a graphics nor a text newline is wanted. 
 # For example, if an image is full screen, either newline would cause
@@ -152,39 +154,33 @@ main() {
     clear
     reset_palette
     show_labels
-    middle_stack
+    neither_graphic_nor_text 96 1 4 29 		# size, color, row, column
     text_newline_only 96 9 4 1
     text_newline_only 84 9 4 14
     graphics_new_line_only 100 4 4 51
     graphics_new_line_only 96 4 4 64
-#    right_stack_small
     set_cursor_pos 1000 1
 }
 
 
-middle_stack() {
-    # Middle stack
+neither_graphic_nor_text() {
     # Typically sixel images should not end with a Graphics New Line (GNL)
     # However, if a text newline isn't sent, there will be overlap.
 
-    size=96
-    set_cursor_pos 3 29
-    echo -n "Neither NL nor GNL"
-    set_cursor_pos 4 29
-    echo -n "Height $size"
+    local -i size  color  row  column
+    read size color row column <<<"$@"
 
-    # Blue square covers columns 26 to 35 (10 char wide) and rows 5 to 9
-    square 1 $size 5 29
-    tput cuf 1
-    # Red square should cover the same columns, spanning rows 9 to 13
-    # OVERLAPPING last row of blue!
-    square 2 $size
-    tput cuf 1
-    # Green square, overlaps red, rows 13 to 17
-    square 3 $size
-    
-    # Draw text overlapping the bottom of the green square
-    echo -n "Overlap"
+    set_cursor_pos $((row++)) $column
+    echo -n "Height $size"
+    set_cursor_pos $((row++)) $column
+
+    # Three squares sent as separate sixel images, indented +1 
+    for i in {1..3}; do
+	square $((color++)) $size
+	tput cuf 1
+    done
+
+    echo -n "overlap?"
 }
 
 
@@ -197,15 +193,27 @@ text_newline_only() {
     # Also, if multiple images are intended to be shown, there will
     # usually be a gap between them when using a text newline.
 
-    # This is because the height of a text cell is 20 pixels and the
-    # height of a sixel is 6. Let the pixel position of the top of the
-    # graphics cursor be 'Yg' and let the pixel position of the top of
-    # the corresponding cell of text which the text cursor will be
-    # placed on be 'Yt'. Note that Yg is evenly divisible by 6 and Yg,
-    # by 20. Taking the remainder, r, after dividing Yg by 20 tells us
-    # how many pixels down into a row text the last line of sixels was
-    # being drawn. 
-    # XXXX
+    # Overlap happens because the height of a text cell is 20 pixels
+    # and the height of a sixel is 6. 
+    # for (h=0; h<480; h++) if ((h-1)%6 > (h-1)%20 ) { h }
+
+    # Let the pixel position of the top of the graphics cursor be 'Yg'
+    # and let the pixel position of the top of the corresponding cell
+    # of text which the text cursor will be placed on be 'Yt'. Note
+    # that Yg is evenly divisible by 6 and Yt, by 20. Taking the
+    # remainder, r, after dividing Yg by 20 tells us how many pixels
+    # down into a row of text the last line of sixels started. When
+    # r==0, the sixels started at the top of the text row.
+
+    # When r = 14, the sixels covered the bottom six pixels on the row
+    # of text. When 14 < r < 20, the sixel line impinged by r - 14
+    # pixels into the text row below and there is a chance the next
+    # text printed will overlap. 
+
+    # Let s = r + 6, the first line of pixels which does not have any
+    # graphics on it.
+
+
 
     local -i size  color  row  column
     read size color row column <<<"$@"
@@ -253,63 +261,24 @@ graphics_new_line_only() {
     echo -n "overlap?"
 }
 
-right_stack_big() {
-    # However, some sixel images end with a `-`, a Graphics New Line.
-    # This can be useful for writing another image starting at the same
-    # column without having to reposition the cursor.
-    #
-    # However, this runs the risk of having occasional overlap.
-
-    set_cursor_pos 3 51
-    echo -n "Graphics New Line only"
-    set_cursor_pos 4 51
-    echo -n "Height 100"
-
-    # Magenta square covers columns 51 to 60 and rows 5 to 9
-    squaregnl 4 100 5 51
-    # Cyan square is below magenta, rows 10 to 14, no overlap.
-    tput cuf 1
-    squaregnl 5
-    # Yellow square is below magenta, rows 15 to 19, no overlap.
-    tput cuf 1
-    squaregnl 6
-
-    echo -n "No overlap?"
-}
-
-right_stack_small() {
-    set_cursor_pos 4 64
-    size=96
-    echo -n "Height $size"
-    # Magenta square covers columns 66 to 75 and rows 5 to 9
-    squaregnl 4 $size 5 64
-    # Cyan square is below magenta, rows 9 to 13, OVERLAPPING.
-    tput cuf 1
-    squaregnl 5 $size
-    # Yellow square is below magenta, rows 13 to 17, OVERLAPPING.
-    tput cuf 1
-    squaregnl 6 $size
-
-    echo -n "Overlap"
-}
-
 
 show_labels() {
     set_cursor_pos 1 10
     echo -n "Should sixel images include a GNL ('-') at the end?"
 
+    set_cursor_pos 3 29
+    echo -n "Neither NL nor GNL"
     set_cursor_pos 3 1
     echo -n "Text New Line only"
-
     set_cursor_pos 3 51
     echo -n "Graphics New Line only"
 
-    set_cursor_pos 22 3
-    echo -n "Maybe overlaps"		# NL only
     set_cursor_pos 22 29
     echo -n "Always overlaps"		# Neither NL nor GNL
+    set_cursor_pos 22 3
+    echo -n "Overlaps a little"		# NL only
     set_cursor_pos 22 54
-    echo -n "Sometimes overlaps!"	# GNL only
+    echo -n "Overlaps badly"		# GNL only
 }
 
 
