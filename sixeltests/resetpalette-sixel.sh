@@ -68,7 +68,6 @@ echo -n "800;480"
 # one less than what is documented. 
 
 echo -n "#1;2;20;20;80;"	# VT color #1 is blue
-
 echo -n "#2;2;80;13;13;"	# VT color #2 is red
 echo -n "#3;2;20;80;20;"	# VT color #3 is green
 
