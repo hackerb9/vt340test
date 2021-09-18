@@ -123,24 +123,28 @@ squaresize() {
     local size=${1:-100}		# Default size is 100x100
     local color=${2:-1}			# Default color index is 1 (blue)
 
-    # Get a sixel string and remove the ImageMagick's Graphic New Line.  
+    # Get a sixel string 
     local sq=$(convert -geometry ${size}x${size} xc:black sixel:-)
 
-    # VT340's always used the same color register for the first sixel
+    # Remove ImageMagick's extraneous Graphic New Line at end of image.
+    sq=${sq%-??}$'\e\\'
+
+    # VT340s always used the same color register for the first sixel
     # color defined no matter what number it was assigned. That means,
     # each time we send a new sixel image, the previous one's color
     # palette gets changed. We don't want squares of all the same
-    # color, so remove the color definition.
-    sq=$(echo -n "$sq" | sed -E $'s/-\e/\e/ ; s/#0;2;0;0;0//')
+    # color, so remove the color definition and just use the defaults.
+    sq=${sq/\#0;2;0;0;0/}
 
-    # And finally, stick the proper index for the color we want.
-    echo -n "$sq" | sed -E "s/#0/#${color}/g"
+    # And finally, switch to the proper index for the color we want.
+    echo -n ${sq//\#0/#${color}}
 }
 
 squaregnl() {
     # Same as square(), but sends a graphics newline at the end of the sixels.
-    # (Sticks a `-` before the String Terminator)
-    square "${@}"  | sed -E $'s#\e\\\$#-\e\\\#'
+    # (Sticks a `-` before the String Terminator, "Esc \")
+    sq=$(square "${@}")
+    echo -n ${sq%??}$'-\e\\'
 }
 
 
