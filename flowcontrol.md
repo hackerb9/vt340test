@@ -18,10 +18,10 @@ the 6 wire DEC423 connectors, DTR/DSR are available and could
 theoretically be wired to RTS/CTS on the host's serial port, presuming
 the VT340 firmware was updated.
 
-Here's how I wired up my 9-pin female to DEC423 (AKA MMJ) connectors
-which I got from PacificCable.com. Since both the VT340 and a typical
-PC serial port are "DTE" equipment, they need to have "null modem" in
-between to crossover some of the wires. 
+Here's how I wired up my 9-pin female to DEC423 (AKA MMJ, Modified
+Modular Jack) connectors which I got from PacificCable.com. Since both
+the VT340 and a typical PC serial port are "DTE" equipment, they need
+to have "null modem" in between to crossover some of the wires.
 
 Putting both the DTR/DSR and null modem together, one can connect a
 VT340's MMJ port to a UNIX host's serial port like so:
@@ -39,7 +39,7 @@ Even without hardware flow control, this wiring works for
 communication. I'm using such a connector now with a standard
 "BC16E" cable to type this. If you purchase AD-9FT6-G1D from
 PacificCable.com, it comes with the pins disconnected so you can
-choose how you wish to wire it.
+choose how you wish to wire it. 
 
 ### DE-9 Pinout (Female)
 
@@ -47,9 +47,9 @@ choose how you wish to wire it.
 says we were all wrong.]
 
       ___________
-      \5 4 3 2 1/    DE-9
-       \9 8 7 6/ 	 Female
-        -------      Connector
+      \5 4 3 2 1/	DE-9
+       \9 8 7 6/ 	Female
+        ------- 	Connector
 
 ### MMJ Pin 1 is furthest from "thumb" of MMJ latch
 
