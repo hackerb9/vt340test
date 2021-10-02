@@ -29,11 +29,14 @@ from a burst of only 0.84 seconds!
 
 <details><summary>Sidenote about the VT340<b>+</b></summary>
 
-Hackerb9's VT340<b>+</b> is able to handle 9600 baud without flow control,
-perhaps because the "plus" version has slightly faster hardware than
-the original VT340. At 19,200 baud the VT340+ required flowcontrol
-after receiving about 3200 bytes, which puts the text processing speed
-at 13,000 bps.
+* Hackerb9's VT340<b>+</b> is able to handle 9600 baud without flow
+  control.
+* Is this because the "plus" version has slightly faster hardware than
+  the original VT340? 
+* At 19,200 baud the VT340+ required flowcontrol after receiving about
+  3200 bytes.
+* That puts the text processing speed of the VT340+ at 13,000 bps,
+  which is 33% faster than the VT340.
 
 </details>
 
@@ -72,13 +75,15 @@ XOFF Point" to "Never".
 
 <details><summary>Sidenote about propagation delay</summary>
 
-By default the threshold for sending XOFF is 64 bytes, which may seem
-surprisingly low for a buffer of 1024 bytes. This is likely chosen to
-accomodate propagation delay: if ^S/^Q are being sent literally across
-a network (as happens with ssh), it could take a long time before the
-flow of incoming data is stopped. 1024-64 == 960 bytes remaining in
-the buffer. At 9600 baud, the buffer would fill in 100 milliseconds.
-At 19,200 baud, it would be full in 50 ms.
+* By default the threshold for sending XOFF is 64 bytes, which may seem
+surprisingly low for a buffer of 1024 bytes. 
+* This is likely chosen to accomodate "propagation delay" .
+* If ^S/^Q are being sent literally across a network (as happens with
+ssh), it could take a relatively long time for the command to
+propagate and for the flow of incoming data to stop.
+* 1024-64 == 960 bytes remaining in the buffer.
+* At 9600 baud, the buffer would fill in 100 milliseconds.
+* At 19,200 baud, it would be full in 50 ms.
 </details>
 
 
