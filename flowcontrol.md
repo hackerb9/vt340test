@@ -6,14 +6,17 @@ devices cannot do that.
 ## Flow control overview
 
 The VT340 has a 1024 byte receive buffer. If data is coming in faster
-than the VT340 can process it, the buffer will overflow. According to
-the Text Programming manual (EK-VT3XX-TP-002, page 265),
+than the VT340 can process it, the buffer will overflow. This happens
+easily if complex graphics are sent to the terminal, but can happen
+even when just processing typical text data. According to the Text
+Programming manual (EK-VT3XX-TP-002, page 265),
 
-> Character processing in the VT300 occurs at about 9400 bits per
-> second. 
+> Character processing in the VT300 occurs at about **9400** bits per
+> second.
 
 That means, even at the default rate of 9600 baud, some form of flow
-control could be necessary if there is a sustained burst of data. 
+control would be necessary if there is a sustained burst of text data
+for over 40 seconds. 
 
     time_to_overflow = ( buffer_size_in_bits ) / ( input_baudrate - processing_speed )
 	
@@ -24,13 +27,16 @@ control could be necessary if there is a sustained burst of data.
 At the VT340's top speed of 19,200 baud, the buffer would overflow
 from a burst of only 0.84 seconds!
 
-[Sidenote: hackerb9's VT340*+* was able to handle 9600 baud without
-flow control, perhaps because the "plus" version has slightly faster
-hardware than the original VT340. At 19,200 baud the VT340+ required
-flowcontrol after receiving about 3200 bytes, which puts the
-text processing speed at 13000 bps]. 
+<details><summary>Sidenote about the VT340<b>+</b></summary>
 
-### The two flavors: hardware and software
+Hackerb9's VT340*+* is able to handle 9600 baud without flow control,
+perhaps because the "plus" version has slightly faster hardware than
+the original VT340. At 19,200 baud the VT340+ required flowcontrol
+after receiving about 3200 bytes, which puts the text processing speed
+at 13,000 bps.
+</details>
+
+### The two flavors: hardware and software flow control
 
 There are two kinds of flow control. Hardware flow control (sometimes
 known as "RTS/CTS") and software flowcontrol (more commonly referred
@@ -61,8 +67,19 @@ Normally the VT340 is in XON/XOFF mode (software flow control) and it
 is not possible to type ^S or ^Q (Ctrl+S or Ctrl+Q) from the keyboard
 as they simply toggle the Hold Screen. However, XON/XOFF can be
 disabled from the Communication Set-Up menu by changing the "Receive
-XOFF Point" to "Never". (By default the threshold for sending XOFF is
-64 bytes, which seems surprisingly low for a buffer of 1024 bytes).
+XOFF Point" to "Never". 
+
+<details><summary>Sidenote about propagation delay<b>+</b></summary>
+
+By default the threshold for sending XOFF is 64 bytes, which may seem
+surprisingly low for a buffer of 1024 bytes. This is likely chosen to
+accomodate propagation delay: if ^S/^Q are being sent literally across
+a network (as happens with ssh), it could take a long time before the
+flow of incoming data is stopped. 1024-64 == 960 bytes remaining in
+the buffer. At 9600 baud, the buffer would fill in 100 milliseconds.
+At 19,200 baud, it would be full in 50 ms.
+</details>
+
 
 ## USB Serial Ports are not all equal
 
