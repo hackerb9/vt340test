@@ -13,13 +13,11 @@ A script for making screenshots can be found in [mediacopy.sh](mediacopy.sh).
 2. Send REGIS "HardCopy" command.
 3. Receive sixel data from VT340.
 
-###
+### Details
 
 To send the screen to the host as sixel data, you set the MediaCopy
 output to "2", optionally change settings, and then send the ReGIS
-"Hard Copy" command. (For some reason, the normal "Media Copy"
-command, `CSI i`, does not work. Perhaps because I don't have a
-printer attached?)
+"Hard Copy" command.
 
 ```bash
 CSI=$'\e['			# Control Sequence Introducer
@@ -49,6 +47,34 @@ echo -n ${DCS}'p'		# Enter REGIS mode
 echo -n $'S(H)'			# Screen hard copy
 echo -n ${ST}			# Exit REGIS mode
 ```
+
+#### Side note: what doesn't work.
+
+ReGIS is apparently required for sending sixels back to the host. For
+some reason, the normal VT340 "Media Copy" command, `CSI i`, does not
+work. The documentation says it requires a printer to be attached. 
+
+* Can I trick it by wiring DTR on the printer port? Or will it only
+  send data to the printer?
+
+* Is the Tektronix hardcopy command, ESC ETB ($`\e\x17`), any better?
+  Not really. It does seem to work, somewhat, although it has the same
+  warning as `CSI i` -- _"The sequence only works when a printer is
+  connected to the terminal's printer port.". It sendsa data to the
+  host, assuming I've sent `Esc [ ? 2 i` (media copy to host) before
+  entering Tek mode.
+  
+  Unfortunately, it seems glitchy, cutting off the bottom of the image
+  by sending it to the screen instead of to the host. (This seems a
+  lot like the [Sixel Level 1]() error).
+
+  Tektronix graphics are a completely separate system from ReGIS and
+  the usual text modes. In Tek mode, the only command that works to
+  send a hardcopy is the special Tek hardcopy command. And, the Tek
+  hardcopy command only works in Tek mode. There is no clear way to
+  crop and send only a small portion of the screen. Setting print
+  options can only be done before the Tek drawing commences. [XXX
+  Double check this. No way to exit and return to Tek mode?]
 
 #### Media Copy response from VT340
 
