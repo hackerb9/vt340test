@@ -88,20 +88,20 @@ propagate and for the flow of incoming data to stop.
 
 ## USB Serial Ports are not all equal
 
-When I first got my VT340, I could not figure out why I could only
+When hackerb9 first got a VT340, it was a puzzle why it could only
 connect at 9600 baud. At 19200, even with XON/XOFF flow control
-enabled on the UNIX host (`stty ixon`), I was getting the backwards
-question marks showing that characters were getting dropped.
+enabled on the UNIX host (`stty ixon`), it was showing the backwards
+question marks indicating that characters were getting dropped.
 
-I spent a while trying to figure out what was going on. Propagation
-delay? Termios buffer flushing? Many esoteric topics were researched
-and W. Richard Stevens' weighty tome digested and disected. Teeth were
-gnashed. Hair was pulled.
+Hackerb9 spent a while trying to figure out what was going on.
+Propagation delay? Termios buffer flushing? Many esoteric topics were
+researched and W. Richard Stevens' weighty tome digested and disected.
+Teeth were gnashed. Hair was pulled.
 
 Turns out, some USB serial adapters simply _do not support xon/xoff
-flow control_.I had tried two different brands I had lying around and
-both had failed the same way. Finally, after figuring out that it is
-up to the hardware, I tried a third and that _did_ work:
+flow control_. Two different brands that had been lying around both
+had failed the same way. After figuring out that it is up to the
+hardware, hackerb9 tried a third and that _did_ work:
 
 | Brand      | Model  | Kernel Driver | Works |
 |------------|--------|---------------|-------|
@@ -109,13 +109,13 @@ up to the hardware, I tried a third and that _did_ work:
 | Targus     | ACP50  | mct_u232      | no    |
 | Kensington | K33232 | pl2303        | YES   |
 
-I don't recommend buying the Kensington device I used since it is an
-extremely old and large port replicator. However, the chip which is
-inside of it is Proflific Technology Inc's pl2303 (USB Vendor=067b,
-Product=2303). You can search for 067b:2303 and see what devices
-have that chip in it.
+It is not recommended to buy the Kensington device hackerb9 used since
+it is an extremely old and large port replicator. However, the chip
+which is inside of it is Proflific Technology Inc's pl2303 (USB
+Vendor=067b, Product=2303). You can search for 067b:2303 and see what
+devices have that chip in it.
 
-I also found a recommendation online to buy FTDI products, such as the
+Some people have recommended online to buy FTDI products, such as the
 UC232R-10, which are documented by them to support XON/XOFF. They seem
 to be a very reputable company.
 
@@ -130,10 +130,11 @@ the VT340 firmware was updated.
 
 ### Hackerb9's Guess at DEC423 Wiring
 
-Here's how I wired up my 9-pin female to DEC423 (AKA MMJ, Modified
-Modular Jack) connectors which I got from PacificCable.com. Since both
-the VT340 and a typical PC serial port are "DTE" equipment, they need
-to have "null modem" in between to crossover some of the wires.
+Here's how hackerb9 wired up a 9-pin female to DEC423 (AKA MMJ,
+Modified Modular Jack) connector purchased from PacificCable.com.
+Since both the VT340 and a typical PC serial port are "DTE" equipment,
+they need to have "null modem" in between to crossover some of the
+wires.
 
 Putting both the DTR/DSR and null modem requirements together, one can
 connect a VT340's MMJ port to a UNIX host's serial port like so:
@@ -148,10 +149,10 @@ connect a VT340's MMJ port to a UNIX host's serial port like so:
 | Data Set Ready      | 6       | ← 7      | Request To Send  | Blue   |
 
 Even though hardware flow control does not work, yet, this wiring
-works for communication. I'm using such a connector now with a
-standard "BC16E" cable to type this. If you purchase AD-9FT6-G1D from
-PacificCable.com, it comes with the pins disconnected so you can
-choose how you wish to wire it.
+works for communication. The words you are reading are flowing over a
+standard DECconnect "BC16E" cable and through such a connector. If you
+purchase AD-9FT6-G1D from PacificCable.com, it comes with the pins
+disconnected so you can choose how you wish to wire it.
 
 ### DE-9 Pinout (Female)
 
