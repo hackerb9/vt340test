@@ -29,11 +29,12 @@ from a burst of only 0.84 seconds!
 
 <details><summary>Sidenote about the VT340<b>+</b></summary>
 
-Hackerb9's VT340*+* is able to handle 9600 baud without flow control,
+Hackerb9's VT340<b>+</b> is able to handle 9600 baud without flow control,
 perhaps because the "plus" version has slightly faster hardware than
 the original VT340. At 19,200 baud the VT340+ required flowcontrol
 after receiving about 3200 bytes, which puts the text processing speed
 at 13,000 bps.
+
 </details>
 
 ### The two flavors: hardware and software flow control
