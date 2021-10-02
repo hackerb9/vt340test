@@ -54,11 +54,10 @@ Software flow control is less reliable, uses up a couple of the keys
 (Ctrl+S, Ctrl+Q), slower and is the only method the VT340 has to
 prevent buffer overruns.
 
-|                                                 | Hardware Flow Control | Software Flow Control           |
+|                                                 | Hardware Flow Control<br/>(RTS/CTS) | Software Flow Control<br/>(XON/XOFF)           |
 |-------------------------------------------------|-----------------------|---------------------------------|
 | VT340 support                                   | No                    | Yes                             |
 | Modern computer hardware support                | Yes                   | Not on some USB serial adapters |
-| Also known as                                   | RTS/CTS               | XON/XOFF                        |
 | Signal VT340 uses to ask host to stop sending   | Deasserts RTS         | XOFF, aka DC3, aka ^S           |
 | Signal VT340 uses to ask host to resume sending | Asserts RTS           | XON, aka DC1, aka ^Q            |
 | Transparent to data?                            | Yes                   | No, consumes ^S and ^Q          |
