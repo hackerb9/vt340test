@@ -70,7 +70,7 @@ as they simply toggle the Hold Screen. However, XON/XOFF can be
 disabled from the Communication Set-Up menu by changing the "Receive
 XOFF Point" to "Never". 
 
-<details><summary>Sidenote about propagation delay<b>+</b></summary>
+<details><summary>Sidenote about propagation delay</summary>
 
 By default the threshold for sending XOFF is 64 bytes, which may seem
 surprisingly low for a buffer of 1024 bytes. This is likely chosen to
