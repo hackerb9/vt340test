@@ -3,9 +3,10 @@
 In the decades since the DEC VT340 terminal was released, knowledge of
 how it functioned has been lost. Mostly for archaeological purposes,
 but also so that the [lsix](https://github.com/hackerb9/lsix) program
-works correctly, [hackerb9] purchased a VT340+ and is running tests,
-many of which were submitted by [j4james](https://github.com/j4james),
-and documenting the results here.
+works correctly, [hackerb9](https://github.com/hackerb9) purchased a
+VT340+ and is running tests, many of which were submitted by
+[j4james](https://github.com/j4james), and documenting the results
+here.
 
 
 ## Test files and output
@@ -64,14 +65,14 @@ and documenting the results here.
     Report returned by his VT340+ in response to DECRQTSR (Request
     Terminal State Report).
 
-  * QUESTION: How do I convert an image to sixteen colors, but with
+  * OPEN QUESTION: How do I convert an image to sixteen colors, but with
     three of the colors (fg, bg, and bright) fixed and the others free?
 
   * Note: lsix splits the montage into rows to reduce waiting when
     there are more than 21 images to show. However, each montage has
     separate color map, which means the previous row's colors will get
     messed up. I'm not sure there's a good solution for this other
-    than to force a fixed palette (grayscale a good idea?).
+    than to force a fixed palette (would grayscale be a good idea?).
 
 ### Number of colors on a genuine VT340
 
@@ -102,7 +103,7 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
 800x500, which includes the 25th line (the status line).
 
   * The status line is only addressable by sending a special escape
-    sequence
+    sequence (DECSSDT, DECSASD):
 
         tput tsl; tput rev; echo; echo -n $(date); tput fsl)
 
@@ -187,7 +188,7 @@ screen without having to resend all the data.
 
 * Page Memory can be used like double-buffering, where text is written
   to the next page while the user is viewing the current one. (See
-  [EK-VT3XX-TP.pdf#Ch10]).
+  [EK-VT3XX-TP.pdf#Ch10](docs/EK-VT3XX-TP-002.pdf#Ch10)).
 
 * Manual mentions that there are *two* sixel graphics pages (unless
   you are logged in to two sessions at once). It appears they are
@@ -218,3 +219,9 @@ screen without having to resend all the data.
     if the pages are too big to display on the screen? Is it fast to pan pages?
 
   
+### XON/XOFF Flow Control is Required
+
+It does not appear that the VT340 firmware can perform RTS/CTS flow
+control, although electrically it is possible. See
+[flowcontrol](flowcontrol.md) for more details.
+
