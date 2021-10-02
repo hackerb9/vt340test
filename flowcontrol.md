@@ -109,9 +109,9 @@ hardware, hackerb9 tried a third and that _did_ work:
 | Targus     | ACP50  | mct_u232      | no    |
 | Kensington | K33232 | pl2303        | YES   |
 
-It is not recommended to buy the Kensington device hackerb9 used since
-it is an extremely old and large port replicator. However, the chip
-which is inside of it is Proflific Technology Inc's pl2303 (USB
+It is not recommended to buy the exact Kensington device listed here
+since it is an extremely old and large port replicator. However, the
+chip which is inside of it is Proflific Technology Inc's pl2303 (USB
 Vendor=067b, Product=2303). You can search for 067b:2303 and see what
 devices have that chip in it.
 
