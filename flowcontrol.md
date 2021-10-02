@@ -58,8 +58,8 @@ prevent buffer overruns.
 |-------------------------------------------------|-------------------------------------|---------------------------------------|
 | VT340 support                                   | No                                  | Yes                                   |
 | Modern computer hardware support                | Yes                                 | Not on some USB serial adapters       |
-| Signal VT340 uses to ask host to stop sending   | Deasserts RTS                       | Sends XOFF character, aka DC3, aka ^S |
-| Signal VT340 uses to ask host to resume sending | Asserts RTS                         | Sends XON character, aka DC1, aka ^Q  |
+| Signal VT340 uses to ask host to stop sending   | Deasserts RTS pin                   | Sends XOFF character, aka DC3, aka ^S |
+| Signal VT340 uses to ask host to resume sending | Asserts RTS pin                     | Sends XON character, aka DC1, aka ^Q  |
 | Transparent to data?                            | Yes                                 | No, consumes ^S and ^Q                |
 | Works over ssh                                  | Yes                                 | Not by default                        |
 | Speed                                           | Fast                                | Slow                                  |
