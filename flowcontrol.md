@@ -1,14 +1,102 @@
 # Flow control on the VT340
 
+Summary: VT340 can only do XON/XOFF flow control. Some USB serial
+devices cannot do that.
+
+## Flow control overview
+
+The VT340 has a 1024 byte receive buffer. If data is coming in faster
+than the VT340 can process it, the buffer will overflow. According to
+the Text Programming manual (EK-VT3XX-TP-002, page 265),
+
+> Character processing in the VT300 occurs at about 9400 bits per
+> second. 
+
+That means, even at the default rate of 9600 baud, some form of flow
+control could be necessary if there is a sustained burst of data. 
+
+    time_to_overflow = ( buffer_size_in_bits ) / ( input_baudrate - processing_speed )
+	
+    t = ( 1024 * 8 ) / ( baud - 9400 )
+	
+	t = 8192 / (9600-9400) ≈ 40 seconds
+	
+At the VT340's top speed of 19,200 baud, the buffer would overflow
+from a burst of only 0.84 seconds!
+
+[Sidenote: hackerb9's VT340*+* was able to handle 9600 baud without
+flow control, perhaps because the "plus" version has slightly faster
+hardware than the original VT340. At 19,200 baud the VT340+ required
+flowcontrol after receiving about 3200 bytes, which puts the
+text processing speed at 13000 bps]. 
+
+### The two flavors: hardware and software
+
+There are two kinds of flow control. Hardware flow control (sometimes
+known as "RTS/CTS") and software flowcontrol (more commonly referred
+to as XON/XOFF). 
+
+Hardware flow control uses physical hardware wires to signal whether a
+machine is ready to receive data or not. Is better supported by modern
+computers, is more reliable, faster, and unsupported by the VT340.
+
+Software flow control is less reliable, uses up a couple of the keys
+(Ctrl+S, Ctrl+Q), slower and is the only method the VT340 has to
+prevent buffer overruns.
+
+|                                                 | Hardware Flow Control | Software Flow Control           |
+|-------------------------------------------------|-----------------------|---------------------------------|
+| VT340 support                                   | No                    | Yes                             |
+| Modern computer hardware support                | Yes                   | Not on some USB serial adapters |
+| Also known as                                   | RTS/CTS               | XON/XOFF                        |
+| Signal VT340 uses to ask host to stop sending   | Deasserts RTS         | XOFF, aka DC3, aka ^S           |
+| Signal VT340 uses to ask host to resume sending | Asserts RTS           | XON, aka DC1, aka ^Q            |
+| Transparent to data?                            | Yes                   | No, consumes ^S and ^Q          |
+| Works over ssh                                  | Yes                   | Not by default                  |
+| Speed                                           | Fast                  | Slow                            |
+
 ## XON/XOFF ALL THE TIME
 
-Apparently there is no way to disable sending software flow control
-XON/XOFF (aka ^S/^Q) from the VT340. The only option is to disable
-whether to received XON/XOFF signal. 
+Normally the VT340 is in XON/XOFF mode (software flow control) and it
+is not possible to type ^S or ^Q (Ctrl+S or Ctrl+Q) from the keyboard
+as they simply toggle the Hold Screen. However, XON/XOFF can be
+disabled from the Communication Set-Up menu by changing the "Receive
+XOFF Point" to "Never". (By default the threshold for sending XOFF is
+64 bytes, which seems surprisingly low for a buffer of 1024 bytes).
 
-This also has the consequence that it appears to be impossible to type
-a ^S or ^Q (Ctrl+S or Ctrl+Q) from the keyboard as they simply toggle
-the Hold Screen.
+## USB Serial Ports are not all equal
+
+When I first got my VT340, I could not figure out why I could only
+connect at 9600 baud. At 19200, even with XON/XOFF flow control
+enabled on the UNIX host (`stty ixon`), I was getting the backwards
+question marks showing that characters were getting dropped.
+
+I spent a while trying to figure out what was going on. Propagation
+delay? Termios buffer? Many esoteric topics were researched and W.
+Richard Stevens' tome digested and disected. Teeth were gnashed. Hair
+was pulled.
+
+Turns out, some USB serial adapters simply _do not support xon/xoff
+flow control_.I had tried two different brands I had laying around and
+both had failed the same way. Finally, after figuring out that it is
+up to the hardware, I tried a third and that _did_ work:
+
+| Brand      | Model  | Kernel Driver | Works |
+|------------|--------|---------------|-------|
+| Belkin     | F5U109 | mct_u232      | no    |
+| Targus     | ACP50  | mct_u232      | no    |
+| Kensington | K33232 | pl2303        | YES   |
+
+I don't recommend buying the Kensington device I used since it is an
+extremely old and large port replicator. However, the chip which is
+inside of it is Proflific Technology Inc's pl2303 (USB Vendor=067b,
+Product=2303). You can search for 067b:2303 and see what devices
+have that chip in it.
+
+I also found a recommendation online to buy FTDI products, such as the
+UC232R-10, which are documented by them to support XON/XOFF. They seem
+to be a very reputable company.
+
 
 ## Hardware flow control
 
@@ -18,13 +106,15 @@ the 6 wire DEC423 connectors, DTR/DSR are available and could
 theoretically be wired to RTS/CTS on the host's serial port, presuming
 the VT340 firmware was updated.
 
+### Hackerb9's Guess at DEC423 Wiring
+
 Here's how I wired up my 9-pin female to DEC423 (AKA MMJ, Modified
 Modular Jack) connectors which I got from PacificCable.com. Since both
 the VT340 and a typical PC serial port are "DTE" equipment, they need
 to have "null modem" in between to crossover some of the wires.
 
-Putting both the DTR/DSR and null modem together, one can connect a
-VT340's MMJ port to a UNIX host's serial port like so:
+Putting both the DTR/DSR and null modem requirements together, one can
+connect a VT340's MMJ port to a UNIX host's serial port like so:
 
 | MMJ RS-232 name     | MMJ Pin | DE-9 pin | DE-9 RS-232 name |        |
 |---------------------|---------|----------|------------------|--------|
@@ -35,11 +125,11 @@ VT340's MMJ port to a UNIX host's serial port like so:
 | Receive Data        | 5       | ← 3      | Transmit Data    | Yellow |
 | Data Set Ready      | 6       | ← 7      | Request To Send  | Blue   |
 
-Even without hardware flow control, this wiring works for
-communication. I'm using such a connector now with a standard
-"BC16E" cable to type this. If you purchase AD-9FT6-G1D from
+Even though hardware flow control does not work, yet, this wiring
+works for communication. I'm using such a connector now with a
+standard "BC16E" cable to type this. If you purchase AD-9FT6-G1D from
 PacificCable.com, it comes with the pins disconnected so you can
-choose how you wish to wire it. 
+choose how you wish to wire it.
 
 ### DE-9 Pinout (Female)
 
@@ -89,37 +179,29 @@ crossover cables.
 | 6          | Blue       | Rdy In  | Rdy Out | White      | 1          |
 
 
-## USB Serial Ports are not all equal
 
-When I first got my VT340, I could not figure out why I could only
-connect at 9600 baud. At 19200, even with flow control turned on on
-the UNIX host (`stty ixon`), I was getting the backwards question
-marks showing that characters were getting dropped.
+## V.25 bis Hardware Handshaking?
 
-I spent a while trying to figure out what was going on. Propagation
-delay? Termios buffer? Many esoteric topics were researched and W.
-Richard Stevens' tome digested for any nuggets. Teeth were gnashed.
-Hair was pulled.
+What about the statement in the Text Programming manual
+[EK-VT3XX-TP-002, page 276]() that 
 
-Turns out, some USB serial adapters simply _do not support xon/xoff
-flow control_.I had tried two different brands I had laying around and
-both had failed the same way. Finally, after figuring out that it is
-up to the hardware, I tried a third and that _did_ work:
+> "The VT300 only supports the hardware handshaking of the V.25 bis
+> protocol"
 
-| Brand      | Model  | Kernel Driver | Works |
-|------------|--------|---------------|-------|
-| Belkin     | F5U109 | mct_u232      | no    |
-| Targus     | ACP50  | mct_u232      | no    |
-| Kensington | K33232 | pl2303        | YES   |
+?
 
-I don't recommend buying the Kensington device I used since it is an
-extremely old and large port replicator. However, the chip which is
-inside of it is Proflific Technology Inc's pl2303 (USB Vendor=067b,
-Product=2303). You can search for 067b:2303 and see what devices
-have that chip in it.
+Does that not imply hardware handshaking works to some extent? Yes and
+no. When "Modem Control Mode" is set to "Mode 2" in the Communication
+Set-Up menu, the VT340 is _compliant_ with V.25 bis CTS/RTS hardware
+handshaking. That is, while the terminal is on, it asserts RTS ("I'm
+read to receive").
 
-I also found a recommendation online to buy FTDI products which are
-documented by them to support XON/XOFF, such as the UC232R-10. They
-seem to be a very reputable company.
+However, it does not appear to actually function in terms of
+protecting the receive buffer. It seems to always assert RTS
+regardless of how full the buffer is. [XXX Todo: Check this on an
+oscilloscope].
+
+Although not as important, it is not even clear that it pays any
+attention to CTS, or if it just transmits bytes willy-nilly.
 
 
