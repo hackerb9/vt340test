@@ -90,12 +90,12 @@ enabled on the UNIX host (`stty ixon`), I was getting the backwards
 question marks showing that characters were getting dropped.
 
 I spent a while trying to figure out what was going on. Propagation
-delay? Termios buffer? Many esoteric topics were researched and W.
-Richard Stevens' tome digested and disected. Teeth were gnashed. Hair
-was pulled.
+delay? Termios buffer flushing? Many esoteric topics were researched
+and W. Richard Stevens' weighty tome digested and disected. Teeth were
+gnashed. Hair was pulled.
 
 Turns out, some USB serial adapters simply _do not support xon/xoff
-flow control_.I had tried two different brands I had laying around and
+flow control_.I had tried two different brands I had lying around and
 both had failed the same way. Finally, after figuring out that it is
 up to the hardware, I tried a third and that _did_ work:
 
