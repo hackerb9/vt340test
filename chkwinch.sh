@@ -2,6 +2,12 @@
 
 # Double check that SIGWINCH gets sent when the terminal font changes size.
 
+# Weird! This is not true in XTerm(366), but it works fine on my
+# handcompiled version of X.Org 7.7.0(359). More investigation needed.
+
+X.Org 7.7.0(359)
+
+
 timeout=.25
 
 windowchange() {
