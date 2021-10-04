@@ -48,47 +48,7 @@ echo -n $'S(H)'			# Screen hard copy
 echo -n ${ST}			# Exit REGIS mode
 ```
 
-#### Side note: what doesn't work.
-
-ReGIS is apparently required for sending sixels back to the host. For
-some reason, the normal VT340 "Media Copy" command, `CSI i`, does not
-work. The documentation says it requires a printer to be attached. 
-
-* Can I trick it by wiring DTR on the printer port? Or will it only
-  send data to the printer?
-
-* Is the Tektronix hardcopy command, ESC ETB ($`\e\x17`), any better?
-  Not really. It does seem to work, somewhat, although it has the same
-  warning as `CSI i` -- _"The sequence only works when a printer is
-  connected to the terminal's printer port.". It sendsa data to the
-  host, assuming I've sent `Esc [ ? 2 i` (media copy to host) before
-  entering Tek mode.
-  
-  Unfortunately, it seems glitchy, cutting off the bottom of the image
-  by sending it to the screen instead of to the host. (This seems a
-  lot like the [Sixel Level 1]() error).
-
-  Tektronix graphics are a completely separate system from ReGIS and
-  the usual text modes. In Tek mode, the only command that works to
-  send a hardcopy is the special Tek hardcopy command. And, the Tek
-  hardcopy command only works in Tek mode. There is no clear way to
-  crop and send only a small portion of the screen. Setting print
-  options can only be done before the Tek drawing commences. [XXX
-  Double check this. No way to exit and return to Tek mode?]
-
-#### Media Copy response from VT340
-
-The response varies depending upon what options you've chosen and
-whether your VT340 is set up for Level 2 graphics. There appears to be
-a bug in the Level 1 code where the final line of sixels, including
-the ST (string terminator) are not sent to the host. Fortunately, you
-don't want Level 1 anyway since it uses wacky rectangular pixels.
-
-The typical `read` idiom, sending the inquiry in the prompt then
-reading everything until a certain character is seen, does not work
-because the VT340 sends ST (`Esc \`) at the beginning *and* the end of
-the data. Also note that, while having ST at the beginning is valid,
-it confuses ImageMagick and libsixel (as of August 2021).
+### Media Copy response from VT340
 
 Here is what a typical Level 2 Graphics response from a VT340 might
 look like:
@@ -105,36 +65,40 @@ look like:
 [ Esc ] \
 ```
 
-The purpose of the introductory sequence, `Esc [ 2 Space I`, is defined in
-[ECMA-48](https://www.ecma-international.org/publications-and-standards/standards/ecma-48/) 
-as setting the unit of measurement for all numeric parameters to the
-"Computer Decipoint" = 1/720th of an inch.
+#### Level 2 is required
 
-> **8.3.139 SSU - SELECT SIZE UNIT** <br/>
-> Notation: (Ps) <br/>
-> Representation: CSI Ps 02/00 04/09 <br/>
-> Parameter default value: Ps = 0 <br/>
-> <br/>
-> SSU is used to establish the unit in which the numeric parameters of
-> certain control functions are expressed. The established unit
-> remains in effect until the next occurrence of SSU in the data
-> stream.<br/>
-> <br/>
-> The parameter values are <br/>
-> 0 CHARACTER  - The dimensions of this unit are device-dependent <br/>
-> 1 MILLIMETRE     <br/>
-> 2 COMPUTER DECIPOINT - 0,035 28 mm (1/720 of 25,4 mm)   <br/>
-> 3 DECIDIDOT - 0,037 59 mm (10/266 mm)   <br/>
-> 4 MIL - 0,025 4 mm (1/1 000 of 25,4 mm)   <br/>
-> 5 BASIC MEASURING UNIT (BMU) - 0,021 17 mm (1/1 200 of 25,4 mm)   <br/>
-> 6 MICROMETRE - 0,001 mm   <br/>
-> 7 PIXEL - The smallest increment that can be specified in a device   <br/>
-> 8 DECIPOINT - 0,035 14 mm (35/996 mm)  
+The response varies depending upon what options you've chosen and
+whether your VT340 is set up for Level 2 graphics. There appears to be
+a bug in the Level 1 code where the final line of sixels, including
+the ST (string terminator) are not sent to the host. Fortunately, you
+don't want [Level 1](level1.md) anyway since it uses wacky rectangular
+pixels.
 
-*Side note:* Reminder to self, when searching the control sequence
-standards look for "04/09" instead of simply the ASCII letter "I".
-("04/09" == hexadecimal 0x49 == 'I'. Likewise, "02/00" == Space).
+#### read -p -d idiom
 
+The typical `read` idiom in bash for getting a response from a
+terminal does not work. Sending the inquiry in the prompt is fine, but
+one cannot stop reading at the first `\` character because the VT340
+sends ST (`Esc \`) at the beginning *and* the end of the data. Also
+note that, while having ST at the beginning is valid, it confuses
+ImageMagick and libsixel (as of October 2021).
+
+#### Recommended reading method
+
+Since the String Terminator can be at the start of the data, it is
+recommended to look for the sixel header, `Esc P...q` — where "..." is
+a string of digits and semicolons — before looking for the String
+Terminator, `Esc \`.
+
+While sixel images can theoretically be made up of multiple sixel
+sequences — for example, setting palette colors in one and using them
+in another — the VT340 never sends data like that during a Media Copy
+command. After `Esc P...q`, the first backslash found will be the end
+of the data.
+
+A timeout is not reliable for guessing when the data is done. Due to
+the 8-bit glitch mentioned below, the VT340 pauses for a long time in
+the middle of transmission. 
 
 # Scattered notes as I figure things out
 
@@ -182,6 +146,7 @@ standards look for "04/09" instead of simply the ASCII letter "I".
 * Before sending the sixel data, the VT340 sends ST (`Esc \`). 
   However, ImageMagick gets confused by sixel images that start with
   the String Terminator (it thinks they have only one pixel).
+  [Todo: I should report this bug to ImageMagick.]
 
 * VT340 defaults to printing in "mono". Must set to "color" using
   the DECGPCM (`Esc [?44h`) escape sequence.
@@ -189,13 +154,64 @@ standards look for "04/09" instead of simply the ASCII letter "I".
 * ImageMagick cannot handle HLS sixel graphics. Must set to RGB by
   using DECGPCS (`Esc [?45h`).
 
-### Level 2 bugs
+#### SSU - Select Size Unit
+
+The purpose of the introductory sequence `Esc [ 2 Space I` before the
+sixel data, is defined in
+[ECMA-48](https://www.ecma-international.org/publications-and-standards/standards/ecma-48/)
+as setting the unit of measurement for all numeric parameters to the
+"Computer Decipoint" = 1/720th of an inch.
+
+> **8.3.139 SSU - SELECT SIZE UNIT** <br/>
+> Notation: (Ps) <br/>
+> Representation: CSI Ps 02/00 04/09 <br/>
+> Parameter default value: Ps = 0 <br/>
+> <br/>
+> SSU is used to establish the unit in which the numeric parameters of
+> certain control functions are expressed. The established unit
+> remains in effect until the next occurrence of SSU in the data
+> stream.<br/>
+> <br/>
+> The parameter values are <br/>
+> 0 CHARACTER  - The dimensions of this unit are device-dependent <br/>
+> 1 MILLIMETRE     <br/>
+> 2 COMPUTER DECIPOINT - 0,035 28 mm (1/720 of 25,4 mm)   <br/>
+> 3 DECIDIDOT - 0,037 59 mm (10/266 mm)   <br/>
+> 4 MIL - 0,025 4 mm (1/1 000 of 25,4 mm)   <br/>
+> 5 BASIC MEASURING UNIT (BMU) - 0,021 17 mm (1/1 200 of 25,4 mm)   <br/>
+> 6 MICROMETRE - 0,001 mm   <br/>
+> 7 PIXEL - The smallest increment that can be specified in a device   <br/>
+> 8 DECIPOINT - 0,035 14 mm (35/996 mm)  
+
+The VT340 sends SSU to ensure that the "[horizontal
+grid](../sixelmagic.md)" parameter in the sixel image is interpreted
+correctly and the image is printed at the correct size. The VT340's
+horizontal grid (space between pixels) on the screen is about .012
+inches. For "rotated" printing, the VT340 sets the grid size in the
+sixel output to 9/720 = 0.0125", which makes hardcopy almost exactly
+the same size as the screen, 6" x 10". For "normal" printing, the
+VT340 sets the grid to 6/720 ≈ .00833, which shrinks the image to 4" x
+6.66" so the width will fit on the 8.5" width of US Letter sized
+paper.
+
+  * [ ] While the SSU data is currently thrown away by mediacopy.sh,
+  the correct thing to do would be to embed the DPI information in the
+  PNG output. (Since grid spacing is number of inches per dot, DPI is
+  simply the inverse.)
+
+  * *Side note:* Finding SSU was not easy. Reminder to self, when
+  searching the control sequence standards look for "04/09" instead of
+  simply the ASCII letter "I". ("04/09" == hexadecimal 0x49 == 'I'.
+  Likewise, "02/00" == Space).
+
+
+### Eight-bit glitch
 
 For some reason, in the middle of transmission, the VT340 will send a
 byte with the eighth bit high (which should never happen) and then
 pause for several minutes. ^Q does not wake it up. If I let it sit, it
 eventually finishes sending the entire image, but there will be a
-small glitch for every time the 8-bit bug happened.
+small glitch in the picture for every time the 8-bit bug happened.
 
 * The eighth-bit glitch is most apparent with large complex images,
   but that may simply because they take longer to send. 
@@ -205,121 +221,56 @@ small glitch for every time the 8-bit bug happened.
 
 #### Questions about 8-bit glitch:
 
-* Shabby serial line connection? Checked and seems okay.
+* [x] Shabby serial line connection? Checked and seems okay.
 
-* Try using printer port. Try second serial port.
+* [x] Try second serial port. Checked and no different.
 
-* Does it happen with Level 1 printing? I don't recall that being the case.
+* [ ] Try using printer port.
 
-* Are there certain pictures that trigger the glitch? It seems so as
-  j4james's color_selection.sh was very difficult to get a media copy
-  of until I switched the terminal to 132 column mode.
+* [ ] Are there certain pictures that trigger the glitch? It seems so
+  as j4james's color_selection.sh was very difficult to get a media
+  copy of until I switched the terminal to 132 column mode.
 
-* Why did 132 column mode help? Or did it just move the glitch to an
-  unnoticeable area?
+* [ ] Why did 132 column mode help? Or did it just move the glitch to
+  an unnoticeable area?
 
-* If it's a firmware bug, can I alter the ROM?
+* [ ] If it's a firmware bug, can I alter the ROM?
+
+* [ ] Did this glitch happen with Level 1 printing? I don't recall
+      noticing it.
 
 ### Level 1 printing does not work well and should be avoided
 
 Design misfeatures and bugs make Level 1 Graphics not worth it for
 print outs from the VT340. Just use Level 2.
 
-* Level 1 Compressed prints lose vertical resolution as they use the
-  printer's 2:1 pixel aspect ratio, giving an effective resolution of
-  800x240.
+For more info, read [level1.md](level1.md).
 
-* Level 1 Expanded prints have the proper vertical resolution, but
-  they double the horizontal resolution (1600x480) in an attempt to
-  make printouts look right on DEC printers' 2:1 pixel aspect ratio.
+### What else doesn't work.
 
-* Rotating level 1 prints does not help as they still suffer the pixel
-  aspect ratio problems depending on compressed or expanded setting.
-  (400x480 or 800x960)
+ReGIS is apparently required for sending graphics back to the host.
 
-* Level 1 Compressed Print Mode (the default) has a few problems
+* There is no escape sequence to simply print graphics. The normal
+  VT340 "Media Copy" command, `CSI i` is intended for text, not
+  graphics.
 
-  * Fonts look grotty (due to lower resolution)
-
-  * String Terminator (ESC \) at end of file gets shown on screen
-    instead of sent to the host which makes it hard (impossible?) to
-    tell when the the VT340 has finished.
-
-  * There is some other garbage shown on the screen after the ST,
-    looks like the first 80 characters of the printout.
+* The Tektronix 4010/4014 hardcopy command, ESC ETB ($`\e\x17`), only
+  works for Tek graphics and is, unless I'm mistaken, unusably buggy.
+  As with ReGIS hardcopy, it does send data to the host, assuming I've
+  sent `Esc [ ? 2 i` (media copy to host) before entering Tek mode.
   
-  * ImageMagick and XTerm get the geometry wrong because they do not
-    understand a pixel aspect ratio of 2:1. They show the image as
-    800x240 instead of 800x480.
+  Unfortunately, the firmware has a serious glitch, cutting off the
+  bottom of the image and sending it to the screen instead of to the
+  host. (This seems a lot like the [Sixel Level 1](level1.md) errors I
+  encountered before switching to Level 2).
 
-* Level 1 Expanded Print Mode is better than Compressed in that no
-  resolution is lost, but it still has a few problems:
-
-  * ImageMagick can't read it if the starting ST isn't removed.
-    (Treats the images as a single pixel)
-
-  * ImageMagick and XTerm get the geometry wrong. They show expanded
-    prints as 1600x480 instead of 1600x960.
-
-  * Image is too large to fit on screen when catted to VT340. Repair
-    with `convert -sample 50%x100% print.six print.png`.
-
-### Level 1 Compressed Bugs
-
-* When sending level 1 compressed prints, I can't seem to read the
-  VT340 String Terminator sequence that marks the end of the print.
-  Weirdly, it *does* display on the screen as "^[\". It shows even
-  with 'stty -echo' set, which should have prevented anything from
-  showing. It must be some bizzaro vt340 firmware fluke.
-  Fortunately, it's unlikely anybody wants a compressed print.
-  Unfortunately, that is the default setting for the VT340.
-
-  Here is the kludge I used before I found out about Level 2:
-
-      # The final line is not received in "compressed" mode.
-      # Kludge: Don't leave terminal in sixel mode after catting file.
-      echo -n ${ST} >> print.six
-
-* Since I couldn't read the end of print message (ST), I tried using
-  a repeated 1 second time out. However, that doesn't always work.
-  In particular, the VT340 takes a long pause in the middle of
-  sending an image when, perhps, Print Graphics Background Mode is turned
-  off. There may be other circumstances... Oops, spoke too soon, now
-  the delay is happening even when the Background Mode is turned on.
-  Moral: Timeouts cannot be relied on with using Media Copy to host.
-
-* Since I can't rely on getting the String Terminator with level 1
-  compressed graphics, nor can I use a timeout if no data has been
-  received for a while, one solution is to wait for a Form Feed (^L)
-  at the end. However, that only gets sent if you enable it manually
-  in the VT340 Set-up. I do not see a way to enable the Print
-  Terminator via escape sequences. Also, it only seems to work in
-  Compressed graphics mode, not Expanded.
-
-  Again: this is probably not worth fixing as people can just use
-  level 2 or expanded prints.
-
-* Level 1 aspect ratio is displayed incorrectly in ImageMagick and
-  xterm. Width seem fine, height is squashed by half. I believe
-  these programs simply ignore sixel's ability to change the pixel
-  aspect ratio to 2:1.
-
-### Level 1 Expanded bugs
-
-  * Print Terminator of Form Feed doesn't seem to get sent even
-    when it is enabled in the Set-Up screen. This is annoying
-    because I wanted to use that to detect the end of the printout.
-    (On the upside, the final line, including ST *are* sent.)
-
-  * Weird bug: Rotated & Expanded prints of a region begin with 0A XX
-    P, where XX is some random byte such as E3 or FC. It should begin
-    with newline (0A) then the 7-bit DCS sequence (ESC P). This seems
-    to be a bug. Changing those first two bytes to a single ESC makes
-    the sixel file valid.
-
-      ( echo -n $'\e'; tail -c+3 < rotated-expanded.six ) > foo.six
-
-    [UPDATE: After resetting my VT340 this bug is not reproducing].
-
-
+  Even if it worked, it would be of limited use. Tektronix graphics
+  are a completely separate system from ReGIS and the usual text
+  modes. In Tek mode, the only command that works to send a hardcopy
+  is the special Tek hardcopy command. And, the Tek hardcopy command
+  only works in Tek mode. Additionally, there is no way to send only a
+  small crop of the screen. And, finally, redirecting printer graphics
+  to the host must be done before the Tek drawing commences as it is
+  not possible on the VT340 (as far as I know) to exit Tektronix mode
+  and re-enter it without clearing the screen.
 
