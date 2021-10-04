@@ -98,34 +98,10 @@ echo -n ${REGIS_H}		# Send hard copy sequence
 echo -n ${ST}			# Exit REGIS mode
 
 
-###
-# BUGGY: MC (Media Copy) DOES NOT SEEM TO WORK FOR GRAPHICS TO HOST. 
-# WOULD IT RESPOND IF I HAD A PRINTER? WHY DOES ReGIS WORK and this not?
-#echo -n ${CSI}'i'		# Print screen (MC, Media Copy)
-###
-
-###
-# TYPICAL `read` IDIOM DOES NOT GET A RESPONSE.
-# Partly because the VT340 sends ST *before* a print as well as after.
-#if ! IFS=$'\e' read -a REPLY -s -p ${CSI}'i' -r -d '\\'; then
-#    echo Terminal did not respond.
-#    exit 1
-#fi
-###
-
-###
-# Wait for data to start... so we can timeout when it stops
-# XXX Ooops, this doesn't work since VT340 can pause in the middle of printing.
-#while ! read -t 0; do
-#    sleep 1
-#    echo -n "." >>err.out
-#done
-###
-
 
 # Read until the first backslash to dispose of the String Terminator
-# (`Esc \`) sent before the print out. Note that ImageMagick and
-# libsixel fail to read images that begin with `Esc \`.
+# (`Esc \`) sent before the print out. Note that we discard it as
+# ImageMagick and libsixel fail to read images that begin with `Esc \`.
 read -r -s -d "\\"
 
 # Read until second backslash to get all data up to the String Terminator.
