@@ -8,8 +8,9 @@ DEC VT330/340 Graphics Programming, second edition
 
 * DECSDM reversed regarding sixel scrolling.
 
-  On hackerb9's vt340, when DECSDM is set (`Esc` `[?80h`), sixel scrolling is
-  disabled. When DECSDM is reset (`Esc` `[?80l`), sixel scrolling is enabled.
+  On hackerb9's vt340:
+  - When DECSDM is set (`Esc` `[?80h`), sixel scrolling is disabled. 
+  - When DECSDM is reset (`Esc` `[?80l`), sixel scrolling is enabled.
 
 * DECLBD "Ky1" is merely the first Ky, not an identifier. Also,
   indentation for Pc is incorrect.
@@ -37,7 +38,8 @@ DEC VT330/340 Text Programming, second edition
   ^[P0$r^[\
   ```
 
-* DECSTGLT should be left curly brace, not right.
+* DECSTGLT (Select Text/Graphics Look-up Table) is terminated with a
+  left curly brace, not right.
 
   The escape sequence for DECSTGLT that works on a VT340 is:
 
@@ -48,17 +50,64 @@ DEC VT330/340 Text Programming, second edition
 
   @j4james points out in issue #12 that the manual incorrectly lists
   it as right curly brace, but does give the correct code point
-  underneath. A right curly brace is ignored by the VT340.
+  underneath. 
 
-* Default for DECSSDT (Select status line type)
+* DECSSDT (Select status line type) default should be 0, not 1.
 
   |       |      |   |    |
   |:------|:-----|:--|:---|
   |**CSI**|**Ps**| $ | ~  |
   |  9/11 |  3/? |2/4|7/14|
 
-  Ps=1 ("Indicator status line") is marked as the default, which is
-  true for the VT340's power on configuration. However, in terms of
-  the default when Ps is omitted, the correct default would be Ps=0
-  ("No status line").
+  If Ps is omitted, the default on a VT340 is Ps=0 ("No status line").
+
+  The manual lists Ps=1 ("Indicator status line"), but that is
+  incorrect. Perhaps they were thinking of the VT340's default
+  configuration at power on?
+
+### EK-VT3XX-HR-002
+
+DEC VT340 Programmer's Quick Reference, 2nd edition.
+
+* Page 41: DECSTGLT (Select Text/Graphics Look-up Table) is terminated
+  with a left curly brace (`{`), not right.
+  
+  It should read:
+  
+  > **Select Text/Graphics Look-up Table**
+  > **DECSTGLT**
+  > **CSI Ps ) {**
+  >
+  > Ps = 0, monochrome color map look-up table.
+  > Ps = 1, color-1 color map look-up table.
+  > Ps = 2, color-2 color map look-up table.
+
+
+* Page 53: DECRPSS response to DECRQSS query is inverted. It should
+  say that 0 means invalid and 1 means valid.
+  
+* Page 99: DECSDM descriptions reversed. They should read:
+
+	> **Set: CSI ? 8 0 h**
+	> 
+	> Disables the Sixel Scrolling feature on the Graphics Set-up
+	> screen. Sixel drawing beings at the home position and does not
+	> scroll. The text active position is not affected.
+
+    > **Reset: CSI ? 8 0 l** †
+	> 
+	> Enables the Sixel Scrolling feature on the Graphics Set-up
+	> screen. Sixel drawing begins at the text active position and can
+	> scroll.
+	>
+	> † _The last character in the sequence is a lowercase L._
+
+  (I would also add that Reset is the default on the VT340.)
+
+* Page 100: DECLBD "Ky1" is merely the first Ky, not an identifier.
+  All instances of Ky1 should be replaced with Ky except the very
+  first which is used to indicate that multiple Ky from _Ky1_ to _Kyn_
+  are allowed.
+
+
 
