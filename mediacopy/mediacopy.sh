@@ -95,7 +95,8 @@ echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
 # Send a hard copy using REGIS
 echo -n ${DCS}'p'		# Enter REGIS mode
 echo -n ${REGIS_H}		# Send hard copy sequence
-# Note: We send the String Terminator to exit ReGIS mode at the script end.
+echo -n ${ST}			# Exit REGIS mode
+
 
 ###
 # BUGGY: MC (Media Copy) DOES NOT SEEM TO WORK FOR GRAPHICS TO HOST. 
@@ -156,10 +157,6 @@ while read -r -s -d "\\"; do
     if [[ "$REPLY\\" == *$ST ]]; then echo -n "\\"; break; fi
     echo "," >&2
 done > print.six   2> err.out
-
-# All done reading the sixels, so it's safe to exit REGIS mode now.
-echo -n ${ST}			
-
 
 # TODO: Check if image got saved to print.six correctly as Level 2.
 # If it didn't, then use ImageMagick to convert the image to the
