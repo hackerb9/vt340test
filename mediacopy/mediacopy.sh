@@ -16,12 +16,16 @@
 # TODO:
 
 # * Figure out why sometimes the VT340 will erroneously send a byte
-#   with the eighth bit set high and then pause for a long time before
-#   transmitting again. Test image tty.jpg triggers this glitch.
+#   with the eighth bit set high, send a few more characters, and then
+#   pause for a long time before transmitting again. Test image
+#   tty.jpg triggers this glitch.
 #
-#   Perhaps my RS232 cable is flakey and it is just that the complex
-#   images take longer to send? Should double check, but it seems to
-#   always glitch at the same spot in the image.
+#   Note: flakey cable is not the issue as I have the same trouble
+#   using the DECconnect port as with RS232.
+#
+#   Next step: Glitched character isn't always the same, but is it
+#   always at the same spot(s) for a given image? It appears to be.
+#   What about at a different baudrate? 
 
 # * When image has finished saving, make sure it is a level 2 image.
 #   If not, show the commands needed to rescale to 1:1 aspect ratio.
@@ -32,7 +36,8 @@
 #
 # * Add command line options to print just a region of the screen.
 #
-# * Command line args should allow percentage, not required pixel coords.
+# * Command line args should allow percentage or even row & column,
+#   not require pixel coords.
 #
 # * Don't presume ST will be at start, but remove it if it is. (sed?).
 #
@@ -99,7 +104,7 @@ echo -n ${REGIS_H}		# Send hard copy sequence
 ###
 
 ###
-# TYPICAL `read` IDIOM IS BUGGY. DOES NOT GET A RESPONSE. WHY?
+# TYPICAL `read` IDIOM DOES NOT GET A RESPONSE.
 # Partly because the VT340 sends ST *before* a print as well as after.
 #if ! IFS=$'\e' read -a REPLY -s -p ${CSI}'i' -r -d '\\'; then
 #    echo Terminal did not respond.
