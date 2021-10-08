@@ -189,9 +189,9 @@ correctly and the image is printed at the correct size. The VT340's
 horizontal grid (space between pixels) on the screen is about .012
 inches. For "rotated" printing, the VT340 sets the grid size in the
 sixel output to 9/720 = 0.0125", which makes hardcopy almost exactly
-the same size as the screen, 6" x 10". For "normal" printing, the
-VT340 sets the grid to 6/720 ≈ .00833, which shrinks the image to 4" x
-6.66" so the width will fit on the 8.5" width of US Letter sized
+the same size as the screen, 10" x 6". For "normal" printing, the
+VT340 sets the grid to 6/720 ≈ .00833, which shrinks the image to 6.66" 
+x 4" so the width will fit on the 8.5" width of US Letter sized
 paper.
 
   * [ ] While the SSU data is currently thrown away by mediacopy.sh,
