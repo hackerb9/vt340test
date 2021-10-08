@@ -23,7 +23,8 @@
 # If that is the case, then the entire list of heights for which this
 # will happen on the VT340's 480 pixel high screen is:
 #
-# 21 22 23 24  41 42  81 82 83 84  101 102  141 142 143 144  161 162 
+#  21  22  23  24   41  42   81  82  83  84
+# 101 102  141 142 143 144  161 162 
 # 201 202 203 204  221 222  261 262 263 264  281 282 
 # 321 322 323 324  341 342  381 382 383 384
 # 401 402  441 442 443 444  461 462
@@ -154,11 +155,11 @@ main() {
     clear
     reset_palette
     show_labels
-    neither_graphic_nor_text 96 1 4 29 		# size, color, row, column
+    neither_graphic_nor_text 96 4 4 31 		# size, color, row, column
     text_newline_only 96 9 4 1
     text_newline_only 84 9 4 14
-    graphics_new_line_only 100 4 4 51
-    graphics_new_line_only 96 4 4 64
+    graphics_new_line_only 100 1 4 51
+    graphics_new_line_only 96 1 4 64
     set_cursor_pos 1000 1
 }
 
@@ -275,10 +276,16 @@ show_labels() {
 
     set_cursor_pos 22 29
     echo -n "Always overlaps"		# Neither NL nor GNL
+
     set_cursor_pos 22 3
     echo -n "Overlaps a little"		# NL only
+    set_cursor_pos 23 3
+    echo -n "    Gaps a little"		# NL only
+
     set_cursor_pos 22 54
     echo -n "Overlaps badly"		# GNL only
+    set_cursor_pos 23 54
+    echo -n "Never gaps"		# GNL only
 }
 
 
