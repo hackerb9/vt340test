@@ -1,0 +1,717 @@
+File TEKEMU.TXT                                                7 Feb 1991
+
+			      DESCRIPTION OF THE
+	  TEKTRONIX GRAPHICS TERMINAL EMULATOR IN MS-DOS KERMIT V3.0
+				 FOR IBM PCs
+
+			    (Corrected 20 Sep 97)
+
+INTRODUCTION
+
+        The MS-DOS Kermit Tektronix terminal emulator has characteristics of
+the real Tektronix 4010 and 4014 terminals plus extensive additions from the
+DEC VT340 and Human Data Systems 2000/3000 series terminals.  Please note that
+the DEC VT340 can mix text and graphics on the same display but the hardware
+design of IBM PC display adapters forbids this.  Instead a best effort scaling
+is done to simulate text and graphics together.  Real Tektronix 401x terminals
+use storage tube technology which forbids erasure and colors; the MS-DOS
+Kermit emulator bends these rules in favor of raster display technology and
+the DEC VT340.  The real Tektronix terminals display text by overwriting dots;
+MS-DOS Kermit does this via command SET TERMINAL GRAPHICS CHARACTER-WRITING
+TRANSPARENT.  Raster display devices fill each character cell with new dots;
+use option OPAQUE in the above command to achieve the same effect.  A real Tek
+terminal writes two screens of text by overwriting the second screen on the
+right half of the first; MS-DOS Kermit sounds a beep and waits for a keystroke
+and then starts on a fresh screen.  VT340 Sixel graphics is supported, but
+ReGis graphics is not.
+
+        The kind of display adpater is normally sensed automatically.  But the
+user can specify a type with command SET TERMINAL GRAPHICS; if the type is not
+present a fall-back to CGA or ordinary monochrome text is performed.
+
+	Screen coloring can be controlled from the Kermit prompt by the
+command  SET TERMINAL GRAPHICS COLOR value, value, value. The "value" items
+are
+		0	white on black
+		1	for high intensity foreground
+		Foreground color (30-37) = 30 + sum of colors
+		Background color (40-47) = 40 + sum of colors
+		where colors are  1 = red, 2 = green, 4 = blue
+Example: 1, 37, 44   bright(1) white(37) chars on a blue(44) background field.
+These numbers can be separated by either commas or spaces. The default screen
+coloring is dim white characters on a black background, so that Print Screen
+does not make the paper all black (it makes an ink dot for each illuminated
+screen dot, without regard to foreground and background).
+
+	Command SET TERMINAL GRAPHICS CURSOR {ON, OFF} controls the occurence
+of a box-like cursor character while in graphics terminal emulation mode. The
+default is ON. This cursor represents where the next text character would be
+drawn.
+
+	A mouse may be used to control the Tektronix GIN mode crosshair. It
+works in parallel with the keyboard arrow keys. A Microsoft compatible mouse
+driver is required, and a mouse menu program may be used when GIN mode is
+inactive. Within GIN mode any mouse menu is suspended. A typical DOS command
+to activate a mouse driver is  MOUSE ON, or load MOUSE.SYS in file CONFIG.SYS.
+Mouse buttons are converted to be equivalent to pressing the Enter key.
+
+        Graphics screens are saved in display memory if the adapter has
+sufficient quantity.  CGA screens cannot be saved, and VGA (640x480) cannot
+save the last 131 scan lines.  Hercules adapters need graphics page 1 to save
+an image; some clones do not seem to do this.  The Wyse 700 display and
+special adapter do not allow screen saving.  MS-DOS Kermit attempts to save
+the graphics screens whenever possible, even though this differs from DEC
+VT340 practice (DEC merges text and graphics modes, IBM-PCs cannot).  Use ALT
+= or keyboard verb \Kreset to do a full screen clear and terminal reset, or
+echo ^L to just clear the screen.
+
+        The VT320 main text terminal emulator is designed to switch to
+Tektronix emulation whenever four commands are received:
+
+        1. ESC ^L       Tektronix screen clear command
+        2. ESC [ ? 38 h   VT340 command to enter Tek mode
+        3. DCS Pn q     start of Sixel command string, Pn is a digit
+	4. ESC 1	same as ESC ^L
+
+The third case results in the VT320 emulator feeding a ^L (screen clear)
+command to the Tek emulator, replaying the DCS lead-in characters, and then
+placing the Tek emulator temporarily in charge to read subsequent characters.
+Tek sub-mode persists until either:
+
+        1. the user toggles terminal types manually (ALT white minus, or
+           keyboard verb \Ktermtype) 
+        2. ESC [ ? 38 l  is read, VT340 command to exit Tek mode
+        3. ESC ^X        is read
+	4. ESC 2         is read
+
+Entering Tek mode by the third method (Sixel) forces character-writing to be
+opaque, the other two methods do not.
+
+
+ACTIONS TO RECEIVED CHARACTERS
+
+ Characters of 80h and above (those with their high bit on) are converted
+ as follows:
+ 80h..9fh converted to pair ESC <value - 40h>.  These are C1 control codes.
+ 0a0h..0ffh converted to <value - 80h> and become printable characters.
+
+ Control codes in C0 (no high bit) area
+ Name   ASCII    value
+        chart   hex keyboard    operation
+ NUL    0/0     00h   ^@        Ignored
+ ENQ    0/5     05h   ^E        
+ BEL    0/7     07h   ^G        Sound DEC style beep
+ BS     0/8     08h   ^H        Backspace, move cursor left one character,
+                                8 dots, can be destructive
+ HT     0/9     09h   ^I        Treated as a single space
+ LF     0/10    0ah   ^J        Linefeed, move cursor down one line, 8 dots
+ VT     0/11    0bh   ^K        Vertical Tab, treated as a line feed
+ FF     0/12    0ch   ^L        Formfeed, erase screen, Home cursor
+ CR     0/13    0dh   ^M        Carriage return, move cursor to col 1
+ DC1    1/1     11h   ^Q        XON flow control, resume communication
+ DC3    1/3     13h   ^S        XOFF flow control, suspend communication
+ CAN    1/8     18h   ^X        Return to text terminal, only if in sub-Tek
+                                mode, else ignored if regular Tek terminal
+ SUB    1/10    1ah   ^Z        Treated as a CAN
+ ESC    1/11    1bh   ^[        Escape, start escape seq, cancel any others
+ FS     1/12    1ch   ^\        Enter point plotting mode
+ GS     1/13    1dh   ^]        Enter line drawing mode
+ RS     1/14    1eh   ^^        Enter incremental line drawing mode
+ US     1/15    1fh   ^_        Enter Tek text mode (leave line/point drawing)
+ All others are ignored
+
+ Control codes in C1 (high bit set, 80h - 9fh) area
+ Name   ASCII    value
+        chart   hex             operation
+ DCS    9/0     90h             Expand to be ESC P  Device Control String
+ ST     9/12    9ch             Expand to be ESC \  String Terminator for DCS
+ CSI    9/13    9dh             Expand to be ESC [  Control Seq Introducer
+ All others are expanded to be ESC <value-40h> and are generally ignored. 
+
+
+ Tektronix Coordinate system (the PC screen is scaled to fit a Tek screen):
+
+ The plot commands are characters which specify the absolute position to move
+ the beam.  All moves except the one immediately after the GS character
+ (Control-]) are with a visible trace.
+
+ For 4010-like devices - The positions are from 0 to 1023 for both X and Y,
+ although only 0 to 780 are visible for Y due to screen geometry.  The screen
+ is 10.23 by 7.80 inches, and coordinates are sent as 1 to 4 characters.
+
+ For 4014-like devices - The positions are from 0 to 4096, but each movement
+ is a multiple of 4 positions unless the high-resolution LSBXY are sent.  This
+ makes it compatible with the 4010 in that a full sized plot fills the screen.
+
+ HIX,HIY = High-order 5 bits of position
+ LOX,LOY = Middle-order 5 bits of position
+ LSBXY   = Low-order 2 bits of X + low-order 2 bits of Y (4014 mode)
+
+ Hi Y     Lo Y    Hi X    LSBXY   Characters sent (Lo-X always sent)
+ ----     ----    ----    -----   ----------------------------------
+ Same     Same    Same    Same                           Lo-X
+ Same     Same    Same    Diff          LSB, Lo-Y,       Lo-X   4014
+ Same     Same    Diff    Same               Lo-Y, Hi-X, Lo-X
+ Same     Same    Diff    Diff          LSB, Lo-Y, Hi-X, Lo-X   4014
+ Same     Diff    Same    Same               Lo-Y,       Lo-X
+ Same     Diff    Same    Diff          LSB, Lo-Y,       Lo-X   4014
+ Same     Diff    Diff    Same               Lo-Y, Hi-X, Lo-X
+ Same     Diff    Diff    Diff          LSB, Lo-Y, Hi-X, Lo-X   4014
+ Diff     Same    Same    Same    Hi-Y,                  Lo-X
+ Diff     Same    Same    Diff    Hi-Y, LSB, Lo-Y,       Lo-X   4014
+ Diff     Same    Diff    Same    Hi-Y,      Lo-Y, Hi-X, Lo-X
+ Diff     Same    Diff    Diff    Hi-Y, LSB, Lo-Y, Hi-X, Lo-X   4014
+ Diff     Diff    Same    Same    Hi-Y,      Lo-Y,       Lo-X
+ Diff     Diff    Same    Diff    Hi-Y, LSB, Lo-Y,       Lo-X   4014
+ Diff     Diff    Diff    Same    Hi-y,      Lo-Y, Hi-X, Lo-X
+ Diff     Diff    Diff    Diff    Hi-y, LSB, Lo-Y, Hi-X, Lo-X   4014
+ Offset for byte:                 20h   60h  60h   20h   40h
+
+ Note that LO-Y must be sent if HI-X has changed so that the TEKTRONIX knows
+ the HI-X byte (in the range of 20h-3fh) is HI-X and not HI-Y.   LO-Y must
+ also be sent if LSBXY has changed, so that the 4010 will ignore LSBXY and
+ accept LO-Y.   The LSBXY byte is 60h + MARGIN*10h + LSBY*4 + LSBX. (MARGIN=0)
+
+ Control-] (GS) Tek coordinates.  Enter Tek line plot mode.
+        The first move will be with beam off (a moveto command), subsequent
+        coordinates will be reached with the beam on (a drawto command).
+        Note: this is also Kermit's Connect mode escape character so beware
+        if typing GS by hand; SET ESCAPE to something else before the test.
+        Exit drawing upon reception of CR,LF,RS,US,FS,CAN.
+
+ Control-caret (^, RS) Tek coordinates.  Enter Tek line incremental plot mode.
+        RS space        move with pen up (invisible)
+        RS P            move with pen down (write dots)
+        RS <letter>
+        letter  motion                  letter  motion
+          A     right (East)              B     left (West)
+          E     right and up (NE)         J     left and down (SW)
+          D     up (North)                H     down (South)
+          F     left and up (NW)          I     right and down (SE)
+        Exit drawing upon reception of CR,LF,RS,US,FS,CAN.
+  Example: RS <space> J J J  means move three Tek positions left and down
+        (three south west steps) with the pen up (move invisibly).
+
+ Control-\ (FS) Tek coordinates.  Draw a dot at the coordinate.  Point plotting
+        mode.  Like GS but does not join end points with lines.
+        Exit drawing upon reception of CR,LF,RS,US,FS,CAN.
+
+ Control-underline (_, US)   Exit Tek line plot mode and return to text mode.
+
+ 
+ Escape sequences (ESC intermediates Final)
+
+ Escape Seq     Mnemonic        Description of Action
+ ESC ^E                         Request Tek status report
+                Report is
+                20h Tek-X Tek-Y 0dh   for non-text mode
+                24h Tek-X Tek-Y 0dh   for text mode
+                                Tek-X Tek-Y is Tek style cursor position
+
+ ESC ^L                         Enter Tektronix sub-mode, clear Tek screen
+ ESC ^X                         Turn on Bypass mode (no screen chars)
+ ESC ^Z                         Turn on GIN crosshairs
+ ESC ?                          Substitute for DEL, for 7-bit systems
+ ESC P                          Device Control Sequence introducer (DCS)
+                                 See below.
+ ESC Z                          Report terminal type (as a VT320/VT340)
+        Response is
+        ESC [ ? 63; 1; 2; 4; 8; 9; 15 c   a VT300 series, level 3, etc
+
+ ESC @ .. ESC M                 (@,A,B,C,D,E,F,G,H,I,J,K,L,M) Select
+                                rectangular fill pattern 1..14. See ESC /..y
+
+ ESC \                          String Terminator (ST, of DCS items)
+
+ ESC ` .. ESC e, ESC x, .. ESC z         (accent grave,a,b,c,d,e,x,y,z)
+                                 Select line drawing pattern
+      ESC letter        line type, bits, least significant bit plotted first
+        accent          11111111 11111111
+        a               10101010 10101010
+        b               11110000 11110000
+        c               11111010 11111010
+        d               11111111 11001100
+        e               11111100 10010010
+        x               user defined (by ESC / Pn a)
+        y               user defined (by ESC / Pn b)
+        z               user defined (by ESC / Pn c)
+
+
+ Control sequences (ESC /  or  ESC [  or  CSI)
+ (ESC / is an HDS 2000/3000 sequence, ESC [ is ANSI form)
+
+ Control Seq    Mnemonic        Description of Action
+
+ ESC / P1; P2;...; P8 C         Define user fill pattern.  Use low 8-bits of
+                                each Pn.  P1 is top of fill, plotted lsb first.
+                                Pattern is 8x8 dots.  Omitted Pn are 0's.
+
+ ESC / P1; P2;...; P8 D         Define second user fill pattern, as above
+
+ ESC / Pn a                     Set user definable line drawing bit pattern
+ ESC / Pn b                     Ditto, lsb drawn first, 16 bits overall
+ ESC / Pn c                     Ditto
+
+ ESC / Pd d             Set pixel operation code
+        Pd      pixel operation
+        0       draw 1's in foreground color, skip 0's
+        1       draw 1's in background color, skip 0's
+        2       XOR 1's with foreground color, skip 0's
+        3       write absolute, 1's in foreground and 0's in background color
+
+ ESC / Pn h             Set, see table below
+ ESC / Pn l             Reset, set table below
+        Pn      item
+        2       destructive space (writes all dots in 8x8 character cell)
+        9       destructive backspace (clears all dots in 8x8 character cell)
+
+        Note: both are default off.  If Tek mode is entered by receiving a
+        Sixel DCS while in text mode then both are turned on.  If SET TERMINAL
+        GRAPHICS CHARACTER-WRITING OPAQUE is stated then both are turned on.
+
+ ESC / Px; Py; Ph; Pw x         Draw rectangle, Px,Py is lower left corner
+                                line is drawn as foreground dots only.
+
+ ESC / Px; Py; Ph; Pw; Pp y     Fill a rectangle, Px,Py is lower left corner
+                                Ph is height, Pw is width, Pp is fill pattern
+                                number (1..14), all in Tek coordinates.
+        Pp      pattern                 Pp      pattern
+        0       use default             
+        1       solid                   8       vertical cross-hatch
+        2       grey (50% dots)         9       checkerboard
+        3       left to right slant     10      dotted, sparse
+        4       right to left slant     11      horizontal herringbone
+        5       horizontal lines        12      vertical herringbone
+        6       vertical lines          13      user defined (by ESC / Pn C)
+        7       slanted cross-hatch     14      user defined (by ESC / Pn D)
+        All are 8x8 tiling pixel patterns locked to the top left of the screen
+        and are drawn using the current pixel operation code (ESC / Pd d).
+
+ ESC / Px; Py; Ph; Pw; Pp z     Fill a rectangle, as for ESC / ...y and then
+                                add a line border as for ESC / ...x.
+ Each rectangle command, ESC /...(x, y, z) does not change the "text" cursor.
+
+ ESC [ Pn @     ICH             Insert Pn spaces at and after cursor (8 dots)
+ ESC [ Pn A     CUU*            Cursor up Pn lines, does not scroll
+ ESC [ Pn B     CUD*            Cursor down Pn lines, does not scroll
+ ESC [ Pn C     CUF             Cursor forward, stays on same line (8 dots)
+ ESC [ Pn D     CUB             Cursor backward, stays on same line (8 dots)
+ ESC [ Pn E     CNL*            Next-line (same as cr/lf), do Pn times
+ ESC [ Pn F     CPL*            Previous-line (reverse index), do Pn times
+ ESC [ Pc G     CHA*            ANSI Cursor to absolute column Pc
+ ESC [ Pr; Pc H CUP*            Set cursor to row, column (same as HVP)
+ ESC [ Ps J     ED*             Erase in display:
+                                0 = cursor to end of screen, inclusive
+                                1 = start of screen to cursor, inclusive
+                                2 = entire screen, cursor does not move
+ ESC [ Ps K     EL*             Erase in line:
+                                0 = cursor to end of line, inclusive
+                                1 = start of line to cursor, inclusive
+                                2 = entire line, cursor does not move
+ ESC [ Pn P     DCH*            Delete Pn chars from cursor to left, incl.
+ ESC [ Pn X     ECH*            Erase Pn chars at and to right of cursor
+ ESC [ Pn a     CUF*            ANSI Cursor forward Pn columns
+ ESC [ Pr d     CVA*            ANSI Cursor to row Pr, absolute
+ ESC [ Pn e     CUD*            ANSI Cursor down Pn rows
+ ESC [ Pr; Pc f HVP*            Set cursor to row, column (same as CUP)
+        * means the row and column are scaled by assuming the screen has the
+        row and column dimensions of the text terminal emulator.  Since the
+        two screens generally do not share common divisors some
+        mis-registration will occur.  Successive cursor steering commands,
+        mixed with CR and LF's, will cause further mis-registration.
+        Tek emulator characters use an 8x8 dot bit mapped pattern.
+
+ ESC [ Pn; Pn m                 Set screen colors
+        Pn      operation
+        0       set dim (normal) intensity
+        1       set high intensity
+        30-37   set foreground colors to Pn minus 30
+        40-47   set background colors to Pn minus 40
+                Colors are red=1, green=2, blue=4 and summations for others.
+                Note: this stores new values in palette 0 (background) and
+                palette 7 (foreground).
+
+ ESC [ 2; 2 $ u                 Request VT340 color palette report
+        Report is
+        ESC P 2 $ s <palette 0>/<palette 1>/...<palette 15> ESC \
+        where <palette n> is the palette color in the RGB system -
+                Pr; Pg; Pb      for red, green, and blue percentages, resp.
+                black is 0; 0; 0
+                bold black is 20; 20; 20
+                dim (regular) hue is 40, bold hue is 80.
+    NOTE: this report is a very long string and may not be acceptable to
+          some communications channels (for example, Telnet).  Further, the
+          host may request a report in the HLS system; MS-DOS Kermit always
+          reports in the RGB system.
+
+    Default VT340 color palettes are -
+     palette    b/w     color           palette  b/w     color
+     0 backgnd  black   black           8       dim grey dim grey (bold black)
+     1          white   bold blue       9       grey     blue
+     2          white   bold red        10      grey     red
+     3          white   bold green      11      grey     green
+     4          white   bold magenta    12      grey     magenta
+     5          white   bold cyan       13      grey     cyan
+     6          white   bold yellow     14      grey     yellow/brown
+     7 foregnd  grey    grey            15      white    white (bold)
+                
+
+ ESC [ ? 34 h                   Invoke macro TerminalS, if defined, exits
+                                        connect mode.
+ ESC [ ? 34 l                   Invoke macro TerminalR, as above
+
+ ESC [ ? 38 l                   Exit Tek mode to text terminal emulator, only
+                                if Tek mode were invoked from text emulator
+                                by ESC [ ? 38 h or by a Sixel DCS.
+
+ ESC [ ? 256 n                  Request screen size report, MS-DOS Kermit only
+        Report is ESC [ ? 256; Ph; Pw; Pc n     for graphics systems
+        where   Ph is screen height in dots
+                Pw is screen width in dots
+                Pc is number of colors (0, 1 or 16, for none, b/w, ega/vga)
+        Report is ESC [ ? 24; 80; 0 n  for pure text mono systems.
+
+
+ Device Control Strings (ESC P or DCS)
+
+ DCS P1; P2; P3 q string ST   or in 7-bit form
+ ESC P P1; P2; P3 q string ESC \                a Sixel Graphics command
+
+   P1 and P3 are ignored.
+   P2 = 0 or 2 means draw 0 bits in background, 1 means skip them.
+   string is a Sixel command string, containing mixtures of -
+
+     Sixel characters (3fh..7eh, lower 6 bits+3fh, displayed as six dots
+        vertically, least significant bit at the top after subtracting 3fh).
+        "?" is all zeros, "@" is top line only, "~" is all 6 bits on.
+        The initial Sixel char is placed at the top left of the current 8x8
+        text cell, subsequent chars work to the right without wrapping.
+        Writing below the screen bottom results in overwriting the bottom
+        strip.
+
+     ! Pn sixel char            Draw Sixel char Pn times (Pn is repeat count)
+
+     " Pc; Pad; Ph; Pv          Raster attributes (all ignored)
+
+     $  (dollar sign )          Go to left margin
+
+     -  (minus)                 Go to left margin and 6 dots down
+
+     Control characters         Perform the function, stay in Sixel mode.  Note
+                                that LF increments by 8 dots (text cell size)
+
+     Escape sequences are permitted within string and occur without disruption
+
+     # Pc; Pu; Px; Py; Pz       Set palette color, as follows,
+        Pc is color palette, 0..255  (0 is background, 7 is normal foreground),
+		only 0..15 are predefined.
+        Pu is color system, 1 = HLS, 2 = RGB
+        For Hue Lightness Saturation:
+                Px = Hue angle, 0-360 degrees.  The colors are mapped around
+                the color wheel in 60 degree segments as Hues:
+                0-29 deg = blue, 30-89 = magenta (blue + red), 90-149 = red,
+                150-209 = yellow (red + green), 210-269 = green,
+                270-329 = cyan (green + blue),  330-359 = blue.
+
+                Py = Lightness, 0-100%, Pz = Saturation, 0-100%
+                  Lightness     Sat = 51-100    Sat = 11-50      Sat = 0-10
+                  86-100        bold white      bold white       bold white
+                  71-85         bold hue        bold white       bold white
+                  57-70         bold hue        grey (dim white) grey
+                  43-56         bold hue        dim hue          black
+                  29-42         dim hue         grey             grey
+                  14-28         dim hue         black            black
+                   0-13         black           black            black
+                Note that Py = Pz = 50 gives the widest spectrum.
+
+        For RGB: Px = red, 0-100%, Py = green, 0-100%, Pz = blue, 0-100%
+                If any color exceeds 50% then the bold bit is turned on for
+                the ensemble (IBM ega display adapter constraint for iRGB).
+
+        Palette registers can be selected by the substring
+                # Pc    followed by a non-numeric char other than ";"
+                        and Pc is the palette register, 0..255.
+
+        Example of dynamic palette register selection -
+
+                ESC P ;1 q AAAA#2BBBBBB#3!6C ESC \      (omit the spaces)
+
+                Displays Sixel char A four times in the default foreground
+                color (palette 7), then B five times in colors of palette 2,
+                then C six times in palette 3 colors.  The ";1" says skip
+                coloring dots with 0 bits.
+                Exception from DEC: color of black always writes all dots in
+                black (an erasure or clearing).
+
+   Suggestion: when possible ask for a palette report and store the reponse,
+   change palettes as desired for a plot, and then restore the palettes.
+
+   Sixel character plotting begins at the upper left of the current text
+   cell.  Thus, either Tek or ANSI cursor steering commands can be employed
+   to locate the starting position.  ESC [ ..m coloring escape sequence can
+   occur withing a Sixel string and it acts on the current fore/background
+   colors and stores them in palettes 7 and 0.  Sixel dots are stored by
+   ORing the palette value with the palette value already existing in that
+   dot, with the exception that all black writes black absolutely.  At the
+   completion of a Sixel DCS the screen colors are reset to palette 7 and 0
+   for foreground and background, respectively.
+
+TIFF SCREEN DUMPS
+
+        These follow Aldus/Microsoft TIFF version 5.0 specifications.  The
+output filename is always TEKPLTnn.TIF, where nn starts at 01 and increments
+by one for each new screen dump.  The files are in uncompressed format and
+thus EGA/VGA screens yield 100KB+ files.  Monochrome graphics are written
+as one bit per pixel TIFF type B format, with the screen divided into 25 or
+fewer strips.  EGA and VGA screens use TIFF type P palette format and a
+supplementary color palette to RGB table.  They too are divided into 25 or
+fewer strips and use four bits per pixel.  The color palette contents are iRGB,
+to match normal IBM PC display adapter conventions.
+
+        When dumping a screen via Control End or keyboard verb \Kdump the
+graphics screen needs to be visible; otherwise, an ordinary text screen is
+written to the Kermit.scn file.
+
+        TIFF v5 specifications are available directly from Aldus or Microsoft
+and by anonymous ftp from site wsmr-simtel20.army.mil as file
+ PD1:[MSDOS.GRAPHICS]TIFF-5.ARC.
+
+EXAMPLES
+
+Tek 4010 line drawing:
+ 
+Suppose <xy> is point y = 300, x = 500 in Tektronix coordinates.    Split  each
+10-bit  coordinate into 5-bit groups, add add the Kind code to each. Send the X
+part last.
+
+                    HI-Y     LO-Y                   HI-X     LO-X
+    Y=300d=012Ch=  01001    01100   X=500d=01F4h=  01111    10100
+      +Kind code +100000 +1100000     +kind code +100000 +1000000
+    Binary        101001 01101100                 101111  1000100
+    ASCII            )       l                       /       D
+ 
+So <xy> = (500,300) is sent or received in a GS command as ")l/D".  An  example
+in C (program fragments):
+
+-----------------------
+/* File tek.c. Creates binary output file tek.tst. Replay that file. */
+/* writes a Tek test file  'tek.tst', Lattice C */
+#include <stdio.h>
+#include <math.h>
+
+#define ESC 0x1b
+#define FF 0x0c
+#define CAN 0x18
+#define FS 0x1c
+#define GS 0x1d
+#define US 0x1f
+#define ESCZ 0x1a
+#define RED 1
+#define GREEN 2
+#define BLUE 4
+#define color(c) fputc(ESC,fp);fputc('[',fp);fputc('1',fp);\
+        fputc(';',fp);fputc('3',fp); fputc('0'+c,fp);fputc('m',fp);
+FILE *fp;
+
+main()
+{
+        int i, x, y, xc = 750, yc = 500;
+        double radius = 125.0;
+
+        if ((fp = fopen("tek.tst", "wb")) == NULL) /* write binary mode */
+                exit(1);
+
+        fputc(ESC, fp); fputc(FF, fp);  /* clear screen, enter graphics mode*/
+        for (i = 0; i < 40; i++) fputc('\0', fp);       /* padding */
+                                                        /* for mode switch */
+        fputc(GS, fp); coord(210,500);                  /* moveto */
+        color(RED);             
+        fputc(US, fp); fputs("shallow fan",fp);         /* text mode */
+        color(GREEN+RED);
+        fputc(GS, fp); coord(50,500); coord(200,400);   /* drawto's */
+        coord(50,500); coord(200,450); 
+        coord(50,500); coord(200,500);
+        coord(50,500); coord(200,550);
+        coord(50,500); coord(200,600);
+        
+        fputc(GS, fp); coord(460,500);
+        color(BLUE);
+        fputc(US, fp); fputs("steep fan", fp);
+        fputc(GS, fp); coord(400,200); coord(400,800);
+        coord(400,500); coord(450,200);
+        coord(400,500); coord(450,300);
+        coord(400,500); coord(450,400);
+        coord(400,500); coord(450,500);
+        coord(400,500); coord(450,600);
+        coord(400,500); coord(450,700);
+        coord(400,500); coord(450,800);
+        fputc(US, fp); fputc(' ', fp);
+
+        color(GREEN);
+        fputc(GS, fp);                          /* simple circle */
+        for (i = 0; i <= 360; i++)
+                {
+                x = radius * cos(PI * i / 180.0);
+                y = radius * sin(PI * i / 180.0);
+                coord(x+xc, y+yc);
+                }
+
+        color(GREEN+BLUE);
+        fputc(GS, fp); coord(75, 65);                   /* moveto */
+        fputc(US, fp); fputs("This is a house\n", fp);  /* text mode */
+        fputc(GS, fp);                          /* draw lines for house */
+        coord(50,50); coord(300,50);
+        coord(300,200); coord(50,200);
+        coord(175,250); coord(300,200);
+        fputc(GS, fp); coord(50,50); coord(50,200);
+        color(RED+BLUE);
+                                        /* do some point plotting */
+        fputc(GS, fp); coord(350,50);
+        fputc(FS, fp);                  /* draw a dotted rectangle */
+        for (i = 350; i <= 600; i += 4) coord(i,50);
+        for (i = 50;  i <= 200; i += 4) coord(600,i);
+        for (i = 600; i >= 350; i -= 4) coord(i,200);
+        for (i = 200; i >= 50;  i -= 4) coord(350,i);
+        color(RED+GREEN+BLUE);
+        fputc(GS, fp); coord(50,10);                    /* move to */
+        fputc(US, fp); fputs(" the end.", fp);          /* text mode */
+
+        fclose(fp);
+        exit(0);
+}
+
+coord(x, y)                             /* package coordinates Tek style */
+int x, y;
+{
+        fputc((y / 32) + 32, fp);       /* high y */
+        fputc((y % 32) + 96, fp);       /* low y */
+        fputc((x / 32) + 32, fp);       /* high x */
+        fputc((x % 32) + 64, fp);       /* low x */
+}
+---------------------------------
+SIXEL PLOTTING
+
+        Sixel file cat.six below is from an anonymous source.  It uses only
+Sixel commands.  Please edit this file and replace <ESC> with a real escape
+code.  Note the presence of CR/LF's in the file; they do adjust the cursor.
+Two Sixel commands are present: a short one to set color palettes followed
+directly by the main long one.  The picture halts prematurely at the right
+margin because it was designed for VT340 terminals which are wider and taller
+than IBM PC screens.  View the file via the REPLAY command.
+
+Another example file is DEMO.TEK on the MS-DOS Kermit distribution disk.  That
+file has mixed Tek drawing and Sixel commands.  WordPerfect Corporation made
+DEMO.TEK for MS-DOS Kermit testing and demonstration.
+
+File cat.six:
+
+<ESC>\<ESC>Pq#0;1;280;35;60#1;10;0;0#2;1;120;50;100#3;1;0;99;0<ESC>\
+<ESC>\<ESC>P;1q-----
+$#1???!424?!8_-
+$#1???!373?owwK{C{C}E}A}AyE}C{C{C{KwGwGwGwK{C{E}A}A}A}A}B~@~@~@~?~?}@~@~@~@~B}A
+}EsK{GgWwOoOoOOoo!7_
+$#2???!376?_?o?w?w?{?{?w?w?w?w?o?o?o?o?o?o?w?w?{?{?{?{?{?}?}?}?~?}?}?}?}?{?{?w?
+o?o?_?_?_?_-
+$#1???!368?_owWKNNFCFEBAABB@@BBABABABABEFKNW^O~o~_~?~?~?~?~?~?~?~?~?~?~?~?~?~?~
+?~?~?~?~?~?~?~?~?~?~?~?~?~?~@~@~@|B~A}A}A}E{C{CsK{Gw
+GwGwWoOOoo___
+$#2???!376?B?@?@!9?@?@?@?@?@?B?F?N?^?^?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?
+~?~?~?~?~?~?~?}?}?}?{?{?{?{?w?w?w?o?o?o?o?_?_
+$#3???!371?__oo!4w!16{wwoo!4_-
+$#1???!368?FNkww!14?!17_??!6@BBABEFCNKNW^W~w~o~o~o~_~_~_~?~?~?~?~_~_~_~_~_~_~_~
+_no~O^O^O^O^O^O^O^WNGNGNGNGNGNGNW^O^O^P\R^Q]QYU]SS{{
+MFB@BB@@BBAA]}o
+$#2???!416?@?@?B?F?F?F?F?N?N?^?^?^?^?~?~?~?^?^?^?^?^?^?^?^?N?N?N?N?N?N?N?N?F?F?
+F?F?F?F?F?F?F?N?M?K?K?K?G?G
+$#3???!371?FF!14~!18^!6}!4{!4woo!4_!90?ww!8{__-
+$#1???!367?o}^B@?_oOWKKKCEFbppXXH!4G!8?_``ppPPZZIMMEEEM!4EM!5K\^vvbBBAEEC!4t||!
+4xh!5gww!10OoowG!42?BBAEECKKGGKKCEEBB
+$#2???!376?_?o?o?w?K?e?u?v?v?~?~?~?~?]?M?M?C?C!19?G?[?{?w?G?G!7?O?O?O!5?_?_?_?_
+$#3???!369?__}}NNFF!4B!25?!4_oppxhxp!4xppRrrr__!86?@@!8B@@-
+$#1???!346?__ckwoOOO[[OOPZ^NMKK[\NNEFDDKKGG?!7_!4?_ooW[KEEBB@@@!27?@BFE{{_?F^^N
+!5FfbbrrRRZZLMEAABB!5@
+$#2???!354?_?_?_?_?_?o?_?_?o?w?q?v?~?^?^?^?^?~?^?N?B?@!37?@?B?w?_?w?w?w?[?K?K?C
+???@
+$#3???!393?__oWw{{}}}!22~}!4~}swG-
+$#1???!342?CEFDDDCCCS\LNJz~vfFN^^!4?o{{cEABA?@@@!5?@BBEM^zo!21?K]]K!17?N~w__oo[
+[FFPp`?wXHHLLFF!4EAA
+$#2???!348?B?B?A!7?W?_?~?f?B?B?@???@!61?F?N?B?_?g?]?F?E?A
+$#3???!372?w{{{!4}!5~}{{w__CN~|!19~r``r!15~{~o-
+$#1???!354?AEK]zpb}{{___fNLWoo___??ENNE!4?___oWNN?EEKKGWWoo!6_o!7Oo!4_!9?_ow[NF
+@?@BECE]]}{LFBA
+$#2???!360?K?@?N?@!24?o?w?o?o?_!36?o?}?{?z?`?@?A
+$#3???!371?NN^^^~~xoox!4~^^^Nf?o?x@r@vBfNN!6^NnNnNnNnN!4^!9~^NFB-
+$#1???!355?_o[{~vFNZp_!9@BBBEAAEAA@@@?@BBEEkk{{[MMBB?@@B!7?C!6?@@@B!4@AFBLLww_?
+?CK]ua!4B@BA
+$#2???!391?@?B?B?@!34?A?F?^?z?`?@
+$#3???!362?o?K?}?}?}?}?}?{?x@|@|@}?}?}?{?x?R?B?`?o?{?}?~?~?~?~?~?~?~?}?}?}?}?|?
+{?_-
+$#1???!354?@@?N^Zro!4?__!24?Kr@!28?oue!5Ccc~~JJJIIIZPRU[W!6Oo!8_
+$#2???!440?@
+$#3???!360?C?N?~?^?~?~?~?~?~?~?~?~?~?~?~?~?r?K?~?~?~?~?~?~?~?~?~?~?~?~?~?~?H?z?
+z?z?Z-
+$#1???!360?br]MMNXWoo{{__?G???G!6?___oo{{v{{ww!4o!6_!4?!5_oo!4OwxNMK[vf@@
+$#3???!364?@?A?F?B?^?^?~?~?~?~?~?^?^?N?B???B?F?N?N?^?^?^?~?^?^?^?N?N?N?E?@?B-
+$#1???!352?_oOWKEAB@!8?{~B!5@`brZNnxx@@!4?x!18~|xxp??KK^~|[scD@!4?@BEKWo_
+$#2???!384?E?}?~?~!21?E?M?r?_-
+$#1???!343?OWGKCEAB@@!15?MN@!6?AEKWr||~~!5?^!19~^N~{!4?F~{_@BEKG!8?@@
+$#2???!388?~?~!20?_!4?~?~
+$#3???!412?_-
+$#1???!378?GKEB`o~^!6?!18~{__`BBAAEECDD!11CKK!17GWWOOoo!4_
+$#2???!386?_?~?~!20?^?[?{?w@w@w?w?w?w?w?w?o?o?o?o?o?o?o?o?o?o?_?_
+$#3???!412?^?[?{?w?w?w?w?w?w?w?w?o?o?o?o?o?o?o?o?o?o?_?_-
+$#1???!379?cuzx~NB@!5?B!15~rp__!6@BB!5A!36?@@@FFK{w
+$#2???!386?}?~?~?{!16?M?]?}?}?{?{?|?|?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?}?w?o
+$#3???!410?M?]?}?}?{?{?|?|?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?}?w?o-
+$#1???!376?CEb`}~RWKC!7?@BFnn!4N^^~!6^NNNffvp^^BBB}}YqaA!6CG!8O!5_!6?!4_owWGGKK
+EFB
+$#2???!384?r?~?~?~?~?{?O?o?o?_???_?_?_?o?O?G?_?{?{@?@?@?B?B?B?F?N?N?N?N?^?^?~?~
+?~?^?^?F?F?B?@
+$#3???!424?@?@?@?B?B?B?F?N?N?N?N?^?^?~?~?~?^?^?F?F?B?@-
+$#1???!375?CEz|NF!5?!6_!4?@@@BBAA!5IJB!6@!6?C^~qAEECCKWo_!14?!8@
+$#2???!380?o?~?~?^?^?^?^?~?}?}?{?|?t?t?s?}?}?}?~?~?~?z
+$#3???!425?KK!4w__-
+$#1???!369?wwKKCEEABB!9@??!9@BB!4AEECCCEEAAAEECCEEABB@@!8?@BE}{_
+$#2???!402?@?@?@?B?@?@?@?@?B?@
+$#3???!371?oo!4w{{!20}!6{!8w{{!6w!4{}}!6~}}ww-
+$#1???!369?bfess[[GGWWOOOoo!5_!32?___???wwG?_{}E??BBM}w
+$#3???!371?@@BBbb!4fnnNN!6^!31~^^^~~~FFv~^B@x~{{oo-
+$#1???!367?G]^ro!44?AB@???BB???BB@??BB__ow[EABB
+$#3???!371?NN!43~|{}~~~{{~~~{{}~~{[^NNBB@@-
+$#1???!370?@Bb}}uM{GwGwGwGwWoOoOoOoo!8OWW!10GwwwK{C{C{C{C{C{E}BvN\wo___
+$#2???!376?o?o?o?o?o?_?_?_?_!25?O?o?w?w?w?w?w?{?o
+$#3???!373?!4@BB!8F!8N!8nff!10vFF!12B@@-
+$#1???!364?_{{}E}B~@~?~?~?~?~?~?~?~?~?No~^!21?f~{~?~?~?~?~?~?~?~?~?~?~@~B}Mww_
+$#2???!368?w?{?{?}?~?~?~?~?~?~?~?~?N!27?~?~?~?~?~?~?~?~?~?~?}?{?o
+$#3???!395?!20~WW-
+$#1???!362?o}^~?~?~?~?~?~?~?~?~?~?~?~?^_{~F!7?CCM^^MCC!7?F~{~?~?~?~?~?~?~?~?~?~
+?~?~?~?{BF}{
+$#2???!366?{?~?~?~?~?~?~?~?~?~?~?~?^!29?~?~?~?~?~?~?~?~?~?~?~?~?~?{
+$#3???!393?ww!6~zz!4_zz!6~ww-
+$#1???!360?o}^~?~?~?~?~?~?~?~?~?~?~?~?~??~~!24?_~~~?~?~?~?~?~?~?~?~?~?~?~?~?~?w
+F~{
+$#2???!364?{?~?~?~?~?~?~?~?~?~?~?~?~!31?~?~?~?~?~?~?~?~?~?~?~?~?~?~?w
+$#3???!393?!22~^^-
+$#1???!360?~~?~?~?~?~?~?~?~?~?~?~?~?~?~??~~!9?__owwo__!7?~~?~?~?~?~?~?~?~?~?~?~
+?~?~?~?~?~?`^~o
+$#2???!364?~?~?~?~?~?~?~?~?~?~?~?~?~!31?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?_
+$#3???!393?!8~^^!4F^^!6~-
+$#1???!360?b~}~?~?~?~?~?~?~?~?~?~?~?~?~?}@~~!10?@BBB!8?{~~?~?~?~?~?~?~?~?~?~?~?
+~?~?~?~?~?~?N~w
+$#2???!364?~?~?~?~?~?~?~?~?~?~?~?~?~?}!27?w?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~
+$#3???!393?!10~!4{!8~-
+$#1???!360?~~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~~!8?__owwo__!6?~~~?~?~?~?~?~?~?~?~?~
+?~?~?~?~?~?~?~?{B~}
+$#2???!364?~?~?~?~?~?~?~?~?~?~?~?~?~?~!27?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?~?{
+$#3???!393?!8~^^!4F^^!6~-
+$#1???!359?{~~_~_~_~_~_~_~_~_~_~_~_~_~_~_~_~~!10_bbb`!8_~~~_~_~_~_~_~_~_~_~_~_~
+_~_~_~_~_~_~_~_`~~
+$#2???!362?W?^?^?^?^?^?^?^?^?^?^?^?^?^?^!27?^?^?^?^?^?^?^?^?^?^?^?^?^?^?^?^?^?^
+$#3???!393?!10^!4[!8^--
+$#3???!597?_OKCCc[??o_?OOo!4?!4Oo??_O!4?_O?_o?OOOo!11?_oGSOOo??_O???_O!21?_okcc
+CSK?o_?OOo!5?oO?C!4?!4Oo??_o?OOOo!11?_O?G?CCCK_O???_
+O!5?oO?C??_o?OOOo??_o?OOOo-
+$#3???!593?CCEDC?A?@?CA@!6?EC!4DB@?E@A?F?A@CA@???CA@!9?CAFCCC?AXOORAICB@!19?CCE
+DCC?A@?CA@!6?CCCED!4?EC!4DB@CA@???CA@!11?FCCC@B@?EDC
+C?E@??CCCED???CA@???CA@CA@???CA@??CEA-<ESC>\
+--------------------- End of file TEKEMU.TXT --------------------------------

@@ -1,0 +1,94 @@
+/* File tek.c from Kermit. Compile with gcc tek.c -lm */
+/* Creates binary Tek test file "tek.tst". Replay that file. */
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define ESC 0x1b
+#define FF 0x0c
+#define CAN 0x18
+#define FS 0x1c
+#define GS 0x1d
+#define US 0x1f
+#define ESCZ 0x1a
+#define RED 1
+#define GREEN 2
+#define BLUE 4
+#define color(c) fputc(ESC,fp);fputc('[',fp);fputc('1',fp);\
+        fputc(';',fp);fputc('3',fp); fputc('0'+c,fp);fputc('m',fp);
+FILE *fp;
+
+void coord(int x, int y)	/* package coordinates Tek style */
+{
+        fputc((y / 32) + 32, fp);       /* high y */
+        fputc((y % 32) + 96, fp);       /* low y */
+        fputc((x / 32) + 32, fp);       /* high x */
+        fputc((x % 32) + 64, fp);       /* low x */
+}
+
+int main()
+{
+        int i, x, y, xc = 750, yc = 500;
+        double radius = 125.0;
+
+        if ((fp = fopen("tek.tst", "wb")) == NULL) /* write binary mode */
+                exit(1);
+
+        fputc(ESC, fp); fputc(FF, fp);  /* clear screen, enter graphics mode*/
+        for (i = 0; i < 40; i++) fputc('\0', fp);       /* padding */
+                                                        /* for mode switch */
+        fputc(GS, fp); coord(210,500);                  /* moveto */
+        color(RED);             
+        fputc(US, fp); fputs("shallow fan",fp);         /* text mode */
+        color(GREEN+RED);
+        fputc(GS, fp); coord(50,500); coord(200,400);   /* drawto's */
+        coord(50,500); coord(200,450); 
+        coord(50,500); coord(200,500);
+        coord(50,500); coord(200,550);
+        coord(50,500); coord(200,600);
+        
+        fputc(GS, fp); coord(460,500);
+        color(BLUE);
+        fputc(US, fp); fputs("steep fan", fp);
+        fputc(GS, fp); coord(400,200); coord(400,800);
+        coord(400,500); coord(450,200);
+        coord(400,500); coord(450,300);
+        coord(400,500); coord(450,400);
+        coord(400,500); coord(450,500);
+        coord(400,500); coord(450,600);
+        coord(400,500); coord(450,700);
+        coord(400,500); coord(450,800);
+        fputc(US, fp); fputc(' ', fp);
+
+        color(GREEN);
+        fputc(GS, fp);                          /* simple circle */
+        for (i = 0; i <= 360; i++)
+                {
+                x = radius * cos(M_PI * i / 180.0);
+                y = radius * sin(M_PI * i / 180.0);
+                coord(x+xc, y+yc);
+                }
+
+        color(GREEN+BLUE);
+        fputc(GS, fp); coord(75, 65);                   /* moveto */
+        fputc(US, fp); fputs("This is a house\n", fp);  /* text mode */
+        fputc(GS, fp);                          /* draw lines for house */
+        coord(50,50); coord(300,50);
+        coord(300,200); coord(50,200);
+        coord(175,250); coord(300,200);
+        fputc(GS, fp); coord(50,50); coord(50,200);
+        color(RED+BLUE);
+                                        /* do some point plotting */
+        fputc(GS, fp); coord(350,50);
+        fputc(FS, fp);                  /* draw a dotted rectangle */
+        for (i = 350; i <= 600; i += 4) coord(i,50);
+        for (i = 50;  i <= 200; i += 4) coord(600,i);
+        for (i = 600; i >= 350; i -= 4) coord(i,200);
+        for (i = 200; i >= 50;  i -= 4) coord(350,i);
+        color(RED+GREEN+BLUE);
+        fputc(GS, fp); coord(50,10);                    /* move to */
+        fputc(US, fp); fputs(" the end.", fp);          /* text mode */
+
+        fclose(fp);
+        exit(0);
+}

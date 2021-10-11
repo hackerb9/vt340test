@@ -1,0 +1,34 @@
+File MSDAAA.HLP
+
+Files whose name start with MSD... are demo files for various features
+found in MS-Kermit 3.0 and later, like Heath graphics, TEK4010 graphics,
+and VT320 emulation. Since they do not consist entirely of printable
+ASCII characters, they have been stored on CUVMA in boo-encoded form.
+To decode them, run them through MSBPCT; e.g.,
+
+         MSBPCT MSDUSA.BOO
+
+This will create a binary file whose extension indicates what feature it
+is supposed to be a demo for; in the example above, USA.TEK will show off
+MS-Kermit's Tektronix 4010 capabilities. - The original file (MSDUSA.BOO)
+is not needed after running MSBPCT.
+
+To view the demo, start MS-DOS Kermit and put it in the right frame of mind
+via SET TERM ...; then REPLAY the file just created. E.g.,
+
+         SET TERM TEK
+         REPLAY USA.TEK
+
+A list of demo files as of 1 March, 1990, follows:
+
+   Network name   True name        SET TERM ...
+
+   MSDCAS.BOO     CASTLE.HGR       HEATH
+   MSDPAT.BOO     PATTERN.HGR      HEATH
+   MSDCHA.BOO     CHARDEMO.VT      VT320
+   MSDCOL.BOO     COLORS.VT        VT320
+   MSDFEA.BOO     FEATURES.VT      VT320
+   MSDEMO.BOO     DEMO.TEK         TEK
+   MSDUSA.BOO     USA.TEK          TEK
+
+More demo files welcome!
