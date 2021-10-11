@@ -65,8 +65,9 @@ here.
     Report returned by his VT340+ in response to DECRQTSR (Request
     Terminal State Report).
 
-  * OPEN QUESTION: How do I convert an image to sixteen colors, but with
-    three of the colors (fg, bg, and bright) fixed and the others free?
+  * OPEN QUESTION: How does one convert an image to sixteen colors,
+    but with three of the colors (fg, bg, and bright) fixed and the
+    others free?
 
   * Note: lsix splits the montage into rows to reduce waiting when
     there are more than 21 images to show. However, each montage has
@@ -150,6 +151,15 @@ connection?)
 * Despite what the manual says, you cannot use "Return" to select
   elements in Setup. You must use the "Do" key.
   
+### Tek 4010/4014 mode
+
+* Entering and exiting this mode leaves VT340 with autowrap mode
+  turned off. This appears to be a firmware bug.
+  - To test: echo $'\e[?38h\e[?38l'
+  - To fix, set DECAWM after exiting Tek mode: echo $'\e[?7h'
+* Sixel print to host appears buggy; last portion gets sent to screen
+  instead of to the host. 
+
 ### 80/132 column mode
 
 * Despite the [documentation](EK-VT3XX-TP.pdf) recommending DECSCPP
@@ -170,6 +180,50 @@ connection?)
     Terminal switch to 80- or 132-column mode, the same as if it had
     been changed in the Set-Up -> Display screen. Both the logical
     width and the actual font size change. Resets page memory.
+
+### Dual sessions
+
+The VT340 allows two login sessions simultaneously. While it is
+possible to do over a single serial cable using DEC's proprietary SSU
+protocol, it is easier to just use the VT340's two communication
+ports. (See [flowcontrol](flowcontrol.md) for how to build a DEC423
+cable for Comm2).
+
+Press `F4` to switch which session is active. Use `Ctrl+F4` to split
+the screen vertically or horizontally.
+
+Sixel images persist on completely separate framebuffers. While each
+session can have a separate color palette, the VT340 hardware can only
+use one at a time. That means split screen images will only look
+correct for the session that is currently active.
+
+Note that when split horizontally, the VT340 attempts to scroll the
+view up or down to where the cursor is. This works well most of the
+time, but full-screen applications can have problems. For example, a
+text editor that has the text cursor typing at the top of the screen,
+but is also updating a status line at the bottom that shows the
+current column and row would jitter up and down rapidly on each
+keystroke.
+
+### Printer port
+
+The printer port is actually a third serial port, with the same DEC423
+wiring as Comm1 and 2. As you'd expect, a print command, such as `Esc
+[ i`, sends data to it. What is unusual is that any data received on
+the printer port is typed into the active session as if it was from
+the keyboard.
+
+Although it defaults to 4800 baud, the same as the actual keyboard
+port, it can be set to run at 19.2Kbps. 
+
+This could be useful in the future for automating compatibility tests
+by connecting the printer port to a host computer. [Hackerb9 currently
+has Comm1 and 2 on /dev/ttyS0 and S1 and the printer on /dev/ttyUSB0.]
+
+Note that DEC's printer port is necessarily bidirectional because the
+VT340 needs to listen for XON/XOFF so it can pause when the printer is
+being overrun with data.
+
 
 ### Pages and Lines per page
 
