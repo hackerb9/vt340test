@@ -53,7 +53,7 @@ stty ixoff
 # offset 50 pixels to the right. We use P[0,0] to disable the offset.
 # Full screen on VT340 is equivalent to X1=0; Y1=0; X2=799; Y2=479
 REGIS_H="S(H(P[0,0]))"
-REGIS_H="S(H)"
+#REGIS_H="S(H)"
 
 # Requests larger than the screen get cropped to full screen.
 X1=0; Y1=0; X2=4095; Y2=4095
@@ -85,8 +85,8 @@ echo -n ${CSI}'?44h'		# Print in color
 echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 
 # DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
-#echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
-echo -n ${CSI}'?46h'		# Include background when printing
+echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
+#echo -n ${CSI}'?46h'		# Include background when printing
 
 # DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
 echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
