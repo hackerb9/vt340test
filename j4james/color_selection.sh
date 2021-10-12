@@ -76,7 +76,7 @@ update_color_table() {
 
 # Output a Sixel test pattern using the default colors.
 set_cursor_pos 3 5
-echo ${DCS}'2q"5;1;720;12'
+echo ${DCS}'2q"5;1;720;60'
 output_color_pattern_1
 echo ${ST}
 
@@ -85,7 +85,7 @@ output_text_attributes 17
 
 # Output two Sixel test patterns, updating the color table inbetween.
 set_cursor_pos 6 5
-echo ${DCS}'2q"5;1;720;24'
+echo ${DCS}'2q"5;1;720;120'
 output_color_pattern_1
 update_color_table
 output_color_pattern_2
@@ -93,7 +93,7 @@ echo ${ST}
 
 # Output a Sixel test pattern inheriting the updated color table.
 set_cursor_pos 12 5
-echo ${DCS}'2q"5;1;720;12'
+echo ${DCS}'2q"5;1;720;60'
 output_color_pattern_1
 echo ${ST}
 
