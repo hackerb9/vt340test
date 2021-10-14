@@ -46,6 +46,13 @@
 
 ########################################
 
+declare -i decgpbm_flag=low	# Do not print background by default
+
+case "$1" in
+    --transparent|--46l) decgpbm_flag=low; shift ;;
+    --background|--46h) decgpbm_flag=high; shift ;;
+esac    
+
 # Turn on host flow-control in case the VT340 overwhelms it with data. (Ha ha).
 stty ixoff
 
@@ -59,7 +66,7 @@ REGIS_H="S(H(P[0,0]))"
 X1=0; Y1=0; X2=4095; Y2=4095
 
 # For debugging, we can send just a small cropped part. (100x100, ~30 seconds)
-if [[ "$1" == "-debug" ]]; then X1=350; X2=449; Y1=190; Y2=289; fi
+if [[ "$1" == "-debug" ]]; then X1=350; X2=449; Y1=190; Y2=289; shift; fi
 
 if (( X1>0 || Y1>0 || X2>0 || Y2>0 )); then
     REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"
@@ -85,8 +92,11 @@ echo -n ${CSI}'?44h'		# Print in color
 echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 
 # DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
-echo -n ${CSI}'?46l'		# Do not send background (transparent bg)
-#echo -n ${CSI}'?46h'		# Include background when printing
+if [[ decgpbm_flag == "low" ]]; then
+    echo -n ${CSI}'?46l'	# Do not send background (transparent bg)
+else
+    echo -n ${CSI}'?46h'	# Include background when printing
+fi
 
 # DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
 echo -n ${CSI}'?47l'		# Use compress or expand to fit on printer.
