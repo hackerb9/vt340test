@@ -9,7 +9,7 @@ a true VT340, Kermit did not support Regis graphics.)
 Most of the demo files can just be `cat`ed to the screen. The one
 exception is tek.c which generates tek.tst (which gets `cat`ed). 
 
-### [DEMO.TEK](../../../raw/main/DEMO.TEK)
+### [DEMO.TEK](../../../raw/main/kermitdemos/DEMO.TEK)
 
 Combination of tek and sixel drawing created by WordPerfect. Does not
 work on a genuine VT340.
@@ -44,7 +44,7 @@ this file created just for Kermit?
 </details>
 
 
-### [DEMO.SIX](../../../raw/main/DEMO.SIX)
+### [DEMO.SIX](../../../raw/main/kermitdemos/DEMO.SIX)
 
 <img src="demo1.png" align="center" width="33%">
 <img src="demo2.png" align="center" width="33%"><br/>
@@ -69,7 +69,7 @@ palette. There are technically 16 sixel images in this file and the
 palette is set in the first, used in the the next 14, then changed in
 the last which updates the colors previously drawn.
 
-### [CHARDEMO.VT](../../../raw/main/CHARDEMO.VT)
+### [CHARDEMO.VT](../../../raw/main/kermitdemos/CHARDEMO.VT)
 
 <img src="chardemo.png" align="right" width="33%">
 
@@ -79,12 +79,12 @@ VT340 to reboot, so they have been replaced with `Esc [ H Esc [ J`
 which clears the screen.
 
 
-### [COLORS.VT](../../../raw/main/COLORS.VT)
+### [COLORS.VT](../../../raw/main/kermitdemos/COLORS.VT)
 
 Test ANSI colors which works with Kermit, but shows up as black and
 white on a genuine VT340.
 
-### [FEATURES.VT](../../../raw/main/FEATURES.VT)
+### [FEATURES.VT](../../../raw/main/kermitdemos/FEATURES.VT)
 
 <img src="features1.png" align="left" width="33%">
 <img src="features2.png" align="right" width="33%"><br/>
@@ -96,7 +96,7 @@ work very well on Kermit, but works perfectly on the VT340.
 Starts out with a slow, smooth scroll of text that most terminal
 emulators blaze past faster than the eye can see.
 
-### [USA.TEK](../../../raw/main/USA.TEK)
+### [USA.TEK](../../../raw/main/kermitdemos/USA.TEK)
 
 <img src="USKA.TEK.png" align="center" width="33%">
 
@@ -105,8 +105,8 @@ on Tektronix mode, so that has been added: `Esc [ ? 38 h`. Note that this
 file switches out of Tektronix mode at the end, so the map will be
 erased as soon as it finishes drawing.
 
-### [tek.c](../../../raw/main/tek.c)
-### [tek.tst](../../../raw/main/tek.tst)
+### [tek.c](../../../raw/main/kermitdemos/tek.c)
+### [tek.tst](../../../raw/main/kermitdemos/tek.tst)
 
 <img src="tek.tst.png" align="center" width="33%">
 
@@ -115,13 +115,13 @@ drawing tests. Nothing terribly complicated.
 
 <details>
 
-The [original tek.c](../../../raw/main/tek.c.orig) wrote to the file
+The [original tek.c](../../../raw/main/kermitdemos/tek.c.orig) wrote to the file
 tek.tst, but that was inconvenient. Hackerb9 modified tek.c so that it
 outputs the TEK file directly to stdout. Additionally, if given the -P
 option, it uses the Tektronix hardcopy command (`Esc ^W`) to send the
 graphics to the printer port in sixel format. By connecting the
 VT340's printer port to another serial port on the host, the file can
-be capture for a screenshot. [tek.six](../../../raw/main/tek.six)
+be capture for a screenshot. [tek.six](../../../raw/main/kermitdemos/tek.six)
 
 `gcc tek.c -lm && ./a.out -P`
 
@@ -158,9 +158,9 @@ Heathkit H19 emulation. Nevertheless, they may be of interest, so here
 are the two HEATH demonstration files that were in the Kermit source
 code.
 
-### [CASTLE.HGR](../../../raw/main/CASTLE.HGR)
-### [PATTERN.HGR](../../../raw/main/PATTERN.HGR)
-<!-- ### [HACKERB9.HGR](../../../raw/main/HACKERB9.HGR) -->
+### [CASTLE.HGR](../../../raw/main/kermitdemos/CASTLE.HGR)
+### [PATTERN.HGR](../../../raw/main/kermitdemos/PATTERN.HGR)
+<!-- ### [HACKERB9.HGR](../../../raw/main/kermitdemos/HACKERB9.HGR) -->
 
 
 ## Original Text from Kermit's file "MSDAAA.HLP" aka "TEKEMU.TXT"
