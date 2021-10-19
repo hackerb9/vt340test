@@ -2,6 +2,8 @@
  *
  *   -p: send print command to save a screenshot in print.six. 
  *       (will appear to hang if terminal does not support Tek Print to Host) 
+ *   -P: send graphics to printer as sixels
+ *       (will appear to hang if printer port is not connected) 
 */
 
 /* Modified by hackerb9 to output directly to the screen. */
@@ -45,15 +47,22 @@ int main(int argc, char *argv[])
         double radius = 125.0;
 	int printflag=0;
 
+	/* Hardcopy to host (write to file tek.six) */
 	if (argc>1 && argv[1][0]=='-' && argv[1][1]=='p')
-	  printflag=1;
+	  printflag='2';
+
+	/* Hardcopy to attached printer */
+	if (argc>1 && argv[1][0]=='-' && argv[1][1]=='P')
+	  printflag='0';
 	
 	/* Setup sixel printing */
 	if (printflag) {
 	  if ((fpout = fopen("tek.six", "wb")) == NULL) /* write binary mode */
 	    exit(1);
 	  /* See mediacopy.sh for what these mean */
-	  fputs("[?2i[?43h[?44h[?45h[?46h[?47l", stdout);
+	  fputs("[?", stdout);
+	  putchar(printflag);	/* 2 to write to tek.six, 0 for printer  */
+	  fputs("i[?43h[?44h[?45h[?46h[?47l", stdout);
 	}
 	
 	/* clear screen, enter tek mode (new way, for VT340) */
@@ -121,10 +130,11 @@ int main(int argc, char *argv[])
 	/* send a hardcopy of the screen to the host */
 	/* XXX Does not work on the VT340 as half of the hardcopy gets
 	   sent to screen. XXX */
-	if (printflag) {	/* -p */
+	if (printflag) {	/* -p or -P */
 	  putchar(ESC);
 	  putchar(0x17);	/* Esc ETB == Tek hardcopy */
-
+	}
+	if (printflag=='2') {	/* -p */
 	  /* Wait first for Pq for start of sixels
 	   * then for Esc \ for end string. */
 	  x=-1; /* previous char */
