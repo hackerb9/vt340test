@@ -9,7 +9,7 @@ a true VT340, Kermit did not support Regis graphics.)
 Most of the demo files can just be `cat`ed to the screen. The one
 exception is tek.c which generates tek.tst (which gets `cat`ed). 
 
-### [DEMO.TEK](../blobs/main/DEMO.TEK)
+### [DEMO.TEK](../../raw/main/DEMO.TEK)
 
 Combination of tek and sixel drawing created by WordPerfect. Does not
 work on a genuine VT340.
@@ -44,7 +44,7 @@ this file created just for Kermit?
 </details>
 
 
-### [DEMO.SIX](../blobs/main/DEMO.SIX)
+### [DEMO.SIX](../../raw/main/DEMO.SIX)
 
 <img src="demo1.png" align="center" width="33%">
 <img src="demo2.png" align="center" width="33%"><br/>
@@ -69,7 +69,7 @@ palette. There are technically 16 sixel images in this file and the
 palette is set in the first, used in the the next 14, then changed in
 the last which updates the colors previously drawn.
 
-### [CHARDEMO.VT](../blobs/main/CHARDEMO.VT)
+### [CHARDEMO.VT](../../raw/main/CHARDEMO.VT)
 
 <img src="chardemo.png" align="right" width="33%">
 
@@ -79,15 +79,15 @@ VT340 to reboot, so they have been replaced with `Esc [ H Esc [ J`
 which clears the screen.
 
 
-### [COLORS.VT](../blobs/main/COLORS.VT)
+### [COLORS.VT](../../raw/main/COLORS.VT)
 
 Test ANSI colors which works with Kermit, but shows up as black and
 white on a genuine VT340.
 
-### [FEATURES.VT](../blobs/main/FEATURES.VT)
+### [FEATURES.VT](../../raw/main/FEATURES.VT)
 
-<img src="features1.png" align="center" width="33%">
-<img src="features2.png" align="center" width="33%"><br/>
+<img src="features1.png" align="left" width="33%">
+<img src="features2.png" align="right" width="33%"><br/>
 
 Joe Smith's VT100 series text torture test. Double-width,
 double-height, blinking, underlining, box drawing chars. This doesn't
@@ -96,30 +96,37 @@ work very well on Kermit, but works perfectly on the VT340.
 Starts out with a slow, smooth scroll of text that most terminal
 emulators blaze past faster than the eye can see.
 
-### [USA.TEK](../blobs/main/USA.TEK)
+### [USA.TEK](../../raw/main/USA.TEK)
+
+<img src="USKA.TEK.png" align="center" width="33%">
 
 A vector map of the USA. The original file did not start with turning
 on Tektronix mode, so that has been added: `Esc [ ? 38 h`. Note that this
 file switches out of Tektronix mode at the end, so the map will be
 erased as soon as it finishes drawing.
 
-### [tek.c](../blobs/main/tek.c)
-### [tek.tst](../blobs/main/tek.tst)
+### [tek.c](../../raw/main/tek.c)
+### [tek.tst](../../raw/main/tek.tst)
 
 <img src="tek.tst.png" align="center" width="33%">
 
-A C program that [used to] generate a TEK file that does some basic
-line drawing tests. Nothing terribly complicated.
+A C program that generates a TEK file that does some basic line
+drawing tests. Nothing terribly complicated.
 
-Hackerb9 modified tek.c so that it outputs the TEK file directly to
-stdout. Additionally, if given the -p option, it now tests the
-Tektronix hardcopy command (`Esc ^W`) saving the screen as a Sixel
-image in the file tek.six.
+<details>
 
-`gcc tek.c -lm && ./a.out -p` .
+The [original tek.c](../../raw/main/tek.c.orig) wrote to the file
+tek.tst, but that was inconvenient. Hackerb9 modified tek.c so that it
+outputs the TEK file directly to stdout. Additionally, if given the -P
+option, it uses the Tektronix hardcopy command (`Esc ^W`) to send the
+graphics to the printer port in sixel format. By connecting the
+VT340's printer port to another serial port on the host, the file can
+be capture for a screenshot. [tek.six](../../raw/main/tek.six)
 
-This program shows some differences with the way Kermit implemented
-Tek 4010/4014 emulation and the way DEC did. 
+`gcc tek.c -lm && ./a.out -P`
+
+This program shows some differences between the way Kermit implemented
+Tek 4010/4014 emulation and the way DEC did.
 
 * According to the Kermit document [TEKEMU.TXT](TEKEMU.TXT), in
   addition to using DEC private mode #38 to enter Tek mode, Kermit
@@ -139,21 +146,24 @@ Tek 4010/4014 emulation and the way DEC did.
   up after the words "shallow fan" on a VT340.
 
 * The appear to be an extraneous line before the first fan and a dot
-  before the words "The end."
+  before the words "The end." That is likely due to the ANSI color
+  codes.
+
+</details>
 
 ## Heathkit graphics
 
-The .HGR files are not useful for VT340 testing as they are for
+Kermit's .HGR files are not useful for VT340 testing as they are for
 Heathkit H19 emulation. Nevertheless, they may be of interest, so here
 are the two HEATH demonstration files that were in the Kermit source
 code.
 
-### [CASTLE.HGR](../blobs/main/CASTLE.HGR)
-### [PATTERN.HGR](../blobs/main/PATTERN.HGR)
-<!-- ### [HACKERB9.HGR](../blobs/main/HACKERB9.HGR) -->
+### [CASTLE.HGR](../../raw/main/CASTLE.HGR)
+### [PATTERN.HGR](../../raw/main/PATTERN.HGR)
+<!-- ### [HACKERB9.HGR](../../raw/main/HACKERB9.HGR) -->
 
 
-## Text from Kermit's file "MSDAAA.HLP" aka "TEKEMU.TXT"
+## Original Text from Kermit's file "MSDAAA.HLP" aka "TEKEMU.TXT"
 
 > [These] are demo files for various features found in MS-Kermit 3.0
 > and later, like Heath graphics, TEK4010 graphics, and VT320
