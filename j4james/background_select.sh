@@ -5,7 +5,8 @@
 # When the Background Select parameter is set to 0 or 2, the background of the
 # image is filled with color map entry 0, before any sixel data is output. The
 # extent of the the filled area is determined by the dimensions defined in the
-# DECGRA raster attributes. If not specified, the maximum extent is used.
+# DECGRA raster attributes. If not specified, the preceding DECGRA's attributes
+# are used (if there were multiple DECGRAs), or otherwise the maximum extent.
 
 CSI=$'\e['			# Control Sequence Introducer 
 DCS=$'\eP'			# Device Control String
@@ -42,17 +43,17 @@ echo -n ${DCS}'q"1;1;80;0#'${ST}
 set_cursor_pos 1 73
 echo -n ${DCS}'q"1;1;0;80#'${ST}
 
-# This should fill an area 80px wide extending to the bottom of the screen.
+# This should fill an area of 80x80px.
 # The second DECGRA overrides the first, and the missing height parameter
-# defaults to the maximum extent.
-set_cursor_pos 21 37
-echo -n ${DCS}'q"1;1;10;10"1;1;80?'${ST}
-
-# This should fill an area 80px high extending to the width of the screen.
-# The second DECGRA overrides the first, and the missing width parameter
-# defaults to the maximum extent.
+# falls back to the value from the first DECGRA.
 set_cursor_pos 11 73
-echo -n ${DCS}'q"1;1;10;10"1;1;;80?'${ST}
+echo -n ${DCS}'q"1;1;10;80"1;1;80?'${ST}
+
+# This should fill an area of 80x80px.
+# The second DECGRA overrides the first, and the missing width parameter
+# falls back to the value from the first DECGRA.
+set_cursor_pos 21 37
+echo -n ${DCS}'q"1;1;80;10"1;1;;80?'${ST}
 
 # This should fill an area of 80x80px.
 # The second DECGRA overwrites the first, but the last one is ignored,
