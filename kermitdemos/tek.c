@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
 	if (printflag) {
 	  if ((fpout = fopen("tek.six", "wb")) == NULL) /* write binary mode */
 	    exit(1);
+	  /* See mediacopy.sh for what these mean */
 	  fputs("[?2i[?43h[?44h[?45h[?46h[?47l", stdout);
 	}
 	
@@ -118,6 +119,8 @@ int main(int argc, char *argv[])
         fflush(stdout); 		/* flush graphics before sleep */
 
 	/* send a hardcopy of the screen to the host */
+	/* XXX Does not work on the VT340 as half of the hardcopy gets
+	   sent to screen. XXX */
 	if (printflag) {	/* -p */
 	  putchar(ESC);
 	  putchar(0x17);	/* Esc ETB == Tek hardcopy */
