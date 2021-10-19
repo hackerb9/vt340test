@@ -98,7 +98,7 @@ emulators blaze past faster than the eye can see.
 
 ### [USA.TEK](../../../raw/main/kermitdemos/USA.TEK)
 
-<img src="USKA.TEK.png" align="center" width="33%">
+<img src="USA.TEK.png" align="center" width="33%">
 
 A vector map of the USA. The original file did not start with turning
 on Tektronix mode, so that has been added: `Esc [ ? 38 h`. Note that this
