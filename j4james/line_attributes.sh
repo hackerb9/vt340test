@@ -19,6 +19,7 @@ DECDWL=$'\e#6'			# Double Width Line
 echo -n ${CSI}'!p'
 echo -n ${CSI}'H'
 echo -n ${CSI}'J'
+echo -n ${CSI}'?7h'
 
 set_cursor_pos() {
   echo -n ${CSI}${1}';'${2}'H'
@@ -69,9 +70,12 @@ test_message 19 17 ' DECDHL ' ${DECDHLB}
 
 # Output a double-height sequence of text.
 set_cursor_pos 12 1
-yes '+' | tr -d '\n' | head -c 160
-test_message 12 17 ' DOUBLE ' ${DECDHLT}
-test_message 13 17 ' DOUBLE ' ${DECDHLB}
+echo ${DECDHLT}
+echo ${DECDHLB}
+set_cursor_pos 12 1
+yes '+' | tr -d '\n' | head -c 80
+test_message 12 17 ' DOUBLE '
+test_message 13 17 ' DOUBLE '
 
 # Render an image to try and reset the line attributes.
 set_cursor_pos 12 1
