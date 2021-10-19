@@ -9,7 +9,7 @@
 
 # The character editing operations do not work in the same way though. If
 # an ICH (insert character) or DCH (delete character) is executed on a line
-# covered by a Sixel image, that entire section of the image is erased.
+# covered by a Sixel image, that entire section of the line is erased.
 
 CSI=$'\e['			# Control Sequence Introducer 
 DCS=$'\eP'			# Device Control String
@@ -44,14 +44,23 @@ test_pattern() {
 small_test_pattern() {
   local row=${1}
   local col=${2}
+  local color=${3}
 
   set_cursor_pos ${row} ${col}
-  echo ${DCS}'2;1q'
-  echo '#2!30~#0!30~#3!170o-'
-  echo '#2!30~#3!200~'
+  echo ${DCS}'2;1q#'${color}
+  echo '!60~-'
+  echo '!60~'
   echo ${ST}
-  set_cursor_pos $((${row} + 1)) 1
-  echo '   '${CSI}'40C   '
+}
+
+clear_edges() {
+  local row=${1}
+  local col=${2}
+
+  set_cursor_pos ${row} ${col}
+  echo -n ${CSI}'1K'
+  echo -n ${CSI}'13C'
+  echo ${CSI}'K'
 }
 
 test_pattern 3 49
@@ -68,14 +77,21 @@ echo -n ${CSI}'6H'
 echo -n ${CSI}'3M'
 echo ${CSI}'r'
 
-small_test_pattern 16 38
+# Setup images and text to be moved.
+clear_edges 18 37
+small_test_pattern 18 38 1
+clear_edges 20 31
+small_test_pattern 18 21 2
 
 # Delete 3 characters.
-set_cursor_pos 17 41
+set_cursor_pos 18 32
 echo ${CSI}'3P'
 
 # Insert 3 characters.
-set_cursor_pos 18 41
+set_cursor_pos 20 32
 echo ${CSI}'3@'
+
+# Followup image for balance.
+small_test_pattern 18 55 2
 
 set_cursor_pos 12 1
