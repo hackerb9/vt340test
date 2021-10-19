@@ -94,6 +94,12 @@ there is a problem, it will likely be only 1 or 2 lines of pixels cut
 off. Whether that matters or not depends on the application being
 developed.
 
+### Tektronix mode turns off Auto Wrap
+
+After entering Tek mode (using `CSI ? 38 h`) and then exiting it (`CSI
+? 38 l`), Auto Wrap Mode will be turned off. The workaround is to just
+turn it back on again with `CSI ? 7 h`.
+
 ____
 
 ## Not a bug
