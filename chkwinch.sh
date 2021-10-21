@@ -5,6 +5,9 @@
 #
 # Note that the Linux kernel actually includes space in struct winsize
 # for PIXELS as well as rows and columns, but they are labelled as "unused".
+# However, that is not exactly true. The kernel skips sending SIGWINCH
+# if the window has not changed size. But, "size" is not just the rows
+# and columns. If the number of pixels change, SIGWINCH will be sent.
 
 # Possible points of failure:
 # * Some terminals may fail to send SIGWINCH when fontsize changes.
@@ -24,7 +27,7 @@
 
 # Test as working fine over ssh. 
 #
-# It does not work over telnet. (But it should.)
+# It does not work over telnet. (Because telnet does not send pixel size.)
 # For more about telnet, please see the end of this file. 
 
 timeout=.25
@@ -69,40 +72,54 @@ while :; do sleep .1; done
 # for both client and server), this script fails. The symptoms are
 # odd. Turning on 'show option' shows that a new window size *is* sent
 # every time the font size change. However, it is not getting turned
-# into a WINCH signal. This is likely because something is detecting
-# that the rows and columns have not changed and is deciding not to
-# send the signal. I checked the telnetd source and it seems to always
-# use the TIOCSWINSZ ioctl, so that is probably fine. Could it be the
-# Linux kernel itself is optimizing the ioctl out as unnecessary? If
-# so, it's odd that it only happens with telnet, since ssh also
-# allocates a pty and uses an ioctl.
-
-# Future research: What would it take to get the Linux Kernel to
+# into a WINCH signal. This is because the telnet protocol does not
+# include the size of the window in pixels, so telnetd just uses a
+# fake number when it calls the TIOCSWINSZ ioctl. Since the fake
+# number is always the same, the Linux kernel thinks the terminal has
+# not actually changed size and ignores the ioctl. 
+#
+# Note that the ssh protocol handles this correctly and sends both
+# rows/columns and the pixel size.
+#
+# Future research: What would it take to get the telnet protocol to
 # support pixels for the window size as is mentioned in ioctl_tty(2):
 
- # Get and set window size
- #     Window sizes are kept in the kernel, but not used by the kernel (except
- #     in the case of virtual consoles, where the kernel will update the  win‐
- #     dow  size when the size of the virtual console changes, for example, by
- #     loading a new font).
+    # Get and set window size
 
- #     The following constants and structure are defined in <sys/ioctl.h>.
+    # Window sizes are kept in the kernel, but not used by the kernel (except
+    # in the case of virtual consoles, where the kernel will update the  win‐
+    # dow  size when the size of the virtual console changes, for example, by
+    # loading a new font).
 
- #     TIOCGWINSZ     struct winsize *argp
- #            Get window size.
+    # The following constants and structure are defined in <sys/ioctl.h>.
 
- #     TIOCSWINSZ     const struct winsize *argp
- #            Set window size.
+    # TIOCGWINSZ     struct winsize *argp
+    #        Get window size.
 
- #     The struct used by these ioctls is defined as
+    # TIOCSWINSZ     const struct winsize *argp
+    #        Set window size.
 
- #         struct winsize {
- #             unsigned short ws_row;
- #             unsigned short ws_col;
- #             unsigned short ws_xpixel;   /* unused */
- #             unsigned short ws_ypixel;   /* unused */
- #         };
+    # The struct used by these ioctls is defined as
 
- #     When the window size changes, a SIGWINCH signal is sent  to  the  fore‐
- #     ground process group.
+    #     struct winsize {
+    #         unsigned short ws_row;
+    #         unsigned short ws_col;
+    #         unsigned short ws_xpixel;   /* unused */
+    #         unsigned short ws_ypixel;   /* unused */
+    #     };
 
+    # When the window size changes, a SIGWINCH signal is sent  to  the  fore‐
+    # ground process group.
+
+# Telnet already has NAWS (Negotiate About Window Size) which sends
+# the rows and columns. Ideally, we'd just tack on the extra pixel
+# size to NAWS, and telnet daemons that can handle it would use the
+# data and ones that cannot would (hopefully) ignore it.
+#
+# However, I suspect that will not be possible and it may be necessary
+# to create a completely new option "GNAWS: Graphical Negotiate About
+# Window Size" that would supercede NAWS.
+#
+# Whatever the solution is, it would need to send rows and columns and
+# pixel size simultaneously so that the TIOCSWINSZ ioctl only gets
+# called once.
