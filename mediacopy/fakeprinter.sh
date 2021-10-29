@@ -5,7 +5,28 @@
 
 trap 'exit' INT			# ^C to cancel script
 
+# Remove empty files on exit
+trap 'cd ..; find spool -size 0 -delete' EXIT
+
 FAKEPRINTER=/dev/ttyUSB0
+
+stty -F $FAKEPRINTER 19200 \
+     time 5 \
+     hupcl \
+     ignbrk \
+     -brkint \
+     -icrnl \
+     -imaxbel \
+     -opost \
+     -onlcr \
+     -isig \
+     -icanon \
+     -iexten \
+     -echo \
+     -echoe \
+     -echok \
+     -echoctl \
+     -echoke
 
 mkdir -p spool
 cd spool
