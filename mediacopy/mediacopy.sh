@@ -48,10 +48,26 @@
 
 declare -i decgpbm_flag=low	# Do not print background by default
 
-case "$1" in
-    --transparent|--46l) decgpbm_flag=low; shift ;;
-    --background|--46h) decgpbm_flag=high; shift ;;
-esac    
+hostcomm=2		# Our default is to "print" to VT340's host comm port.
+while [[ "$1" ]]; do
+    case "$1" in
+	--transparent|--46l) decgpbm_flag=low; shift ;;
+	--background|--46h) decgpbm_flag=high; shift ;;
+ 	--printer|-p) hostcomm=0; shift ;;
+ 	--no-printer) hostcomm=2; shift ;;
+ 	--debug|-debug) DEBUG=yup; shift ;;
+    esac    
+done
+
+portname=("Printer", "", "Host comm")
+
+if [[ "$DEBUG" ]]; then
+    cat <<-EOF >&2
+	DEBUG is on.
+	DECGPBM is $decgpbm_flag (${bgname[$decgpbm_flag]})
+	Printing to ${portname[hostcomm]} port.
+	EOF
+fi
 
 # Turn on host flow-control in case the VT340 overwhelms it with data. (Ha ha).
 stty ixoff
@@ -66,7 +82,7 @@ REGIS_H="S(H(P[0,0]))"
 X1=0; Y1=0; X2=4095; Y2=4095
 
 # For debugging, we can send just a small cropped part. (100x100, ~30 seconds)
-if [[ "$1" == "-debug" ]]; then X1=350; X2=449; Y1=190; Y2=289; shift; fi
+if [[ "$DEBUG" ]]; then X1=350; X2=449; Y1=190; Y2=289; shift; fi
 
 if (( X1>0 || Y1>0 || X2>0 || Y2>0 )); then
     REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"
@@ -77,7 +93,8 @@ DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 FF=$'\f'			# Form Feed
 
-echo -n ${CSI}'?2i'		# (MC) Send graphics to host, not printer
+echo -n ${CSI}'?'$hostcomm'i'	# (MC) 2: Send graphics to host comm port
+				#      0: Send graphics to printer port
 
 # DECGEPM: Graphics Expanded Print Mode (only for Level 1 Graphics)
 #echo -n ${CSI}'?43l'		# Compressed:  6" x 3" printout, 800x240
@@ -114,6 +131,12 @@ echo -n ${ST}			# Exit REGIS mode
 # ImageMagick and libsixel fail to read images that begin with `Esc \`.
 read -r -s -d "\\"
 
+if [[ "$DEBUG" ]]; then
+    errorfile="err.out"
+else
+    errorfile=/dev/null
+fi
+
 # Read until second backslash to get all data up to the String Terminator.
 while read -r -s -d "\\"; do
     if [[ -z "$REPLY" ]]; then
@@ -142,7 +165,9 @@ while read -r -s -d "\\"; do
     # read's delimiter is backslash '\', so make sure it isn't consumed.
     if [[ "$REPLY\\" == *$ST ]]; then echo -n "\\"; break; fi
     echo "," >&2
-done > print.six   2> err.out
+done > print.six   2> $errorfile
+
+
 
 # TODO: Check if image got saved to print.six correctly as Level 2.
 # If it didn't, then use ImageMagick to convert the image to the
