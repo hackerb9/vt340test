@@ -135,8 +135,8 @@ echo -ne '\x1b[2J\x1b[10;1H'
 echo -ne '\x1b[?80h'
 
 case "$1" in
-  full ) full ;;
-  slim ) slim ;;
+  full     ) full ;;
+  slim | * ) slim ;;
 esac
 
 # re-enable sixel scrolling
