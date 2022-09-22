@@ -48,6 +48,16 @@ entire list of buggy heights is:
 	401 402         441 442 443 444 461 462
 </pre>
 
+#### Test script
+
+Please see [sixeltests/textcursor.sh](sixeltests/textcursor.sh) which
+tests text overlap when using GNL (Graphics New Line) and NL (New Line).
+Output on a VT340 looks like this:
+
+![Output from textcursor.sh showing that there will always be a chance
+of overlap on a VT340](https://raw.githubusercontent.com/hackerb9/vt340test/main/sixeltests/textcursor.png)
+
+
 #### Workaround
 
 Other than checking each image's height to see if it is problematic,
