@@ -210,10 +210,6 @@ text_newline_only() {
     # pixels into the text row below and there is a chance the next
     # text printed will overlap. 
 
-    # Let s = r + 6, the first line of pixels which does not have any
-    # graphics on it.
-
-
 
     local -i size  color  row  column
     read size color row column <<<"$@"
