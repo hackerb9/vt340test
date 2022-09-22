@@ -3,13 +3,13 @@
 This is the page where I'll record hardware/firmware bugs as I come
 across them.
 
-### Window up/down changes colors
+## Window up/down changes colors
 
 j4james's bounce program, animation.sh, shows red turning black and
 white turning yellow when the ball "moves" up and down. (Animation is
 done by panning the screen up and down using `CSI Pn S` and `CSI Pn T`).
 
-### Extra lines of scrolling in aspect ratios over 4:1
+## Extra lines of scrolling in aspect ratios over 4:1
 
 See Issue #11 in which @j4james has figured out at what aspect ratios
 extra lines of scrolling are unnecessarily added. He has this to say:
@@ -25,7 +25,7 @@ extra lines of scrolling are unnecessarily added. He has this to say:
 > never be overflowing if it was also an exact multiple of the line
 > height.
 
-### Text Cursor is left one row too high for certain sixel heights
+## Text Cursor is left one row too high for certain sixel heights
 
 @j4james may correct me on this, but I believe it is a glitch in the
 VT340 hardware that for certain heights of sixel images the text
@@ -48,7 +48,7 @@ entire list of buggy heights is:
 	401 402         441 442 443 444 461 462
 </pre>
 
-#### Test script
+### Test script
 
 Please see [sixeltests/textcursor.sh](sixeltests/textcursor.sh) which
 tests text overlap when using GNL (Graphics New Line) and NL (New Line).
@@ -58,7 +58,7 @@ Output on a VT340 looks like this:
 of overlap on a VT340](https://raw.githubusercontent.com/hackerb9/vt340test/main/sixeltests/textcursor.png)
 
 
-#### Workaround
+### Workaround
 
 Other than checking each image's height to see if it is problematic,
 what other solutions are there? As luck would have it, many
@@ -71,7 +71,7 @@ A text row is 20 pixels in height, but actually any image height which
 is a multiple of ten (which is common) also works. In fact, although
 less frequently seen, any multiple of 5 avoids the glitch.
 
-#### Is it worth it to work around this bug?
+### Is it worth it to work around this bug?
 
 The final digit in the table of buggy heights shows how many pixels
 would be shaved off the bottom of the image if the glitch had occurred
@@ -104,7 +104,7 @@ there is a problem, it will likely be only 1 or 2 lines of pixels cut
 off. Whether that matters or not depends on the application being
 developed.
 
-### Tektronix mode turns off Auto Wrap
+## Tektronix mode turns off Auto Wrap
 
 After entering Tek mode (using `CSI ? 38 h`) and then exiting it (`CSI
 ? 38 l`), Auto Wrap Mode will be turned off. The workaround is to just
