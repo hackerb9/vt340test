@@ -68,17 +68,19 @@ DEC VT330/340 Text Programming, second edition
 * Page 202: DECXCPR (Extended Cursor Position Report) should include a
   `?` in the response.
   
-  **DSR &mdash; Extended Cursor Position Report (DECXCPR)**<br/>
-  The host asks the terminal for the current cursor position,
-  including the current page number.
+  It should read:
 
-  Exchange | Sequence | Meaning
-  -|-|-
-  Request<br/>(Host to VT300) | <kbd>CSI</kbd><kbd>?</kbd><kbd>6</kbd><kbd>n</kbd> | The host asks for an extended<br/>cursor position report<br/>(DECXCPR).
-  DECXCPR response<br/>(VT300 to host) | <span><kbd>CSI</kbd><kbd>?</kbd>**Pl**<kbd>;</kbd>**Pc**<kbd>;</kbd>**Pp**<kbd>R</kbd></span> | The terminal indicates that<br/>the cursor is currently at<br/>line **Pl**, column **Pc**, on page **Pp**.
+  > **DSR &mdash; Extended Cursor Position Report (DECXCPR)**
+  
+  > The host asks the terminal for the current cursor position,
+  including the current page number.
+  
+  > Exchange | Sequence | Meaning
+  > -|-|-
+  > Request<br/>(Host to VT300) | <kbd>CSI</kbd><kbd>?</kbd><kbd>6</kbd><kbd>n</kbd> | The host asks for an extended<br/>cursor position report<br/>(DECXCPR).
+  > DECXCPR response<br/>(VT300 to host) | <span><kbd>CSI</kbd><kbd>?</kbd>**Pl**<kbd>;</kbd>**Pc**<kbd>;</kbd>**Pp**<kbd>R</kbd></span> | The terminal indicates that<br/>the cursor is currently at<br/>line **Pl**, column **Pc**, on page **Pp**.
 
   [Corrected by @j4james in issue #23).
-
 
 
 ### EK-VT3XX-HR-002
