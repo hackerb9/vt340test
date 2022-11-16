@@ -65,6 +65,22 @@ DEC VT330/340 Text Programming, second edition
   incorrect. Perhaps they were thinking of the VT340's default
   configuration at power on?
 
+* Page 202: DECXCPR (Extended Cursor Position Report) should include a
+  `?` in the response.
+  
+  **DSR &mdash; Extended Cursor Position Report (DECXCPR)**<br/>
+  The host asks the terminal for the current cursor position,
+  including the current page number.
+
+  Exchange | Sequence | Meaning
+  -|-|-
+  Request<br/>(Host to VT300) | <kbd>CSI</kbd><kbd>?</kbd><kbd>6</kbd><kbd>n</kbd> | The host asks for an extended<br/>cursor position report<br/>(DECXCPR).
+  DECXCPR response<br/>(VT300 to host) | <span><kbd>CSI</kbd><kbd>?</kbd>**Pl**<kbd>;</kbd>**Pc**<kbd>;</kbd>**Pp**<kbd>R</kbd></span> | The terminal indicates that<br/>the cursor is currently at<br/>line **Pl**, column **Pc**, on page **Pp**.
+
+  [Corrected by @j4james in issue #23).
+
+
+
 ### EK-VT3XX-HR-002
 
 DEC VT340 Programmer's Quick Reference, 2nd edition.
@@ -82,6 +98,13 @@ DEC VT340 Programmer's Quick Reference, 2nd edition.
   > Ps = 1, color-1 color map look-up table.
   > Ps = 2, color-2 color map look-up table.
 
+* Page 43: Response to DECXCPR should have a `?` after CSI. 
+
+  It should read:
+  
+  > **Report**
+  > **DECXCPR**
+  > **CSI ? Pl ; Pc ; Pp R**
 
 * Page 53: DECRPSS response to DECRQSS query is inverted. It should
   say that 0 means invalid and 1 means valid.
