@@ -144,6 +144,7 @@ Ps[1053]="Set SCO function-key mode, xterm."
 Ps[1060]="Set legacy keyboard emulation, i.e, X11R6, xterm."
 Ps[1061]="Set VT220 keyboard emulation, xterm."
 Ps[2004]="Set bracketed paste mode, xterm."
+Ps[8452]="Sixel leaves cursor right of image, RLogin, xterm."
 
 
 status=("not recognized" "set" "reset" "permanently set" "permanently reset")
