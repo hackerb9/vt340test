@@ -42,7 +42,7 @@ DEC VT330/340 Text Programming, second edition
   
   > **Ps** indicates whether or not the request from the host is
   > valid.
-  >> 0 = host's request is invalid.
+  >> 0 = host's request is invalid.<br/>
   >> 1 = host's request is valid.
 
 * Page 188: DECSTGLT (Select Text/Graphics Look-up Table) is
