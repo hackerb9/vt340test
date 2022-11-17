@@ -67,6 +67,7 @@ DEC VT330/340 Text Programming, second edition
   > |:------|:-----|:--|:---|
   > |**CSI**|**Ps**| $ | ~  |
   > |  9/11 |  3/? |2/4|7/14|
+  >
   > where
   >> **Ps** indicates which status line the host selects, as follows.
   >> | Ps | Status Line Selected |
