@@ -20,7 +20,7 @@ DEC VT330/340 Graphics Programming, second edition
 
 DEC VT330/340 Text Programming, second edition
 
-* DECRPSS response to DECRQSS query is inverted
+* Page 228: DECRPSS response to DECRQSS query is inverted
 
   VT340 manual states that 0 = host's request is valid, 1 = invalid.
   However, the way the VT340 actually works is the opposite. (See
@@ -37,44 +37,57 @@ DEC VT330/340 Text Programming, second edition
   $ printf '\eP$qx\e\\'; read -rd '\'; echo
   ^[P0$r^[\
   ```
+  
+  The text ought to read:
+  
+  > **Ps** indicates whether or not the request from the host is
+  > valid.
+  >> 0 = host's request is invalid.
+  >> 1 = host's request is valid.
 
-* DECSTGLT (Select Text/Graphics Look-up Table) is terminated with a
-  left curly brace, not right.
+* Page 188: DECSTGLT (Select Text/Graphics Look-up Table) is
+  terminated with a left curly brace, not right.
 
   The escape sequence for DECSTGLT that works on a VT340 is:
 
-  |       |      |   |    |
-  |:------|:-----|:--|:---|
-  |**CSI**|**Ps**| ) | {  |
-  |  9/11 |  3/? |2/9|7/11|
+  > |       |      |   |    |
+  > |:------|:-----|:--|:---|
+  > |**CSI**|**Ps**| ) | {  |
+  > |  9/11 |  3/? |2/9|7/11|
 
   @j4james points out in issue #12 that the manual incorrectly lists
   it as right curly brace, but does give the correct code point
   underneath. 
 
-* DECSSDT (Select status line type) default should be 0, not 1.
-
-  |       |      |   |    |
-  |:------|:-----|:--|:---|
-  |**CSI**|**Ps**| $ | ~  |
-  |  9/11 |  3/? |2/4|7/14|
-
+* Page 190: DECSSDT (Select status line type) default should say 0,
+  not 1. It should read:
+  
+  > Default: No status line
+  > |       |      |   |    |
+  > |:------|:-----|:--|:---|
+  > |**CSI**|**Ps**| $ | ~  |
+  > |  9/11 |  3/? |2/4|7/14|
+  > where
+  >> **Ps** indicates which status line the host selects, as follows.
+  >> | Ps | Status Line Selected |
+  >> | - | - |
+  >> | **0** (default | No status line<br/>(The 25th line is blank) |
+  >> | **1** | Indicator status line
+  >> | **2** | Host-writable status line
   If Ps is omitted, the default on a VT340 is Ps=0 ("No status line").
 
-  The manual lists Ps=1 ("Indicator status line"), but that is
-  incorrect. Perhaps they were thinking of the VT340's default
-  configuration at power on?
+  The manual lists **1** ("Indicator status line") as the default for
+  **Ps**, but that is incorrect. Perhaps they were thinking of the
+  VT340's default configuration at power on?
 
 * Page 202: DECXCPR (Extended Cursor Position Report) should include a
   `?` in the response.
   
   It should read:
 
-  > **DSR &mdash; Extended Cursor Position Report (DECXCPR)**
-  
+  > **DSR &mdash; Extended Cursor Position Report (DECXCPR)**<br/>
   > The host asks the terminal for the current cursor position,
-  including the current page number.
-  
+  including the current page number.<br/>
   > Exchange | Sequence | Meaning
   > -|-|-
   > Request<br/>(Host to VT300) | <kbd>CSI</kbd><kbd>?</kbd><kbd>6</kbd><kbd>n</kbd> | The host asks for an extended<br/>cursor position report<br/>(DECXCPR).
