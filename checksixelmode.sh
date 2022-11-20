@@ -20,11 +20,13 @@ Ps[5]="Reverse Video Screen (DECSCNM), VT100."
 Ps[6]="Origin Mode (DECOM), VT100."
 Ps[7]="Auto-Wrap Mode (DECAWM), VT100."
 Ps[8]="Auto-Repeat Keys (DECARM), VT100."
-Ps[9]="Send Mouse X & Y on button press.  (X10 xterm mouse protocol)."
+Ps[9]="Send Mouse X & Y on button press.  (X10 xterm mouse protocol)." # Conflicts with VT100-UG
+Ps[9]="Interlace mode (DECINLM), VT100"	   	# Documented in VT100-UG
 Ps[10]="Show toolbar (rxvt)."			# Conflicts with VT-3xx-TP.
 Ps[10]="Edit Mode (DECEDM)." 			# As documented by VT-3xx-TP.
 Ps[11]="Line Transmit Mode (DECLTM)."	 	# Added from VT-3xx-TP.
-Ps[12]="Start blinking cursor (AT&T 610)."
+Ps[12]="Start blinking cursor (AT&T 610)."	# Conflicts with VT382J
+Ps[12]="Katakana Shift Mode (DECKANAM), VT382-J"
 Ps[13]="Start blinking cursor, xterm." 		# Conflicts with VT-3xx-TP.
 Ps[13]="Space compression field delimiter (DECSCFDM)" # As documented by VT-3xx-TP.
 Ps[14]="XOR of blinking cursor control sequence and menu." # Conflicts with VT-3xx-TP.
@@ -34,7 +36,11 @@ Ps[16]="Edit key execution (DECEKEM)."	# Added from VT-3xx-TP.
 
 Ps[18]="Print Form Feed (DECPFF), VT220."
 Ps[19]="Set printer extent to full screen (DECPEX), VT220."
-
+Ps[20]="Overstrike Mode (OS), VK100" 		# Documented in EK-VK100-TM-001
+Ps[21]="Local BASIC Mode (BA), VK100" 		# Documented in EK-VK100-TM-001
+Ps[22]="Host BASIC Mode (BA), VK100" 		# Documented in EK-VK100-TM-001
+Ps[23]="Programmed Keypad Mode (PK), VK100" 	# Documented in EK-VK100-TM-001
+Ps[24]="Auto Hardcopy Mode (AH), VK100"		# Documented in EK-VK100-TM-001
 Ps[25]="Text cursor enable (DECTCEM), VT220."
 
 Ps[30]="Show scrollbar (rxvt)."
@@ -62,11 +68,14 @@ Ps[46]="Graphics Print Background (DECGPBM)."	# As documented by VT-3xx-TP.
 Ps[47]="Use Alternate Screen Buffer, xterm."	# Conflicts with VT-3xx-TP.
 Ps[47]="Graphics Rotated Print Mode (DECGRPM)."	# As documented by VT-3xx-TP.
 
+Ps[49]="Thai Input Mode (DECTHAIM), VT382-T"
+Ps[50]="Thai Cursor Mode (DECTHAICM), VT382-T"
+
 Ps[53]="VT131 transmit (DEC131TM)."		# Added from VT-3xx-TP.
 
 Ps[57]="North American / Greek keyboard mapping (DECNAKB)" 	# Added from ek-520-rm
 Ps[58]="IBM ProPrinter Emulation: interpret subsequent data according to the IBM ProPrinter protocol syntax instead of the DEC protocol. (DECIPEM)" 	# Added from ek-520-rm
-
+Ps[59]="Kanji/Katakana Display Mode (DECKKDM), VT382-J"
 Ps[60]="Horizontal cursor coupling (DECHCCM)."	# Added from VT-3xx-TP.
 Ps[61]="Vertical cursor coupling (DECVCCM)."	# Added from VT-3xx-TP.
 
@@ -84,6 +93,7 @@ Ps[73]="Transmit rate limiting (DECXRLM)."	# Added from VT-3xx-TP.
 
 Ps[80]="Sixel Display Mode (DECSDM)."
 Ps[81]="Keyboard sends key position reports instead of character codes (DECKPM)." 	# Added from ek-520-rm
+Ps[90]="Thai Space Compensating Mode (DECTHAISCM), VT382-T"
 
 Ps[95]="Do not clear screen when DECCOLM is set/reset (DECNCSM), VT510 and up."
 Ps[96]="Perform a copy/paste from right-to-left (DECRLCM), VT520" 	# Added from ek-520-rm, only valid with Hebrew keyboard language
@@ -101,7 +111,6 @@ Ps[106]="Overscan mode for monochrome VT520 terminal (DECOSCNM)" 	# Added from e
 Ps[108]="Num Lock Mode of keyboard (DECNUMLK)"		# Added from ek-520-rm
 Ps[109]="Caps Lock Mode of keyboard (DECCAPSLK)" 	# Added from ek-520-rm
 Ps[110]="Keyboard LED's Host Indicator Mode (DECKLHIM)"	# Added from ek-520-rm
-
 Ps[111]="Framed Windows with title bars, borders, and icons (DECFWM), VT520" 	# Added from ek-520-rm
 Ps[112]="Allow user to Review Previous Lines that have scrolled off the top (DECRPL)" 	# Added from ek-520-rm
 Ps[113]="Host Wake-up Mode, CRT and Energy Saver (DECHWUM), VT520" 	# Added from ek-520-rm
@@ -123,7 +132,7 @@ Ps[1010]="Scroll to bottom on tty output (rxvt)."
 Ps[1011]="Scroll to bottom on key press (rxvt)."
 Ps[1015]="Urxvt Mouse Mode."
 Ps[1016]="SGR Mouse PixelMode, xterm."
-Ps[1034]="Interpret "meta" key, xterm. This sets the eighth bit of keyboard input."
+Ps[1034]="Interpret 'meta' key, xterm. This sets the eighth bit of keyboard input."
 Ps[1035]="Enable special modifiers for Alt and NumLock keys, xterm."
 Ps[1036]="Send ESC when Meta modifies a key, xterm."
 Ps[1037]="Send DEL from the editing-keypad Delete key, xterm."
