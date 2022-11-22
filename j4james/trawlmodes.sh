@@ -189,7 +189,7 @@ for mode; do
     if ! IFS=";$" read -a REPLY -t 0.25 -s -p $'\e[?'$mode'$p' -d y; then
 	echo "Terminal did not respond to mode $mode." >&2
     else
-	if [[ ${REPLY[1]} == 0 ]]; then continue; fi 	# Skip "Not recognized".
+	if [[ ${REPLY[1]} == 0 ]]; then continue; fi 	# Skip "Not recognized"
 	echo -n "$mode | "
 	echo -n "${status[${REPLY[1]}]}"
 	echo "| ${Ps[$mode]} | ${Nt[$mode]}"

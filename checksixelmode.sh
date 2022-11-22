@@ -75,7 +75,8 @@ Ps[50]="Thai Cursor Mode (DECTHAICM), VT382-T" 	# Added from ek-vt38t-ug
 Ps[53]="VT131 transmit (DEC131TM)."		# Added from ek-vt3xx-tp.
 
 Ps[57]="North American / Greek keyboard mapping (DECNAKB)" 	# Added from ek-520-rm
-Ps[58]="IBM ProPrinter Emulation: interpret subsequent data according to the IBM ProPrinter protocol syntax instead of the DEC protocol. (DECIPEM)" 	# Added from ek-520-rm
+Ps[58]="IBM ProPrinter Emulation (DECIPEM)" 	# Added from ek-520-rm
+	Nt[58]="Interpret subsequent data according to the IBM ProPrinter protocol syntax instead of the DEC protocol."
 Ps[59]="Kanji/Katakana Display Mode (DECKKDM), VT382-J"	# Documented in ek-vt382-rm.
 Ps[60]="Horizontal cursor coupling (DECHCCM)."	# Added from ek-vt3xx-tp.
 Ps[61]="Vertical cursor coupling (DECVCCM)."	# Added from ek-vt3xx-tp.
