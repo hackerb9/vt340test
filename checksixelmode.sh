@@ -6,17 +6,7 @@
 mode=${1:-80}			# Use command line arg for mode optionally
 
 
-# Ps holds the array of DEC Private Modes
-# Sources (most used first):
-#	XTerm ctlseqs.pdf (default if not otherwise marked)
-# 	VT520/525 Reference Manual		ek-520-rm
-# 	VT300 Text Programming	 		ek-vt3xx-tp
-#	VK100 Technical Manual			ek-vk100-tm
-# 	VT382 (Japanese) Reference Manual	ek-vt382-rm
-#	VT382 (Thai) User Guide			ek-vt38t-ug
-#	VT100 User Guide 			VT100-UG
-#	VT382 (Korean) -- missing! --
-
+# Ps holds the array of DEC Private Mode. (See end for list of scoures.)
 Ps=()
 Ps[1]="Application Cursor Keys (DECCKM), VT100."
 Ps[2]="Designate US ASCII/ANSI for character sets G0-G3 (DECANM), VT100." # From Xterm
@@ -185,4 +175,15 @@ fi
 
 echo "${status[${REPLY[1]}]}"
 
+
+
+# Sources (most frequently used first) for DEC private modes:
+#	XTerm ctlseqs.pdf (default if not otherwise marked)
+# 	VT520/525 Reference Manual		ek-520-rm
+# 	VT300 Text Programming	 		ek-vt3xx-tp
+#	VK100 Technical Manual			ek-vk100-tm
+# 	VT382 (Japanese) Reference Manual	ek-vt382-rm
+#	VT382 (Thai) User Guide			ek-vt38t-ug
+#	VT100 User Guide 			VT100-UG
+#	VT382 (Korean) -- missing! --
 
