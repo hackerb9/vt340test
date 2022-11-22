@@ -182,19 +182,18 @@ Ps[8452]="Sixel leaves cursor right of image, RLogin, xterm."
 
 status=("not recognized" "set" "reset" "permanently set" "permanently reset")
 
-echo "Mode | VT340 Default | Description | Notes"
-echo "-----|---------------|-------------|------"
+echo "Mode | VT340 Response | Description | Notes"
+echo "-----|----------------|-------------|------"
 
 for mode; do
-    echo -n "$mode | "
-
     if ! IFS=";$" read -a REPLY -t 0.25 -s -p $'\e[?'$mode'$p' -d y; then
-	echo -n "Terminal did not respond."
+	echo "Terminal did not respond to mode $mode." >&2
     else
+	if [[ ${REPLY[1]} == 0 ]]; then continue; fi 	# Skip "Not recognized".
+	echo -n "$mode | "
 	echo -n "${status[${REPLY[1]}]}"
+	echo "| ${Ps[$mode]} | ${Nt[$mode]}"
     fi
-
-    echo "| ${Ps[$mode]} | ${Nt[$mode]}"
 done
 
 
