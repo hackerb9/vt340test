@@ -84,7 +84,7 @@ Ps[64]="Page cursor coupling (DECPCCM)."	# Added from ek-vt3xx-tp.
 
 Ps[66]="Application/Numeric keypad mode (DECNKM), VT320"
 Ps[67]="Backarrow key sends backspace (DECBKM), VT340, VT420, VT520."
-	Nt[67]="By default (RESET) backarrow key sends delete."
+	Nt[67]="When RESET (the default), backarrow key sends delete."
 Ps[68]="Keyboard Usage: Data Processing or Typewriter Keys (DECKBUM)." # Added from ek-vt3xx-tp.
 	Nt[68]="Data Processing characters are printed on the right half of the keycaps. According to ek-520-rm, 'If you use the North American language, then DECKBUM should always be RESET (typewriter). For all other languages, you can use either mode.'"
 Ps[69]="Left and right margin mode (DECLRMM), VT420 and up." # Allows DECSLRM to set margins
