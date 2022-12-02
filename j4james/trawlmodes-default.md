@@ -17,7 +17,7 @@ Mode | VT340 Response | Description | Notes
 19 | set| Set printer extent to full screen (DECPEX), VT220. | 
 25 | set| Text cursor enable (DECTCEM), VT220. | 
 38 | reset| Tektronix mode (DECTEK), VT240, xterm. | 
-42 | permanently reset| National Replacement Character sets (DECNRCM), VT220. | 
+42 | permanently reset| National Replacement Character sets (DECNRCM), VT220. | On the VT340 and perhaps other terminals, DECNRCM is PERMANENTLY RESET when the Keyboard Dialect selected in the Set Up menu is 'North American'.
 43 | reset| Graphics Expanded Print Mode (DECGEPM). | 
 44 | reset| Graphics Print Color (DECGPCM) | 
 45 | reset| Graphics Print Color Syntax (DECGPCS). | 

@@ -57,6 +57,7 @@ Ps[38]="Tektronix mode (DECTEK), VT240, xterm."	# As documented by Xterm
 Ps[40]="Allow 80/132 mode, xterm."
 Ps[41]="more(1) fix."
 Ps[42]="National Replacement Character sets (DECNRCM), VT220."
+	Nt[42]="On the VT340 and perhaps other terminals, DECNRCM is PERMANENTLY RESET when the Keyboard Dialect selected in the Set Up menu is 'North American'."
 Ps[43]="Graphics Expanded Print Mode (DECGEPM)."
 Ps[44]="Margin bell, xterm."			# Conflicts with ek-vt3xx-tp.
 Ps[44]="Graphics Print Color (DECGPCM)"		# As documented by ek-vt3xx-tp
