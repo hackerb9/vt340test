@@ -1,38 +1,206 @@
 #!/bin/bash
+# checkmodes
+# 
+# Print the status of DEC Private modes given on command line.
+# If no arguments are given, checks all known modes.
+#
+# With -v flag, also show notes, if any.
+# With -x flag, also print "Not recognized" for unrecognized modes.
+# With -m flag, output as a Markdown table.
+# With -t flag, trawl through modes 0 to 9999. 
 
-# trawlmodes:
-# Try DEC Private modes 0 to 255 and see how the terminal responds.
-# Outputs a MarkDown table. Based on checksixelmode.
+
+# How long to wait for the terminal to reply, in seconds. (Non-integer okay).
+#timeout=1.0
+
+# By default, show double-wide frippery
+fflag=yup
+
+status=("not recognized" "set" "reset" "permanently set" "permanently reset")
+
+checkmode() {
+    # Given a DEC private mode number, query the terminal.
+    # Prints a result from the 0 to 4. ([0]="not recognized" [1]="set"
+    # [2]="reset" [3]="permanently set" [4]="permanently reset").
+    #
+    # If the terminal doesn't reply within ${timeout} seconds, prints
+    # nothing and returns an error . (Default timeout is 0.25 seconds).
+    
+    IFS=";$" read -a REPLY -t${timeout:-0.25} -s -p $'\e[?'$1'$p' -d y \
+	&& echo "${REPLY[1]}"
+}
+
+printmodes() {
+    # Print the status of DEC Private modes given on command line.
+    # With -v flag, also show notes.
+    # With -x flag, also print "Not recognized" for unrecognized modes.
+
+    # If no arguments given, check every known mode.
+    if [[ $# -eq 0 ]]; then set - ${!Ps[@]}; fi
+
+    if [[ -t 1  &&  $fflag ]]; then     # stdout is a terminal? let's go garish!
+	local dw=$'\e#6'		# dw turns on double-wide characters
+	status=( "$(tput dim)not recognized$(tput sgr0)$dw"
+		 "$(tput bold)set$(tput sgr0)$dw"
+		 "reset$dw"
+		 "$(tput ul bold)permanently set$(tput sgr0)$dw"
+		 "$(tput ul)permanently reset$(tput sgr0)$dw" )
+    fi
+
+    if [[ $vflag ]]; then
+	local COLUMNS=$(tput cols)
+	COLUMNS=${COLUMNS:-80}
+    fi
+
+    for mode; do
+	if ! result=$(checkmode $mode); then
+	    echo "Error: Terminal did not respond." >&2
+	    exit 1
+	fi
+
+	# Skip "Not recognized", unless -x given, or only one arg.
+	if [[ ${result} -ne 0  ||  $xflag  ||  $# -eq 1 ]]; then
+	    echo "Checking mode #$mode. ${Ps[$mode]}"
+	    echo "${status[result]}"
+	    if [[ $vflag ]]; then
+		echo ${Nt[mode]:--n} | fold -sw $((COLUMNS-24)) | sed 's/^/\t/'
+	    fi
+	fi
+    done
+}
 
 
-# Allow user to specify range on command line. E.g., trawlmodes.sh {256..1023}
-if [[ $# -eq 0 ]]; then
-    set - {0..255}
-fi
+maketable() {
+    # Check the status of each DEC private mode given as an argument
+    # and create a MarkDown table. Similar to printmodes() above. 
+    # Allows -x flag to print "Not recognized" results.
+    # Ignores -v, notes are always printed. 
+
+    # If no arguments given, check every known mode.
+    if [[ $# -eq 0 ]]; then set - ${!Ps[@]}; fi
+
+    for mode; do
+	if ! result=$(checkmode $mode); then
+	    echo "Terminal did not respond to mode $mode." >&2
+	else
+ 	    # Skip "Not recognized"
+	    if [[ $result == 0 && -z "$xflag" ]]; then continue; fi
+	    echo -n "$mode | "
+	    echo -n "${status[result]}"
+	    echo "| ${Ps[$mode]} | ${Nt[$mode]}"
+	fi
+    done
+}
 
 
-# Ps holds the array of DEC Private Modes
-# Sources (most used first):
-#	XTerm ctlseqs.pdf (default if not otherwise marked)
-# 	VT520/525 Reference Manual		ek-520-rm
-# 	VT300 Text Programming	 		ek-vt3xx-tp
-#	VK100 Technical Manual			ek-vk100-tm
-# 	VT382 (Japanese) Reference Manual	ek-vt382-rm
-#	VT382 (Thai) User Guide			ek-vt38t-ug
-#	VT100 User Guide 			VT100-UG
-#	VT382 (Korean) -- missing! --
+usage() {
+    cat <<EOF
+Usage:
+  checkmode 			# Try all known DEC Private Modes 
+  checkmode 80			# Request the status of mode 80.
+  checkmode {1..100}  		# Request the status of modes 1 to 100.
+  
+Options:
+-v, --show-notes		Show notes of unusual, surprising trivia
+-x, --show-not-recognized	Do not skip modes the terminal doesn't recognize
+-m, --output-markdown		Output a Markdown table instead of plain text
+-t, --trawl			Try modes from 0 to 9999
+-F, --no-frippery		Don't use double-wide chars or other frippery
+EOF
 
+}
+
+main() {
+    local TEMP
+
+    if ! TEMP=$(
+	    getopt -o 'vxmtFfh' \
+		   --long 'show-notes' \
+		   --long 'show-not-recognized' \
+		   --long 'output-markdown' \
+		   --long 'trawl' \
+		   --long 'no-frippery' \
+		   --long 'frippery' \
+		   --long 'help' \
+		   --name 'checkmode' -- "$@"); then
+	# Invalid option error, so just quit.
+	exit 1
+    fi
+
+    eval set -- "$TEMP"
+
+    while true; do 
+	case "$1" in
+	    -v|--show-notes)
+		vflag=yup
+		shift
+		;;
+	    -x|--show-not-recognized)
+		xflag=yup
+		shift
+		;;
+	    -m|--output-markdown)
+		mflag=yup
+		shift
+		;;
+	    -t|--trawl)
+		tflag=yup
+		shift
+		;;
+	    -F|--no-frippery)
+		fflag=""
+		shift
+		;;
+	    -f|--frippery)
+		fflag="yup"
+		shift
+		;;
+	    '--')
+		shift
+		break
+		;;
+	    *)
+		usage
+		exit 1
+		;;
+	esac
+    done
+
+    if [[ $tflag ]]; then
+	if [[ $# -eq 0 ]]; then
+	    set -- {0..9999}
+	else
+	    echo "Warning: Ignoring --trawl since modes were specified" >&2
+	fi
+    fi
+
+    if [[ -z $mflag ]]; then
+	printmodes "$@"
+    else
+	maketable "$@"
+    fi	
+    # Return value is same as whichever function got run.
+}
+
+
+# Ps holds the array of DEC Private Mode. (See end for list of scoures.)
 Ps=()
-Ps[1]="Application Cursor Keys (DECCKM), VT100."
+Ps[0]="Invalid mode"
+	Nt[0]="Use of mode #0 is an error and always ignored."		# std-070
+Ps[1]="Application Cursor Key Mode (DECCKM), VT100." # From std-070
+	Nt[1]="When SET, arrow keys send special application commands to the host"
 Ps[2]="Designate US ASCII/ANSI for character sets G0-G3 (DECANM), VT100." # From Xterm
-Ps[2]="VT52 (ANSI) Mode (DECANM), VT520." 		# From ek-520-rm
+Ps[2]="VT52 (ANSI) Mode (DECANM), VT100." 		# From ek-520-rm
 	Nt[2]="To leave VT52 mode, use Esc <."
 Ps[3]="132 Column Mode (DECCOLM), VT100."
+	Nt[3]="VT340 docs claim DECCOLM is deprecated for DECSCPP (CSI 132 $ |). However, DECSCPP sets the columns per _page_, not screen. Unlike DECCOLM, DECSCPP does not change the visible number of columns on the screen; instead DECSCPP requires horizontal scrolling (see mode 60, DECHCCM)." # ek-vt3xx-tp
+	Nt[3]+=$'\n'"On the VT5x0, see mode 95 (DECNCSM) to prevent the page from being cleared by DECCOLM." # ek-520-rm
 Ps[4]="Smooth (Slow) Scroll (DECSCLM), VT100."
 Ps[5]="Reverse Video Screen (DECSCNM), VT100."
 	Nt[5]="SET is light bg, RESET is dark bg." 	# From EK-VT38T-UG.
 Ps[6]="Origin Mode (DECOM), VT100."
 Ps[7]="Auto-Wrap Mode (DECAWM), VT100."
+	Nt[7]="When RESET, cursor will not advance beyond right-most column."	# From std-070
 Ps[8]="Auto-Repeat Keys (DECARM), VT100."
 Ps[9]="Interlace mode (DECINLM), VT1xx only."   # Documented in VT100-UG
 Ps[9]="Send Mouse X & Y on button press, X10 XTerm." # Conflicts with VT100-UG
@@ -51,12 +219,16 @@ Ps[16]="Edit key execution (DECEKEM)."	# Added from ek-vt3xx-tp.
 
 Ps[18]="Print Form Feed (DECPFF), VT220."
 Ps[19]="Set printer extent to full screen (DECPEX), VT220."
-Ps[20]="Overstrike Mode (OS), VK100" 		# Documented in ek-vk100-tm-001
-Ps[21]="Local BASIC Mode (BA), VK100" 		# Documented in ek-vk100-tm-001
-Ps[22]="Host BASIC Mode (BA), VK100" 		# Documented in ek-vk100-tm-001
-Ps[23]="Programmed Keypad Mode (PK), VK100" 	# Documented in ek-vk100-tm-001
-Ps[24]="Auto Hardcopy Mode (AH), VK100"		# Documented in ek-vk100-tm-001
+Ps[20]="Overstrike Mode (OS), VK100." 		# Documented in ek-vk100-tm-001
+Ps[21]="Local BASIC Mode (BA), VK100." 		# Documented in ek-vk100-tm-001
+Ps[22]="Host BASIC Mode (BA), VK100." 		# Documented in ek-vk100-tm-001
+Ps[23]="Programmed Keypad Mode (PK), VK100." 	# Documented in ek-vk100-tm-001
+Ps[24]="Auto Hardcopy Mode (AH), VK100."	# Documented in ek-vk100-tm-001
 Ps[25]="Text cursor enable (DECTCEM), VT220."
+
+Ps[27]="Proportional Spacing, printers."	# Added from ppl2
+
+Ps[29]="Pitch Select Mode, printers."		# Added from ppl2
 
 Ps[30]="Show scrollbar, rxvt."
 
@@ -69,8 +241,12 @@ Ps[36]="Hebrew encoding mode."			# Added from ek-520-rm
 
 Ps[38]="Tektronix mode (DECTEK), VT240, xterm."	# As documented by Xterm
 
-Ps[40]="Allow 80/132 mode, xterm."
-Ps[41]="more(1) fix."
+Ps[40]="Allow 80/132 mode, xterm."			   # From xterm. Conflicts with ppl2.
+	Nt[40]="Allow DECCOLM (mode 3) to switch columns."
+Ps[40]="Carriage Return/New Line Mode (DECCRNLM), printers." # From ppl2
+Ps[41]="more(1) fix."					     # From xterm. Conflicts with ppl2.
+Ps[41]="Unidirectional Print Mode (DECUPM), printers."	     # From ppl2
+	Nt[41]="Bidirectional when RESET."
 Ps[42]="National Replacement Character sets (DECNRCM), VT220."
 	Nt[42]="On the VT340 and perhaps other terminals, DECNRCM is PERMANENTLY RESET when the Keyboard Dialect selected in the Set Up menu is 'North American'."
 Ps[43]="Graphics Expanded Print Mode (DECGEPM)."
@@ -181,21 +357,22 @@ Ps[2026]="Synchronized output. iTerm2, Contour, Kitty." # From https://gist.gith
 	Nt[2026]="When SET, new data is not displayed until the mode is RESET. Can be used by applications for double-buffering & page flipping to prevent screen tearing."
 Ps[8452]="Sixel leaves cursor right of image, RLogin, xterm."
 
-status=("not recognized" "set" "reset" "permanently set" "permanently reset")
 
-echo "Mode | VT340 Response | Description | Notes"
-echo "-----|----------------|-------------|------"
-
-for mode; do
-    if ! IFS=";$" read -a REPLY -t 0.25 -s -p $'\e[?'$mode'$p' -d y; then
-	echo "Terminal did not respond to mode $mode." >&2
-    else
-	if [[ ${REPLY[1]} == 0 ]]; then continue; fi 	# Skip "Not recognized"
-	echo -n "$mode | "
-	echo -n "${status[${REPLY[1]}]}"
-	echo "| ${Ps[$mode]} | ${Nt[$mode]}"
-    fi
-done
+# Okay, all the definitions are set. Topple them dominos!
+main "$@"
 
 
+
+# Sources (most frequently used first) for DEC private modes:
+#	XTerm ctlseqs.pdf (default if not otherwise marked)
+# 	VT520/525 Reference Manual		ek-520-rm
+# 	VT300 Text Programming	 		ek-vt3xx-tp
+#	DEC STD 070				std-070
+#	VK100 Technical Manual			ek-vk100-tm
+# 	VT382 (Japanese) Reference Manual	ek-vt382-rm
+#	VT382 (Thai) User Guide			ek-vt38t-ug
+#	VT100 User Guide 			VT100-UG
+#	DEC Printing Protocol Level 2 quickref	ppl2
+#	LG06/LG12 Companion Printer		lg12
+#	VT382 (Korean) -- missing! --
 
