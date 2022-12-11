@@ -87,7 +87,7 @@ maketable() {
 	    if [[ $result == 0 && -z "$xflag" ]]; then continue; fi
 	    echo -n "$mode | "
 	    echo -n "${status[result]}"
-	    echo "| ${Ps[$mode]} | ${Nt[$mode]}"
+	    echo "| ${Ps[$mode]} | ${Nt[$mode]//|/\\|}"
 	fi
     done
 }
