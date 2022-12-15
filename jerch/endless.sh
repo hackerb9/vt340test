@@ -9,8 +9,8 @@ amplitude=50
 
 sixels=(@\$ A\$ C\$ G\$ O\$ _\$-)
 pi=$(echo "scale=10; 4*a(1)" | bc -l)
-run=true
-trap run=false INT
+
+trap 'echo -e "\x1b\\"'  EXIT
 
 echo -ne "\x1bP0;0;0q\"1;1#1;2;100;0;0#1"
 y=0
@@ -20,4 +20,3 @@ do
   echo -ne "!${x%%.*}?${sixels[$((y%6))]}"
   (( y++ ))
 done
-echo -e "\x1b\\"
