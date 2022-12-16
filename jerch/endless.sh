@@ -24,10 +24,13 @@ if ! factor $period 2>&- | cut -d: -f2- | grep -q -w 3; then
     m=m*3
 fi
 
-# Enable smooth scrolling
-IFS=";$" read -a REPLY -t${timeout:-0.25} -s -p $'\e[?4$p' -d y
-if [[ ${REPLY[1]} == 2 ]]; then resetsmooth=$'\e[?4l'; fi
-echo -n $'\e[?4h'
+# Enable smooth scrolling. Note that, on a genuine VT340,
+# Sixel Graphics Newline always jump scrolls.
+IFS=";$" read -a REPLY -t${timeout:1} -s -p $'\e[?4$p' -d y
+if [[ ${REPLY[1]} == 2 ]]; then		# "2" means disabled, but changeable.
+    echo -n $'\e[?4h'			# Set smooth scrolling to high.
+    resetsmooth=$'\e[?4l'		# When script exits, reset to low.
+fi
 
 # Start sixels graphics string
 echo -ne "\x1bP0;0;0q\"1;1#1;2;100;0;0#1"

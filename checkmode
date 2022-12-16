@@ -19,7 +19,7 @@ fflag=yup
 status=("not recognized" "set" "reset" "permanently set" "permanently reset")
 
 checkmode() {
-    # Given a DEC private mode number, query the terminal.
+    # Given a DEC private mode number, query the terminal with DECRQM.
     # Prints a result from the 0 to 4. ([0]="not recognized" [1]="set"
     # [2]="reset" [3]="permanently set" [4]="permanently reset").
     #
@@ -196,6 +196,7 @@ Ps[3]="132 Column Mode (DECCOLM), VT100."
 	Nt[3]="VT340 docs claim DECCOLM is deprecated for DECSCPP (CSI 132 $ |). However, DECSCPP sets the columns per _page_, not screen. Unlike DECCOLM, DECSCPP does not change the visible number of columns on the screen; instead DECSCPP requires horizontal scrolling (see mode 60, DECHCCM)." # ek-vt3xx-tp
 	Nt[3]+=" On the VT5x0, see mode 95 (DECNCSM) to prevent the page from being cleared by DECCOLM." # ek-520-rm
 Ps[4]="Smooth (Slow) Scroll (DECSCLM), VT100."
+	Nt[4]="On the VT340 and possibly other terminals, this option is not binary. In the SetUp menu, scrolling can be 'Jump' (same as RESET), or 'Smooth-1', '-2', or '-4' which scroll by scanlines instead of character cells. The VT340 factory default is 'Smooth-2', which is 25 scanlines (2.5 text lines) per second. Smooth-1 is half and Smooth-4 is twice the speed. If any of the Smooth options are selected, then the result from DECRQM (Request DEC Private Mode) will show mode 4 as SET. However, when mode 4 is SET using DECSET (CSI ? 4 h), the VT340 always selects Smooth-2. See also the VT5x0's DECSSCLS (Set Scroll Speed, CSI Ps SP p)."
 Ps[5]="Reverse Video Screen (DECSCNM), VT100."
 	Nt[5]="SET is light bg, RESET is dark bg." 	# From EK-VT38T-UG.
 Ps[6]="Origin Mode (DECOM), VT100."
