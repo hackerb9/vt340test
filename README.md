@@ -279,3 +279,47 @@ It does not appear that the VT340 firmware can perform RTS/CTS flow
 control, although electrically it is possible. See
 [flowcontrol](flowcontrol.md) for more details.
 
+### Smooth scrolling is on by factory default
+
+Instead of scrolling the page up as fast as possible ("Jump"
+scrolling), the VT340 defaults to "Smooth-2" scrolling. Smooth-1,
+Smooth-2, and Smooth-4 are the three possible smooth scrolling speeds
+available in Set-Up -> Display -> Scrolling. 
+
+On the VT340, this setting does not affect sixel images when first
+being drawn. Graphics New Line ('-') still scrolls the entire screen
+as fast as possible. However, once on the screen, sixel images do
+scroll smoothly along with the text upon receiving a text New Line
+('\n').
+
+Documentation varied about how fast the different speeds were supposed
+to be, so hackerb9 measured the speeds using the
+[scrollspeed.sh](scrollspeed.sh) shell script.
+
+Results:
+|   Setting | Scanlines per second | Text lines per second |
+|----------:|---------------------:|----------------------:|
+|  Smooth-1 |                   30 |                     3 |
+|  Smooth-2 |                   60 |                     6 |
+|  Smooth-4 |                  119 |                    12 |
+|      Jump |                  596 |                    60 |
+| No Scroll |                  N/A |                   N/A |
+
+While the VT340 allows the scrolling speed to be changed in the Set-Up
+menu, it does not appear to be programmatically changeable (as it is
+on the VT5x0 using DECSSCLS, Set Smooth Scroll Speed). Instead, DEC
+Private Mode #4, DECSCLM, Smooth Scroll Mode, is used as a binary
+switch. When DECSCLM is SET, Smooth-2 is selected. When DECSCLM is
+RESET, Jump scroll is used. Querying the private mode via DECRQM
+returns SET when any of the Smooth speeds are selected. If the user
+selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
+RECOGNIZED.
+
+Note that, although Smooth-2 is the factory default on the VT340, the
+most popular terminfo file for the VT340 (as of 2022) disables Smooth
+Scroll Mode when the "reset" sequence is sent, which is often done at
+user login (e.g., `tset`). This makes having a user preference of
+Smooth-1 or Smooth-4 overly onerous as they would require repeated
+manual configuration in Set-Up.
+
+
