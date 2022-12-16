@@ -37,7 +37,12 @@ done
 
 while :
 do
-#    for y in ${!f[@]}; do echo -n "${f[y]}"; done 	# 1.8 MBps (cached elts)
+    for y in ${!f[@]}; do echo -n "${f[y]}"; done 	# 1.8 MBps (cached elt)
 #    echo -n "${f[*]}"					# 48 MBps (all elts)
-    echo -n "$g"					# 88 MBps (string)
+#    echo -n "$g"					# 88 MBps (string)
 done
+
+
+# NOTES
+#
+# Simple way to measure the speed is `./endless.sh | pv >/dev/null`
