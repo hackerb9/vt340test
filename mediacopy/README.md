@@ -4,7 +4,9 @@ Media Copy is how one can take a screenshot from a VT340. It can be of
 the entire screen or a region. Depending upon complexity of the
 graphics, it can take a long time (~5m) to transmit. 
 
-A script for making screenshots can be found in [mediacopy.sh](mediacopy.sh).
+A script for making screenshots can be found in [mediacopy.sh](../mediacopy/mediacopy.sh).
+
+The format of the output is discussed in [Sixel Printer Port](../mediacopy/sixel-printer-port.md).
 
 ### Sequence for sending
 
