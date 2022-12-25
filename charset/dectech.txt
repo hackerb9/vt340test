@@ -1,0 +1,20 @@
++>DEC Technical Character Set
+
+      2_ 3_ 4_ 5_ 6_ 7_
+  _0     O0  O@  OP  O`  Op 
+  _1  O!  O1  OA  OQ  Oa  Oq 
+  _2  O"  O2  OB     Ob  Or 
+  _3  O#  O3  OC  OS  Oc  Os 
+  _4  O$  O4  OD     Od  Ot 
+  _5  O%  O5  OE     Oe    
+  _6  O&  O6  OF  OV  Of  Ov 
+  _7  O'  O7  OG  OW  Og  Ow 
+  _8  O(     OH  OX  Oh  Ox 
+  _9  O)     OI  OY  Oi  Oy 
+  _A  O*     OJ  OZ  Oj  Oz 
+  _B  O+     OK  O[  Ok  O{ 
+  _C  O,  O<  OL  O\  Ol  O| 
+  _D  O-  O=  OM  O]     O} 
+  _E  O.  O>  ON  O^  On  O~ 
+  _F  O/  O?  OO  O_  Oo    
+
