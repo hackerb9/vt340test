@@ -126,6 +126,8 @@ table gives the sequences that select the available 96-Character Sets.
 
 #### Selecting 94-Character Sets Using Single and Locking Shifts
 
+[XXX todo: update this for VT340]
+
 <ul>
 
 | Character Set        | G0              | G1              | G2                | G3              |
@@ -161,6 +163,9 @@ table gives the sequences that select the available 96-Character Sets.
 
 #### Selecting 96-Character Sets Using Single and Locking Shifts
 
+[TODO: Describe how these differ from 94-char set]
+[XXX todo: update this for VT340]
+
 <ul>
 
 | Character Set | G0 | G1    | G2    | G3    |
@@ -168,12 +173,10 @@ table gives the sequences that select the available 96-Character Sets.
 | ISO Latin 1   |    | ESC-A | ESC.A | ESC/A |
 | ISO Latin 2   |    | ESC-B | ESC.B | ESC/B |
 | ISO Latin 5   |    | ESC-M | ESC.M | ESC/M |
-| ISO Latin 9*  |    | ESC-b | ESC.b | ESC/b |
+| ISO Latin 9   |    | ESC-b | ESC.b | ESC/b |
 | ISO Cyrillic  |    | ESC-L | ESC.L | ESC/L |
 | ISO Greek     |    | ESC-F | ESC.F | ESC/F |
 | ISO Hebrew    |    | ESC-H | ESC.H | ESC/H |
-
-* The VT340 does not support Latin 9
 
 </ul>
 
