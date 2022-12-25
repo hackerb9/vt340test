@@ -14,6 +14,7 @@ int main() {
   printf("     ");
   for (int i=2; i<=7; i++) { printf (" %X_", i); }
   printf("\n");
+  printf("\n");
 
   for (int v=0; v<=0xF; v++) {
     printf ("  _%X ", v);
