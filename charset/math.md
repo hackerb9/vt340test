@@ -36,7 +36,7 @@ easily:
 
 ## Slightly more detail
 
-### 1. Assign a Tech character set to G3
+### 1. Assign the DEC Tech character set to G3
 
    <kbd>Esc</kbd><kbd></kbd><kbd>+</kbd><kbd></kbd><kbd>></kbd>
 
