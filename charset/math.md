@@ -21,11 +21,11 @@ easily:
    <kbd>Esc</kbd><kbd>+</kbd><kbd>></kbd>
 
 1. Every time you want to print a mathematical character, first send SS3 to
-   temporarily shift to G3 and then...
+   temporarily shift to G3...
    
    <kbd>Esc</kbd><kbd>O</kbd>
 
-1. Send an ASCII character from one of the tables below to choose a symbol.
+1. And then send an ASCII character from one of the tables below to choose a symbol.
 
 	<kbd>@</kbd>	→ ∴ (Therefore)
 
@@ -52,23 +52,29 @@ four different slots (G0, G1, G2, and G3).
 
 ### 2. Send SS3 (non-locking shift to G3)
 
-<ul>
-
 Renders next character using G3: <kbd>Esc</kbd><kbd>O</kbd>
 
-| Name           | Mnemonic | Sequence | Hex   | Function                                                          |
-|----------------|----------|----------|-------|-------------------------------------------------------------------|
-| Single Shift 3 | SS3      | ESC O    | 1B 4F | The character that follows SS3 selects from the G3 character set. |
+<ul>
+
+| Name           | Mnemonic | Sequence | Hex   | Function                                          |
+|----------------|----------|----------|-------|---------------------------------------------------|
+| Single Shift 3 | SS3      | ESC O    | 1B 4F | Use G3 character set just for the next character. |
 
 </ul>
+
+Locking-shifts are also available, see below.
 
 ### 3. Send an ASCII character to display a mathematical character
 
 Display the ∴ symbol: <kbd>@</kbd>
 
-| Hex Value | Decimal | ASCII | Symbol Name |   |
-|-----------|---------|-------|-------------|---|
-| 40        | 64      | @     | Therefore   | ∴ |
+<ul>
+
+| Hex | Decimal | ASCII | Name      | Symbol |
+|-----|---------|-------|-----------|--------|
+| 40  | 64      | @     | Therefore | ∴      |
+
+</ul>
 
 The full tables of symbols can be found below.
 
@@ -93,83 +99,98 @@ Programmers Manual", with corrections, and using Unicode characters
 found at https://vt100.net/charsets/technical.html.
 
 
+### Individual Technical Characters
+
+#### Greek
+
 <ul>
 
-### DEC Technical Character Set
-
-| Hex Value     | Decimal | ASCII | Symbol Name                  |   |
-|---------------|---------|-------|------------------------------|---|
-| Greek:        |         |       |                              |   |
-| 44            | 68      | D     | Uppercase Delta              | Δ |
-| 46            | 70      | F     | Uppercase Phi                | Φ |
-| 47            | 71      | G     | Uppercase Gamma              | Γ |
-| 4A            | 74      | J     | Uppercase Theta              | Θ |
-| 4C            | 76      | L     | Uppercase Lambda             | Λ |
-| 50            | 80      | P     | Uppercase Pi                 | Π |
-| 51            | 81      | Q     | Uppercase Psi                | Ψ |
-| 53            | 83      | S     | Uppercase Sigma              | Σ |
-| 57            | 87      | W     | Uppercase Omega              | Ω |
-| 58            | 88      | X     | Uppercase Ksi                | Ξ |
-| 59            | 89      | Y     | Uppercase Upsilon            | Υ |
-| 61            | 97      | a     | Lowercase Alpha              | α |
-| 62            | 98      | b     | Lowercase Beta               | β |
-| 63            | 99      | c     | Lowercase Chi                | χ |
-| 64            | 100     | d     | Lowercase Delta              | δ |
-| 65            | 101     | e     | Lowercase Epsilon            | ε |
-| 66            | 102     | f     | Lowercase Phi                | φ |
-| 67            | 103     | g     | Lowercase Gamma              | γ |
-| 68            | 104     | h     | Lowercase Eta                | η |
-| 69            | 105     | i     | Lowercase Iota               | ι |
-| 6A            | 106     | j     | Lowercase Theta              | θ |
-| 6B            | 107     | k     | Lowercase Kappa              | κ |
-| 6C            | 108     | l     | Lowercase Lambda             | λ |
-| 6E            | 110     | n     | Lowercase Nu                 | ν |
-| 70            | 112     | p     | Lowercase Pi                 | π |
-| 71            | 113     | q     | Lowercase Psi                | ψ |
-| 72            | 114     | r     | Lowercase Rho                | ρ |
-| 73            | 115     | s     | Lowercase Sigma              | σ |
-| 74            | 116     | t     | Lowercase Tau                | τ |
-| 77            | 119     | w     | Lowercase Omega              | ω |
-| 78            | 120     | x     | Lowercase Xi                 | ξ |
-| 79            | 121     | y     | Lowercase Upsilon            | υ |
-| 7A            | 122     | z     | Lowercase Zeta               | ζ |
-|               |         |       |                              |   |
-| Mathematical: |         |       |                              |   |
-| 3C            | 60      | \<    | Less Than or Equal To        | ≤ |
-| 3D            | 61      | \=    | Not Equal                    | ≠ |
-| 3E            | 62      | \>    | Greater Than or Equal To     | ≥ |
-| 3F            | 63      | \?    | Integral                     | ∫ |
-| 41            | 65      | A     | Variation or Proportional To | ∝ |
-| 42            | 66      | B     | Infinity                     | ∞ |
-| 43            | 67      | C     | Division or Divided By       | ÷ |
-| 45            | 69      | E     | Nabla or Del                 | ∇ |
-| 48            | 72      | H     | Is Approximate To            | ∼ |
-| 49            | 73      | I     | Similar or Equal To          | ≃ |
-| 4B            | 75      | K     | Times or Cross Product       | × |
-| 56            | 86      | V     | Radical                      | √ |
-| 6F            | 111     | o     | Partial Derivative           | ∂ |
-| 76            | 118     | v     | Function                     | ƒ |
-| 7B            | 123     | {     | Left Arrow                   | ← |
-| 7C            | 124     | \|    | Upward Arrow                 | ↑ |
-| 7D            | 125     | \}    | Right Arrow                  | → |
-| 7E            | 126     | \~    | Downward Arrow               | ↓ |
-|               |         |       |                              |   |
-| Logic:        |         |       |                              |   |
-| 40            | 64      | @     | Therefore                    | ∴ |
-| 4D            | 77      | M     | If and Only If               | ⇔ |
-| 4E            | 78      | N     | Implies                      | ⇒ |
-| 4F            | 79      | O     | Identical To                 | ≡ |
-| 5A            | 90      | Z     | Is Included In               | ⊂ |
-| 5B            | 91      | \[    | Includes                     | ⊃ |
-| 5C            | 92      | \\    | Intersection                 | ∩ |
-| 5D            | 93      | \]    | Union                        | ∪ |
-| 5E            | 94      | \^    | Logical And                  | ∧ |
-| 5F            | 95      | \_    | Logical Or                   | ∨ |
-| 60            | 96      | \`    | Logical Not                  | ¬ |
+| Hex | Decimal | ASCII | Name              | Symbol |
+|-----|---------|-------|-------------------|--------|
+| 44  | 68      | D     | Uppercase Delta   | Δ      |
+| 46  | 70      | F     | Uppercase Phi     | Φ      |
+| 47  | 71      | G     | Uppercase Gamma   | Γ      |
+| 4A  | 74      | J     | Uppercase Theta   | Θ      |
+| 4C  | 76      | L     | Uppercase Lambda  | Λ      |
+| 50  | 80      | P     | Uppercase Pi      | Π      |
+| 51  | 81      | Q     | Uppercase Psi     | Ψ      |
+| 53  | 83      | S     | Uppercase Sigma   | Σ      |
+| 57  | 87      | W     | Uppercase Omega   | Ω      |
+| 58  | 88      | X     | Uppercase Ksi     | Ξ      |
+| 59  | 89      | Y     | Uppercase Upsilon | Υ      |
+| 61  | 97      | a     | Lowercase Alpha   | α      |
+| 62  | 98      | b     | Lowercase Beta    | β      |
+| 63  | 99      | c     | Lowercase Chi     | χ      |
+| 64  | 100     | d     | Lowercase Delta   | δ      |
+| 65  | 101     | e     | Lowercase Epsilon | ε      |
+| 66  | 102     | f     | Lowercase Phi     | φ      |
+| 67  | 103     | g     | Lowercase Gamma   | γ      |
+| 68  | 104     | h     | Lowercase Eta     | η      |
+| 69  | 105     | i     | Lowercase Iota    | ι      |
+| 6A  | 106     | j     | Lowercase Theta   | θ      |
+| 6B  | 107     | k     | Lowercase Kappa   | κ      |
+| 6C  | 108     | l     | Lowercase Lambda  | λ      |
+| 6E  | 110     | n     | Lowercase Nu      | ν      |
+| 70  | 112     | p     | Lowercase Pi      | π      |
+| 71  | 113     | q     | Lowercase Psi     | ψ      |
+| 72  | 114     | r     | Lowercase Rho     | ρ      |
+| 73  | 115     | s     | Lowercase Sigma   | σ      |
+| 74  | 116     | t     | Lowercase Tau     | τ      |
+| 77  | 119     | w     | Lowercase Omega   | ω      |
+| 78  | 120     | x     | Lowercase Xi      | ξ      |
+| 79  | 121     | y     | Lowercase Upsilon | υ      |
+| 7A  | 122     | z     | Lowercase Zeta    | ζ      |
 
 </ul>
 
-## Building Large Mathematical Symbols
+#### Mathematical
+
+<ul>
+
+| Hex | Decimal | ASCII | Name                         | Symbol |
+|-----|---------|-------|------------------------------|--------|
+| 3C  | 60      | \<    | Less Than or Equal To        | ≤      |
+| 3D  | 61      | \=    | Not Equal                    | ≠      |
+| 3E  | 62      | \>    | Greater Than or Equal To     | ≥      |
+| 3F  | 63      | \?    | Integral                     | ∫      |
+| 41  | 65      | A     | Variation or Proportional To | ∝      |
+| 42  | 66      | B     | Infinity                     | ∞      |
+| 43  | 67      | C     | Division or Divided By       | ÷      |
+| 45  | 69      | E     | Nabla or Del                 | ∇      |
+| 48  | 72      | H     | Is Approximate To            | ∼      |
+| 49  | 73      | I     | Similar or Equal To          | ≃      |
+| 4B  | 75      | K     | Times or Cross Product       | ×      |
+| 56  | 86      | V     | Radical                      | √      |
+| 6F  | 111     | o     | Partial Derivative           | ∂      |
+| 76  | 118     | v     | Function                     | ƒ      |
+| 7B  | 123     | {     | Left Arrow                   | ←      |
+| 7C  | 124     | \|    | Upward Arrow                 | ↑      |
+| 7D  | 125     | \}    | Right Arrow                  | →      |
+| 7E  | 126     | \~    | Downward Arrow               | ↓      |
+
+</ul>
+
+#### Logic
+
+<ul>
+
+| Hex | Decimal | ASCII | Name           | Symbol |
+|-----|---------|-------|----------------|--------|
+| 40  | 64      | @     | Therefore      | ∴      |
+| 4D  | 77      | M     | If and Only If | ⇔      |
+| 4E  | 78      | N     | Implies        | ⇒      |
+| 4F  | 79      | O     | Identical To   | ≡      |
+| 5A  | 90      | Z     | Is Included In | ⊂      |
+| 5B  | 91      | \[    | Includes       | ⊃      |
+| 5C  | 92      | \\    | Intersection   | ∩      |
+| 5D  | 93      | \]    | Union          | ∪      |
+| 5E  | 94      | \^    | Logical And    | ∧      |
+| 5F  | 95      | \_    | Logical Or     | ∨      |
+| 60  | 96      | \`    | Logical Not    | ¬      |
+
+</ul>
+
+### Building Large Mathematical Symbols
 
 This table shows how to build large mathematical symbols. The
 characters are designed to connect to adjacent character cells to form
@@ -187,50 +208,49 @@ connector (hex 26).
 
 **Component Characters for Large Mathematics**
 
-| Symbol Name                         | Hex | ASCII | Radical | Integral | Square | Curly | Paren | Summations |   |
-|-------------------------------------|-----|-------|:-------:|:--------:|:------:|:-----:|:-----:|:----------:|:-:|
-| Left Radical                        | 21  | \!    | X       |          |        |       |       |            | ⎷ |
-| Top Left Radical                    | 22  | \"    | X       |          |        |       |       |            | ┌ |
-| Horizontal Connector                | 23  | \#    | X       |          |        |       |       | X          | ─ |
-| Top Integral                        | 24  | \$    |         |          | X      |       |       |            | ⌠ |
-| Bottom Integral                     | 25  | \%    |         | X        |        |       |       |            | ⌡ |
-| Vertical Connector                  | 26  | \&    | X       | X        | X      | X     | X     |            | │ |
-| Top Left Square Bracket             | 27  | \'    |         |          | X      |       |       |            | ⎡ |
-| Bottom Left Square Bracket          | 28  | \(    |         |          | X      |       |       |            | ⎣ |
-| Top Right Square Bracket            | 29  | \)    |         |          | X      |       |       |            | ⎤ |
-| Bottom Right Square Bracket         | 2A  | \*    |         |          | X      |       |       |            | ⎦ |
-| Top Left Parenthesis                | 2B  | \+    |         |          |        | X     | X     |            | ⎛ |
-| Bottom Left Parenthesis             | 2C  | \,    |         |          |        | X     | X     |            | ⎝ |
-| Top Right Parenthesis               | 2D  | \-    |         |          |        | X     | X     |            | ⎞ |
-| Bottom Right Parenthesis            | 2E  | \.    |         |          |        | X     | X     |            | ⎠ |
-| Left Middle Curly Brace             | 2F  | \/    |         |          |        | X     |       |            | ⎨ |
-| Right Middle Curly Brace            | 30  | 0     |         |          |        | X     |       |            | ⎬ |
-| Top Left Summation                  | 31  | 1     |         |          |        |       |       | X          | ␦ |
-| Bottom Left Summation               | 32  | 2     |         |          |        |       |       | X          | ␦ |
-| Top Vertical Summation Connector    | 33  | 3     |         |          |        |       |       | X          | ␦ |
-| Bottom Vertical Summation Connector | 34  | 4     |         |          |        |       |       | X          | ␦ |
-| Top Right Summation                 | 35  | 5     |         |          |        |       |       | X          | ␦ |
-| Bottom Right Summation              | 36  | 6     |         |          |        |       |       | X          | ␦ |
-| Right Middle Summation              | 37  | 7     |         |          |        |       |       | X          | ␦ |
+| Name                                | Symbol | Hex | ASCII | Radical | Integral | Square | Curly | Paren | Summations |
+|-------------------------------------|:------:|-----|-------|:-------:|:--------:|:------:|:-----:|:-----:|:----------:|
+| Left Radical                        | ⎷      | 21  | \!    | X       |          |        |       |       |            |
+| Top Left Radical                    | ┌      | 22  | \"    | X       |          |        |       |       |            |
+| Horizontal Connector                | ─      | 23  | \#    | X       |          |        |       |       | X          |
+| Top Integral                        | ⌠      | 24  | \$    |         |          | X      |       |       |            |
+| Bottom Integral                     | ⌡      | 25  | \%    |         | X        |        |       |       |            |
+| Vertical Connector                  | │      | 26  | \&    | X       | X        | X      | X     | X     |            |
+| Top Left Square Bracket             | ⎡      | 27  | \'    |         |          | X      |       |       |            |
+| Bottom Left Square Bracket          | ⎣      | 28  | \(    |         |          | X      |       |       |            |
+| Top Right Square Bracket            | ⎤      | 29  | \)    |         |          | X      |       |       |            |
+| Bottom Right Square Bracket         | ⎦      | 2A  | \*    |         |          | X      |       |       |            |
+| Top Left Parenthesis                | ⎛      | 2B  | \+    |         |          |        | X     | X     |            |
+| Bottom Left Parenthesis             | ⎝      | 2C  | \,    |         |          |        | X     | X     |            |
+| Top Right Parenthesis               | ⎞      | 2D  | \-    |         |          |        | X     | X     |            |
+| Bottom Right Parenthesis            | ⎠      | 2E  | \.    |         |          |        | X     | X     |            |
+| Left Middle Curly Brace             | ⎨      | 2F  | \/    |         |          |        | X     |       |            |
+| Right Middle Curly Brace            | ⎬      | 30  | 0     |         |          |        | X     |       |            |
+| Top Left Summation                  | ␦      | 31  | 1     |         |          |        |       |       | X          |
+| Bottom Left Summation               | ␦      | 32  | 2     |         |          |        |       |       | X          |
+| Top Vertical Summation Connector    | ␦      | 33  | 3     |         |          |        |       |       | X          |
+| Bottom Vertical Summation Connector | ␦      | 34  | 4     |         |          |        |       |       | X          |
+| Top Right Summation                 | ␦      | 35  | 5     |         |          |        |       |       | X          |
+| Bottom Right Summation              | ␦      | 36  | 6     |         |          |        |       |       | X          |
+| Right Middle Summation              | ␦      | 37  | 7     |         |          |        |       |       | X          |
 
 _␦ marks characters which Unicode (as of 2022) is unable to reproduce,
 namely the large summation character. Note that Unicode has summation
 top (⎲) and bottom (⎳) characters, but those are insufficient even for
 the simplest mathematics. In contrast, DEC's sigma can grow
 arbitrarily large in either axis which means it can be centered
-vertically with the equation to its right and properly spans the
+vertically with the equation to its right and properly span the
 initial state (e.g., $i=-∞$) beneath it._
 
 </ul>
 
 ## Character Set Selection
 
-To make a character set available for printing, you must designate the
-set as either G0, G1, G2, or G3. The designated set is then invoked
-into "GL" or "GR" using single or locking shift, and can be used for
-printing. [GL means "Graphic Left" and contains the single-byte
-characters in which the high bit is cleared: 0 to 127. GR is
-analogous, with the high bit set: 128 to 255.]
+To make a character set available, it must be designated as either G0,
+G1, G2, or G3. The designated set is then invoked into "GL" or "GR"
+using single or locking shift before use. [GL means "Graphic Left" and
+contains the single-byte characters in which the high bit is cleared:
+0 to 127. GR is analogous, with the high bit set: 128 to 255.]
 
 ### Single and Locking Shifts
 
@@ -240,9 +260,12 @@ character following the single shift sequence.
 A locking shift (LS2, LS3, LS1R, LS2R, or LS3R) persists until another
 locking shift is invoked.
 
-<ul>
+### Select active character sets 
 
-**Table 16 Select Active character Sets Using Single and Locking Shifts**
+Here are the escape sequences for for Single and Locking Shifts:
+
+
+<ul>
 
 | Name                  | Mnemonic | Sequence | Hex   | Function                                                          |
 |-----------------------|----------|----------|-------|-------------------------------------------------------------------|
@@ -268,9 +291,10 @@ G0, G1, G2, or G3 character set designators. This table gives the
 sequences that select the available 94-Character Sets. The following
 table gives the sequences that select the available 96-Character Sets.
 
-<ul>
 
-**Selecting 94-Character Sets Using Single and Locking Shifts**
+#### Selecting 94-Character Sets Using Single and Locking Shifts
+
+<ul>
 
 | Character Set        | G0              | G1              | G2                | G3              |
 |----------------------|-----------------|-----------------|-------------------|-----------------|
@@ -302,9 +326,10 @@ table gives the sequences that select the available 96-Character Sets.
 
 </ul>
 
-<ul>
 
-**Selecting 96-Character Sets Using Single and Locking Shifts**
+#### Selecting 96-Character Sets Using Single and Locking Shifts
+
+<ul>
 
 | Character Set | G0 | G1    | G2    | G3    |
 |---------------|----|-------|-------|-------|
