@@ -76,6 +76,14 @@ G3 and show codepoint 0x64, which happens to be "∂" in DEC Tech (and
 
 [TODO: Add in how G0 is special. It's the default character set, right?]
 
+## Charmap and Locale
+
+It should be possible to create a special locale, based on Latin-1,
+but with multibyte characters that use single-shifts. [TODO: Figure
+this out and add a link here to how to do it.]. See: gconv,
+locale-gen, /etc/locale.gen.
+
+
 ## Character Set Selection
 
 To make a character set available, it first must be designated as
