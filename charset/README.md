@@ -10,9 +10,9 @@ The traditional method used back in the 1980s and 1990s was to either
 supplement the 7-bit US ASCII character set with accented characters
 using an 8-bit code, such as Latin-1, or to replace the US ASCII
 character set completely [XXX check this] with a "national" one, such
-as "Greek" or "Hebrew". The VT340 has tables and fonts for 24
-different regions and can show four of them [XXX test this] on the
-screen simultaneously.
+as "Greek" or "Hebrew". The VT340 has tables and fonts for [XXX 24?]
+different regions and can show [XXX four?] of them on the screen
+simultaneously.
 
 DEC uses the terms "GL" and "GR" to refer to currently active
 character sets for the "graphic" characters on the "left" and "right"
