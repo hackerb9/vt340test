@@ -52,6 +52,10 @@ echo -n ${ST}			# Exit REGIS mode
 
 ### Media Copy response from VT340
 
+I will describe the output informally. For the precisely specified output, see
+[sixel-printer-port](sixel-printer-port.md) which is an extract from
+[DEC STD 070](../docs/kindred/EL-SM070-00-DEC_STD_070_Video_Systems_Reference_Manual_Dec91.pdf#page=737).
+
 Here is what a typical Level 2 Graphics response from a VT340 might
 look like:
 
@@ -236,7 +240,8 @@ small glitch in the picture for every time the 8-bit bug happened.
 * [ ] Why did 132 column mode help? Or did it just move the glitch to
   an unnoticeable area?
 
-* [ ] If it's a firmware bug, can I alter the ROM?
+* [ ] If it's a firmware bug, can I alter the ROM? (Currently Set-Up
+      says I'm running "VT340 Version V3.7").
 
 * [ ] Did this glitch happen with Level 1 printing? I don't recall
       noticing it.
@@ -266,13 +271,15 @@ ReGIS is apparently required for sending graphics back to the host.
   host. (This seems a lot like the [Sixel Level 1](level1.md) errors I
   encountered before switching to Level 2).
 
+  <details>
+
   Even if it worked, it would be of limited use. Tektronix graphics
   are a completely separate system from ReGIS and the usual text
-  modes. In Tek mode, the only command that works to send a hardcopy
-  is the special Tek hardcopy command. And, the Tek hardcopy command
-  only works in Tek mode. Additionally, there is no way to send only a
+  modes. There is a special Tek hardcopy command, but that only works
+  in Tek mode. Additionally, there is no way for Tek to send only a
   small crop of the screen. And, finally, redirecting printer graphics
-  to the host must be done before the Tek drawing commences as it is
+  to the host must be done _before_ the Tek drawing commences as it is
   not possible on the VT340 (as far as I know) to exit Tektronix mode
   and re-enter it without clearing the screen.
 
+  </details>
