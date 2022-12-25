@@ -8,10 +8,14 @@ integral and summation signs.
 
 XXX example goes here XXX
 
+Also see [dectech.c](dectech.c), a program that shows a table of the DEC Techncial
+Character Set and its output, [dectech.txt](dectech.txt) which can be
+sent to a terminal such as the VT340 using `cat`.
+
 ## Basic usage from a programmer's perspective:
 
 Until someone [hackerb9?] writes a proper locale charmap so that
-Unicode can be automatically be translated into the DEC Technical
+Unicode can be automatically translated into the DEC Technical
 Character Set, these characters will not be available to most users
 without a specialized program. However, programmers can display them
 easily:
