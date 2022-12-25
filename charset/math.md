@@ -8,9 +8,9 @@ integral and summation signs.
 
 XXX example goes here XXX
 
-Also see [dectech.c](dectech.c), a program that shows a table of the DEC Techncial
-Character Set and its output, [dectech.txt](dectech.txt) which can be
-sent to a terminal such as the VT340 using `cat`.
+Also see [dectech.c](dectech.c), a program that shows a table of the
+DEC Techncial Character Set and its output, [dectech.txt](dectech.txt)
+which can be sent to a terminal such as the VT340 using `cat`.
 
 ## Basic usage from a programmer's perspective:
 
@@ -94,14 +94,11 @@ The full tables of symbols can be found below.
 * DEC compatible printers work the same way as terminals, using the
   same escape sequences.
 
-
 ## DEC Technical Character Set Tables 
-
 
 The following tables are taken mostly from the "Printronix LG
 Programmers Manual", with corrections, and using Unicode characters
 found at https://vt100.net/charsets/technical.html.
-
 
 ### Individual Technical Characters
 
