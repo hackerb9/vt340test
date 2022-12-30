@@ -209,31 +209,31 @@ connector (hex 26).
 
 **Component Characters for Large Mathematics**
 
-| Hex | ASCII | Name                                     | Symbol | Unicode | RADICAL | INTEGRAL | SQUARE | CURLY | PAREN | SUMMATIONS |
-|-----|:-----:|------------------------------------------|:------:|---------|:-------:|:--------:|:------:|:-----:|:-----:|:----------:|
-| 21  | \!    | Left Radical                             | ⎷      | 0x23B7  | X       |          |        |       |       |            |
-| 22  | \"    | Top Left Radical                         | ┌      | 0x250C  | X       |          |        |       |       |            |
-| 23  | \#    | Horizontal Connector                     | ─      | 0x2500  | X       |          |        |       |       | X          |
-| 24  | \$    | Top Integral                             | ⌠      | 0x2320  |         |          | X      |       |       |            |
-| 25  | \%    | Bottom Integral                          | ⌡      | 0x2321  |         | X        |        |       |       |            |
-| 26  | \&    | Vertical Connector                       | │      | 0x2502  | X       | X        | X      | X     | X     |            |
-| 27  | \'    | Top Left Square Bracket                  | ⎡      | 0x23A1  |         |          | X      |       |       |            |
-| 28  | \(    | Bottom Left Square Bracket               | ⎣      | 0x23A3  |         |          | X      |       |       |            |
-| 29  | \)    | Top Right Square Bracket                 | ⎤      | 0x23A4  |         |          | X      |       |       |            |
-| 2A  | \*    | Bottom Right Square Bracket              | ⎦      | 0x23A6  |         |          | X      |       |       |            |
-| 2B  | \+    | Top Left Parenthesis                     | ⎛      | 0x239B  |         |          |        | X     | X     |            |
-| 2C  | \,    | Bottom Left Parenthesis                  | ⎝      | 0x239D  |         |          |        | X     | X     |            |
-| 2D  | \-    | Top Right Parenthesis                    | ⎞      | 0x239E  |         |          |        | X     | X     |            |
-| 2E  | \.    | Bottom Right Parenthesis                 | ⎠      | 0x23A0  |         |          |        | X     | X     |            |
-| 2F  | \/    | Left Middle Curly Brace                  | ⎨      | 0x23A8  |         |          |        | X     |       |            |
-| 30  | 0     | Right Middle Curly Brace                 | ⎬      | 0x23AC  |         |          |        | X     |       |            |
-| 31  | 1     | Top Left Summation                       | ␦      |         |         |          |        |       |       | X          |
-| 32  | 2     | Bottom Left Summation                    | ␦      |         |         |          |        |       |       | X          |
-| 33  | 3     | Top Vertical <br/>Summation Connector    | ␦      |         |         |          |        |       |       | X          |
-| 34  | 4     | Bottom Vertical <br/>Summation Connector | ␦      |         |         |          |        |       |       | X          |
-| 35  | 5     | Top Right Summation                      | ␦      |         |         |          |        |       |       | X          |
-| 36  | 6     | Bottom Right Summation                   | ␦      |         |         |          |        |       |       | X          |
-| 37  | 7     | Right Middle Summation                   | ␦      |         |         |          |        |       |       | X          |
+| Hex | ASCII | Name                                | Symbol | Unicode | RADICAL | INTEGRAL | SQUARE | CURLY | PAREN | SUM |
+|-----|:-----:|-------------------------------------|:------:|---------|:-------:|:--------:|:------:|:-----:|:-----:|:---:|
+| 21  | \!    | Left Radical                        | ⎷      | 0x23B7  | X       |          |        |       |       |     |
+| 22  | \"    | Top Left Radical                    | ┌      | 0x250C  | X       |          |        |       |       |     |
+| 23  | \#    | Horizontal Connector                | ─      | 0x2500  | X       |          |        |       |       | X   |
+| 24  | \$    | Top Integral                        | ⌠      | 0x2320  |         |          | X      |       |       |     |
+| 25  | \%    | Bottom Integral                     | ⌡      | 0x2321  |         | X        |        |       |       |     |
+| 26  | \&    | Vertical Connector                  | │      | 0x2502  | X       | X        | X      | X     | X     |     |
+| 27  | \'    | Top Left Square Bracket             | ⎡      | 0x23A1  |         |          | X      |       |       |     |
+| 28  | \(    | Bottom Left Square Bracket          | ⎣      | 0x23A3  |         |          | X      |       |       |     |
+| 29  | \)    | Top Right Square Bracket            | ⎤      | 0x23A4  |         |          | X      |       |       |     |
+| 2A  | \*    | Bottom Right Square Bracket         | ⎦      | 0x23A6  |         |          | X      |       |       |     |
+| 2B  | \+    | Top Left Parenthesis                | ⎛      | 0x239B  |         |          |        | X     | X     |     |
+| 2C  | \,    | Bottom Left Parenthesis             | ⎝      | 0x239D  |         |          |        | X     | X     |     |
+| 2D  | \-    | Top Right Parenthesis               | ⎞      | 0x239E  |         |          |        | X     | X     |     |
+| 2E  | \.    | Bottom Right Parenthesis            | ⎠      | 0x23A0  |         |          |        | X     | X     |     |
+| 2F  | \/    | Left Middle Curly Brace             | ⎨      | 0x23A8  |         |          |        | X     |       |     |
+| 30  | 0     | Right Middle Curly Brace            | ⎬      | 0x23AC  |         |          |        | X     |       |     |
+| 31  | 1     | Top Left Summation                  | ␦      |         |         |          |        |       |       | X   |
+| 32  | 2     | Bottom Left Summation               | ␦      |         |         |          |        |       |       | X   |
+| 33  | 3     | Top Vertical Summation Connector    | ␦      |         |         |          |        |       |       | X   |
+| 34  | 4     | Bottom Vertical Summation Connector | ␦      |         |         |          |        |       |       | X   |
+| 35  | 5     | Top Right Summation                 | ␦      |         |         |          |        |       |       | X   |
+| 36  | 6     | Bottom Right Summation              | ␦      |         |         |          |        |       |       | X   |
+| 37  | 7     | Right Middle Summation              | ␦      |         |         |          |        |       |       | X   |
 
 _␦ marks characters which Unicode (as of 2022) is unable to reproduce,
 namely the large summation character. Note that Unicode has summation
