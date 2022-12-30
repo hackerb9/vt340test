@@ -209,7 +209,7 @@ connector (hex 26).
 
 **Component Characters for Large Mathematics**
 
-| Hex | ASCII | Name                                | Symbol | Unicode | <br/>RADICAL | <br/>INTEGRAL | SQUARE<br/>BRACKETS | CURLY<br/>BRACES | PAREN-<br/>THESES | SUM-<br/>MATIONS |
+| Hex | ASCII | Name                                | Symbol | Unicode | <br/>RADICAL | <br/>INTEGRAL | SQUARE<br/>BRACKETS | CURLY<br/>BRACES | PAREN-<br/>THESES | SUM-<br/>MATION |
 |-----|:-----:|-------------------------------------|:------:|---------|:-------:|:--------:|:------:|:-----:|:-----:|:---:|
 | 21  | \!    | Left Radical                        | ⎷      | 0x23B7  | X       |          |        |       |       |     |
 | 22  | \"    | Top Left Radical                    | ┌      | 0x250C  | X       |          |        |       |       |     |
