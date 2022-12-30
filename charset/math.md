@@ -74,9 +74,9 @@ Display the ∴ symbol: <kbd>@</kbd>
 
 <ul>
 
-| Hex | Decimal | ASCII | Name      | Symbol |
-|-----|---------|-------|-----------|--------|
-| 40  | 64      | @     | Therefore | ∴      |
+| Hex | ASCII | Name      | Symbol |
+|-----|:-----:|-----------|:------:|
+| 40  | @     | Therefore | ∴      |
 
 </ul>
 
@@ -106,41 +106,41 @@ found at https://vt100.net/charsets/technical.html.
 
 <ul>
 
-| Hex | Decimal | ASCII | Name              | Symbol |
-|-----|---------|-------|-------------------|--------|
-| 44  | 68      | D     | Uppercase Delta   | Δ      |
-| 46  | 70      | F     | Uppercase Phi     | Φ      |
-| 47  | 71      | G     | Uppercase Gamma   | Γ      |
-| 4A  | 74      | J     | Uppercase Theta   | Θ      |
-| 4C  | 76      | L     | Uppercase Lambda  | Λ      |
-| 50  | 80      | P     | Uppercase Pi      | Π      |
-| 51  | 81      | Q     | Uppercase Psi     | Ψ      |
-| 53  | 83      | S     | Uppercase Sigma   | Σ      |
-| 57  | 87      | W     | Uppercase Omega   | Ω      |
-| 58  | 88      | X     | Uppercase Ksi     | Ξ      |
-| 59  | 89      | Y     | Uppercase Upsilon | Υ      |
-| 61  | 97      | a     | Lowercase Alpha   | α      |
-| 62  | 98      | b     | Lowercase Beta    | β      |
-| 63  | 99      | c     | Lowercase Chi     | χ      |
-| 64  | 100     | d     | Lowercase Delta   | δ      |
-| 65  | 101     | e     | Lowercase Epsilon | ε      |
-| 66  | 102     | f     | Lowercase Phi     | φ      |
-| 67  | 103     | g     | Lowercase Gamma   | γ      |
-| 68  | 104     | h     | Lowercase Eta     | η      |
-| 69  | 105     | i     | Lowercase Iota    | ι      |
-| 6A  | 106     | j     | Lowercase Theta   | θ      |
-| 6B  | 107     | k     | Lowercase Kappa   | κ      |
-| 6C  | 108     | l     | Lowercase Lambda  | λ      |
-| 6E  | 110     | n     | Lowercase Nu      | ν      |
-| 70  | 112     | p     | Lowercase Pi      | π      |
-| 71  | 113     | q     | Lowercase Psi     | ψ      |
-| 72  | 114     | r     | Lowercase Rho     | ρ      |
-| 73  | 115     | s     | Lowercase Sigma   | σ      |
-| 74  | 116     | t     | Lowercase Tau     | τ      |
-| 77  | 119     | w     | Lowercase Omega   | ω      |
-| 78  | 120     | x     | Lowercase Xi      | ξ      |
-| 79  | 121     | y     | Lowercase Upsilon | υ      |
-| 7A  | 122     | z     | Lowercase Zeta    | ζ      |
+| Hex | ASCII | Name              | Symbol | Unicode |
+|-----|:-----:|-------------------|:------:|---------|
+| 44  | D     | Uppercase Delta   | Δ      | 0x0394  |
+| 46  | F     | Uppercase Phi     | Φ      | 0x03A6  |
+| 47  | G     | Uppercase Gamma   | Γ      | 0x0393  |
+| 4A  | J     | Uppercase Theta   | Θ      | 0x0398  |
+| 4C  | L     | Uppercase Lambda  | Λ      | 0x039B  |
+| 50  | P     | Uppercase Pi      | Π      | 0x03A0  |
+| 51  | Q     | Uppercase Psi     | Ψ      | 0x03A8  |
+| 53  | S     | Uppercase Sigma   | Σ      | 0x03A3  |
+| 57  | W     | Uppercase Omega   | Ω      | 0x03A9  |
+| 58  | X     | Uppercase Ksi     | Ξ      | 0x039E  |
+| 59  | Y     | Uppercase Upsilon | Υ      | 0x03A5  |
+| 61  | a     | Lowercase Alpha   | α      | 0x03B1  |
+| 62  | b     | Lowercase Beta    | β      | 0x03B2  |
+| 63  | c     | Lowercase Chi     | χ      | 0x03C7  |
+| 64  | d     | Lowercase Delta   | δ      | 0x03B4  |
+| 65  | e     | Lowercase Epsilon | ε      | 0x03B5  |
+| 66  | f     | Lowercase Phi     | φ      | 0x03C6  |
+| 67  | g     | Lowercase Gamma   | γ      | 0x03B3  |
+| 68  | h     | Lowercase Eta     | η      | 0x03B7  |
+| 69  | i     | Lowercase Iota    | ι      | 0x03B9  |
+| 6A  | j     | Lowercase Theta   | θ      | 0x03B8  |
+| 6B  | k     | Lowercase Kappa   | κ      | 0x03BA  |
+| 6C  | l     | Lowercase Lambda  | λ      | 0x03BB  |
+| 6E  | n     | Lowercase Nu      | ν      | 0x03BD  |
+| 70  | p     | Lowercase Pi      | π      | 0x03C0  |
+| 71  | q     | Lowercase Psi     | ψ      | 0x03C8  |
+| 72  | r     | Lowercase Rho     | ρ      | 0x03C1  |
+| 73  | s     | Lowercase Sigma   | σ      | 0x03C3  |
+| 74  | t     | Lowercase Tau     | τ      | 0x03C4  |
+| 77  | w     | Lowercase Omega   | ω      | 0x03C9  |
+| 78  | x     | Lowercase Xi      | ξ      | 0x03BE  |
+| 79  | y     | Lowercase Upsilon | υ      | 0x03C5  |
+| 7A  | z     | Lowercase Zeta    | ζ      | 0x03B6  |
 
 </ul>
 
@@ -148,26 +148,26 @@ found at https://vt100.net/charsets/technical.html.
 
 <ul>
 
-| Hex | Decimal | ASCII | Name                         | Symbol |
-|-----|---------|-------|------------------------------|--------|
-| 3C  | 60      | \<    | Less Than or Equal To        | ≤      |
-| 3D  | 61      | \=    | Not Equal                    | ≠      |
-| 3E  | 62      | \>    | Greater Than or Equal To     | ≥      |
-| 3F  | 63      | \?    | Integral                     | ∫      |
-| 41  | 65      | A     | Variation or Proportional To | ∝      |
-| 42  | 66      | B     | Infinity                     | ∞      |
-| 43  | 67      | C     | Division or Divided By       | ÷      |
-| 45  | 69      | E     | Nabla or Del                 | ∇      |
-| 48  | 72      | H     | Is Approximate To            | ∼      |
-| 49  | 73      | I     | Similar or Equal To          | ≃      |
-| 4B  | 75      | K     | Times or Cross Product       | ×      |
-| 56  | 86      | V     | Radical                      | √      |
-| 6F  | 111     | o     | Partial Derivative           | ∂      |
-| 76  | 118     | v     | Function                     | ƒ      |
-| 7B  | 123     | {     | Left Arrow                   | ←      |
-| 7C  | 124     | \|    | Upward Arrow                 | ↑      |
-| 7D  | 125     | \}    | Right Arrow                  | →      |
-| 7E  | 126     | \~    | Downward Arrow               | ↓      |
+| Hex | ASCII | Name                         | Symbol | Unicode |
+|-----|:-----:|------------------------------|:------:|---------|
+| 3C  | \<    | Less Than or Equal To        | ≤      | 0x2264  |
+| 3D  | \=    | Not Equal                    | ≠      | 0x2260  |
+| 3E  | \>    | Greater Than or Equal To     | ≥      | 0x2265  |
+| 3F  | \?    | Integral                     | ∫      | 0x222B  |
+| 41  | A     | Variation or Proportional To | ∝      | 0x221D  |
+| 42  | B     | Infinity                     | ∞      | 0x221E  |
+| 43  | C     | Division or Divided By       | ÷      | 0xF7    |
+| 45  | E     | Nabla or Del                 | ∇      | 0x2207  |
+| 48  | H     | Is Approximate To            | ∼      | 0x223C  |
+| 49  | I     | Similar or Equal To          | ≃      | 0x2243  |
+| 4B  | K     | Times or Cross Product       | ×      | 0xD7    |
+| 56  | V     | Radical                      | √      | 0x221A  |
+| 6F  | o     | Partial Derivative           | ∂      | 0x2202  |
+| 76  | v     | Function                     | ƒ      | 0x0192  |
+| 7B  | {     | Left Arrow                   | ←      | 0x2190  |
+| 7C  | \|    | Upward Arrow                 | ↑      | 0x2191  |
+| 7D  | \}    | Right Arrow                  | →      | 0x2192  |
+| 7E  | \~    | Downward Arrow               | ↓      | 0x2193  |
 
 </ul>
 
@@ -175,19 +175,19 @@ found at https://vt100.net/charsets/technical.html.
 
 <ul>
 
-| Hex | Decimal | ASCII | Name           | Symbol |
-|-----|---------|-------|----------------|--------|
-| 40  | 64      | @     | Therefore      | ∴      |
-| 4D  | 77      | M     | If and Only If | ⇔      |
-| 4E  | 78      | N     | Implies        | ⇒      |
-| 4F  | 79      | O     | Identical To   | ≡      |
-| 5A  | 90      | Z     | Is Included In | ⊂      |
-| 5B  | 91      | \[    | Includes       | ⊃      |
-| 5C  | 92      | \\    | Intersection   | ∩      |
-| 5D  | 93      | \]    | Union          | ∪      |
-| 5E  | 94      | \^    | Logical And    | ∧      |
-| 5F  | 95      | \_    | Logical Or     | ∨      |
-| 60  | 96      | \`    | Logical Not    | ¬      |
+| Hex | ASCII | Name           | Symbol | Unicode |
+|-----|:-----:|----------------|:------:|---------|
+| 40  | @     | Therefore      | ∴      | 0x2234  |
+| 4D  | M     | If and Only If | ⇔      | 0x21D4  |
+| 4E  | N     | Implies        | ⇒      | 0x21D2  |
+| 4F  | O     | Identical To   | ≡      | 0x2261  |
+| 5A  | Z     | Is Included In | ⊂      | 0x2282  |
+| 5B  | \[    | Includes       | ⊃      | 0x2283  |
+| 5C  | \\    | Intersection   | ∩      | 0x2229  |
+| 5D  | \]    | Union          | ∪      | 0x222A  |
+| 5E  | \^    | Logical And    | ∧      | 0x2227  |
+| 5F  | \_    | Logical Or     | ∨      | 0x2228  |
+| 60  | \`    | Logical Not    | ¬      | 0xAC    |
 
 </ul>
 
@@ -199,7 +199,7 @@ technical characters that can occupy several vertically adjacent
 and/or horizontally adjacent character positions. To use this table,
 find the character you want to build (along the top of the table). On
 the left side of the table are various pieces of the characters needed
-to create the whole. Follow the top row choice, say, Integral, all the
+to create the whole. Follow the top row choice, say, INTEGRAL, all the
 way down the table. Use the hex value beside the symbol name you wish
 to print. For example, to build an oversize integral, you will need a
 top integral (hex 24), bottom integral (hex 25), and vertical
@@ -209,31 +209,31 @@ connector (hex 26).
 
 **Component Characters for Large Mathematics**
 
-| Name                                | Symbol | Hex | ASCII | Radical | Integral | Square | Curly | Paren | Summations |
-|-------------------------------------|:------:|-----|-------|:-------:|:--------:|:------:|:-----:|:-----:|:----------:|
-| Left Radical                        | ⎷      | 21  | \!    | X       |          |        |       |       |            |
-| Top Left Radical                    | ┌      | 22  | \"    | X       |          |        |       |       |            |
-| Horizontal Connector                | ─      | 23  | \#    | X       |          |        |       |       | X          |
-| Top Integral                        | ⌠      | 24  | \$    |         |          | X      |       |       |            |
-| Bottom Integral                     | ⌡      | 25  | \%    |         | X        |        |       |       |            |
-| Vertical Connector                  | │      | 26  | \&    | X       | X        | X      | X     | X     |            |
-| Top Left Square Bracket             | ⎡      | 27  | \'    |         |          | X      |       |       |            |
-| Bottom Left Square Bracket          | ⎣      | 28  | \(    |         |          | X      |       |       |            |
-| Top Right Square Bracket            | ⎤      | 29  | \)    |         |          | X      |       |       |            |
-| Bottom Right Square Bracket         | ⎦      | 2A  | \*    |         |          | X      |       |       |            |
-| Top Left Parenthesis                | ⎛      | 2B  | \+    |         |          |        | X     | X     |            |
-| Bottom Left Parenthesis             | ⎝      | 2C  | \,    |         |          |        | X     | X     |            |
-| Top Right Parenthesis               | ⎞      | 2D  | \-    |         |          |        | X     | X     |            |
-| Bottom Right Parenthesis            | ⎠      | 2E  | \.    |         |          |        | X     | X     |            |
-| Left Middle Curly Brace             | ⎨      | 2F  | \/    |         |          |        | X     |       |            |
-| Right Middle Curly Brace            | ⎬      | 30  | 0     |         |          |        | X     |       |            |
-| Top Left Summation                  | ␦      | 31  | 1     |         |          |        |       |       | X          |
-| Bottom Left Summation               | ␦      | 32  | 2     |         |          |        |       |       | X          |
-| Top Vertical Summation Connector    | ␦      | 33  | 3     |         |          |        |       |       | X          |
-| Bottom Vertical Summation Connector | ␦      | 34  | 4     |         |          |        |       |       | X          |
-| Top Right Summation                 | ␦      | 35  | 5     |         |          |        |       |       | X          |
-| Bottom Right Summation              | ␦      | 36  | 6     |         |          |        |       |       | X          |
-| Right Middle Summation              | ␦      | 37  | 7     |         |          |        |       |       | X          |
+| Hex | ASCII | Name                                     | Symbol | Unicode | RADICAL | INTEGRAL | SQUARE | CURLY | PAREN | SUMMATIONS |
+|-----|:-----:|------------------------------------------|:------:|---------|:-------:|:--------:|:------:|:-----:|:-----:|:----------:|
+| 21  | \!    | Left Radical                             | ⎷      | 0x23B7  | X       |          |        |       |       |            |
+| 22  | \"    | Top Left Radical                         | ┌      | 0x250C  | X       |          |        |       |       |            |
+| 23  | \#    | Horizontal Connector                     | ─      | 0x2500  | X       |          |        |       |       | X          |
+| 24  | \$    | Top Integral                             | ⌠      | 0x2320  |         |          | X      |       |       |            |
+| 25  | \%    | Bottom Integral                          | ⌡      | 0x2321  |         | X        |        |       |       |            |
+| 26  | \&    | Vertical Connector                       | │      | 0x2502  | X       | X        | X      | X     | X     |            |
+| 27  | \'    | Top Left Square Bracket                  | ⎡      | 0x23A1  |         |          | X      |       |       |            |
+| 28  | \(    | Bottom Left Square Bracket               | ⎣      | 0x23A3  |         |          | X      |       |       |            |
+| 29  | \)    | Top Right Square Bracket                 | ⎤      | 0x23A4  |         |          | X      |       |       |            |
+| 2A  | \*    | Bottom Right Square Bracket              | ⎦      | 0x23A6  |         |          | X      |       |       |            |
+| 2B  | \+    | Top Left Parenthesis                     | ⎛      | 0x239B  |         |          |        | X     | X     |            |
+| 2C  | \,    | Bottom Left Parenthesis                  | ⎝      | 0x239D  |         |          |        | X     | X     |            |
+| 2D  | \-    | Top Right Parenthesis                    | ⎞      | 0x239E  |         |          |        | X     | X     |            |
+| 2E  | \.    | Bottom Right Parenthesis                 | ⎠      | 0x23A0  |         |          |        | X     | X     |            |
+| 2F  | \/    | Left Middle Curly Brace                  | ⎨      | 0x23A8  |         |          |        | X     |       |            |
+| 30  | 0     | Right Middle Curly Brace                 | ⎬      | 0x23AC  |         |          |        | X     |       |            |
+| 31  | 1     | Top Left Summation                       | ␦      |         |         |          |        |       |       | X          |
+| 32  | 2     | Bottom Left Summation                    | ␦      |         |         |          |        |       |       | X          |
+| 33  | 3     | Top Vertical <br/>Summation Connector    | ␦      |         |         |          |        |       |       | X          |
+| 34  | 4     | Bottom Vertical <br/>Summation Connector | ␦      |         |         |          |        |       |       | X          |
+| 35  | 5     | Top Right Summation                      | ␦      |         |         |          |        |       |       | X          |
+| 36  | 6     | Bottom Right Summation                   | ␦      |         |         |          |        |       |       | X          |
+| 37  | 7     | Right Middle Summation                   | ␦      |         |         |          |        |       |       | X          |
 
 _␦ marks characters which Unicode (as of 2022) is unable to reproduce,
 namely the large summation character. Note that Unicode has summation
@@ -244,4 +244,3 @@ vertically with the equation to its right and properly span the
 initial state (e.g., $i=-∞$) beneath it._
 
 </ul>
-
