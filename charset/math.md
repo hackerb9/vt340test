@@ -70,7 +70,7 @@ Renders next character using G3: <kbd>Esc</kbd><kbd>O</kbd>
 
 </ul>
 
-Locking-shifts are also available, see below.
+Locking-shifts are also available, see the [charset README](README.md).
 
 ### 3. Send an ASCII character to display a mathematical character
 
@@ -93,10 +93,10 @@ The full tables of symbols can be found below.
   on the screen and in print.
 
 * Component characters are imaged so that adjacent component
-  characters form connected lines at all pitches. This 
+  characters form connected lines at all pitches. 
   
-* DEC compatible printers work the same way as terminals, using the
-  same escape sequences.
+* DEC compatible printers work the same way as terminals and use the
+  same escape sequences to access different character sets.
 
 ## DEC Technical Character Set Tables 
 
