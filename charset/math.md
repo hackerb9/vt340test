@@ -3,13 +3,17 @@
 The VT340 can display the **DEC Technical Character Set**, which
 contains Greek letters, mathematical symbols, and logical symbols.
 Additionally, it contains characters that may be used to construct
-larger mathematical symbols on character cell devices, such as large
-integral and summation signs. 
+larger mathematical symbols, such as large integral and summation
+signs.
 
-XXX example goes here XXX
+<ul>
+
+![dectech](dectech.png "Output from dectech")
+
+</ul>
 
 Also see [dectech.c](dectech.c), a program that shows a table of the
-DEC Techncial Character Set and its output, [dectech.txt](dectech.txt)
+DEC Technical Character Set and its output, [dectech.vt](dectech.vt)
 which can be sent to a terminal such as the VT340 using `cat`.
 
 ## Basic usage from a programmer's perspective:
