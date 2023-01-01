@@ -219,7 +219,9 @@ Ps[14]="Transmit execution (DECTEM)."	# As documented by ek-vt3xx-tp.
 Ps[16]="Edit key execution (DECEKEM)."	# Added from ek-vt3xx-tp.
 
 Ps[18]="Print Form Feed (DECPFF), VT220."
+	Nt[18]="When SET, the terminal sends a form feed (FF) to the printer at the end of a printing function. The default, RESET, is to send to nothing. DECPFF does not affect the Print Cursor Line function."	# ek-vt3xx-tp
 Ps[19]="Set printer extent to full screen (DECPEX), VT220."
+	Nt[19]="When RESET, the print page function only prints the scrolling region (data inside the margins)."			# ek-vt3xx-tp
 Ps[20]="Overstrike Mode (OS), VK100." 		# Documented in ek-vk100-tm-001
 Ps[21]="Local BASIC Mode (BA), VK100." 		# Documented in ek-vk100-tm-001
 Ps[22]="Host BASIC Mode (BA), VK100." 		# Documented in ek-vk100-tm-001
