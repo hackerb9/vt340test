@@ -162,9 +162,11 @@ connection?)
 
 ### 80/132 column mode
 
-* Despite the [documentation](EK-VT3XX-TP.pdf) recommending DECSCPP
-  (set columns per page) and deprecating DECCOLM (column mode) to
-  switch between 80 and 132 column mode, they do not appear to be equivalent. 
+* Despite the
+  [documentation](docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf) 
+  recommending DECSCPP (set columns per page) and deprecating DECCOLM
+  (column mode) to switch between 80 and 132 column mode, they do not
+  appear to be equivalent.
 
   * DECSCPP: `Esc` `[` `8``0` `$` `|`   or  `Esc` `[` `1``3``2` `$` `|`
 
@@ -242,7 +244,7 @@ screen without having to resend all the data.
 
 * Page Memory can be used like double-buffering, where text is written
   to the next page while the user is viewing the current one. (See
-  [EK-VT3XX-TP.pdf#Ch10](docs/EK-VT3XX-TP-002.pdf#Ch10)).
+  [EK-VT3XX-TP.pdf#Ch10](docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#Ch10)).
 
 * Manual mentions that there are *two* sixel graphics pages (unless
   you are logged in to two sessions at once). It appears they are
