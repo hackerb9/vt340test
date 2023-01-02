@@ -1,6 +1,6 @@
 # Character Sets on the VT340
 
-[[!Most all builtin characters on the VT340](allchars-thumb.jpg)](allchars.jpg)
+[![Most all builtin characters on the VT340](allchars-thumb.jpg)](allchars.jpg)
 
 While the DEC VT340 had impressive multilingual capabilities for its
 time, it predated Unicode by decades and is tricky to use with current
