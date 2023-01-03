@@ -42,7 +42,7 @@ def display(name,id,type):
     write('\033-%s' % id)
   else:
     write('\033)%s' % id)
-  write('_#@[\\]^`{|}~')
+  write('_#@[\\]^\x7F`{|}\x7F~')
   write('\x0F\n')
 
 write('\033[?42h')
