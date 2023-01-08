@@ -5,10 +5,9 @@
    to grab a bitmap of it and save it to a file. 
   
    BUGS:
-   o Odd glitch in MediaCopy of character 0x6E (ν, Nu).
    o Currently only works for the DEC Technical Character Set.
    o Must be run as:  stty raw ixon ixoff; ./a.out; stty cooked
-   o Presumes ST is sent at start and end of MediaCopy.
+   o Presumes ST is sent at end of MediaCopy.
    o Should probably use select or poll to handle a timeout.
    o Could be lovelier on the screen as it is working.
    o Output files start w/ escape sequences that confuse ImageMagick.
@@ -16,8 +15,7 @@
    TODO:
    o 132 column characters.
    o Double Width and Double Height characters.
-   o Check: same glitches as with `read` in mediacopy.sh?
-   o If this works, extend to replace mediacopy.sh.
+   o This should replace mediacopy.sh.
    o Convert to downlineloadable font format.
 
 */
@@ -73,24 +71,48 @@ void setup_media_copy() {
 }
 
 char *receive_media_copy() {
-  // Return data received on stdin as a string.
-  // Since media copy is not delimited, we return after timing out.
+  // Read stdin and return DCS data received on stdin as a string.
+  // Note, the Esc P at the start and Esc \ at the end will be missing. 
+
+  // Since media copy is not delimited, we look for the DCS string
+  // (Esc P) that starts the sixel data. The VT340 in Level 2 sixel
+  // mode, actually always sends a string terminator, a carriage
+  // return, and sets the DPI before the sixel data, so we have to
+  // skip over it. (Esc \ CR Esc [ 2 SP I). 
+
   FILE *stream;
   char *line = NULL;
   size_t len = 0;
   ssize_t nread;
   
   stream = stdin;
-  int delim='\\';		/* Esc \ is the String Terminator */
+  int delim='\e';		/* Esc \ is the String Terminator */
 
-  /* Read data from terminal until \ character. */
-  while (line == NULL) {
+  /* Read data from terminal until Esc character. */
+  char c;
+  while (c != 'P') {
+    /* Skip everything until we get to a Device Control String (Esc P) */
     nread = getdelim(&line, &len, delim, stream); 
-    if ( strlen(line)==2 && line[1]=='\\' ) {
-      /* MediaCopy sends an initial ST, so skip it. */
-      free(line); line=NULL; len=0;
-    }
+    if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
+    c = getchar(); // Character after the Esc ("P" for DCS string)
+#if DEBUG
+    fprintf(stderr, "len is %d, nread is %d\n", strlen(line), nread);
+    fprintf(stderr, "line: %s\t", line);
+    fprintf(stderr, "c: %c\n", c);
+#endif
   }
+
+  /* We got Esc P, now read the rest of the string up to the first Esc */
+  nread = getdelim(&line, &len, delim, stream); 
+  if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
+  c = getchar(); // Character after the Esc ("\" for String Terminator)
+#if DEBUG
+  fprintf(stderr, "len is %d, nread is %d\n", strlen(line), nread);
+  fprintf(stderr, "line: %s\t", line);
+  fprintf(stderr, "c: %c\n", c);
+  if (c != '\\') {fprintf(stderr, "BUG! DCS should always end with Esc \\\n");}
+#endif
+
   return line;
 }
 
@@ -109,7 +131,7 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
   FILE *fp = fopen(filename, "w");
   if (!fp) { perror(filename);  _exit(1); } /* Flush stdout of REGIS MC */
   
-  fprintf(fp, buf);
+  fprintf(fp, "\eP%s\e\\", buf);
   
   if (buf) { free(buf); buf=NULL; }
   if (regis_h) { free(regis_h); regis_h=NULL; }
@@ -127,8 +149,12 @@ int main() {
 
   fputs(scs, stdout);			/* Select TCS as G3 */
 
+#ifdef DEBUG
+  for (int u=6; u<=6; u++) {    for (int v=0xD; v<=0xF; v++) {
+#else
   for (int u=2; u<=7; u++) {
     for (int v=0; v<=0xF; v++) {
+#endif
       fputs(clear, stdout);
 
       c=u*16+v;			/* ASCII character 0xuv */
@@ -139,13 +165,13 @@ int main() {
 	continue;
 
       default:
-	fputs(ss3, stdout); putchar(c);	/* Show character c from G3 */
+ 	printf("%s%c\n", ss3, c);	/* Show character c from G3 */
 	break;
       }
       
       char *out;		/* Output filename */
       asprintf(&out, "char-tcs-%02X.six", c);
-      save_region_to_file(out, 0, 0, 10, 20);
+      save_region_to_file(out, 0, 0, 9, 19);
       if (out) { free(out); out=NULL; }
     } 
   }
