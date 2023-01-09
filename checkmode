@@ -372,10 +372,14 @@ main "$@"
 # 	VT300 Text Programming	 		ek-vt3xx-tp
 #	DEC STD 070				std-070
 #	VK100 Technical Manual			ek-vk100-tm
-# 	VT382 (Japanese) Reference Manual	ek-vt382-rm
-#	VT382 (Thai) User Guide			ek-vt38t-ug
+# 	VT382-J (Japanese) Reference Manual	ek-vt382-rm
+#	VT382-T (Thai) User Guide		ek-vt38t-ug
 #	VT100 User Guide 			VT100-UG
 #	DEC Printing Protocol Level 2 quickref	ppl2
 #	LG06/LG12 Companion Printer		lg12
-#	VT382 (Korean) -- missing! --
+# Missing manuals:
+#	VT382-K (Korean)
+#	VT382-D (Traditional Chinese)
+#	VT382-C (Simplified Chinese))
+#	VT282-J, VT382-J, VT383-J, VT284-J, VT286-J (Japanese terminals)
 
