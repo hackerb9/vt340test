@@ -10,13 +10,18 @@
    o Presumes ST is sent at end of MediaCopy.
    o Should probably use select or poll to handle a timeout.
    o Could be lovelier on the screen as it is working.
-   o Output files start w/ escape sequences that confuse ImageMagick.
+   o Takes 3 to 4 minutes to run and ^C doesn't cancel (stdio buffering).
 
    TODO:
+   o Use termios to set terminal to raw while running.
    o 132 column characters.
    o Double Width and Double Height characters.
-   o This should replace mediacopy.sh.
    o Convert to downlineloadable font format.
+   o Investigate why it is so slow:
+     * 2.36 seconds per 10x20 character
+     * 3m21s for TCS (85 chars)
+     * 3m07s for TCS (85 chars) with stty -echo
+   o Add ability to select other character sets.
 
 */
 
@@ -31,48 +36,56 @@
 
 
 
-char *CSI="\e[";		/* Control Sequence Introducer */
-char *DCS="\eP";		/* Device Control String */
-char *ST="\e\\";		/* String Terminator */
+/* Control Sequence Introducer */
+#define CSI "\e["
+
+/* Device Control String */
+#define DCS "\eP"
+
+/* String Terminator */
+#define ST "\e\\"
 
 int decgpbm_flag = 0;		/* 0 is transparent background */
 
 void setup_media_copy() {
   
   /* (MC) 2: Send graphics to host communications port */
-  fputs(CSI, stdout); fputs("?2i", stdout);
+  printf(CSI "?2i");
       
   /* DECGEPM: Graphics Expanded Print Mode (only for Level 1 Graphics) */
   // l: Compressed:  6" x 3" printout, 800x240
   // h: Expanded:   12" x 8" printout, 1600x480
-  fputs(CSI, stdout); fputs("?43h", stdout);
+  printf(CSI "?43h");
 
   // DECGPCM: Print Graphics Color Mode
   // l: Print in black and white
   // h: Print in color
-  fputs(CSI, stdout); fputs("?44h", stdout);
+  printf(CSI "?44h");
 
   // DECGPCS: Print Graphics Color Space
   // l: Print using HLS colors
   // h: Print using RGB colors (ImageMagick requires this)
-  fputs(CSI, stdout); fputs("?45h", stdout);
+  printf(CSI "?45h");
 
-  // DECGPBM: Print Graphics Background Mode (forced on in lvl 1 graphics)
-  fputs(CSI, stdout); fputs("?45", stdout);
+  // DECGPBM: Print Graphics Background Mode (forced on in level 1 sixel)
+  printf(CSI "?45");
   if ( decgpbm_flag )
     putchar('h');		// Include background when printing
-  else;
+  else
     putchar('l');		// Do not send background (transparent bg)
 
-  // DECGRPM: Graphics Rotated Print Mode (90 degrees counterclockwise)
+  // DECGRPM: Graphics Rotated Print Mode
   // l: Use compress or expand to fit on printer.
-  // h: Rotate image CCW. 8" x 12" printout
-  fputs(CSI, stdout); fputs("?47l", stdout);
+  // h: Rotate image 90 degrees CCW. 8" x 12" printout
+    printf(CSI "?47l");
 }
 
 char *receive_media_copy() {
-  // Read stdin and return DCS data received on stdin as a string.
-  // Note, the Esc P at the start and Esc \ at the end will be missing. 
+  // Read stdin and return DCS data received on stdin as a malloc'd string.
+
+  // Nota Bene:
+  // * The Esc P at the start and Esc \ at the end will be missing. 
+  // * The result must be freed by the calling routine.
 
   // Since media copy is not delimited, we look for the DCS string
   // (Esc P) that starts the sixel data. The VT340 in Level 2 sixel
@@ -95,21 +108,13 @@ char *receive_media_copy() {
     nread = getdelim(&line, &len, delim, stream); 
     if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
     c = getchar(); // Character after the Esc ("P" for DCS string)
-#if DEBUG
-    fprintf(stderr, "len is %d, nread is %d\n", strlen(line), nread);
-    fprintf(stderr, "line: %s\t", line);
-    fprintf(stderr, "c: %c\n", c);
-#endif
   }
 
   /* We got Esc P, now read the rest of the string up to the first Esc */
   nread = getdelim(&line, &len, delim, stream); 
   if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
   c = getchar(); // Character after the Esc ("\" for String Terminator)
-#if DEBUG
-  fprintf(stderr, "len is %d, nread is %d\n", strlen(line), nread);
-  fprintf(stderr, "line: %s\t", line);
-  fprintf(stderr, "c: %c\n", c);
+#ifdef DEBUG
   if (c != '\\') {fprintf(stderr, "BUG! DCS should always end with Esc \\\n");}
 #endif
 
@@ -122,9 +127,9 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
   asprintf(&regis_h, "S(H(P[0,0])[%d,%d][%d,%d])", x1, y1, x2, y2);
 
   // Send sixel "hard copy" to host using REGIS
-  fputs(DCS, stdout); putchar('p'); 	// Enter REGIS mode
-  fputs(regis_h, stdout);		// Send hard copy sequence
-  fputs(ST, stdout);			// Exit REGIS mode
+  printf(DCS "p");		// Enter REGIS mode
+  printf(regis_h);		// Send hard copy sequence
+  printf(ST);			// Exit REGIS mode
 
   char *buf = receive_media_copy();
 
@@ -141,13 +146,13 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
 
 int main() {
   int c;
+  char *clear="\e[H\e[J";	/* Clear screen */
   char *scs="\e+>";		/* Set dec-tech charset to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
-  char *clear="\e[H\e[J";	/* Clear screen */
 
   setup_media_copy();
 
-  fputs(scs, stdout);			/* Select TCS as G3 */
+  printf(scs);			/* Select TCS as G3 */
 
 #ifdef DEBUG
   for (int u=6; u<=6; u++) {    for (int v=0xD; v<=0xF; v++) {
@@ -155,7 +160,7 @@ int main() {
   for (int u=2; u<=7; u++) {
     for (int v=0; v<=0xF; v++) {
 #endif
-      fputs(clear, stdout);
+      printf(clear);
 
       c=u*16+v;			/* ASCII character 0xuv */
       switch(c) {
