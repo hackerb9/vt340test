@@ -23,4 +23,12 @@ lv: lotka-volterra
 lotka-volterra.regis: lotka-volterra
 	ode < lotka-volterra | graph -T regis -C -x 0 5 -y 0 5 -X prey -Y predator --top-label "Lotka-Volterra phase portrait" > lotka-volterra.regis
 
-regisoutput: lorenz.regis atwoods.regis lotka-volterra.regis
+orb: orbit.ode
+	ode <orbit.ode | graph -T regis -C -x -6.5 1.5 -y -3 3 -B --top-label "One planet orbiting two suns"
+
+orbit.regis: orbit.ode
+	ode <orbit.ode | graph -T regis -C -x -6.5 1.5 -y -3 3 -B --top-label "One planet orbiting two suns" > orbit.regis
+
+
+regisoutput: lorenz.regis atwoods.regis lotka-volterra.regis orbit.regis
+
