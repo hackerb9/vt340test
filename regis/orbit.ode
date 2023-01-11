@@ -1,0 +1,33 @@
+# This example does a planetary orbit simulation, with two suns situated at
+# (0,0) and (-5,0) and one planet starting out at (1,0).  You may run it by
+# typing
+
+#    ode <orbit.ode | graph -T regis -C -y -3 3 -x -6.5 1.5 -B
+
+# The planet's orbit will be traced out incrementally.
+
+# x and y are positions
+# vx and vy are velocities
+
+vx' = -x/((x^2+y^2)^(3/2)) -(x+5)/(((x+5)^2+y^2)^(3/2))
+vy' = -y/((x^2+y^2)^(3/2)) -y/(((x+5)^2+y^2)^(3/2))
+y' = vy
+x' = vx
+
+x = 1
+y = 0
+
+print x,y every 5
+
+# these values seem to give a nice orbit:
+# vx = 0
+# vy = 1.142
+
+# a more exciting result can be obtained from:
+vx = 0
+vy = 1.165
+
+#step 0,20
+
+# VT340+ takes about 23 seconds to render from 0 to 1000
+step 0,1000
