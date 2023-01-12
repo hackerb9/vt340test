@@ -117,10 +117,10 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
 * To exit REGIS: send from host `ESC \`  or hit Control-L
 * Example of using REGIS
 
-    clear
-    echo -n $'\eP3p'		# Enter interactive REGIS mode
-    echo -n $'P[150,200]W(S1)C(W(I1))[+100]C[+66]C(W(I2))[+33]' # RAF roundels
-    echo -n $'\e\\'		# Exit REGIS mode
+        clear
+        echo -n $'\eP3p'        # Enter interactive REGIS mode
+        echo -n $'P[150,200]W(S1)C(W(I1))[+100]C[+66]C(W(I2))[+33]' # RAF roundels
+        echo -n $'\e\\'     # Exit REGIS mode
 
 
 ### MEDIA COPY TO HOST ("screenshot"):
@@ -151,6 +151,10 @@ connection?)
 * Despite what the manual says, you cannot use "Return" to select
   elements in Setup. You must use the "Do" key.
   
+* The LK-201's <kbd>Shift</kbd> does not affect `,` and `.`. Instead
+  the `<` and `>` symbols are on their own key next to the left shift.
+  This is not changeable from the VT340 Set-Up menu.
+
 ### Tek 4010/4014 mode
 
 * Entering and exiting this mode leaves VT340 with autowrap mode
@@ -288,11 +292,11 @@ scrolling), the VT340 defaults to "Smooth-2" scrolling. Smooth-1,
 Smooth-2, and Smooth-4 are the three possible smooth scrolling speeds
 available in Set-Up -> Display -> Scrolling. 
 
-On the VT340, this setting does not affect sixel images when first
-being drawn. Graphics New Line ('-') still scrolls the entire screen
-as fast as possible. However, once on the screen, sixel images do
-scroll smoothly along with the text upon receiving a text New Line
-('\n').
+On the VT340, this setting does not affect sixel images when _first_
+being drawn. Graphics New Line ('-') at the end of the screen still
+scrolls the entire screen as fast as possible. However, once on the
+screen, sixel images do scroll smoothly along with the text upon
+receiving a text New Line ('\n').
 
 Documentation varied about how fast the different speeds were supposed
 to be, so hackerb9 measured the speeds using the
@@ -318,10 +322,16 @@ selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
 RECOGNIZED.
 
 Note that, although Smooth-2 is the factory default on the VT340, the
-most popular terminfo file for the VT340 (as of 2022) disables Smooth
+most popular terminfo file for the VT340 (as of 2023) disables Smooth
 Scroll Mode when the "reset" sequence is sent, which is often done at
 user login (e.g., `tset`). This makes having a user preference of
 Smooth-1 or Smooth-4 overly onerous as they would require repeated
 manual configuration in Set-Up.
 
 
+### Character Sets
+
+It appears the best way to use a VT340 in modern times is to enable
+the Latin1 character set in Set Up and and use the `LANG` environment
+variable set to "en_US.iso8859-1". Please see [the charset
+subdirectory](charset/README.md).
