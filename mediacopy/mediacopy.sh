@@ -221,7 +221,7 @@ sendmediacopy() {
     echo -n ${CSI}'?45h'	# Print using RGB colors (ImageMagick reqs)
 
     # DECGPBM: Print Graphics Background Mode  (always on for level 1 graphics)
-    if [[ decgpbm_flag == "low" ]]; then
+    if [[ $decgpbm_flag == "low" ]]; then
 	echo -n ${CSI}'?46l'	# Do not send background (transparent bg)
     else
 	echo -n ${CSI}'?46h'	# Include background when printing
