@@ -181,7 +181,7 @@ only define one soft font, so it cannot do Japanese EUC.
 
 The G0 set has at most 94 characters and G1–G3 can each hold 96, which
 means that, at most, 382 graphics characters can be simultaneously
-within the repertoire of a typical terminal.
+shown within the repertoire of a typical terminal.
 
 _[XXX: TODO Double check this]_ However, the VT340 seems to have an
 interesting feature where changing G0–G3 only alters future
