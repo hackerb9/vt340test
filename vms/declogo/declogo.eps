@@ -1,0 +1,218 @@
+%!PS-Adobe-3.0 EPSF 2.0
+%%BoundingBox: 0 0 118 30
+%%Title: Digital Logo Font, v1.7
+%%Notice: The Digital logo is a registered trademark of Digital Equipment Corporation.
+%%Creator: Ned Batchelder, DEC
+%%CreationDate: 24-Apr-1989
+%%DocumentNeededFonts: Symbol 
+%%DocumentSuppliedFonts: DEC_Logo 
+%%EndComments
+% 
+%		    DIGITAL INTERNAL USE ONLY
+% 
+% INTRODUCTION:
+% This rendition of the Digital logo was prepared by Ned Batchelder using 
+% Adobe Illustrator and hand manipulation of the resulting PostScript code.
+% Photographic masters of the logo were obtained from David Comberg in the
+% Graphic Design Group. Additional consultation was provided by Elliot
+% Hendrickson, one of the original designers of the logo. 
+% 
+% USE:
+% This file defines a new PostScript font, called /DEC_Logo. It consists
+% of three characters. (d) is the entire Digital logo, (t) is a small
+% trademark symbol, and (T) is a large trademark symbol. The font is designed
+% so that the argument to scalefont is the height of the logo. There is no
+% extra white space around the logo at all. The trademarks are designed to be
+% shown right after the logo, and they align themselves. The only correct
+% strings to show with this font are (d), (dt), and (dT). There is an entry
+% (named GapWidth) in the font dictionary which gives the unscaled width of
+% the gap between the blocks. This distance is given because it is used as a
+% unit to determine how much space to leave around the logo.
+% 
+% HISTORY:
+% The logo was designed in 1957 by Elliot Hendrickson, who was then working
+% as an independent designer. He was contracted by DEC to do a brochure, and
+% DEC wanted a logo to accompany it. The logo up to then had been the letters
+% DEC in blocks the shape of the plug-in cards that DEC had been producing.
+% Elliot re-worked the logo, incorporating letters which were hand-drawn for 
+% the purpose by Arthur Hover(?). The logo has been maintained since then in 
+% conventional technology, ie, film masters. There was at least one reworking 
+% of the logo at some point.
+% 
+% The masters I received had a number of interesting features. The boxes were
+% not all the same width, and there seemed to be no logic to which boxes were
+% wider. The 'g' was the narrowest, and the 'i' and 'l' were second widest.
+% Also, the two 'i's were not exactly the same shape. On ten-inch masters,
+% (one box to an 8x11 sheet), the boxes were not rectangles, but were very 
+% slightly tapered in wierd ways. I assume that the tapering is the result of
+% too many reproductions, but the difference in widths may have been
+% deliberate at some time. Elliot reports that when he drew it, all boxes
+% were the same width. I have made all of the boxes the same width, since 
+% that seems to have been the original intent, since the differences were 
+% almost negligible anyway, and since there was no logic to the differences.
+% 
+% Please feel free to use this logo, but keep in mind the following:
+% 
+% 1. This code is for INTERNAL USE ONLY.
+% 2. I am not entirely happy with the final shapes of the letters, and am 
+% hoping to improve them. Please allow for future updates to this code.
+% 3. Only use this logo within the guidelines of the Corporate Identity
+% program. If you use this font precisely as is, you can't get in much
+% trouble. Don't take the shapes and do strange things with them. 
+% In particular, the Identity states that the logo is a one-color logo: The
+% letters are actually holes in the blocks, through which the background can
+% be seen. Do not modify this code so that the letters are always white.
+% 
+% Edit history:
+% 
+% 21-Sep-87 nmb	    Created as a standalone file with demo. 
+%  6-Nov-87 nmb	    Converted to font form.
+%  9-Nov-87 nmb	    Removed // uses for compatibility with LW Classic
+% 18-Jan-88 nmb	    Added info about width of logo, since size is usually
+%			specified in terms of width of the logo. (Oops!)
+% 24-Mar-88 nmb	    Changed the name to conform to the PostScript name
+%			registration scheme, added FontName, etc. 
+% 20-Jun-88 nmb	    Removed the long procedure for the logo, and replaced 
+%			with a compacted string scheme. 
+% 14-Sep-88 nmb	    Forced all boxes to the same width; changed the code so
+%			that the boxes and gaps always are the same number
+%			of pixels wide, to improve the appearance at low
+%			resolutions.
+% 13-Mar-89 nmb	    Changed the string decoder slightly so that it gracefully
+%			ignores any linefeeds or carriage returns in the  
+%			string.
+% 24-Apr-89 nmb	    Removed all "bind"s, because bind is a dangerous thing.
+%%BeginFont: DEC_Logo
+11 dict begin
+/FontInfo 3 dict def
+FontInfo begin
+/Notice (The Digital logo is a registered trademark of Digital Equipment Corporation.) def
+/FullName (Digital Logo) def
+/version (1.7, 24-Apr-1989) def
+end
+/FontName /DEC_Logo def
+/FontType 3 def				% This is a user-defined font
+/FontMatrix matrix def			% Use an identity transform
+/FontBBox [ 0 0 3.383 1 ] def		% Logo itself is biggest
+/GapWidth .070 def			% The width of the gap between boxes
+/LogoWidth 3.383 def			% The width of the logo
+%
+% The encoding could be initialized with "[ 256 {/.notdef} repeat ]", but that
+% would require 257 free stack entries. The method used below is more
+% pedestrian, but also more robust.
+%
+/Encoding 256 array def
+0 1 255 { Encoding exch /.notdef put } for
+Encoding
+dup (d) 0 get /DEC-logo put		% (d) gives logo
+dup (t) 0 get /smalltrademark put	% (t) gives small trademark
+(T) 0 get /largetrademark put	% (T) gives large trademark
+/Work 15 dict def			% for doing work in font.
+/BuildChar {
+    exch begin				% Use the font dictionary
+    Work begin
+    Encoding exch get		% Look up the character name
+    load			% Pull out the procedure
+    exec			% Run it.
+    end				% Work
+    end				% fontdict
+} def
+Work begin
+/.notdef {} def
+%
+% - `DEC-logo' -
+%% Images a DEC logo with the lower left corner at the current origin, with a
+% height of one unit, in the current color.
+% 
+% A tricky compacted string technique is used.
+% 
+/words {
+    0		%  
+    moveto		% !
+    curveto		% "
+    closepath	% #
+    lineto		% $
+    boxw		% % 
+    boxstep		% &
+    translate	% '
+} bind cvlit def
+( mr vy! mt rQ h[ kF aw kE" Zw kG T@ q] T@ ~I" T@ AKA Zv AQi ai AQk" h[ AQi m
+t AJX mr ADw"# nI AZ[! nI Avp$ |C Avp$ |C ^h$ mk ^h$ mk bl$ l` a` gc \\U _F 
+\\U" VR \\T Fa cj Fa ~I" Fa ATf RS A`M `S A`M" e_ A`M je A^W nI AZ["#% !% B\\
+P$  B\\P$  $#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV!
+ ZK Au~$ hO Au~$ hO AfV$#& ' l[ AE~! l[ AKe fG AQX `Q AQX" [O AQX S] ANK S] 
+?t" S] pa ]A nR `L nR" f_ nR l[ rg l[ yS"#  B\\P!% B\\P$% $  $# ld AWi! kG A
+Yn fV A^\\ _b A^\\" T} A^[ FM AXT FM }s" FN hy V{ ax ]r ax" eL aw jl fK lL g
+s" lL aN$ lL \\W gM Wg ^w Wg" Wk Wh V{ \\O V{ ^a" HO ^a$ HO WN L| Ld ]~ Lc" 
+mN Lc rP RX t[ Td" vP VZ x? [^ x? _a" x? A]p$ le A]p$#& '% !% B\\P$  B\\P$  
+$# ZK ^h! ZK A]p$ hO A]p$ hO ^h$# ZK AfV! ZK Au~$ hO Au~$ hO AfV$#& ' dX Aue
+! Wa Aue$ Wa A^w$ Pr A^w$ Pr ATT$ Wa ATT$ Wa ld$ Wa d? [Z _B fP _C" kU _C kH
+ _A ob _r" ob lz$ lj lZ kq lM jW lP" gj lU dX mR dX rF" dX ATS$ nd ATS$ nd A
+^w$ dX A^w$#% !  $  B\\P$% B\\P$#& '  !  B\\P$% B\\P$% $# J{ AIx! V~ AIx$ V~
+ APR ZR ASi `f ASi" jj ASj jU AOK jT AId" dF AGI dk AGM [L AEC" OI ABQ Gq }G
+ Gp ph" Gq d[ P] ]z ZP ]{" dD ]z fF aE jJ cr" jJ ^z$ yb ^z$ uz dp vw ey vu j
+R" vv mn vu AOX vu AOX" vv AVC sX AZH qG A[_" k] A^w d^ A_Q `f A_R" Ru A_P J
+z AXU J{ AIx"# jT }j! jT uI$ jT qP ee in \\R im" Wp il UN mC UM qZ" UN ur X{
+ yI \\D yq" _U z[ fv |V jT }j"#& '% !% B\\P$  B\\P$  $# ZK ^h! ZK Awb$ hO Aw
+b$ hO ^h$#)
+/pathstring exch def
+/round-to-pixels {
+    0 transform
+    round exch round exch
+    itransform
+    pop
+} def
+/DEC-logo {
+    3.383 0 0 0 3.383 1 setcachedevice
+    .0001 .0001 scale
+    /boxw 4250 round-to-pixels def
+    /boxstep 4950 round-to-pixels def
+    pathstring
+    {
+	dup 62 gt
+	{   63 and exch 6 bitshift add }
+	{   dup 32 ge
+	    {	32 sub words exch get exec }
+	    {	pop }
+	    ifelse
+	}
+	ifelse 
+    }
+    forall
+    fill
+} def
+%
+% pct `trademark' --
+%
+% Borrow the sans-serif trademark symbol from /Symbol. AFM file says:
+%	C 228 ; WX 786 ; N trademarksans ; B 5 293 725 673 ;
+% We scale it down to pct percent of the height of the logo and superscript
+% it some, and voila!
+% 
+/trademark {
+    /s exch .380 div def
+    /w s .725 mul .070 add def
+    /u 1 .673 s mul sub def 
+    w 0 0 u w 1 setcachedevice
+    /Symbol findfont s scalefont setfont
+    .070 u moveto				% Superscript it
+    (\344) show
+} def 
+% 
+% These are two different trademarks (just different sizes).
+%
+/smalltrademark { .15 trademark } def 
+/largetrademark { .25 trademark } def
+end						% Work dictionary
+FontName					% Get the name
+currentdict					% Get the font dict
+end						% Close up the dict
+definefont pop					% Define the font
+%%EndFont
+/DEC_Logo findfont 30 scalefont setfont
+
+0 0 moveto
+(dt) show 
+showpage
+%%Trailer
+%%EndDocument
