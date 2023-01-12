@@ -51,10 +51,10 @@
 main() {
 
     ### Defaults
-    decgpbm_flag=low		# Do not print background by default
-    hostcomm=2			# Send sixels to the terminal's host comm port.
+    decgpbm_flag=low		# low: Do not print background by default
+    hostcomm=2			# 2: Send sixels to the terminal's host (not printer) comm port.
     outputfile="print.six"	# Default output filename is print.six.
-    errorfile=/dev/null		# No debugging file by default.
+    errorfile=/dev/null		# No debugging file by default. (export DEBUG=1 to change.)
 
     # Print full screen (vt340 crops this to 800x480+0+0.)
     X1=0; Y1=0; X2=4095; Y2=4095
