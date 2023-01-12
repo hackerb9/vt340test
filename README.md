@@ -331,7 +331,10 @@ manual configuration in Set-Up.
 
 ### Character Sets
 
-It appears the best way to use a VT340 in modern times is to enable
-the Latin1 character set in Set Up and and use the `LANG` environment
-variable set to "en_US.iso8859-1". Please see [the charset
-subdirectory](charset/README.md).
+[![Technical Character Set glyphs)](charset/uplineload/char-tcs.gif)
+
+It appears the easiest way to use a VT340 in modern times is to enable
+the Latin1 character set in Set Up and and `export
+LANG=en_US.iso8859-1`. However, there may be ways to get more glyphs
+out of the VT340 without even down-line loading a new font. Please see
+[the charset subdirectory](charset/README.md).
