@@ -20,9 +20,9 @@ temp1.six: declogo.eps
 temp2.six: temp1.six
 	clear
 	@cat $<
-	bash ../../mediacopy/mediacopy.sh --debug 800x240
+	bash ../../mediacopy/mediacopy.sh --debug 800x222
 	tr -d '\n' < print.six  > $@ && rm print.six
-	sed -r -i~ 's/-/-\n/g' $@
+	sed -r -i~ 's/-/-\n/g' $<
 
 clean:
-	rm temp1.six temp2.six print.six print.debug *~ 2>/dev/null || true
+	rm temp1.six temp2.six 2>/dev/null || true
