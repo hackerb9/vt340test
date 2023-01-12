@@ -1,0 +1,502 @@
+This program is typed in from the DECUS DTR newsletter vol 4 no 9.
+It consists of several files whose intent is to provide a SIXEL
+command. This command will convert ReGIS files to SIXEL files for
+dumping to printers like LN03.
+        DTR graphics can be plotted onto ReGIS files with commands
+like
+
+DTR>READY YACHTS
+DTR>PLOT X_Y LOA,PRICE OF YACHTS ON YACHTS.SLO
+DTR>EXIT
+
+The YACHTS.SLO file is a ReGIS file. While DECSlide will do the conversion,
+it's expensive.
+
+SIXEL can run interactively, using output logical DISPLAY$DEVICE which
+defaults to TT:. It must be able to allocate DISPLAY$DEVICE.
+
+
+[File SIXEL.CLD]
+
+        DEFINE VERB SIXEL
+        IMAGE "APPLICATIONS$DISK:CONVERT_TO_SIXEL"
+        PARAMETER P1
+                LABEL = REGIS_FILE
+                VALUE (TYPE = $FILE, REQUIRED)
+                PROMPT = "ReGIS Input File"
+        PARAMETER P2
+                LABEL = SIXEL_FILE
+                VALUE (DEFAULT = "SIXEL.SLS")
+        QUALIFIER LOCAL
+                NONNEGATABLE
+                PLACEMENT = GLOBAL
+        QUALIFIER RESET
+                NONNEGATABLE
+                PLACEMENT = GLOBAL
+        QUALIFIER GRAPH_TYPE
+                VALUE (TYPE=GRAPH_KEYWORDS)
+                NONNEGATABLE
+                PLACEMENT = GLOBAL
+        DISALLOW SIXEL_FILE AND LOCAL
+        DEFINE TYPE GRAPH_KEYWORDS
+                KEYWORD COMPRESSED
+                KEYWORD EXPANDED
+                KEYWORD ROTATED
+[END OF SIXEL.CLD]
+
+        To use to create a SIXEL file from a ReGIS file you'd give
+a command like
+
+$SIXEL YACHTS.SLO YACHTS.SLS
+which uses the default VT240 ReGIS setup.
+
+To make a rotated graph use the command
+$SIXEL/GRAPH_TYPE=ROTATED YACHTS.SLO YACHTS.SLS
+
+GRAPH_TYPE=EXPANDED or GRAPH_TYPE=COMPRESSED
+can be used by instructing the VT240 to do expanded or compressed
+graphs.
+
+The following is an example of use:
+
+$! Make sixel file for print...
+$!1st, create the ReGIS file.
+$DTR
+        Ready YACHTS
+        Plot X_Y LOA,price of YACHTS on YACHTS.SLO
+        Exit
+$!
+$ DEFINE DISPLAY$DEVICE _TTA6:          ! TTA6: IS A VT240
+$ SIXEL/GRAPH=EXPANDED YACHTS.SLO MY_GRAPH.SIX
+$ PRINT MY_GRAPH.SIX
+
+Note that a real VT240 is needed since the ReGIS to SIXEL conversion
+is done in hardware on that.
+
+        Note that the command
+
+$SET HOST 0/log=logfile
+
+could be used to capture characters sent to a VT240 in logfile if a
+ReGIS plot package that has no file output provisions is used.
+
+[file SIXEL.FOR]
+        PROGRAM CONVERT_TO_SIXEL
+C       VERSION 1.0
+C
+C       Functional description:
+C
+C	This program will convert a ReGIS graphics file (such as one produced
+C by DTR) and produce a SIXEL graphics file suitable for printing on an
+C appropriate printer (LA50, LA100, LN03, etc.). It was written  by
+C Donald E. Stern mainly to get around the need for DECSlide to create
+c Sixel files because DECslide isn't cheap, and DECSlide can't be used from batch.
+c
+c Since the sixel conversion is a hardware function of a graphics
+c terminal, the program requires use of a ReGIS terminal. This device
+c is defined by the logical DISPLAY$DEVICE. For an interactive terminal
+c one must make a definition like
+c  DEFINE DISPLAY$DEVICE TT:
+C
+c If there is no translation for DISPLAY$DEVICE, this definition will
+c be assumed. In addition the device should be set to REGIS and the
+c program will abort if this is not done.
+c
+c The specified ReGis file is opened and sent to display$device and
+c then the required sequences which set graphics to host are sent,
+c followed by commands to enter REGIS and initiate hardcopy output.
+c
+c The appropriate terminal characteristics are set and successive QIOs
+c are issued to read the SIXEL data which returns a byte at a time.
+c The end is signalled by receipt of the byte after the 3rd
+c <esc> character is detected. The sixel data is collected in a 255
+c character buffer which is written to disk when full. Thus the
+c sixel file can be edited with a standard text editor if desired.
+c
+c Input comes from the commandline interpreter, specifically
+c cli$get_value and cli$present. The SIXEL.CLD file [above] contains
+c the necessary information to define the SIXEL command.
+c
+c Switches /graph_type, /reset, and /local are optional. If /graph_type
+c is EXPANDED the sixel output is about 12 by 8 inches, ROTATED gives about
+c 8 x 12 inches, and rotated 90 degrees (fits on normal 8.5 by 11 paper).
+c COMPRESSED gives a plot about 6 by 3 inches.
+c
+c If /local is set, sixel output goes to a printer attached directly
+c to display$device and no sixel-file-sopec is allowed.
+c
+c If /reset is specified, display$device will be set to COMPRESSED mode
+c before exiting; otherwise it's left in the mode set by GRAPH_TYPE
+c options.
+c
+c Created 1986 Warner-Lambert Co.
+c	Consumer Health Products Grp.
+c	Milford, Conn. 06460
+c
+c Author: Donald E. Stern, Jr. 2/4/86
+c
+c Execution environment: VMS V4.2 or later
+c
+c Functions called
+c
+c	GET_TERMINAL_CHARACTERISTICS	- Internally developed routine to
+c						get terminal characs.
+c
+c	SET_TERMINAL_CHARACTERISTICS	- Internally developed routine to
+c						set terminal characs.
+c	SYS$QIOW			- SYNCH. QIO
+C 	SYS$ASSIGN			- Assign chnl # to device
+c	cli$present			- RTL CLI arg detect
+c	cli$get_value			- RTL CLI arg fetch
+c 	lib$sys_trnlog			- translate logical name
+c	li$set_logical			- create logical name
+c	lib$getdvi			- get device info
+c
+c sys$qio structures
+	INTEGER*2 INPUT_CHAN	! I/O CHANNEL
+	INTEGER CODE,	! TYPE OF I/O OP
+     1  INPUT_BUFFER_SIZE,  ! INPUT BUF SIZE, BYTES
+     2  INPUT_SIZE  ! SIZE OF INPUT AS READ
+	PARAMETER (INPUT_BUFFER_SIZE=1)
+C
+C TERM CHARAC BUFFER
+
+	BYTE CLASS,
+     1  TYPE
+	INTEGER*2 WIDTH
+	INTEGER*4 BASIC,EXTENDED
+	INTEGER*4 OLD_BASIC,OLD_EXTENDED ! OLD TERM CHARACS
+C
+C I/O OP DEFS
+C
+	INCLUDE '($IODEF)'
+C
+C TERM I/O OP MODIFIERS
+C
+	INCLUDE '($TTDEF)'
+	INCLUDE '($TT2DEF)'
+C
+C SYS SERVICE DEFS
+C
+	INCLUDE '($SSDEF)'
+C
+C DEVICE INFO DEFS
+C
+C
+	INCLUDE '($DVIDEF)'
+	INCLUDE '($DCDEF)'
+C
+C QIO STAT BLK
+	STRUCTURE /IOSTAT_BLOCK/
+	INTEGER*2 IOSTAT,  ! RETURN STATUS
+     1  TERM_OFFSET,       ! LOCATION OF LINE TERMINATOR
+     2  TERMINATOR,        ! VALUE OF TERMINATOR
+     3  TERM_SIZE          ! SIZE OF TERMINATOR
+	END STRUCTURE
+	RECORD /IOSTAT_BLOCK/ IOSB
+C
+C SUBPROGRAMS
+C
+	INTEGER*4 SYS$ASSIGN, SYS$QIOW, CLI$PRESENT,
+     1  CLI$GET_VALUE,LIB$SYS_TRNLOG,LIB$SET_LOGICAL,
+     2  LIB$GETDVI
+
+	INTEGER*4 STATUS   ! RETURN STATUS
+	INTEGER*4 DEVICE_CLASS  ! CLASS RETURNED BY GETDVI
+C
+	BYTE ENTER_REGIS(4) ! ESC SEQ TO ENTER REGIS MODE
+	BYTE EXIT_REGIS(2)  ! EXIT REGIS
+	BYTE LOCK_KEYBOARD(4) ! LOCK KEYBOARD
+	BYTE UNLOCK_KEYBOARD(4)
+	BYTE GRAPHICS_TO_HOST(5)
+	BYTE GRAPHICS_TO_PRINTER(5)
+	BYTE EXPANDED_PRINT(6)
+	BYTE ROTATED_PRINT(6)
+	BYTE COMPRESSED_PRINT(6)
+
+	INTEGER*2 NR,   ! # CHARS IN REGIS_FILE
+     1  NS,             ! # CHARS IN SIXEL-FILE
+     2  NG,             ! # CHARS IN QUALIFIER
+     3  NT              ! # CHARS IN TRANSLATION
+
+	CHARACTER*2 EXIT_GRAPHICS ! SAME AS EXIT_REGIS
+	CHARACTER*10 GRAPH_TYPE ! CMD LINE QUALIFIER
+	CHARACTER*13 MAKE_HARDCOPY  ! REGIS INST TO MAKE GRAPHICS HARDCOPY
+	CHARACTER*255 REGIS_FILE
+	CHARACTER*255 SIXEL_FILE
+	CHARACTER*255 TRANSLATION ! LOG NAME TRANSLATION
+	CHARACTER*256 BUFF ! BUFFER FOR REGIS & SIXEL FILES
+C
+	LOGICAL QUIT
+	EQUIVALENCE (EXIT_REGIS(1),EXIT_GRAPHICS)
+
+	DATA ENTER_REGIS /27,80,49,112/ ! $Plp
+	data exit_regis /27,92/ ! $\
+	data lock_keyboard /27,91,50,104/ ! $[2h
+	data unlock_keyboard /27,91,50,108/ ! $[2l
+	data graphics_to_host /27,91,63,50,105/ ! $[?2i
+	data graphics_to_printer /27,91,63,48,105/ ! $[?0i
+	data expanded_print /27,91,63,52,51,104/ ! $[?43h
+	data rotated_print /27,91,63,52,55,104/ ! $[?47h
+	data compressed_print /27,91,63,52,51,108/ ! $[43l
+	data make_hardcopy /'S(H(P[50,0]))'/
+C
+C SEE IF THERE'S A TRANSLATION OF DISPLAY$DEVICE AND IF NOT ASSIGN
+C TT: TO IT.
+
+	STATUS=LIB$SYS_TRNLOG('DISPLAY$DEVICE',NT,TRANSLATION,,,)
+	IF (STATUS .EQ. SS$_NOTRAN)
+     1   STATUS= LIB$SET_LOGICAL('DISPLAY$DEVICE','TT:',,,)
+	IF (.NOT. STATUS)
+     1  STOP 'Error translating or defining DISPLAY$DEVICE'
+C
+C ENSURE DISPLAYDEVICE IS A TERMINAL
+	CODE=DVI$_DEVCLASS
+	STATUS=LIB$GETDVI(CODE,,'DISPLAYDEVICE',DEVICE_CLASS,,)
+	IF (STATUS.EQ.SS$_NOSUCHDEV)
+     1  STOP 'Error - DISPLAY$DEVICE is unknown'
+	If (.not.status)STOP 'Error getting device information'
+	IF (DEVICE_CLASS.NE.DC$_TERM)
+     1  STOP 'ERROR- DISPLAY$DEVICE is not a terminal.'
+C ASSIGN CHANNEL TO DISPLAY$DEVICE
+C GET #
+
+	STATUS=SYS$ASSIGN('DISPLAY$DEVICE',INPUT_CHAN,,)
+C STOP ON ERRORS
+	IF (.NOT.STATUS) 
+     1  STOP 'Error assigning channel to DISPLAY$DEVICE'
+C
+C GET AND SAVE TERMINAL CHARACTERISTICS
+	CALL GET_TERMINAL_CHARACTERISTICS(INPUT_CHAN,CLASS,
+     1 TYPE,WIDTH,BASIC,EXTENDED)
+	OLD_BASIC=BASIC
+	OLD_EXTENDED=EXTENDED
+C CHECK REGIS TERM
+	IF((EXTENDED.AND.TT2$M_REGIS).EQ.0)
+     1  STOP 'DISPLAY$DEVICE must be set to support ReGIS'
+C
+C USE CLI TO GET INPUTS
+	STATUS=CLI$GET_VALUE('REGIS_FILE',REGIS_FILE,NR)
+	IF(.NOT.STATUS) CALL LIB$SIGNAL(%VAL(STATUS))
+	IF(CLI$PRESENT('SIXEL_FILE'))
+     1  STATUS=CLI$GET_VALUE('SIXEL_FILE',SIXEL_FILE,NS)
+	IF(.NOT.STATUS) CALL LIB$SIGNAL(%VAL(STATUS))
+	IF(CLI$PRESENT('GRAPH_TYPE'))
+     1  STATUS=CLI$GET_VALUE('GRAPH_TYPE',GRAPH_TYPE,NG)
+	IF(.NOT.STATUS) CALL LIB$SIGNAL(%VAL(STATUS))
+C OPEN INPUT FILE
+
+	OPEN(UNIT=1,NAME=REGIS_FILE(1:NR),
+     1  ACCESS='SEQUENTIAL',STATUS='OLD',
+     2  READONLY,FORM='FORMATTED',RECORDTYPE='VARIABLE',
+     3  CARRIAGECONTROL='LIST',ERR=1100)
+C ASSOC LUN 7 WITH DISPLAY$DEVICE FOR LARGE RECORDS
+
+	OPEN(UNIT=7,NAME='DISPLAY$DEVICE',RECL=1024,
+     1  STATUS='OLD',ERR=1200)
+C
+C LOCK KEYBOARD
+	WRITE(7,18)LOCK_KEYBOARD
+18	FORMAT('$',4A1)
+C
+C READ REGIS CODE AND DISPPAY TO LUN 7
+C
+20	READ(1,25,END=100,ERR=1300)NC,BUFF(1:NC)
+25	FORMAT(Q,A)
+	WRITE(7,27)BUFF(1:NC)
+27	FORMAT('+',A)
+	GOTO 20
+C LOOPS TILL EOF
+100	CLOSE(UNIT=1)
+C
+C OPEN NEW FILE FOR SIXEL OUTPUT
+	OPEN(UNIT=1,NAME=SIXEL_FILE(1:NS),
+     1  ACCESS='SEQUENTIAL',STATUS='NEW',
+     2  FORM='UNFORMATTED',RECORDTYPE='VARIABLE',
+     3  CARRIAGECONTROL='LIST',ERR=1400)
+C
+C SET REQUIRED TERMINAL CHARACTERISTICS
+C
+	BASIC=BASIC.OR.
+     1  TT$M_HOSTSYNC .OR. TT$M_NOBRDCST .OR. TT$M_NOECHO .OR.
+     2  TT$M_TTSYNC
+
+	BASIC=IBCLR(BASIC,TT$V_WRAP)
+	BASIC=IBCLR(BASIC,TT$V_EIGHTBIT) ! USE 7 BIT CODES
+	EXTENDED=EXTENDED.OR.TT2$M_PASTHRU .OR. TT2$M_XON
+	CALL SET_TERMINAL_CHARACTERISTICS(INPUT_CHAN,CLASS,
+     1  TYPE,WIDTH,BASIC,EXTENDED)
+C
+C SET UP TERMINAL TO PRINT GRAPHICS
+C
+	IF(GRAPH_TYPE(1:NG) .EQ. 'EXPANDED') THEN
+		WRITE(7,102)EXPANDED_PRINT
+	MAKE_HARDCOPY(7:7)='0'
+	ENDIF
+	IF(GRAPH_TYPE(1:NG) .EQ. 'ROTATED') THEN
+		WRITE(7,102)ROTATED_PRINT
+	MAKE_HARDCOPY(7:7)='0'
+	ENDIF
+	IF(GRAPH_TYPE(1:NG).EQ.
+     1  'COMPRESSED') WRITE(7,102)COMPRESSED_PRINT
+101	FORMAT('+',2A1,5A1,4A1,A13,$)
+102	FORMAT('+',6A1,$)
+103	FORMAT('+',2A1,4A1,A13,$)
+104	FORMAT('+',2A1,4A1,$)
+
+	IF(CLI$PRESENT('LOCAL'))THEN ! HARDCOPY TO LOCAL PRINTER
+		WRITE(7,103)EXIT_REGIS,ENTER_REGIS,MAKE_HARDCOPY
+		WRITE(7,104)EXIT_REGIS,UNLOCK_KEYBOARD
+	ELSE
+		WRITE(7,101)EXIT_REGIS,GRAPHICS_TO_HOST,
+     1  ENTER_REGIS,MAKE_HARDCOPY
+		N = 1 ! POSITION IN BUFF
+		NESC = 0 ! COUNTER OF ESCS
+		QUIT = .FALSE.
+		CODE = IO$_READVBLK ! I/O CODE = READ VIRTUAL
+200	STATUS=SYS$QIOW(,
+     1  %VAL(INPUT_CHAN),  ! DISPLAY$DEVICE
+     2  %VAL(CODE),        ! READ VIRT BLK
+     3  IOSB,,,            ! I/O STATUS
+     4  %REF(BUFF(N:N)),   ! INPUT BUFFER
+     5  %VAL(INPUT_BUFFER_SIZE),,,,)  ! BUFFER SIZE 
+
+	IF(.NOT.STATUS)GOTO 1000
+	IF(.NOT.IOSB.IOSTAT) GOTO 1000
+	IF(QUIT) GOTO 250
+
+C CHECK FOR ESC AND COUNT
+	IF(BUFF(N:N) .EQ. CHAR(27))NESC=NESC+1
+	IF(NESC.EQ.3) QUIT=.TRUE.
+C FLAG QUIT FOR CHAR AFTER 3RD ESCAPE
+C
+C WRITE BUFFER IF FULL
+	IF(N.EQ.255)THEN
+		WRITE(1)BUFF(1:255)
+		N=0
+	ENDIF
+	N = N+1
+	GOTO 200  ! LOOP FOR WHOLE IMAGE
+250	WRITE(1)BUFF(1:N)
+	CLOSE(UNIT=1)
+	WRITE(7,252)EXIT_GRAPHICS,UNLOCK_KEYBOARD,
+     1  GRAPHICS_TO_PRINTER
+252	FORMAT('+',A2,4A1,5A1)
+	ENDIF
+C
+C RESET TERMINAL CHARACTERISTICS
+	CALL SET_TERMINAL_CHARACTERISTICS(INPUT_CHAN,CLASS,
+     1  TYPE,WIDTH,OLD_BASIC,OLD_EXTENDED)
+	IF(CLI$PRESENT('RESET'))WRITE(7,102)COMPRESSED_PRINT
+	STOP 'Conversion completed'
+c The following lines process errors
+1000	CONTINUE
+	WRITE(7,252)EXIT_GRAPHICS,UNLOCK_KEYBOARD,
+     1  GRAPHICS_TO_PRINTER
+	CALL SET_TERMINAL_CHARACTERISTICS(INPUT_CHAN,CLASS,
+     1  TYPE,WIDTH,OLD_BASIC,OLD_EXTENDED)
+	STOP 'ERROR READING SIXEL'
+1100	STOP 'ERROR OPENING REGIS FILE'
+1200	STOP 'ERROR READING LUN 7'
+1300	STOP 'ERROR READING REGIS DATA'
+1400	STOP 'ERROR OPENING SIXEL FILE'
+	END
+        SUBROUTINE GET_TERMINAL_CHARACTERISTICS (CHANNEL,
+     1  CLASS, TYPE, WIDTH, BASIC,EXTENDED)
+C
+C GETS TERMINAL CHARS IN INPUTS BASIC, EXTENDED.
+        INTEGER*2 CHANNEL
+        BYTE CLASS
+        BYTE TYPE
+        INTEGER*2 WIDTH
+        INTEGER*4 BASIC,EXTENDED
+C
+C I/O OP DEFS
+        INCLUDE '($IODEF)'
+C QIO STAT BLK
+        STRUCTURE /IOSTAT_BLOCK/
+        INTEGER*2 IOSTAT
+        BYTE TRANSMIT,RECEIVE,CRFILL,LFFILL,PARITY,ZERO
+        END STRUCTURE
+        RECORD /IOSTAT_BLOCK/ IOSB
+C
+C CHARAC. BUFFER
+        STRUCTURE /CHARACTERISTICS/
+        BYTE CLASS,TYPE
+        INTEGER*2 WIDTH
+        INTEGER*4 BASIC,EXTENDED
+        END STRUCTURE
+        RECORD /CHARACTERISTICS/ CHARBUF
+C
+        INTEGER*4 SYS$QIOW
+        INTEGER*4 STATUS
+C
+C GET CHARACS NOW.
+        STATUS=SYS$QIOW(,
+     1  %VAL(CHANNEL),
+     2  %VAL(IO$_SENSEMODE),
+     3  IOSB,,,
+     4  CHARBUF,
+     5  %VAL(12),,,,) ! 12 BYTE BUFFER
+C
+        IF(.NOT.STATUS)CALL LIB$SIGNAL(%VAL(STATUS))
+        IF(.NOT. IOSB.IOSTAT)CALL LIB$SIGNAL(%VAL(IOSB.IOSTAT))
+C
+C RETURN TERM CHARACS TO CALLER
+        CLASS = CHARBUF.CLASS
+        TYPE = CHARBUF.TYPE
+        WIDTH = CHARBUF.WIDTH
+        BASIC = CHARBUF.BASIC
+        EXTENDED = CHARBUF.EXTENDED
+        RETURN
+        END
+        SUBROUTINE SET_TERMINAL_CHARACTERISTICS (CHANNEL,
+     1  CLASS, TYPE, WIDTH, BASIC,EXTENDED)
+C
+C SETS TERMINAL CHARS IN INPUTS BASIC, EXTENDED.
+        INTEGER*2 CHANNEL
+        BYTE CLASS
+        BYTE TYPE
+        INTEGER*2 WIDTH
+        INTEGER*4 BASIC,EXTENDED
+C
+C I/O OP DEFS
+        INCLUDE '($IODEF)'
+C QIO STAT BLK
+        STRUCTURE /IOSTAT_BLOCK/
+        INTEGER*2 IOSTAT
+        BYTE TRANSMIT,RECEIVE,CRFILL,LFFILL,PARITY,ZERO
+        END STRUCTURE
+        RECORD /IOSTAT_BLOCK/ IOSB
+C
+C CHARAC. BUFFER
+        STRUCTURE /CHARACTERISTICS/
+        BYTE CLASS,TYPE
+        INTEGER*2 WIDTH
+        INTEGER*4 BASIC,EXTENDED
+        END STRUCTURE
+        RECORD /CHARACTERISTICS/ CHARBUF
+C
+        INTEGER*4 SYS$QIOW
+        INTEGER*4 STATUS
+C SET APPROPRIATE CHARACTERISTICS FROM CALLER NOW
+        CHARBUF.CLASS = CLASS
+        CHARBUF.TYPE = TYPE
+        CHARBUF.WIDTH=WIDTH
+        CHARBUF.BASIC= BASIC
+        CHARBUF.EXTENDED = EXTENDED
+C
+C GET CHARACS NOW.
+        STATUS=SYS$QIOW(,
+     1  %VAL(CHANNEL),
+     2  %VAL(IO$_SETMODE),
+     3  IOSB,,,
+     4  CHARBUF,
+     5  %VAL(12),,,,) ! 12 BYTE BUFFER
+C
+        IF(.NOT.STATUS)CALL LIB$SIGNAL(%VAL(STATUS))
+        IF(.NOT. IOSB.IOSTAT)CALL LIB$SIGNAL(%VAL(IOSB.IOSTAT))
+C
+        RETURN
+        END
+
