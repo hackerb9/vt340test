@@ -194,9 +194,10 @@ can store arbitrary sixel bitmaps on the screen.
 ## Charmap and Locale
 
 It should be possible to create a special locale, based on Latin-1,
-but with multibyte characters that use single-shifts. [TODO: Figure
-this out and add a link here to how to do it.]. See: gconv,
-locale-gen, /etc/locale.gen.
+but with additional multibyte characters that use single-shifts to
+provide better Unicode coverage. If I figure it out, I'll post it
+here. See: charmap, gconv, locale-gen, /etc/locale.gen, and the
+exploratory ramblings on my [custom charmap](charset/charmap.md) page.
 
 
 ## Character Set Selection
