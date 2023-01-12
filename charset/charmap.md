@@ -32,10 +32,7 @@ These notes are a bit scattered as I learn more.
   the same as the standard ASCII. Are these the "soft fonts"? Do I
   replace them in firmware?
   
-* Each login session can have a different soft font (downloadable
-  replacement character set).
-  
-
-
-	 
+* Each login session can have a different soft font (AKA "DRCS",
+  "downloadable replacement character set") which can define 96 new
+  characters.
   
