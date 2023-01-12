@@ -5,30 +5,34 @@ CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 
+if [[ $1 == "-t" || $1 == "--text" ]]; then
+    # If -t flag given, then just reset the text and background colors.
+    maybe=:
+fi
 
 # Send DECRSTS for Color Table Report
 echo -n ${DCS}'2$p'
 
-echo -n "0;2;0;0;0/"		# VT color #0 is black and BG text color
+echo -n "0;2;0;0;0/"	# VT color #0 is black and BG text color
 
-echo -n "1;2;20;20;79/"		# VT color #1 is blue
-echo -n "2;2;79;13;13/"		# VT color #2 is red
-echo -n "3;2;20;79;20/"		# VT color #3 is green
+$maybe echo -n "1;2;20;20;79/"	# VT color #1 is blue
+$maybe echo -n "2;2;79;13;13/"	# VT color #2 is red
+$maybe echo -n "3;2;20;79;20/"	# VT color #3 is green
 
-echo -n "4;2;79;20;79/"		# VT color #4 is magenta
-echo -n "5;2;20;79;79/"		# VT color #5 is cyan
-echo -n "6;2;79;79;20/"		# VT color #6 is yellow
+$maybe echo -n "4;2;79;20;79/"	# VT color #4 is magenta
+$maybe echo -n "5;2;20;79;79/"	# VT color #5 is cyan
+$maybe echo -n "6;2;79;79;20/"	# VT color #6 is yellow
 
 echo -n "7;2;46;46;46/"	   	# VT color #7 is gray 50% and FG text color
-echo -n "8;2;26;26;26/"	   	# VT color #8 is gray 25%
+$maybe echo -n "8;2;26;26;26/"	# VT color #8 is gray 25%
 
-echo -n "9;2;33;33;59/"		# VT color #9 is pastel blue
-echo -n "10;2;59;26;26/"	# VT color #10 is pastel red
-echo -n "11;2;33;59;33/"	# VT color #11 is pastel green
+$maybe echo -n "9;2;33;33;59/"	# VT color #9 is pastel blue
+$maybe echo -n "10;2;59;26;26/"	# VT color #10 is pastel red
+$maybe echo -n "11;2;33;59;33/"	# VT color #11 is pastel green
 
-echo -n "12;2;59;33;59/"	# VT color #12 is pastel magenta
-echo -n "13;2;33;59;59/"	# VT color #13 is pastel cyan
-echo -n "14;2;59;59;33/"	# VT color #14 is pastel yellow
+$maybe echo -n "12;2;59;33;59/"	# VT color #12 is pastel magenta
+$maybe echo -n "13;2;33;59;59/"	# VT color #13 is pastel cyan
+$maybe echo -n "14;2;59;59;33/"	# VT color #14 is pastel yellow
 
 echo -n "15;2;79;79;79"		# VT color #15 is gray 75% and BOLD text color
 
