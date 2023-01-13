@@ -14,6 +14,7 @@
 
    TODO:
    o Use termios to set terminal to raw while running.
+   o On exit, reset terminal settings, flush stdout.
    o 132 column characters.
    o Double Width and Double Height characters.
    o Convert to downlineloadable font format.
@@ -33,7 +34,10 @@
 #include <unistd.h>		/* write() */
 #include <stdlib.h>		/* exit() */
 #include <string.h>		/* strlen() */
+#include <termios.h>		/* tcsetattr(), et cetera */
 
+int stty_setup( int fd );
+int stty_restore( int fd );
 
 
 /* Control Sequence Introducer */
@@ -86,6 +90,7 @@ char *receive_media_copy() {
   // Nota Bene:
   // * The Esc P at the start and Esc \ at the end will be missing. 
   // * The result must be freed by the calling routine.
+  // * Does not handle 8-bit DCS (0x90) and ST (0x9C)
 
   // Since media copy is not delimited, we look for the DCS string
   // (Esc P) that starts the sixel data. The VT340 in Level 2 sixel
@@ -150,6 +155,8 @@ int main() {
   char *scs="\e+>";		/* Set dec-tech charset to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
+  stty_setup(fileno(stdin));		/* Set up raw (char-by-char) termios input */
+
   setup_media_copy();
 
   printf(scs);			/* Select TCS as G3 */
@@ -180,6 +187,8 @@ int main() {
       if (out) { free(out); out=NULL; }
     } 
   }
+
+  stty_restore(fileno(stdin));
 
   return 0;
 }

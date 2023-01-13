@@ -1,5 +1,5 @@
 # By default, just compile the binary
-uplineloadfont:
+uplineloadfont: setuptty.c uplineloadfont.c
 
 # 'make run' sets up the terminal and runs the program.
 # It takes a VT340+ two seconds per character, 
