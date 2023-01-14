@@ -9,8 +9,6 @@
 */
 
 #include <termios.h>		/* tcsetattr(), et cetera */
-#include <unistd.h>		/* read() */
-#include <stdio.h>		/* fprintf() */
 
 static struct termios save_termios;
 static int save_fd=-1;
