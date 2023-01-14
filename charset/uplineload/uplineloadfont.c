@@ -90,13 +90,19 @@ char *receive_media_copy() {
   // Nota Bene:
   // * The Esc P at the start and Esc \ at the end will be missing. 
   // * The result must be freed by the calling routine.
-  // * Does not handle 8-bit DCS (0x90) and ST (0x9C)
 
   // Since media copy is not delimited, we look for the DCS string
   // (Esc P) that starts the sixel data. The VT340 in Level 2 sixel
   // mode, actually always sends a string terminator, a carriage
   // return, and sets the DPI before the sixel data, so we have to
-  // skip over it. (Esc \ CR Esc [ 2 SP I). 
+  // skip over those. (Esc \ CR Esc [ 2 SP I). 
+
+  // Side note: Expecting Esc P not a bug
+  //
+  // * This code does not handle 8-bit DCS (0x90) and ST (0x9C). The
+  //   VT340 documentation states that Media Copy will never generate
+  //   sixels using those characters, even in 8-bit mode. This has
+  //   been confirmed on hackerb9's vt340).
 
   FILE *stream;
   char *line = NULL;
@@ -104,9 +110,9 @@ char *receive_media_copy() {
   ssize_t nread;
   
   stream = stdin;
-  int delim='\e';		/* Esc \ is the String Terminator */
+  int delim='\e';		/* Chop up input on Esc */
 
-  /* Read data from terminal until Esc character. */
+  /* Read data from terminal until next Esc character. */
   char c = '\0';
   while (c != 'P') {
     /* Skip everything until we get to a Device Control String (Esc P) */
