@@ -35,10 +35,10 @@
 #include <stdlib.h>		/* exit() */
 #include <string.h>		/* strlen() */
 #include <termios.h>		/* tcsetattr(), et cetera */
+#include <signal.h>		/* signal() */
 
-int stty_setup( int fd );
-int stty_restore( int fd );
-
+int stty_setup( int fd );	/* Defined in setuptty.c */
+int stty_restore( );
 
 /* Control Sequence Introducer */
 #define CSI "\e["
@@ -149,13 +149,22 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
 }
 
 
+static void
+cleanup(int signo) {
+  stty_restore();		/* Undo termios changes made by stty_setup()   */
+  exit(0);
+}
+
 int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
   char *scs="\e+>";		/* Set dec-tech charset to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
-  stty_setup(fileno(stdin));		/* Set up raw (char-by-char) termios input */
+  if (signal(SIGINT, cleanup) == SIG_ERR)
+    perror("signal(SIGINT) error");
+
+  stty_setup(STDIN_FILENO);	/* Set up raw (char-by-char) termios input */
 
   setup_media_copy();
 
