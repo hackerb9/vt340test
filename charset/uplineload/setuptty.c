@@ -68,7 +68,23 @@ void
 discard_input() {
   /* Read from the filedescriptor using a timeout so any data the
      terminal is sending can be received and discarded.
+
      This is useful if the user hit ^C.
+
+     Note: When a VT340 terminal is sending sixel data, it won't be
+     listening to the keyboard while the "WAIT" light is on. The trick
+     to get it to hear ^C is:
+     1. Hit the Hold Screen button ("F1"),
+     2. Wait a few seconds for the WAIT LED to go off and the HOLD
+        SCREEN LED to come on. (A white triangle appears in the upper
+        left of the screen.)
+     3. Press ^C
+     4. Hit the Hold Screen button a second time to unpause the terminal
+
+     Why is this important here? Because the Hold Screen process adds
+     a significant delay to the response from the terminal. This rules
+     out the simple solution of waiting a few seconds for the terminal
+     to respond and then presuming it is done.
   */
 
   char buf[1024];
@@ -87,14 +103,17 @@ discard_input() {
 			   | IEXTEN		// Disable input processing.
 			   );
 
-  if (tcsetattr(save_fd, TCSAFLUSH, &new_termios) <  0)
+  /* Set up terminal so we can drain it without blocking */
+  if (tcsetattr(save_fd, TCSANOW, &new_termios) <  0)
     return;
 
-  fprintf(stderr, "\rDiscarding stdin from terminal...");
+  /* Flush input and output buffers */
+  if (tcflush(save_fd, TCIOFLUSH) < 0)
+    return;
+
   while ( read(save_fd, buf, sizeof(buf)) > 0 ) {
       ; /* discard input from terminal */
   }
-  fprintf(stderr, "\r\e[K");	/* erase to end of line */
 }
 
 int
