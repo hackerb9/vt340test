@@ -1,5 +1,7 @@
 SRCS := setuptty.c signalhandling.c uplineloadfont.c 
 
+CFLAGS += -Wall
+
 # By default, just compile the binary
 uplineloadfont: ${SRCS}
 
