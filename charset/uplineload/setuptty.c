@@ -1,12 +1,19 @@
 /* setuptty.c
 
    Helper routines that implement `stty cbreak ixon ixoff`.
+   This lets getdelim() read a character at a time.
+   Unlike "raw" mode, cbreak allows ^C to cancel the program.
+
+   Todo: consider adding a timeout. 
 
 */
 
 #include <termios.h>		/* tcsetattr(), et cetera */
+#include <unistd.h>		/* read() */
+#include <stdio.h>		/* fprintf() */
 
 static struct termios save_termios;
+static int save_fd=-1;
 
 
 int 
@@ -48,18 +55,56 @@ stty_setup(  int fd ) {
 
   new_termios.c_cc[VMIN] = 1;	/* Read 1 byte at a time. */
   new_termios.c_cc[VTIME] = 0;	/* No timer. */
-  
 
   if (tcsetattr(fd, TCSAFLUSH, &new_termios) <  0)
     return -1;
 
+  save_fd = fd; 		/* This enables stty_restore */
+
   return 0;
 }
 
+void
+discard_input(int fd) {
+  /* Read from the filedescriptor using a timeout so any data the
+     terminal is sending can be received and discarded.
+     This is useful if the user hit ^C.
+  */
+
+  char buf[1024];
+  struct termios new_termios;
+  new_termios = save_termios;	/* structure copy */
+  
+  /* Set input to wait up to x tenths of a second instead of blocking */
+  new_termios.c_cc[VMIN] = 0;	/* multiple bytes, up to bufsize */
+  new_termios.c_cc[VTIME] = 20;	/* timeout in tenths of a second */
+
+  new_termios.c_lflag &= ~(ICANON  		// Disable canonical input mode
+			   | ECHO | ECHONL 	// Do not echo characters
+			   | IEXTEN		// Disable input processing.
+			   );
+
+  if (tcsetattr(fd, TCSAFLUSH, &new_termios) <  0)
+    return;
+
+  
+  while ( read(fd, buf, sizeof(buf)) > 0 ) {
+      ; /* discard input from terminal */
+  }
+
+}
+
 int
-stty_restore(int fd) {
+stty_restore() {
   /* Restore terminal to setting before stty_setup() was called. */
-  if (tcsetattr(fd, TCSAFLUSH, &save_termios) <  0)
-    return -1;
+  if (save_fd >= 0) {
+    fprintf(stderr, "\rDiscarding stdin from terminal...");
+    discard_input(save_fd);
+    fprintf(stderr, "\r\e[K");
+
+    if (tcsetattr(save_fd, TCSAFLUSH, &save_termios) <  0)
+      return -1;
+  }
+
   return 0;
 }
