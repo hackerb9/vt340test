@@ -5,7 +5,7 @@ uplineloadfont: setuptty.c uplineloadfont.c
 # It takes a VT340+ two seconds per character, 
 # which means 3.5 minutes for a whole character set)
 run: uplineloadfont
-	stty raw ixon ixoff; time ./uplineloadfont; stty cooked
+	time ./uplineloadfont
 	mkdir -p tcs
 	mv char-tcs*.six tcs/
 
@@ -15,8 +15,8 @@ char-tcs.gif: tcs/char-tcs*.six
 
 # make debug is like run but saves time by only creating a couple characters.
 debug: 
-	gcc -DDEBUG uplineloadfont.c
-	stty raw ixon ixoff; ./a.out 2>debug.out; stty cooked
+	gcc -DDEBUG uplineloadfont.c setuptty.c
+	./a.out 2>debug.out
 
 
 
