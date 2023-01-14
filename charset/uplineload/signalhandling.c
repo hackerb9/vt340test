@@ -58,16 +58,20 @@ discard_input() {
     if (c<0) break;		/* e.g., EOF */
 
 #ifdef DEBUG
-    if (c != '\e') printf("%c", c);  else printf("ESC");
+    if (c == '\e') printf("ESC");
+    else if (c > 126) printf("\\x%x", c);
+    else printf("%c", c);
 #endif
 
     switch (state) {
     case BEGIN:
       if ( c == '\e' )
 	state = GOTESC;
+      else if ( c == 0x9B )
+	state = GOTCSI;
       break;
     case GOTESC:
-      if ( c == '[' )
+      if ( c == '[' || c == 0x9B )
 	state = GOTCSI;
       else if ( c == '\e' )
 	state = GOTESC;
@@ -78,6 +82,8 @@ discard_input() {
       if ( c == 'c' )
 	state = GOTDA;
       else if ( c == ';' || c == '?' || (c>='0' && c<='9') )
+	state = GOTCSI;
+      else if ( c == 0x9B )
 	state = GOTCSI;
       else if ( c == '\e' )
 	state = GOTESC;
