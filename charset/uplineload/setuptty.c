@@ -64,58 +64,6 @@ stty_setup(  int fd ) {
   return 0;
 }
 
-void
-discard_input() {
-  /* Read from the filedescriptor using a timeout so any data the
-     terminal is sending can be received and discarded.
-
-     This is useful if the user hit ^C.
-
-     Note: When a VT340 terminal is sending sixel data, it won't be
-     listening to the keyboard while the "WAIT" light is on. The trick
-     to get it to hear ^C is:
-     1. Hit the Hold Screen button ("F1"),
-     2. Wait a few seconds for the WAIT LED to go off and the HOLD
-        SCREEN LED to come on. (A white triangle appears in the upper
-        left of the screen.)
-     3. Press ^C
-     4. Hit the Hold Screen button a second time to unpause the terminal
-
-     Why is this important here? Because the Hold Screen process adds
-     a significant delay to the response from the terminal. This rules
-     out the simple solution of waiting a few seconds for the terminal
-     to respond and then presuming it is done.
-  */
-
-  char buf[1024];
-  struct termios new_termios;
-
-  if (save_fd < 0) return;
-
-  new_termios = save_termios;	/* structure copy */
-  
-  /* Set input to wait up to x tenths of a second instead of blocking */
-  new_termios.c_cc[VMIN] = 0;	/* multiple bytes, up to bufsize */
-  new_termios.c_cc[VTIME] = 20;	/* timeout in tenths of a second */
-
-  new_termios.c_lflag &= ~(ICANON  		// Disable canonical input mode
-			   | ECHO | ECHONL 	// Do not echo characters
-			   | IEXTEN		// Disable input processing.
-			   );
-
-  /* Set up terminal so we can drain it without blocking */
-  if (tcsetattr(save_fd, TCSANOW, &new_termios) <  0)
-    return;
-
-  /* Flush input and output buffers */
-  if (tcflush(save_fd, TCIOFLUSH) < 0)
-    return;
-
-  while ( read(save_fd, buf, sizeof(buf)) > 0 ) {
-      ; /* discard input from terminal */
-  }
-}
-
 int
 stty_restore() {
   /* Restore terminal to setting before stty_setup() was called. */
