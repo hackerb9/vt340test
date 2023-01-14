@@ -1,5 +1,7 @@
+SRCS := setuptty.c signalhandling.c uplineloadfont.c 
+
 # By default, just compile the binary
-uplineloadfont: setuptty.c uplineloadfont.c
+uplineloadfont: ${SRCS}
 
 # 'make run' sets up the terminal and runs the program.
 # It takes a VT340+ two seconds per character, 
@@ -15,7 +17,7 @@ char-tcs.gif: tcs/char-tcs*.six
 
 # make debug is like run but saves time by only creating a couple characters.
 debug: 
-	gcc -DDEBUG uplineloadfont.c setuptty.c
+	gcc -DDEBUG ${SRCS}
 	./a.out 2>debug.out
 
 

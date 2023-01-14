@@ -31,51 +31,12 @@ ASCII character set:
 
 4. Replace just a handful of the characters in US ASCII to make a
    7-bit "National Replacement Character Set", such as "Portuguese" or
-   "Norwegian". I suggest ignoring NRC Sets completely. The VT340's
+   "Norwegian". NRC is disabled on the the North American VT340 by
+   default. Hackerb9 suggests ignoring NRCs completely. The VT340's
    Latin-1 code table covers every character the NRC Sets provided,
-   doesn't mangle ASCII text, and can show all of them simultaneously.
-
-<details><summary>Click here to read more about NRC Sets</summary>
-
-### About NRC Sets
-
-National Replacement Character Sets appear to be an older method which
-the VT340 merely provides as a backwards compatibility convenience. In
-fact, it is not obvious from the VT340 Set-Up menu how to even enable
-NRCS. The trick is that they are chosen by changing the _Keyboard_
-type from North American to one of the national types.
-
-The VT340 has tables and fonts for twelve different NRC regions and
-can show only one of them at a time. Each one alters up to 12
-different characters from ASCII. For example, the `#` character
-displays as a `£` for the United Kingdom NRC Set.
-
-| Keyboard        | NRC Set          |
-|-----------------|------------------|
-| United Kingdom  | United Kingdom   |
-| Danish          | Norwegian/Danish |
-| Dutch           | Dutch            |
-| Finnish         | Finnish          |
-| Flemish         | French           |
-| French/Belgian  | French           |
-| French Canadian | French Canadian  |
-| German          | German           |
-| Italian         | Italian          |
-| Norwegian       | Norwegian/Danish |
-| Portuguese      | Portuguese       |
-| Spanish         | Spanish          |
-| Swedish         | Swedish          |
-| Swiss (French)  | Swiss            |
-| Swiss (German)  | Swiss            |
-
-The "extra" characters provided by the VT340's NRC Sets are:
-
-¡, £, §, ¨, °, ¼, ½, ¾, ¿, Ã, Ä, Å, Æ, Ç, É, Ñ, Õ, Ö, Ø, Ü, ß, à, à, ã, ä, å, æ, ç, è, é, ê, ì, î, ñ, ò, ô, õ, ö, ø, ù, û, ü, ÿ
-
-As mentioned above, all of these characters are already available in
-the Latin-1 character set.
-
-</details>
+   plus it doesn't mangle ASCII text, and can show all of the
+   different nationalities simultaneously. The NRC option will not be
+   discussed further on this page, but you can [read more here](nrc.md).
 
 ### GL & GR
 
