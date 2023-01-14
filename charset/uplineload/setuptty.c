@@ -65,7 +65,7 @@ stty_setup(  int fd ) {
 }
 
 void
-discard_input(int fd) {
+discard_input() {
   /* Read from the filedescriptor using a timeout so any data the
      terminal is sending can be received and discarded.
      This is useful if the user hit ^C.
@@ -73,6 +73,9 @@ discard_input(int fd) {
 
   char buf[1024];
   struct termios new_termios;
+
+  if (save_fd < 0) return;
+
   new_termios = save_termios;	/* structure copy */
   
   /* Set input to wait up to x tenths of a second instead of blocking */
@@ -84,27 +87,22 @@ discard_input(int fd) {
 			   | IEXTEN		// Disable input processing.
 			   );
 
-  if (tcsetattr(fd, TCSAFLUSH, &new_termios) <  0)
+  if (tcsetattr(save_fd, TCSAFLUSH, &new_termios) <  0)
     return;
 
-  
-  while ( read(fd, buf, sizeof(buf)) > 0 ) {
+  fprintf(stderr, "\rDiscarding stdin from terminal...");
+  while ( read(save_fd, buf, sizeof(buf)) > 0 ) {
       ; /* discard input from terminal */
   }
-
+  fprintf(stderr, "\r\e[K");	/* erase to end of line */
 }
 
 int
 stty_restore() {
   /* Restore terminal to setting before stty_setup() was called. */
-  if (save_fd >= 0) {
-    fprintf(stderr, "\rDiscarding stdin from terminal...");
-    discard_input(save_fd);
-    fprintf(stderr, "\r\e[K");
-
+  if (save_fd >= 0)
     if (tcsetattr(save_fd, TCSAFLUSH, &save_termios) <  0)
       return -1;
-  }
 
   return 0;
 }
