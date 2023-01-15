@@ -36,8 +36,11 @@
 
 int stty_setup( int fd );	/* Defined in setuptty.c */
 int stty_restore( );
+
 void cleanup(int signo);	/* Defined in signalhandling.c */
+
 int print_axes(char *cs);	/* Defined in frippery.c */
+int place_cursor(int u, int v);
 
 /* Control Sequence Introducer */
 #define CSI "\e["
@@ -153,12 +156,24 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
   fclose(fp);
 }
 
+char *csname(char *cs) {
+  /* Given a character set ID, such as "<" or "0",
+     return the 3-letter name for the character set. */
+  if (strcmp(cs, ">") == 0)
+    return "tcs";
+  if (strcmp(cs, "0") == 0)
+    return "gfx";
+
+  return "unk";
+}
+
 
 int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
   char *scs="\e+";		/* Set next character charset to G3 */
-  char *cs=">";			/* > is the symbol for the dec-tech charset */
+//char *cs=">";			/* > is the symbol for the dec-tech charset */
+  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
   if (signal(SIGINT, cleanup) == SIG_ERR)
@@ -177,6 +192,9 @@ int main() {
     for (int v=0; v<=0xF; v++) {
 #endif
       place_cursor(u, v);
+      int x, y;
+      get_xy(&x, &y);
+
       c=u*16+v;			/* ASCII character 0xuv */
       switch(c) {
       case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:  
@@ -190,9 +208,10 @@ int main() {
       }
       
       char *out;		/* Output filename */
-      asprintf(&out, "char-tcs-%02X.six", c);
+      asprintf(&out, "char-%s-%02X.six", csname(cs), c);
 #ifndef FAKE_MEDIACOPY
-      save_region_to_file(out, 0, 0, 9, 19);
+
+      save_region_to_file(out, x, y, x+9, y+19);
 #endif
       if (out) { free(out); out=NULL; }
     } 
