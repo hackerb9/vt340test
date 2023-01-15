@@ -20,6 +20,14 @@ DEC VT330/340 Graphics Programming, second edition
 
 DEC VT330/340 Text Programming, second edition
 
+* Page 74: Use minus ("-") character to designate a 96-character set to G1
+
+  The manual incorrectly shows an underscore ("_"), although it does
+  have the correct ASCII table number, "2/13" (0x2D == minus). For
+  example, to set DEC Technical (">") to G1, one would use:
+  
+      ESC - >
+
 * Page 228: DECRPSS response to DECRQSS query is inverted
 
   VT340 manual states that 0 = host's request is valid, 1 = invalid.
