@@ -5,8 +5,17 @@
 #include <stdlib.h>		/* atoi() */
 #include <unistd.h>		/* exit(), alarm() */
 
+char *receive_media_copy();	/* Defined in uplineloadfont.c */
+
 /* Control Sequence Introducer */
 #define CSI "\e["
+
+/* Device Control String */
+#define DCS "\eP"
+
+/* String Terminator */
+#define ST "\e\\"
+
 
 
 int print_axes(char *cs) {
@@ -188,6 +197,47 @@ int get_cell_size_xterm(int *width, int *height) {
     return -1;
 }
 
+int get_cell_size_vt(int *width, int *height) {
+  /* Return the width and height of each character cell.
+   *
+   * Determines this by drawing a full box character and examining the
+   * resulting sixel data from MediaCopy.
+   *
+   * This should work with any terminal that can handle MediaCopy to
+   * Host and has support for the VT100 Graphics characters.
+   */
+  char *clear="\e[H\e[J";	/* Clear screen */
+  char *scs="\e*";		/* Set next character charset to G2 */
+  char *cs="0";			/* 0 is the symbol for VT100 graphics */
+  char *ss2="\eN";		/* Single (non-locking) shift to G2 */
+
+  printf(clear);
+  printf("%s%s", scs, cs);	/* Set G2 to be VT100 graphics  */
+  printf("%s%c", ss2, 0x5F);	/* Show a full square */
+
+  // Send sixel data as ReGIS "hard copy" to host.
+  printf(DCS "p");
+  printf("S(H(P[0,0])[0,0][%d,%d])", 99, 99); 
+  printf(ST);
+  fflush(stdout);
+
+  /* buf will be a string of sixels, sans DCS and ST */
+  char *buf = receive_media_copy();
+
+  /* Parse buf to count how many rows and columns of pixels the
+     rectangle took up. Format looks something like this:
+
+  */     
+
+  
+  *width=10;
+  *height=20;
+
+
+  return 0;
+
+}
+
 
 int get_cell_size(int *w, int *h) {
   /* Return the width and height of each character cell.
@@ -200,13 +250,18 @@ int get_cell_size(int *w, int *h) {
   /* NOTA BENE: This routine presumes termios has already been used to
      read one character at a time (cbreak or raw mode) */
 
-  get_cell_size_xterm(w, h);
+  if (get_cell_size_xterm(w, h) < 0) {
+    if (get_cell_size_vt(w, h) < 0) {
+      return -1;
+    }
+  }
 
   return 0;
 }
 
 int cell_width=10;
 int cell_height=20;
+
 
 int get_xy(int *x, int *y) {
   /* Return the x, y pixel coordinates of the upper-left of the current cursor location.
