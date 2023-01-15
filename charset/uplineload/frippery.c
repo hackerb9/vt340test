@@ -5,7 +5,8 @@
 #include <stdlib.h>		/* atoi() */
 #include <unistd.h>		/* exit(), alarm() */
 
-char *receive_media_copy();	/* Defined in uplineloadfont.c */
+#include "mediacopy.h"		/* receive_media_copy() */
+#include "setuptty.h"		/* stty_setup, stty_restore */
 
 /* Control Sequence Introducer */
 #define CSI "\e["
@@ -27,7 +28,7 @@ int print_axes(char *cs) {
     printf ("Character Set '%s'\n\n", cs);
     break;
   }
-    
+
   printf("     ");
   for (int i=2; i<=7; i++) { printf (" %X_", i); }
   printf("\n");
@@ -71,16 +72,16 @@ int get_rc(int *row, int *col) {
    * 	ROW and COL are integers and
    * 	CSI is either ESC [ or 0x9B
    */
-  nread = getdelim(&line, &len, ';', stdin); 
+  nread = getdelim(&line, &len, ';', stdin);
   if (nread == -1) {perror("get_rc():getdelim(';')"); _exit(1);}
-  
+
   /* line is now CSI ROW ; */
   char *p=line;			/* Skip over CSI */
   while (*p && ! isdigit(*p) )
 	 p++;
   *row = atoi(p);
-  
-  nread = getdelim(&line, &len, 'R', stdin); 
+
+  nread = getdelim(&line, &len, 'R', stdin);
   if (nread == -1) {perror("get_rc():getdelim('R')"); _exit(1);}
   *col = atoi(line);
 
@@ -92,7 +93,7 @@ int get_rc(int *row, int *col) {
 
 
 
-         
+
 ssize_t getdelim_timeout( char **restrict lineptr,
 			  size_t *restrict n,
 			  int delim,
@@ -160,7 +161,7 @@ int get_cell_size_xterm(int *width, int *height) {
   ssize_t nread;
 
   /* Read and ignore CSI 6 ; */
-  nread = getdelim_timeout(&line, &len, ';', stdin, 0.25); 
+  nread = getdelim_timeout(&line, &len, ';', stdin, 0.25);
   if (nread == -1) {perror("get_cell_size():getdelim_timeout(';')"); _exit(1);}
   if (nread) {
     fprintf(stderr, "\r\nGot A: %s\n", line+1);
@@ -169,7 +170,7 @@ int get_cell_size_xterm(int *width, int *height) {
 
   if (nread > 0) {
     /* Read width */
-    nread = getdelim(&line, &len, ';', stdin); 
+    nread = getdelim(&line, &len, ';', stdin);
     if (nread == -1) {perror("get_cell_size():getdelim_timeout(';')"); _exit(1);}
     if (nread) {
       fprintf(stderr, "\r\nGot B: %s\n", line);
@@ -179,7 +180,7 @@ int get_cell_size_xterm(int *width, int *height) {
 
     if (nread > 0) {
       /* Read height */
-      nread = getdelim(&line, &len, 't', stdin); 
+      nread = getdelim(&line, &len, 't', stdin);
       if (nread == -1) {perror("get_cell_size():getdelim_timeout('t')"); _exit(1);}
       if (nread) {
 	fprintf(stderr, "\r\nGot C: %s\r\n", line);
@@ -200,8 +201,8 @@ int get_cell_size_xterm(int *width, int *height) {
 int get_cell_size_vt(int *width, int *height) {
   /* Return the width and height of each character cell.
    *
-   * Determines this by drawing a full box character and examining the
-   * resulting sixel data from MediaCopy.
+   * Determines this by drawing a fullsize VT100 graphic character and
+   * examining the resulting sixel data from MediaCopy.
    *
    * This should work with any terminal that can handle MediaCopy to
    * Host and has support for the VT100 Graphics characters.
@@ -213,27 +214,143 @@ int get_cell_size_vt(int *width, int *height) {
 
   printf(clear);
   printf("%s%s", scs, cs);	/* Set G2 to be VT100 graphics  */
-  printf("%s%c", ss2, 0x5F);	/* Show a full square */
+  printf("%s%c", ss2, 0x6F);	/* Show a horizontal line */
+  cup(999,0);			/* Cursor to the bottom line */
+  printf("Determining character cell width");
+
+  stty_setup(STDIN_FILENO);	/* Make sure terminal is receiving char at a time */
+  setup_media_copy();		/* Tell terminal to send sixels to host */
 
   // Send sixel data as ReGIS "hard copy" to host.
   printf(DCS "p");
-  printf("S(H(P[0,0])[0,0][%d,%d])", 99, 99); 
+  printf("S(H(P[0,0])[0,0][%d,%d])", 99, 99);
   printf(ST);
-  fflush(stdout);
 
   /* buf will be a string of sixels, sans DCS and ST */
   char *buf = receive_media_copy();
 
-  /* Parse buf to count how many rows and columns of pixels the
-     rectangle took up. Format looks something like this:
+  /* Parse buf to count how many columns of pixels the horizontal line
+     took up. Format looks something like this (without whitespace):
+     0;1;6q"1;1;100;100#1;1;0;49;59#2;1;120;46;71#3;1;240;49;59 [...]
+	#7!10E$#0!10x-
+	#0!10~-
+	#0!10~-
+	#0!10B-
 
-  */     
+     So, basically, skip to the first '!' and read the decimal number.
+  */
+  char *p = buf;
+  while (*p != '\0' && *p != '!')
+    p++;
 
+  if (*p == '\0') {		/* This should never happen. */
+    fprintf(stderr, "Bug: didn't find ! in sixel from horizontal bar\n");
+    exit(1);
+  }
+  p++;
+  *width = atoi(p);
+  free(buf);
+
+  /************************************************/
+  /* Now do the same as above, but for the height */
+  printf(clear);
+  printf("%s%c", ss2, 0x78);	/* Show a vertical line */
+  cup(1000,0);			/* Cursor to the bottom line */
+  printf("Determining character cell height");
+  fflush(stdout);
+
+  save_region_to_file("foo.six", 0, 0, 99, 99);
+
+  // Send sixel data as ReGIS "hard copy" to host.
+  printf(DCS "p");
+  printf("S(H(P[0,0])[0,0][%d,%d])", 99, 99);
+  printf(ST);
+
+  /* buf will be a string of sixels, sans DCS and ST */
+  buf = receive_media_copy();
+
+  /* Parse buf to count how many columns of pixels the horizontal line
+     took up. Format looks something like this (without whitespace):
+
+     0;1;6q"1;1;100;100#1;1;0;49;59#2;1;120;46;71#3;1;240;49;59 [...]
+	#7????~~$-
+	#7????~~$-
+	#7????~~$-
+	#7????BB$-
+	-------------
+
+     So, basically, count the number of '-' (graphic newlines) until
+     we get to a line that replaces '~' with '?', '@', 'B', 'F', 'N', '^'
+     				     1	      0    1    1    1    1    1
+				     1	      0    0   	1    1 	  1    1
+				     1	      0    0	0    1	  1    1
+				     1	      0    0	0    0	  1    1
+				     1	      0    0	0    0	  0    1
+				     1	      0    0   	0    0 	  0    0
+  */
+  int count=0;
+  char *q;
+  int offset=0;
+
+  /* Find first - (graphic new line) */
+  p = buf;
+  while (*p != '\0' && *p != '-') 	// #7????~~$#0~~~~??~~~~-
+    p++;				//                      p
+  count += 6;			/* Add six since this is a grahpics newline. */
+
+  /* Work backwards to find ~ (111111) */
+  q=p;
+  while (q >= buf && *q != '~') 	// #7????~~$#0~~~~??~~~~-
+    q--;				//                     qp
+
+  if (q < buf) {
+    fprintf(stderr, "bug: get_cell_size_vt: no ~ in first line of sixels\n");
+    exit(1);
+  }
   
-  *width=10;
-  *height=20;
+  offset = q - p; 		/* index of ~ relative to - */
 
+  while ( *p != '\0' && *(p+offset) == '~' ) {
+    p++;
+    while (*p != '\0' && *p != '-') {
+      p++;
+    }
 
+    if ( *(p+offset) != '~')
+      break;			/* Break if the sixels aren't 111111. */
+    else
+      count+=6;			/* Otherwise, just accumulate. */
+  }
+
+  switch ( *(p+offset) ) {
+  case '?':			/* 000000 */
+    count+=0;
+    break;
+  case '@':			/* 000001 */
+    count+=1;
+    break;
+  case 'B':			/* 000011 */
+    count+=2;
+    break;
+  case 'F':			/* 000111 */
+    count+=3;
+    break;
+  case 'N':			/* 001111 */
+    count+=4;
+    break;
+  case '^':			/* 011111 */
+    count+=5;
+    break;
+  default:
+    stty_restore();
+    fprintf(stderr, "bug: get_cell_size_vt: ~ should never change to %c\n", *(p+offset));
+    fprintf(stderr, "p=%ld (%c)\toffset=%d (%c)\n", p-buf, *p, offset, *(p+offset));
+    exit(1);
+  }    
+
+  *height = count;
+
+  free(buf);
   return 0;
 
 }
@@ -271,7 +388,7 @@ int get_xy(int *x, int *y) {
    */
 
   int r, c;
-  get_rc(&r, &c);	
+  get_rc(&r, &c);
   *x = (c-1) * cell_width;	/* Origin of character cells is 1, 1 */
   *y = (r-1) * cell_height;
 
