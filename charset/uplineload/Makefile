@@ -1,4 +1,5 @@
-SRCS := setuptty.c signalhandling.c uplineloadfont.c 
+SRCS := setuptty.c mediacopy.c signalhandling.c uplineloadfont.c frippery.c
+SRCS += setuptty.h mediacopy.h
 
 CFLAGS += -Wall
 
@@ -22,5 +23,9 @@ debug:
 	gcc -DDEBUG ${SRCS}
 	./a.out 2>debug.out
 
+# A target for testing the code on terminals that don't support MediaCopy
+nomc:
+	gcc -DFAKE_MEDIACOPY ${SRCS}
+	./a.out 2>debug.out
 
 
