@@ -6,15 +6,14 @@
   
    BUGS:
    o Currently only works for the DEC Technical Character Set.
-   o Must be run as:  stty raw ixon ixoff; ./a.out; stty cooked
-   o Presumes ST is sent at end of MediaCopy.
+   o Presumes ST is sent at end of MediaCopy; blocks otherwise.
    o Should probably use select or poll to handle a timeout.
    o Could be lovelier on the screen as it is working.
    o Takes 3 to 4 minutes to run.
 
    TODO:
    o 132 column characters.
-   o Double Width and Double Height characters.
+   o Are Double Width and Double Height characters the same, just stretched?
    o Convert to downlineloadable font format.
    o Investigate why it is so slow:
      * 2.36 seconds per 10x20 character
@@ -38,7 +37,7 @@
 int stty_setup( int fd );	/* Defined in setuptty.c */
 int stty_restore( );
 void cleanup(int signo);	/* Defined in signalhandling.c */
-
+int print_axes(char *cs);	/* Defined in frippery.c */
 
 /* Control Sequence Introducer */
 #define CSI "\e["
@@ -158,17 +157,18 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
 int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
-  char *scs="\e+>";		/* Set dec-tech charset to G3 */
+  char *scs="\e+";		/* Set next character charset to G3 */
+  char *cs=">";			/* > is the symbol for the dec-tech charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
   if (signal(SIGINT, cleanup) == SIG_ERR)
     perror("signal(SIGINT) error");
 
+  printf(clear);
+  print_axes(cs);		/* Show title and hex axes */
+  printf("%s%s", scs, cs);	/* Select TCS as G3 */
   stty_setup(STDIN_FILENO);	/* Set up raw (char-by-char) termios input */
-
   setup_media_copy();
-
-  printf(scs);			/* Select TCS as G3 */
 
 #ifdef DEBUG
   for (int u=6; u<=6; u++) {    for (int v=0xD; v<=0xF; v++) {
@@ -176,8 +176,7 @@ int main() {
   for (int u=2; u<=7; u++) {
     for (int v=0; v<=0xF; v++) {
 #endif
-      printf(clear);
-
+      place_cursor(u, v);
       c=u*16+v;			/* ASCII character 0xuv */
       switch(c) {
       case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:  
@@ -192,12 +191,16 @@ int main() {
       
       char *out;		/* Output filename */
       asprintf(&out, "char-tcs-%02X.six", c);
+#ifndef FAKE_MEDIACOPY
       save_region_to_file(out, 0, 0, 9, 19);
+#endif
       if (out) { free(out); out=NULL; }
     } 
   }
 
   stty_restore(fileno(stdin));
+  place_cursor(0x7, 0xF);
+  printf("\n");
   printf("\n");
 
   return 0;
