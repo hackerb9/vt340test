@@ -20,14 +20,7 @@
 
 
 int print_axes(char *cs) {
-  switch (cs[0]) {
-  case '>':
-    printf ("DEC Technical Character Set\n\n");
-    break;
-  default:
-    printf ("Character Set '%s'\n\n", cs);
-    break;
-  }
+  printf ("%s Character Set\n\n", cslongname(cs));
 
   printf("     ");
   for (int i=2; i<=7; i++) { printf (" %X_", i); }
