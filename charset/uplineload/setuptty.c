@@ -19,6 +19,8 @@ stty_setup(  int fd ) {
   /* Similar to cbreak mode, but also allow XON/XOFF flow control  */
   static struct termios new_termios;
 
+  if (save_fd != -1) return(0);
+
   if (tcgetattr(fd, &save_termios) <0)
     return(-1);
 
@@ -69,5 +71,6 @@ stty_restore() {
     if (tcsetattr(save_fd, TCSAFLUSH, &save_termios) <  0)
       return -1;
 
+  save_fd=-1;
   return 0;
 }
