@@ -48,8 +48,8 @@ int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
   char *scs="\e+";		/* Set next character charset to G3 */
-//char *cs=">";			/* > is the symbol for the dec-tech charset */
-  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
+  char *cs=">";			/* > is the symbol for the dec-tech charset */
+  //  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
   if (signal(SIGINT, cleanup) == SIG_ERR)
