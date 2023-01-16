@@ -34,21 +34,20 @@
 #include <termios.h>		/* tcsetattr(), et cetera */
 #include <signal.h>		/* signal() */
 
-#include "mediacopy.h"		/* Routines for getting screenshot from terminal */
-#include "setuptty.h"		/* stty_setup, stty_restore */
-
+#include "mediacopy.h"	   /* setup_media_copy, save_region_to_file */
+#include "setuptty.h"	   /* stty_setup, stty_restore */
+#include "scsname.h"	   /* scsname, scslongname */
 
 void cleanup(int signo);	/* Defined in signalhandling.c */
 
-int print_axes(char *cs);	/* Defined in frippery.c */
+int print_axes(char *scs);	/* Defined in frippery.c */
 int place_cursor(int u, int v);
 int get_xy(int *x, int *y);
 
 int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
-  char *scs="\e+";		/* Set next character charset to G3 */
-  char *cs=">";			/* > is the symbol for the dec-tech charset */
+  char *scs="\e+>";		/* Set dec-tech charset to G3 */
   //  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
 
@@ -56,8 +55,8 @@ int main() {
     perror("signal(SIGINT) error");
 
   printf(clear);
-  print_axes(cs);		/* Show title and hex axes */
-  printf("%s%s", scs, cs);	/* Select TCS as G3 */
+  print_axes(scs);		/* Show title and hex axes */
+  printf(scs);			/* Select character set as G3 */
   stty_setup(STDIN_FILENO);	/* Set up raw (char-by-char) termios input */
   setup_media_copy();
 
@@ -73,18 +72,19 @@ int main() {
 
       c=u*16+v;			/* ASCII character 0xuv */
 
-      if ( strcmp(cs, ">") == 0) { /* Skip TCS characters "Reserved for future use" */
-	  switch(c) {
-	  case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:  
-	  case 0x54:  case 0x55:  case 0x6D:  case 0x75:  case 0x7F:
-	    continue;
-	  }
+      if ( strcmp(scsname(scs), "gfx") == 0) {
+	/* Skip TCS characters "Reserved for future use" */
+	switch(c) {
+	case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:
+	case 0x54:  case 0x55:  case 0x6D:  case 0x75:  case 0x7F:
+	  continue;
+	}
       }
 
       printf("%s%c\n", ss3, c);	/* Show character c from G3 */
       
       char *out;		/* Output filename */
-      asprintf(&out, "char-%s-%02X.six", csname(cs), c);
+      asprintf(&out, "char-%s-%02X.six", csname(scs), c);
 #ifndef FAKE_MEDIACOPY
       save_region_to_file(out, x, y, x+9, y+19);
 #endif
