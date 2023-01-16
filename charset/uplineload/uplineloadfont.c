@@ -5,10 +5,9 @@
    to grab a bitmap of it and save it to a file. 
   
    BUGS:
-   o Currently only works for the DEC Technical Character Set.
+   o Does not have an easy interface to change which charset is chosen.
    o Presumes ST is sent at end of MediaCopy; blocks otherwise.
-   o Should probably use select or poll to handle a timeout.
-   o Could be lovelier on the screen as it is working.
+   o Uses select only for initial data, but could block afterward.
    o Takes 3 to 4 minutes to run.
 
    TODO:
@@ -72,7 +71,7 @@ int main() {
 
       c=u*16+v;			/* ASCII character 0xuv */
 
-      if ( strcmp(scsname(scs), "gfx") == 0) {
+      if ( strcmp(scsname(scs), "tcs") == 0) {
 	/* Skip TCS characters "Reserved for future use" */
 	switch(c) {
 	case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:
@@ -84,7 +83,7 @@ int main() {
       printf("%s%c\n", ss3, c);	/* Show character c from G3 */
       
       char *out;		/* Output filename */
-      asprintf(&out, "char-%s-%02X.six", csname(scs), c);
+      asprintf(&out, "char-%s-%02X.six", scsname(scs), c);
 #ifndef FAKE_MEDIACOPY
       save_region_to_file(out, x, y, x+9, y+19);
 #endif
