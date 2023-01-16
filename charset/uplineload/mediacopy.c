@@ -122,26 +122,3 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
   fclose(fp);
 }
 
-char *csname(char *cs) {
-  /* Given a character set ID, such as "<" or "0",
-     return the 3-letter name for the character set. */
-  if (strcmp(cs, ">") == 0)
-    return "tcs";
-  if (strcmp(cs, "0") == 0)
-    return "gfx";
-
-  return "unk";
-}
-
-char *cslongname(char *cs) {
-  /* Given a character set ID, such as "<" or "0",
-     return the full name for the character set. */
-  if (strcmp(cs, ">") == 0)
-    return "Technical Character Set";
-  if (strcmp(cs, "0") == 0)
-    return "VT100 Graphics";
-
-  return "Unknown Character Set";
-}
-
-
