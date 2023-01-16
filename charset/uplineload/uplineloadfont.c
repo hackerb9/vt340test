@@ -42,6 +42,8 @@ void cleanup(int signo);	/* Defined in signalhandling.c */
 int print_axes(char *scs);	/* Defined in frippery.c */
 int place_cursor(int u, int v);
 int get_xy(int *x, int *y);
+int get_cell_size(int *w, int *h);
+
 
 int main() {
   int c;
@@ -49,15 +51,17 @@ int main() {
   char *scs="\e+>";		/* Set dec-tech charset to G3 */
   //  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
+  int w, h;			/* cell width & height */
 
   if (signal(SIGINT, cleanup) == SIG_ERR)
     perror("signal(SIGINT) error");
 
   printf(clear);
+  setup_media_copy();
+  stty_setup(STDIN_FILENO);	/* Set up raw (char-by-char) termios input */
+  get_cell_size(&w, &h);	/* determine char cell size automatically */
   print_axes(scs);		/* Show title and hex axes */
   printf(scs);			/* Select character set as G3 */
-  stty_setup(STDIN_FILENO);	/* Set up raw (char-by-char) termios input */
-  setup_media_copy();
 
 #ifdef DEBUG
   for (int u=6; u<=6; u++) {    for (int v=0xD; v<=0xF; v++) {
@@ -85,7 +89,7 @@ int main() {
       char *out;		/* Output filename */
       asprintf(&out, "char-%s-%02X.six", scsname(scs), c);
 #ifndef FAKE_MEDIACOPY
-      save_region_to_file(out, x, y, x+9, y+19);
+      save_region_to_file(out, x, y, x+w-1, y+h-1);
 #endif
       if (out) { free(out); out=NULL; }
     } 
