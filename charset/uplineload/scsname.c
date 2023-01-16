@@ -1,3 +1,5 @@
+#include <string.h>
+
 char *scsname(char *scs) {
   /* Given a Select Character Set escape sequence, such as "\e+>",
      return the 3- (or 4-) letter name for the character set.
@@ -77,7 +79,7 @@ char *scsname(char *scs) {
   return "unk";
 }
 
-char *cslongname(char *scs) {
+char *scslongname(char *scs) {
   /* Given a Select Character Set escape sequence, such as "\e+>",
      return the full name for the character set. */
 
