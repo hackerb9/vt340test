@@ -254,8 +254,6 @@ int get_cell_size_vt(int *width, int *height) {
   printf("Determining character cell height");
   fflush(stdout);
 
-  save_region_to_file("foo.six", 0, 0, 99, 99);
-
   // Send sixel data as ReGIS "hard copy" to host.
   printf(DCS "p");
   printf("S(H(P[0,0])[0,0][%d,%d])", 99, 99);
