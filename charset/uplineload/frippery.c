@@ -22,14 +22,14 @@
 
 
 int print_axes(char *cs) {
-  printf ("%s Character Set\n\n", scslongname(cs));
+  printf ("%s Character Set\r\n\n", scslongname(cs));
 
   printf("     ");
   for (int i=2; i<=7; i++) { printf (" %X_", i); }
-  printf("\n");
-  printf("\n");
+  printf("\r\n");
+  printf("\r\n");
   for (int v=0; v<=0xF; v++) {
-    printf ("  _%X \n", v);
+    printf ("  _%X \r\n", v);
   }
   return 0;
 
@@ -285,39 +285,31 @@ int get_cell_size_vt(int *width, int *height) {
   */
   int count=0;
   char *q;
-  int offset=0;
 
-  /* Find first - (graphic new line) */
+  /* Find first '-' (graphic new line) */
   p = buf;
   while (*p != '\0' && *p != '-') 	// #7????~~$#0~~~~??~~~~-
-    p++;				//                      p
-  count += 6;			/* Add six since this is a grahpics newline. */
-
-  /* Work backwards to find ~ (111111) */
+    p++;				//                      q
   q=p;
-  while (q >= buf && *q != '~') 	// #7????~~$#0~~~~??~~~~-
-    q--;				//                     qp
 
-  if (q < buf) {
-    fprintf(stderr, "bug: get_cell_size_vt: no ~ in first line of sixels\n");
-    exit(1);
-  }
-  
-  offset = q - p; 		/* index of ~ relative to - */
+  /* Find second '-' */
+  p++;
+  while (*p != '\0' && *p != '-') 	// -#7????~~$#0~~~~??~~~~-
+    p++;				// q                     p
+  count += 6;
 
-  while ( *p != '\0' && *(p+offset) == '~' ) {
+  /* Now we're looking for the line where the pattern changes */
+  while ( *p != '\0' && *p == *q ) {
+    if (*p == '-')
+      count += 6;
     p++;
-    while (*p != '\0' && *p != '-') {
-      p++;
-    }
+    q++;
+  }      
 
-    if ( *(p+offset) != '~')
-      break;			/* Break if the sixels aren't 111111. */
-    else
-      count+=6;			/* Otherwise, just accumulate. */
-  }
-
-  switch ( *(p+offset) ) {
+  /* Okay, found a difference from one line to the next */
+  switch ( *p ) {
+  case '!':			/* repeat means we ran out of sixels. */
+  case '\0':			/* similarly, this line doesn't count. */
   case '?':			/* 000000 */
     count+=0;
     break;
@@ -338,16 +330,23 @@ int get_cell_size_vt(int *width, int *height) {
     break;
   default:
     stty_restore();
-    fprintf(stderr, "bug: get_cell_size_vt: ~ should never change to %c\n", *(p+offset));
-    fprintf(stderr, "p=%ld (%c)\toffset=%d (%c)\n", p-buf, *p, offset, *(p+offset));
+    fprintf(stderr, "bug: get_cell_size_vt: ~ should never change to %c\n", *p);
     exit(1);
   }    
-
   *height = count;
 
   free(buf);
-  return 0;
 
+  cup(1000,0);			/* Cursor to the bottom line */
+  printf("\e[K");		/* Clear old text */
+  printf("%d x %d character cell", *width, *height);
+  cup(0,0);
+  printf(" \r");
+
+  if (*width > 99 || *height > 99)
+    return -1;
+
+  return 0;
 }
 
 
@@ -373,14 +372,18 @@ int get_cell_size(int *w, int *h) {
       return -1;
     }
   }
+  
+  /* Default if all goes awry */
+  if (*w <= 0 || *w > 99)
+    *w=10;
+  if (*h <= 0 || *h > 99)
+    *h=20;
+
   width_cache=*w;
   height_cache=*h;
   
   return 1;
 }
-
-int cell_width=10;
-int cell_height=20;
 
 
 int get_xy(int *x, int *y) {
@@ -392,8 +395,12 @@ int get_xy(int *x, int *y) {
 
   int r, c;
   get_rc(&r, &c);
-  *x = (c-1) * cell_width;	/* Origin of character cells is 1, 1 */
-  *y = (r-1) * cell_height;
+
+  int w, h;
+  get_cell_size( &w, &h );
+
+  *x = (c-1) * w;		/* Origin of character cells is 1, 1 */
+  *y = (r-1) * h;
 
   return 0;
 }
