@@ -7,6 +7,8 @@
 
 #include "mediacopy.h"		/* receive_media_copy() */
 #include "setuptty.h"		/* stty_setup, stty_restore */
+#include "scsname.h"		/* scsname, scslongname */
+
 
 /* Control Sequence Introducer */
 #define CSI "\e["
@@ -20,7 +22,7 @@
 
 
 int print_axes(char *cs) {
-  printf ("%s Character Set\n\n", cslongname(cs));
+  printf ("%s Character Set\n\n", scslongname(cs));
 
   printf("     ");
   for (int i=2; i<=7; i++) { printf (" %X_", i); }
@@ -349,24 +351,32 @@ int get_cell_size_vt(int *width, int *height) {
 }
 
 
+static int width_cache=-1, height_cache=-1;
+
 int get_cell_size(int *w, int *h) {
   /* Return the width and height of each character cell.
 
-     If escape sequences fail (as they would on a VT340), this checks
-     whether the terminal is in 80 or 132 column mode and returns
-     10x20 or 6x20.
-
+     If escape sequences fail (as they would on a true VT340), this
+     falls back to get_cell_size_vt, which uses MediaCopy to take
+     100x100 snapshot and analyzes the sixels to determine the cell
+     size.
   */
-  /* NOTA BENE: This routine presumes termios has already been used to
-     read one character at a time (cbreak or raw mode) */
+
+  if (width_cache > 0 && height_cache > 0) {
+    *w = width_cache;
+    *h = height_cache;
+    return 0;
+  }
 
   if (get_cell_size_xterm(w, h) < 0) {
     if (get_cell_size_vt(w, h) < 0) {
       return -1;
     }
   }
-
-  return 0;
+  width_cache=*w;
+  height_cache=*h;
+  
+  return 1;
 }
 
 int cell_width=10;
