@@ -11,7 +11,6 @@
    o Takes 3 to 4 minutes to run.
 
    TODO:
-   o 132 column characters.
    o Are Double Width and Double Height characters the same, just stretched?
    o Convert to downlineloadable font format.
    o Investigate why it is so slow:
@@ -19,6 +18,7 @@
      * 3m21s for TCS (85 chars)
      * 3m07s for TCS (85 chars) with stty -echo
    o Add ability to select other character sets.
+   o Add ability to switch 80/132 columns.
 
 */
 
@@ -49,7 +49,7 @@ int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
   char *scs="\e+>";		/* Set dec-tech charset to G3 */
-  //  char *cs="0";			/* 0 is the symbol for the vt100 gfx charset */
+  //char *scs="\e+0";		/* 0 is the symbol for the vt100 gfx charset */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
   int w, h;			/* cell width & height */
 
