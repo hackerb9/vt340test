@@ -1,5 +1,5 @@
-SRCS := setuptty.c mediacopy.c signalhandling.c uplineloadfont.c frippery.c
-SRCS += setuptty.h mediacopy.h
+SRCS := setuptty.c mediacopy.c scsname.c signalhandling.c uplineloadfont.c frippery.c
+SRCS += setuptty.h mediacopy.h scsname.h
 
 CFLAGS += -Wall
 
@@ -11,8 +11,6 @@ uplineloadfont: ${SRCS}
 # which means 3.5 minutes for a whole character set)
 run: uplineloadfont
 	time ./uplineloadfont
-	mkdir -p tcs
-	mv char-tcs*.six tcs/
 
 # 'make char-tcs.gif' creates an animated image containing all of the characters
 char-tcs.gif: tcs/char-tcs*.six
