@@ -5,8 +5,5 @@ void setup_media_copy();
 char *receive_media_copy();
 void save_region_to_file(char *filename, int x1, int y1, int x2, int y2);
 
-char *csname(char *cs);
-char *cslongname(char *cs);
-
 #endif //MEDIACOPY_H
 
