@@ -48,8 +48,9 @@ int get_cell_size(int *w, int *h);
 int main() {
   int c;
   char *clear="\e[H\e[J";	/* Clear screen */
-  char *scs="\e+>";		/* Set dec-tech charset to G3 */
+  //char *scs="\e+>";		/* Set dec-tech charset to G3 */
   //char *scs="\e+0";		/* 0 is the symbol for the vt100 gfx charset */
+  char *scs="\e+%5";		/* Set MCS charset to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
   int w, h;			/* cell width & height */
 
@@ -80,6 +81,15 @@ int main() {
 	switch(c) {
 	case 0x20:  case 0x38:  case 0x39:  case 0x3A:  case 0x3B:  case 0x52:
 	case 0x54:  case 0x55:  case 0x6D:  case 0x75:  case 0x7F:
+	  continue;
+	}
+      }
+      if ( strcmp(scsname(scs), "mcs") == 0) {
+	/* Skip DEC Supplemental MCS characters "Reserved for future use" */
+	switch(c) {
+	case 0x20:  case 0x24:  case 0x26:  case 0x2C:  case 0x2D:  case 0x2E:
+	case 0x2F:  case 0x34:  case 0x38:  case 0x3E:  case 0x50:  case 0x5E:
+	case 0x70:  case 0x7E:  case 0x7F:
 	  continue;
 	}
       }
