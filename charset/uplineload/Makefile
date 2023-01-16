@@ -21,6 +21,11 @@ debug:
 	gcc -DDEBUG ${SRCS}
 	./a.out 2>debug.out
 
+# make driver, just tests out some of the frippery code.
+driver: 
+	gcc driver.c setuptty.c mediacopy.c frippery.c scsname.c
+	./a.out 2>debug.out
+
 # A target for testing the code on terminals that don't support MediaCopy
 nomc:
 	gcc -DFAKE_MEDIACOPY ${SRCS}
