@@ -87,7 +87,7 @@ int main() {
       printf("%s%c\n", ss3, c);	/* Show character c from G3 */
       
       char *out;		/* Output filename */
-      asprintf(&out, "char-%s-%02X.six", scsname(scs), c);
+      asprintf(&out, "char-%s-%dx%d-%02X.six", scsname(scs), w, h, c);
 #ifndef FAKE_MEDIACOPY
       save_region_to_file(out, x, y, x+w-1, y+h-1);
 #endif
