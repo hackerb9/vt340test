@@ -1,13 +1,17 @@
 #include <string.h>
 
 char *scsname(char *scs) {
-  /* Given a Select Character Set escape sequence, such as "\e+>",
-     return the 3- (or 4-) letter name for the character set.
+  /* Given a Select Character Set (SCS) escape sequence, such as
+     "\e+>", return the 3- (or 4-) letter name for the character set.
 
-     Note: We cannot use just the final character because which
-     character set is intended also depends upon the intermediate
-     values. For example: Esc+A is British, but Esc/A is Latin-1.
+     DEC refers to the final character designators, such as ">" for
+     the Technical Character Set, as "Dscs". 
+
+     Note: We cannot use the Dscs because which character set is
+     intended also depends upon the intermediate values. For example:
+     Esc+A is British, but Esc/A is Latin-1.
   */
+
   if (strlen(scs) < 3) return "unk";
   
   switch (scs[1]) {
@@ -39,6 +43,12 @@ char *scsname(char *scs) {
     if (strcmp(scs+2, "7")==0)  return "senr";
     if (strcmp(scs+2, "H")==0)  return "senr";
     if (strcmp(scs+2, "=")==0)  return "chnr";
+
+    /* TODO: These are 94-char sets, right? */
+    if (strcmp(scs+2, "\"?")==0) return "dgrk";
+    if (strcmp(scs+2, "\"4")==0) return "dheb";
+    if (strcmp(scs+2, "%0")==0) return "dtur";
+    if (strcmp(scs+2, "^4")==0) return "dcyr";
 
     return "unk";
     break;
@@ -122,6 +132,11 @@ char *scslongname(char *scs) {
   if (strcmp(shortname, "esnr")==0)  return "Spanish National Replacement";
   if (strcmp(shortname, "senr")==0)  return "Swedish National Replacement";
   if (strcmp(shortname, "chnr")==0)  return "Swiss National Replacement";
+
+  if (strcmp(shortname, "dgrk")==0)  return "DEC Greek";
+  if (strcmp(shortname, "dheb")==0)  return "DEC Hebrew";
+  if (strcmp(shortname, "dtur")==0)  return "DEC Turkish";
+  if (strcmp(shortname, "dcyr")==0)  return "DEC Cyrillic";
 
   return scs+1;			/* Return escape sequence without escape */
 }
