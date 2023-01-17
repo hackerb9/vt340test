@@ -44,11 +44,16 @@ char *scsname(char *scs) {
     if (strcmp(scs+2, "H")==0)  return "senr";
     if (strcmp(scs+2, "=")==0)  return "chnr";
 
-    /* TODO: These are 94-char sets, right? */
+    if (strcmp(scs+2, "\">")==0)  return "grnr";
+    if (strcmp(scs+2, "%=")==0)  return "ilnr";
+    if (strcmp(scs+2, "&5")==0)  return "runr";
+    if (strcmp(scs+2, "%3")==0)  return "scsnr";
+    if (strcmp(scs+2, "%2")==0)  return "trnr";
+    
     if (strcmp(scs+2, "\"?")==0) return "dgrk";
     if (strcmp(scs+2, "\"4")==0) return "dheb";
     if (strcmp(scs+2, "%0")==0) return "dtur";
-    if (strcmp(scs+2, "^4")==0) return "dcyr";
+    if (strcmp(scs+2, "&4")==0) return "dcyr";
 
     return "unk";
     break;
@@ -129,9 +134,15 @@ char *scslongname(char *scs) {
   if (strcmp(shortname, "itnr")==0)  return "Italian National Replacement";
   if (strcmp(shortname, "nonr")==0) return "Norwegian/Danish National Replacement";
   if (strcmp(shortname, "ptnr")==0)  return "Portuguese National Replacement";
-  if (strcmp(shortname, "esnr")==0)  return "Spanish National Replacement";
-  if (strcmp(shortname, "senr")==0)  return "Swedish National Replacement";
-  if (strcmp(shortname, "chnr")==0)  return "Swiss National Replacement";
+  if (strcmp(shortname, "esnr")==0) return "Spanish National Replacement";
+  if (strcmp(shortname, "senr")==0) return "Swedish National Replacement";
+  if (strcmp(shortname, "chnr")==0) return "Swiss National Replacement";
+
+  if (strcmp(shortname, "grnr")==0) return "Greek National Replacement";
+  if (strcmp(shortname, "ilnr")==0) return "Hebrew National Replacement";
+  if (strcmp(shortname, "runr")==0) return "Russian National Replacement";
+  if (strcmp(shortname, "scsnr")==0) return "SCS National Replacement";
+  if (strcmp(shortname, "trnr")==0) return "Turkish National Replacement";
 
   if (strcmp(shortname, "dgrk")==0)  return "DEC Greek";
   if (strcmp(shortname, "dheb")==0)  return "DEC Hebrew";
