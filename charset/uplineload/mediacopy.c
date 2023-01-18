@@ -38,7 +38,7 @@ void setup_media_copy() {
   printf(CSI "?45h");
 
   // DECGPBM: Print Graphics Background Mode (forced on in level 1 sixel)
-  printf(CSI "?45");
+  printf(CSI "?46");
   if ( decgpbm_flag )
     putchar('h');		// Include background when printing
   else
