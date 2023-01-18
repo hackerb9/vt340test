@@ -1,0 +1,47 @@
+From: Chris_F_Chiesa@cup.portal.com
+Date: Dec 16, 1989, 2:33:54 PM
+To: INFO-VAX
+
+Merry Christmas, NetLand!
+
+First, an explanation: response to my offer of Christmas sixel imagery was
+so overwhelming that I simply cannot send individual copies to everyone who
+requested them; Portal has no mailing-list facility, nor other online mecha-
+nism for extracting addresses of respondents, and I am not going to write
+down fifty separate paths and type them all back in, one at a time! My
+apologies for what this may do to net.bandwidth, but what the heck: Christ-
+mas comes but once a year -- and don't say I never gave you anything. :-)
+
+Second, I apologize for what you're going to have to go through to
+separate this posting into its constituent files; I fully intended to
+VMS_SHARE this for you, but discovered at the last minute that I DON'T HAVE
+VMS_SHARE. I know I once DID; I hope it's just been run off onto tape
+somewhere. Regardless, I don't have it available to process THIS distri-
+bution. Please bear with me...
+
+You're going to have to extract the individual files from this posting
+"manually," whatever that means for you. This posting contains THIS
+introductory text and five files; save this posting AS a file, then process
+thusly:
+
+*) Replace all occurrences of the string "<esc>" with the ESCAPE
+character (ASCII 27 decimal).
+
+*) Separate the contents of this posting into individual files
+at, and according to the names in, the "CUT HERE" bars.
+
+Hopefully, if you do this correctly, the contents should emerge in the
+same condition as before I processed them on THIS end; there are NO tabs,
+control characters, etc., in any of these files..
+
+I hope the joy of seeing the final product is worth the irritation of
+extracting them.
+
+This posting, from the "Merry Christmas, NetLand!" line above, to the
+final "Th-th-th-that's all, folks!" at the end, should comprise 399 lines;
+if after removing headers you don't get that many lines, some of this
+posting has been lost.
+
+Chris Chiesa
+Chris_F...@cup.portal.com
+
