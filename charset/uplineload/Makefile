@@ -16,6 +16,32 @@ run: uplineloadfont
 char-tcs.gif: tcs/char-tcs*.six
 	convert tcs/char-tcs*.six -loop 0 -delay 30 char-tcs.gif
 
+# 'make tcs-montage.png' creates a montage of all images in the tcs directory 
+# Todo: make this an automatic rule for any directory.
+tcs-montage.png: tcs/*.six
+	for f in $^; \
+	do \
+		g=$${f##*-}; \
+		g=$${g%.six}; \
+		convert $$f $(dir $<)$$g.png; \
+	done
+	for a in 2 3 4 5 6 7; 
+	do \
+		for b in 0 1 2 3 4 5 6 7 8 9 A B C D E F; \
+		do \
+			f=$(dir $<)$$a$$b.png; \
+			if [ ! $$f -o -z $$f ]; \
+			then \
+				convert xc:black -transparent black $$f; \
+			fi \
+		done \
+	done
+	montage -title "Technical Character Set 10x20" \
+		-label '%t' -background gray33 -fill gray66 \
+		-tile 16x6 -scale 600% -geometry 60x60+5+5 \
+		$(dir $<)??.png tcs-montage.png
+	rm $(dir $<)??.png
+
 # make debug is like run but saves time by only creating a couple characters.
 debug: 
 	gcc -DDEBUG ${SRCS}
