@@ -5,21 +5,21 @@
    to grab a bitmap of it and save it to a file. 
   
    BUGS:
-   o Does not have an easy interface to change which charset is chosen.
    o Presumes ST is sent at end of MediaCopy; blocks otherwise.
    o Uses select only for initial data, but could block afterward.
    o Takes 3 to 4 minutes to run.
 
    TODO:
+   o Allow selecting character set from command line.
+   o Add ability to switch 80/132 columns.
+   o Look into querying terminal for installed character sets.
+   o Prefix terminal name to each output file. (Use subdirs).
    o Are Double Width and Double Height characters the same, just stretched?
    o Convert to downlineloadable font format.
    o Investigate why it is so slow:
      * 2.36 seconds per 10x20 character
      * 3m21s for TCS (85 chars)
      * 3m07s for TCS (85 chars) with stty -echo
-   o Add ability to select other character sets.
-   o Add ability to switch 80/132 columns.
-
 */
 
 
@@ -50,8 +50,8 @@ int main() {
   char *clear="\e[H\e[J";	/* Clear screen */
   //char *scs="\e+>";		/* Set dec-tech charset to G3 */
   //char *scs="\e+0";		/* 0 is the symbol for the vt100 gfx charset */
-  //char *scs="\e+%5";		/* Set MCS charset to G3 */
-  char *scs="\e/A";		/* Set Latin-1 charset to G3 */
+  char *scs="\e+%5";		/* Set MCS charset to G3 */
+  //char *scs="\e/A";		/* Set Latin-1 charset to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
   int w, h;			/* cell width & height */
 
