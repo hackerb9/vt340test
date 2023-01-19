@@ -11,12 +11,17 @@ screen of the terminal and then saves a bitmap of it using the MediaCopy to Host
 escape sequence. It should work on any terminal that understands that escape sequence. 
 (`Esc [ 2 i`).
 
-**BUG**: The program is currently hardcoded to TCS, but can create output for any character set by changing the Select Character Set escape sequence in main.c. 
+**BUG**: The program is currently hardcoded to TCS, but can create output for any character set by changing the Select Character Set (`scs`) escape sequence at the start of uplineloadfont.c. 
+
+**BUG**: Character cell size is automatically detected when the program first starts by examining the height and width of certain characters from the VT100 Graphics Character Set. This program would fail on a terminal which does not support that typeface.
 
 ### Compilation 
 
 This should compile easily with any reasonably modern C compiler.
-(Just type `make run`). 
+Just type
+```
+make run` 
+```
 
 ### Output Format
 
@@ -26,6 +31,8 @@ The filenames that will be created will be based upon which character set was se
 
 ### Example output
 
+This is a montage of the output files:
+
 ![Grid of DEC Technical Character Set characters](tcs-montage.png "VT340 Technical Character Set 10x20")
 
-Also see the individual sixel image files in this directory's subdirectories.
+Also see the individual sixel image files in the subdirs of this directory.
