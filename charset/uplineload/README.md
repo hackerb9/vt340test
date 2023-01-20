@@ -9,7 +9,7 @@ uplineloadfont saves the glyphs a terminal can display as image files. It is mea
 This program shows each glyph from the Technical Character Set on the
 screen of the terminal and then saves a bitmap of it using the MediaCopy to Host
 escape sequence. It should work on any terminal that understands that escape sequence. 
-(`Esc [ 2 i`).
+(`Esc [ ? 2 i`).
 
 **BUG**: The program is currently hardcoded to TCS, but can create output for any character set by changing the Select Character Set (`scs`) escape sequence at the start of uplineloadfont.c. 
 
