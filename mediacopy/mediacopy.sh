@@ -54,7 +54,8 @@ main() {
     decgpbm_flag=low		# low: Do not print background by default
     hostcomm=2			# 2: Send sixels to the terminal's host (not printer) comm port.
     outputfile="print.six"	# Default output filename is print.six.
-    errorfile=/dev/null		# No debugging file by default. (export DEBUG=1 to change.)
+    errorfile=/dev/null		# No debugging file by default. (try --debug --small)
+    trimheader=""		# Set this to remove the VT340 sixel header.
 
     # Print full screen (vt340 crops this to 800x480+0+0.)
     X1=0; Y1=0; X2=4095; Y2=4095
@@ -73,6 +74,11 @@ main() {
     # TODO: Check if image got saved to print.six correctly as Level 2.
     # If it didn't, then use ImageMagick to convert the image to the
     # proper aspect ratio. (E.g., convert -sample 50%x100%).
+
+    # Note: trimheader shouldn't be necessary, but some programs can't
+    # handle the header that a VT340 sends for sixel media copies.
+    # They ought to be "ANSI" compatible and ignore unknown escape
+    # sequences.
 }
 
 parseargs() {
@@ -89,6 +95,7 @@ parseargs() {
 	    --small) # For debugging, we can send just a small cropped part.
 	    	# (100x100, ~30 seconds)
 	    	X1=350; Y1=190; X2=449; Y2=289; shift ;;
+	    --geometry|-g) shift ;;
 	    *x*|*+*|*-*) # Handle geometry, e.g., 300x200+50+75
 		read X1 Y1 X2 Y2 < <(parsegeometry "$1")
 		shift
@@ -155,9 +162,9 @@ parsegeometry() {
     if [[ $xsign == "+" || $xsign == "-" ]]; then
 	# Next number is x offset
 	g=${g:1}		# Skip the sign
-	g2=${g%%+*}
+	g2=${g%%+*}		# Remove y offset
 	x=${g2%%-*}
-	g=${g#$x}		# Remove x from input
+	g=${g#$x}		# Remove x value from input
     fi
     local ysign=${g:0:1}
     if [[ $ysign == "+" || $ysign == "-" ]]; then
@@ -187,7 +194,7 @@ parsegeometry() {
 }
 
 sendmediacopy() {
-    # Enable host flow-control in case the VT340 overwhelms it with data. (Haha)
+    # Enable host flow-control in case the VT340 overwhelms it with data. :)
     stty ixoff
 
     # REGIS Screen Hard Copy with no parameters sends the whole screen, 
@@ -239,22 +246,43 @@ sendmediacopy() {
 
 
 receivesixeldata() {
-    # Read until the first backslash to dispose of the String Terminator
-    # (`Esc \`) sent before the print out. Note that we discard it as
-    # ImageMagick and libsixel fail to read images that begin with `Esc \`.
-    read -r -s -d "\\"
+    # Receive sixel data until Esc \ is seen on stdin.
 
-    # Read until second backslash to get all data up to the String Terminator.
-    while read -r -s -d "\\"; do
-	if [[ -z "$REPLY" ]]; then
-	    # Debugging 
-	    echo >&2
-	    echo 'WARNING: Got an empty REPLY.' >&2
-	    # How is this happening? Even for ST, we should get an ESC first.
-	    # If read is timing out, the 'while' loop should just exit.
-	    # But even after this the terminal keeps sending more data...
-	    # Trying to Media Copy complex images like cp16gray.six triggers this.
+    # Redirect printing to the outputfile, debugging to errorfile.
+    exec >"$outputfile"   2>"$errorfile"
+
+    while read -r -s -d $'\e'; do
+	if [[ -z "$trimheader" ]]; then echo -n "$REPLY"$'\e'; fi
+	read -r -s -N1 next_char
+	cat -v >&2 <<<"Found in header $REPLY Esc $next_char"
+	if [[ "$next_char" == "P" ]]; then break; fi
+	if [[ -z "$trimheader" ]]; then echo -n "$next_char"; fi
+    done
+    echo "Found Esc P (DCS String Start)" >&2
+    echo -n $'\eP'
+    
+    # Read until the escape-backslash that ends sixel data
+    while read -r -s -d $'\e' until_esc; do
+	echo "Reading data" >&2
+	echo -n "$until_esc"
+	# Allow multiple Esc chars in a row
+	second_char=$'\e'
+	while [[ "$second_char" == $'\e' ]]; do
+	    echo -n $'\e'
+	    read -r -s -N1 second_char
+	done
+		
+	# Okay, at this point, we have just read an Esc followed by a
+	# second character that is not an escape.
+
+	# Is it the end of the sixel graphics?
+	if [[ "$second_char" == '\' ]]; then
+	    echo -n '\'
+	    break;
 	fi
+
+	# Nope, so write the data and keep going
+	echo -n "$second_char"
 
 	if LANG=C egrep -q "[^[:print:][:cntrl:]]" <<<"$REPLY"; then
 	    # Debugging: check for non ASCII characters
@@ -266,13 +294,8 @@ receivesixeldata() {
 	date +"%s: " | tr -d '\n' >&2
 	echo -n "$REPLY" | sed $'s/\e/Esc /g' |  cat -v >&2
 
-	# Write the response to the file (print.six)
-	echo -n "$REPLY" 
-
-	# read's delimiter is backslash '\', so make sure it isn't consumed.
-	if [[ "$REPLY\\" == *$ST ]]; then echo -n "\\"; break; fi
-	echo "," >&2
-    done > "$outputfile"   2> "$errorfile"
+    done
+    echo "Finished reading data" >&2
 }
 
 main "$@"
