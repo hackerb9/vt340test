@@ -39,8 +39,6 @@
 #
 # * Negative geometry offsets should not presume the screen is 800x480 pixels.
 #
-# * Don't presume ST will be at start, but remove it if it is. (sed?).
-#
 # * Investigate if there is some secret, undocumented way to enable
 #   level 2 printing from the application side.
 #
@@ -100,6 +98,8 @@ parseargs() {
 		read X1 Y1 X2 Y2 < <(parsegeometry "$1")
 		shift
 		;;
+	    --trim-header|-t) trimheader="Yup"; shift ;;    # For ImageMagick
+	    --no-trim-header|-T) trimheader=""; shift ;;    # compatible sixel,
 
 	    *) shift ;;		# Ignore unknown fnords.
 	esac    
@@ -259,7 +259,7 @@ receivesixeldata() {
 	if [[ -z "$trimheader" ]]; then echo -n "$next_char"; fi
     done
     echo "Found Esc P (DCS String Start)" >&2
-    echo -n $'\eP'
+    echo -n P
     
     # Read until the escape-backslash that ends sixel data
     while read -r -s -d $'\e' until_esc; do
