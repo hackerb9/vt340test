@@ -2,7 +2,30 @@
 
 # Test VT340 cursor color flashing.
 # When it "inverts" the colors, what color does it use?
-# It turns out that it does an exclusive-or of the index with 0111.
+
+# It turns out that it does an exclusive-or of the index with 7 (0111).
+
+# That gives us these inverse pairs in the color palette:
+
+#         SATURATED     MUTED COLORS
+#         0-------7   8-------------15
+#          1-----6      9---------14
+#           2---5        10-----13
+#            3-4           11-12
+
+# Note that the saturated colors from 0 to 7 are inverted with each
+# other, instead of mixing with the muted colors from 8 to 15.
+
+# Looking at the color instead of the index, when using the default
+# VT340 palette the inverse color can be described succinctly in HLS
+# colorspace:
+
+#     If Saturation is 0 (grays),
+#         Lightness Percent is offset by 50 percentile points.
+
+#     If Saturation > 0 (colors),
+#         Hue Angle is rotated by 180 degrees.
+
 
 CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
@@ -42,7 +65,7 @@ get_cols() {
 	    echo "Trying stty to detect number of columns." >&2
 	fi
 	local s=$(stty -a | egrep -o 'columns [0-9]+' 2>/dev/null)
-	s=${s#* }		# chop of the word "columns ".
+	s=${s#* }		# chop off the word "columns ".
 	c=${s:-0}		# set c if it worked.
     fi
 
@@ -190,12 +213,12 @@ show_top_brace() {
     local brace=""
     brace+=$(sixchar 100000)
     brace+=$(sixchar 010000)
-    brace+="!${h}"		# Repeat center arm $h times
+    brace+="!${h}"		# Repeat left arm $h times
     brace+=$(sixchar 001000)
     brace+=$(sixchar 000100)
     brace+=$(sixchar 000011) # 111111
     brace+=$(sixchar 000100)
-    brace+="!${h}"		# Repeat center arm $h times
+    brace+="!${h}"		# Repeat right arm $h times
     brace+=$(sixchar 001000)
     brace+=$(sixchar 010000)
     brace+=$(sixchar 100000)
@@ -279,8 +302,6 @@ show_binary_index_inverted() {
     echo
 }
 
-
-
 binary() {
     # Given a decimal number, print the binary equivalent.
     declare -i i="10#$1"
@@ -298,12 +319,33 @@ binary() {
     echo -n $(( i/2*2 != $i ))
 }
 
+cursorinteraction() {
+    # Lets user move cursor by hitting arrow keys.
+    # It simply turns "Esc O C" (key_right) into "Esc [ C" (cursor_right)
+    stty -echo
+    
+    while true; do
+ 	read -n 1 -s
+
+	case "$REPLY" in
+	    q|Q) stty echo
+		 return
+		 ;;
+	    *) printf "${REPLY/O/[}"
+	       ;;
+	esac	
+    done
+
+    stty echo
+}
+
+
 ########################################################################
 # Main
 
 # Print index row
 tput rev
-echo -n "      Index: "
+echo -n "     Normal: "
 printf "%3s " {0..15}
 echo -n "   "
 tput sgr0
@@ -333,6 +375,16 @@ echo -n "   "
 tput sgr0
 echo
 
-tput cuu 5
+echo
+echo "Press left and right cursor keys to move flashing cursor. Q to quit. "
+
+# Move cursor up 6 lines and forward 13 rows
+tput cuu 7
 tput cuf 13
 
+# Let user move cursor to examine colors. Quit on 'q'.
+cursorinteraction
+
+tput cud 7
+printf $'\r'
+stty echo
