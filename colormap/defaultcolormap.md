@@ -20,6 +20,8 @@ Index	 H    L   S		 R   G   B
 15     	 0   79   0		79  79  79	Bright FG
 ```
 
+<img src="showcolortable.png"/>
+
 Unlike modern systems, on the VT340, R, G, B range from 0 to 100
 percent in decimal. Another difference is that a Hue angle of 0
 degrees is blue on the VT340, not red.
@@ -59,3 +61,31 @@ Index	 H   	  L	    S
 14     	180  	 46        29 -1
 15     	 0   	 80 -1      0
 ```
+
+## Inverse colors
+
+<img src="cursorblink.png" align="center"/>
+
+The VT340 has a concept of "inverse" colors in at least one sense:
+when the cursor is on top of sixel data, it flashes between normal and
+some other color picked from the palette. To find the inverse index
+number, xor the normal index number with 7. That flips the low three
+bits but keeps the high bit of the nybble.
+
+### When using the default VT340 colormap
+
+One benefit of keeping the high bit is that inverting a color will not
+change the saturation when using the default colormap. Colors 8 to 15
+are lower saturation versions of colors 0 to 7.
+
+The default colormap also makes the relationship between a color and
+its inverse simple to describe in terms of Hue, Saturation, and
+Lightness:
+
+* If Saturaion is >0 (color), then the Hue Angle is rotated by 180
+  degrees.
+
+* If Saturation is 0 (gray), then the Lightness Percent is offset by
+  around 50 percentile points.
+
+
