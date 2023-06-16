@@ -38,6 +38,8 @@ easily:
 	<kbd>@</kbd>	→ ∴ (Therefore)
 
 
+<details>
+
 ## Slightly more detail
 
 ### 1. Assign the DEC Tech character set to G3
@@ -97,6 +99,8 @@ The full tables of symbols can be found below.
   
 * DEC compatible printers work the same way as terminals and use the
   same escape sequences to access different character sets.
+
+</details>
 
 ## DEC Technical Character Set Tables 
 
@@ -195,7 +199,7 @@ found at https://vt100.net/charsets/technical.html.
 
 </ul>
 
-### Building Large Mathematical Symbols
+## Building Large Mathematical Symbols
 
 This table shows how to build large mathematical symbols. The
 characters are designed to connect to adjacent character cells to form
@@ -239,7 +243,7 @@ connector (hex 26).
 | 36  | 6     | Bottom Right Summation              | ␦      |         |         |          |        |       |       | X   |
 | 37  | 7     | Right Middle Summation              | ␦      |         |         |          |        |       |       | X   |
 
-_␦ marks characters which Unicode (as of 2022) is unable to reproduce,
+_␦ marks characters which Unicode (as of 2023) is unable to reproduce,
 namely the large summation character. Note that Unicode has summation
 top (⎲) and bottom (⎳) characters, but those are insufficient even for
 the simplest mathematics. In contrast, DEC's sigma can grow
@@ -248,3 +252,9 @@ vertically with the equation to its right and properly span the
 initial state (e.g., $i=-∞$) beneath it._
 
 </ul>
+
+One can see a sample of the mathematical symbols at different sizes by
+catting the file [components.vt](components.vt) to a VT340.
+
+<img alt="Screenshot of a VT340 showing various large mathematical symbols made from smaller characters"  src="components.png">
+
