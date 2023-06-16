@@ -9,15 +9,15 @@ Index	 H    L   S		 R   G   B
 4      	 60  49  59		79  20  79			
 5      	300  49  59		20  79  79
 6      	180  49  59		79  79  20
-7      	 0   46   0		46  46  46	Foreground
-8      	 0   26   0		26  26  26
+7      	 0   46   0		46  46  46	Foreground Text
+8      	 0   26   0		26  26  26	Bold+Blink FG
 9      	 0   46  28		33  33  59
 10     	120  42  38		59  26  26
 11     	240  46  28		33  59  33
 12     	 60  46  28		59  33  59
 13     	300  46  28		33  59  59
 14     	180  46  28		59  59  33
-15     	 0   79   0		79  79  79	Bright FG
+15     	 0   79   0		79  79  79	Bold FG
 ```
 
 <img src="showcolortable.png"/>
@@ -62,15 +62,63 @@ Index	 H   	  L	    S
 15     	 0   	 80 -1      0
 ```
 
+## Connection between text attributes
+
+Although the VT340 supports text colors, it is not "ANSI color".
+Instead, it represents some text attributes by using four specific
+colors in the colormap: 0, 7, 8, and 15. Sending the escape sequence
+to show **bold** text (`Esc``[``1``m`), for example, would use color
+number 15 as the foreground instead of 7.
+
+| Style                    | Foreground | Background | Escape Sequence |
+|--------------------------|------------|------------|-----------------|
+| Normal                   | 7          | 0          | `\e[0m`         |
+| Bold                     | 15         | 0          | `\e[1m`         |
+| Reverse                  | 0          | 7          | `\e[7m`         |
+| Blink (when off)         | 7          | 0          | `\e[5m`         |
+| Blink (when on)          | 0          | 7          |                 |
+| Bold Blink (off)         | 15         | 0          | `\e[1;5m`       |
+| Bold Blink (on)          | 8          | 7          |                 |
+| Reverse Bold Blink (off) | 0          | 15         | `\e[1;5m`       |
+| Reverse Bold Blink (on)  | 7          | 8          | `\e[1;5;7m`     |
+| Reverse Bold             | 0          | 15         | `\e[1;7m`       |
+
+See the RGB script [../vms/rgb.sh](rgb.sh) for interactively choosing
+those four colors. This is a handy script as it can also be used with
+arguments to quickly reset the terminal to a favorite setting after
+viewing an image. (`rgb.sh 12 14 55 41`)
+
+Are there any VT340 emulators which can run rgb.sh? Emulators
+typically do not use the colormap to represent text attributes.
+Additionally, they would need to support ReGIS graphics for setting
+individual colors in the palette.
+
+<img src="../vms/RGB.png" align="center"/>
+
 ## Inverse colors
 
 <img src="cursorblink.png" align="center"/>
 
-The VT340 has a concept of "inverse" colors in at least one sense:
-when the cursor is on top of sixel data, it flashes between normal and
-some other color picked from the palette. To find the inverse index
-number, xor the normal index number with 7. That flips the low three
-bits but keeps the high bit of the nybble.
+The VT340 has a concept of "inverse" colors in another sense: when the
+cursor is on top of sixel data, it flashes between normal and some
+other color picked from the palette. To find the inverse index number,
+xor the normal index number with 7. That flips the low three bits but
+keeps the high bit of the nybble.
+
+```
+INVERSE COLOR PAIRS: XOR 7
+	0--7		 8--15
+	1--6		 9--14
+	2--5		10--13
+	3--4		11--12
+```
+
+Note that this mapping works somewhat like the way that text
+attributes are already inverted during blink and reverse (as above).
+Both Blink and Reverse swap foreground text color 7 with background
+color 0. When blinking, **bold** text color 15 is switched with
+blinking-bold color 8. However, there is at least one exception: When
+reversed, bold text color 15 is swapped with background color 0.
 
 ### When using the default VT340 colormap
 
@@ -82,10 +130,13 @@ The default colormap also makes the relationship between a color and
 its inverse simple to describe in terms of Hue, Saturation, and
 Lightness:
 
-* If Saturaion is >0 (color), then the Hue Angle is rotated by 180
-  degrees.
-
 * If Saturation is 0 (gray), then the Lightness Percent is offset by
   around 50 percentile points.
+
+* If Saturation is >0 (color), then the Hue Angle is rotated by 180
+  degrees.
+
+
+
 
 
