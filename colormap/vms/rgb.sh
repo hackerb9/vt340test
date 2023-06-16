@@ -1,15 +1,24 @@
 #!/bin/bash
 
 # Allows the user to pick four colors from the palette of 64 colors
-# available on the VT241. This also works on the VT340, but does not
-# take advantage of its hardware (16 colors from a palette of 4096).
+# available on the VT241 to use for text display. This also works on
+# the VT340, but does not take advantage of its hardware (16 colors
+# from a palette of 4096).
 
 # Based on an ancient VMS DCL procedure from the early 1980s.
 # Rewritten by hackerb9 in 2023.
 # See end of file for original script.
 
+###############################################################################
+#            Simple colour setup for VT240 and VT340 text screens.	      #
+#            ----------------------------------------------------	      #
+#   P1 selects background, P2 foreground, P3 `bold' and P4 `blink' colours.   #
+#    either @RGB<cr> and answer questions, or (e.g.) @RGB BLU 20 42 RED<cr>   #
+###############################################################################
+
 # Todo:
 # * What was the "blink colour" FCO (Field Change Order) for the VT340?
+#   (Hackerb9's vt340 does blink+bold using color index number 8)
 # * Write up how this differs from "ANSI colour" and the pros and cons. 
 # * Proper VT340 support:
 #   * Allow setting any of the 16 colors
@@ -19,40 +28,11 @@
 #     Or, maybe allow refining colour with a second choice from 64.
 
 
-################################################################################
-#            Simple colour setup for VT240 and VT340 text screens.	       #
-#            ----------------------------------------------------	       #
-#   P1 selects background, P2 foreground, P3 `bold' and P4 `blink' colours.    #
-#    either @RGB<cr> and answer questions, or (e.g.) @RGB BLU 20 42 RED<cr>    #
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  #
-# remove or modify lines with " #$# " marker when VT340 FCO'd for blink colour #
-################################################################################
-
-getjpi() {
-    echo "$TERM"
-}
-
-end() {
-    exit
-}
-ws() {
-    echo "$@"
-}
-
-nosup() {
-    ws "    This procedure only supports VT240 or VT340 terminals"
-    exit
-#    echo "xxx for debugging, trying to run anyway" >&2
-#    OperatingLevel=63
-}    
-
 vt_340() {			#colour identity numbers for VT340 setup
     back=0
-    blnk=1	# blink not used in VT340 yet, correct ID when FCO arrives #$# 
-    col4=""	# avoid err while no blink on VT340 #$# 
+    blnk=8			# blink bold text fg
     fore=7
     bold=15
-    ttyp=1			# flag VT340 for skip blink on VT340  #$# 
     ask
     exit
 }
@@ -61,10 +41,33 @@ vt_240() {			#colour identity numbers for VT240 setup
     blnk=1
     bold=2
     fore=3
-    ttyp=0			#flag VT240 for skip blink on VT340  #$#
     ask
     exit
 }
+
+end() {
+    tput sgr0
+    echo -n "This is normal text	"
+    tput bold
+    echo "This is bold text"
+    tput sgr0
+    tput blink
+    echo -n "This is blinking text	"
+    tput bold
+    echo "This is boldly blinking text"
+    tput sgr0
+    exit 0
+}
+ws() {
+    echo -n "$@"
+}
+
+nosup() {
+    ws "    This procedure only supports VT240 or VT340 terminals"
+    exit
+#    echo "xxx for debugging, trying to run anyway" >&2
+#    OperatingLevel=63
+}    
 
 ask() {
     col_chart=0			#set to 1 when colour chart written out
@@ -181,8 +184,6 @@ no_p3() {
 }
 true_p3() {
     col3=$scol				#save colour setup substring
-    #			--------------------
-    if [[ $ttyp == 1 ]]; then do_it; exit; fi	#skip blink on VT340 #$# 
     colid=$blnk				#set up for blink colour
     col_req="$esc[38C  blink:"
     [[ "$p4" ]] || no_p4
@@ -198,15 +199,14 @@ no_p4() {
 }
 true_p4() {
     col4=$scol				#save colour setup substring
-    doit
+    do_it
     exit
 }
 
 # !			--------------------
 do_it() {
-    # ! #$# 
-    ws "${esc}[1B${esc}P0pS(M${col1}${col2}${col3}${col4})${esc}\\" #set colours
-    end
+    #set colours
+    ws "${esc}[1B${esc}P0pS(M${col1}${col2}${col3}${col4})${esc}\\" 
     exit
 }
 
@@ -229,6 +229,9 @@ getprimaryda() {
     done
 }
 
+getjpi() {
+    echo "$TERM"
+}
 
 getdvi() {
     # Get Device Information
@@ -269,7 +272,8 @@ get_col() {
 
 validate() {
     [[ "$col" ]] || no_col
-    col=$(echo ${col@U})	# Trim whitespace on outside, upcase.
+    col=$(echo ${col})	# Trim whitespace on outside.
+
     if [[ "${#col}" -ge 3 ]]; then
 	if [[ $colours == *$col* ]]; then 
 	    #check for RGB codes (rgb_col)
@@ -324,6 +328,9 @@ EOF
 
 # set p1..4 similar to VMS DCL
 declare -g p1="$1" p2="$2" p3="$3" p4="$4"
+
+# col variable is always uppercase
+declare -u col
 
 if ! tty -s; then echo "Not a tty">&2; exit; fi
 
@@ -478,7 +485,7 @@ $true_p1:
 $ col1 = scol				!save colour setup substring
 $ !			--------------------
 $ colid = fore				!set up for foreground colour
-$ col_req = "$esc[16C  text:"
+$ col_req = "''esc'[16C  text:"
 $ if p2 .eqs. "" then goto no_p2
 $ col = p2				!put colour in 'col'
 $ gosub validate			!validate colour choice
@@ -489,7 +496,7 @@ $true_p2:
 $ col2 = scol				!save colour setup substring
 $ !			--------------------
 $ colid = bold				!set up for bold colour
-$ col_req = "$esc[27C  bold:"
+$ col_req = "''esc'[27C  bold:"
 $ if p3 .eqs. "" then goto no_p3
 $ col = p3				!put colour in 'col'
 $ gosub validate			!validate colour choice
@@ -501,7 +508,7 @@ $ col3 = scol				!save colour setup substring
 $ !			--------------------
 $ if ttyp .eq. 1 then goto do_it	!skip blink on VT340 #$# 
 $ colid = blnk				!set up for blink colour
-$ col_req = "$esc[38C  blink:"
+$ col_req = "''esc'[38C  blink:"
 $ if p4 .eqs. "" then goto no_p4
 $ col = p4				!put colour in 'col'
 $ gosub validate			!validate colour choice
@@ -512,7 +519,7 @@ $true_p4:
 $ col4 = scol				!save colour setup substring
 $ !			--------------------
 $do_it:					! #$# 
-$ ws "$esc[1B${esc}P0pS(M${col1${'col2${'col3${'col4')$esc\" !set colours
+$ ws "''esc'[1B''esc'P0pS(M''col1'''col2'''col3'''col4')''esc'\" !set colours
 $end:
 $ exit
 $nosup:
@@ -521,8 +528,8 @@ $ exit
 $ !------ subroutines --------
 $get_col:
 $ if col_chart .eq. 0 then gosub show_cols	!print map
-$ read/prompt="  select colours:- ${col_req' " sys$command col
-$ ws "$esc[2A"					!back up 2 lines
+$ read/prompt="  select colours:- ''col_req' " sys$command col
+$ ws "''esc'[2A"					!back up 2 lines
 $ if col .eqs. "" then goto no_col		!don't change this colour
 $validate:
 $ if col .eqs. " " then goto no_col
@@ -530,16 +537,16 @@ $ col = f$edit(col,"TRIM,UPCASE")
 $ if f$length(col) .ge. 3 then if f$locate(col,colours) .ne. f$length(colours) -
 	then goto rgb_col			!check for RGB codes
 $ if f$integer(col) .lt. 1 .or. f$integer(col) .gt. 64 then goto bad_col
-$ colnum = "c${f$integer(col)'"
+$ colnum = "c''f$integer(col)'"
 $ colnam = 'colnum
-$ scol = "${colid'(A${colnam')"			!make HLS substring
+$ scol = "''colid'(A''colnam')"			!make HLS substring
 $ return
 $bad_col:
 $ col_chart = 0					!force colour map repaint
 $ goto get_col
 $rgb_col:
-$ scol = "${colid'(A${f$extr(0,1,col)')"	!make RGB substring
-$ if f$extr(0,3,col) .eqs. "BLA" then scol = "${colid'(AD)"  !fiddle for black
+$ scol = "''colid'(A''f$extr(0,1,col)')"	!make RGB substring
+$ if f$extr(0,3,col) .eqs. "BLA" then scol = "''colid'(AD)"  !fiddle for black
 $ return
 $no_col:
 $ scol = ""				!no colour = null substring
