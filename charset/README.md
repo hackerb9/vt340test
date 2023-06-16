@@ -158,7 +158,7 @@ It should be possible to create a special locale, based on Latin-1,
 but with additional multibyte characters that use single-shifts to
 provide better Unicode coverage. If I figure it out, I'll post it
 here. See: charmap, gconv, locale-gen, /etc/locale.gen, and the
-exploratory ramblings on my [custom charmap](charset/charmap.md) page.
+exploratory ramblings on my [custom charmap](charmap.md) page.
 
 
 ## Character Set Selection
