@@ -17,16 +17,29 @@
 ###############################################################################
 
 # Todo:
-# * What was the "blink colour" FCO (Field Change Order) for the VT340?
+#
+# * Rewrite from scratch to get rid of crazy GOSUB/GOT control flow.
+#
+# * What was the "blink color" FCO (Field Change Order) for the VT340?
 #   (Hackerb9's vt340 does blink+bold using color index number 8)
-# * Write up how this differs from "ANSI colour" and the pros and cons. 
+#
+# * Write up how this differs from "ANSI color" and the pros and cons. 
+#
 # * Proper VT340 support:
-#   * Allow setting any of the 16 colors
-#     Maybe something like the VT340's builtin colormap setup?
-#   * Proper VT340 support: Allow picking from 4096 colour palette.  
-#     Maybe HSL sliders, like VT340's firmware.
-#     Or, maybe allow refining colour with a second choice from 64.
-
+#   IDEAS
+#   * Use extra color map entries to preview what settings look like.
+#   * Allow picking from 4096 color palette.
+#     * Maybe sliders, like VT340's firmware, but HLS instead of RGB.
+#     * Maybe allow refining colour with a second choice from 64.
+#     * Maybe have user pick three bits at a time, most significant first.
+#       * Can pick four times to refine. 4x3 = 12 bits per color.
+#       * Show a central square with example text and eight squares around it.
+#              (0xxx,0xxx,0xxx), (0xxx,0xxx,1xxx), (0xxx,1xxx,0xxx),
+#              (1xxx,1xxx,1xxx),                   (0xxx,1xxx,1xxx),
+#              (1xxx,1xxx,0xxx), (1xxx,0xxx,1xxx), (1xxx,0xxx,0xxx), 
+#         Let xxx be 100 and xx be 10 to get a medium tone when refining.
+#       * Squares can be picked by number or by arrow keys. 9 finishes.
+#       Problem: ReGIS specifies colors in HLS, not RGB!
 
 vt_340() {			#colour identity numbers for VT340 setup
     back=0
@@ -42,6 +55,12 @@ vt_240() {			#colour identity numbers for VT240 setup
     bold=2
     fore=3
     ask
+    exit
+}
+
+interrupt() {
+    echo
+    echo
     exit
 }
 
@@ -71,70 +90,70 @@ nosup() {
 
 ask() {
     col_chart=0			#set to 1 when colour chart written out
-    C[ 1]="H260L65s60"		#HLS colour setup substrings
-    C[ 2]="H280L50s60"
+    C[ 1]="H260L65S60"		#HLS colour setup substrings
+    C[ 2]="H280L50S60"
     C[ 3]="D"			#rgb set, black
     C[ 4]="B"			#rgb set, blue
-    C[ 5]="H300L50s25"
-    C[ 6]="H0L35s25"
-    C[ 7]="H49L35s60"
-    C[ 8]="H300L80s25"
-    C[ 9]="H0L65s25"
-    C[10]="H0L50s60"
-    C[11]="H30L59s100"
-    C[12]="H0L25s25"
-    C[13]="H0L35s60"
-    C[14]="H320L50s60"
-    C[15]="H330L50s100"
-    C[16]="H320L35s60"
-    C[17]="H150L50s100"
+    C[ 5]="H300L50S25"
+    C[ 6]="H0L35S25"
+    C[ 7]="H49L35S60"
+    C[ 8]="H300L80S25"
+    C[ 9]="H0L65S25"
+    C[10]="H0L50S60"
+    C[11]="H30L59S100"
+    C[12]="H0L25S25"
+    C[13]="H0L35S60"
+    C[14]="H320L50S60"
+    C[15]="H330L50S100"
+    C[16]="H320L35S60"
+    C[17]="H150L50S100"
     C[18]="C["			#rgb set, cyan
-    C[19]="H120L35s60"
-    C[20]="H160L50s60"
-    C[21]="H180L65s60"
-    C[22]="H180L80s60"
+    C[19]="H120L35S60"
+    C[20]="H160L50S60"
+    C[21]="H180L65S60"
+    C[22]="H180L80S60"
     C[23]="G"			#rgb set, green
-    C[24]="H240L25s25"
-    C[25]="H180L25s25"
-    C[26]="H200L35s60"
-    C[27]="H240L50s60"
-    C[28]="H240L35s60"
-    C[29]="H240L35s25"
-    C[30]="H210L50s100"
-    C[31]="H240L65s25"
-    C[32]="H280L35s60"
-    C[33]="H270L50s100"
-    C[34]="H220L65s60"
-    C[35]="H300L25s25"
-    C[36]="H0L33s0"
-    C[37]="H0L66s0"
-    C[38]="H180L50s25"
+    C[24]="H240L25S25"
+    C[25]="H180L25S25"
+    C[26]="H200L35S60"
+    C[27]="H240L50S60"
+    C[28]="H240L35S60"
+    C[29]="H240L35S25"
+    C[30]="H210L50S100"
+    C[31]="H240L65S25"
+    C[32]="H280L35S60"
+    C[33]="H270L50S100"
+    C[34]="H220L65S60"
+    C[35]="H300L25S25"
+    C[36]="H0L33S0"
+    C[37]="H0L66S0"
+    C[38]="H180L50S25"
     C[39]="M"			#rgb set, magenta
-    C[40]="H80L35s60"
-    C[41]="H120L50s60"
-    C[42]="H60L65s60"
-    C[43]="H40L50s60"
-    C[44]="H20L65s60"
-    C[45]="H120L65s25"
-    C[46]="H60L80s60"
+    C[40]="H80L35S60"
+    C[41]="H120L50S60"
+    C[42]="H60L65S60"
+    C[43]="H40L50S60"
+    C[44]="H20L65S60"
+    C[45]="H120L65S25"
+    C[46]="H60L80S60"
     C[47]="R"			#rgb set, red
-    C[48]="H120L25s25"
-    C[49]="H100L65s60"
-    C[50]="H90L50s100"
-    C[51]="H80L50s60"
-    C[52]="H120L35s25"
-    C[53]="H160L35s60"
-    C[54]="H140L65s60"
-    C[55]="H60L80s25"
-    C[56]="H300L80s60"
-    C[57]="H340L65s60"
-    C[58]="H300L65s60"
-    C[59]="H60L25s25"
-    C[60]="H60L50s25"
-    C[61]="H160L80s25"
+    C[48]="H120L25S25"
+    C[49]="H100L65S60"
+    C[50]="H90L50S100"
+    C[51]="H80L50S60"
+    C[52]="H120L35S25"
+    C[53]="H160L35S60"
+    C[54]="H140L65S60"
+    C[55]="H60L80S25"
+    C[56]="H300L80S60"
+    C[57]="H340L65S60"
+    C[58]="H300L65S60"
+    C[59]="H60L25S25"
+    C[60]="H60L50S25"
+    C[61]="H160L80S25"
     C[62]="W"			#rgb set, white
     C[63]="Y"			#rgb set, yellow
-    C[64]="H200L50s60"
+    C[64]="H200L50S60"
     #			--------------------
     colid=$back				#set up for background colour
     col_req=" background:"
@@ -301,22 +320,22 @@ no_col() {
 show_cols() {
   cat <<EOF
 ${esc}[2J${esc}[0;0H${esc}[0;24r				COLOR TABLE
-( 1) Aquamarine     ( 2) Aquamarine,Med.( 3) Black (Dark)   ( 4) Blue           
-( 5) Blue,Cadet     ( 6) Blue,Cornflower( 7) Blue,Dark Slate( 8) Blue,Light     
-( 9) Blue,LightSteel(10) Blue,Medium    (11) Blue,Med.Slate (12) Blue,Midnight 
-(13) Blue,Navy      (14) Blue,Sky       (15) Blue,Slate     (16) Blue,Steel     
-(17) Coral          (18) Cyan           (19) Firebrick      (20) Gold           
-(21) Goldenrod      (22) Goldenrod,Med. (23) Green          (24) Green,Dark     
+( 1) Aquamarine     ( 2) Aquamarine,Med.( 3) Black (Dark)   ( 4) Blue
+( 5) Blue,Cadet     ( 6) Blue,Cornflower( 7) Blue,Dark Slate( 8) Blue,Light
+( 9) Blue,LightSteel(10) Blue,Medium    (11) Blue,Med.Slate (12) Blue,Midnight
+(13) Blue,Navy      (14) Blue,Sky       (15) Blue,Slate     (16) Blue,Steel
+(17) Coral          (18) Cyan           (19) Firebrick      (20) Gold
+(21) Goldenrod      (22) Goldenrod,Med. (23) Green          (24) Green,Dark
 (25) Green,Olive    (26) Green,Forest   (27) Green,Lime     (28) Green,Med.Fores
-(29) Green,Med.Sea  (30) Green,Med.Sprin(31) Green,Pale     (32) Green,Sea      
-(33) Green,Spring   (34) Green,Yellow   (35) Gray,Dark Slate(36) Gray,Dim       
-(37) Gray,Light     (38) Khaki          (39) Magenta        (40) Maroon         
-(41) Orange         (42) Orchid         (43) Orchid,Dark    (44) Orchid,Medium  
-(45) Pink           (46) Plum           (47) Red            (48) Red,Indian     
-(49) Red,Med.Violet (50) Red,Orange     (51) Red,Violet     (52) Salmon         
-(53) Sienna         (54) Tan            (55) Thistle        (56) Turquoise      
-(57) Turquoise,Dark (58) Turquoise,Med. (59) Violet         (60) Violet,Blue    
-(61) Wheat          (62) White          (63) Yellow         (64) Yellow,Green   
+(29) Green,Med.Sea  (30) Green,Med.Sprin(31) Green,Pale     (32) Green,Sea
+(33) Green,Spring   (34) Green,Yellow   (35) Gray,Dark Slate(36) Gray,Dim
+(37) Gray,Light     (38) Khaki          (39) Magenta        (40) Maroon
+(41) Orange         (42) Orchid         (43) Orchid,Dark    (44) Orchid,Medium
+(45) Pink           (46) Plum           (47) Red            (48) Red,Indian
+(49) Red,Med.Violet (50) Red,Orange     (51) Red,Violet     (52) Salmon
+(53) Sienna         (54) Tan            (55) Thistle        (56) Turquoise
+(57) Turquoise,Dark (58) Turquoise,Med. (59) Violet         (60) Violet,Blue
+(61) Wheat          (62) White          (63) Yellow         (64) Yellow,Green
 or 3 chars from 1 of :- black, blue, red, green, magenta, cyan, yellow or white.
 EOF
   col_chart=1
@@ -334,7 +353,8 @@ declare -u col
 
 if ! tty -s; then echo "Not a tty">&2; exit; fi
 
-trap end int exit
+trap end exit
+trap interrupt int
 
 esc=$'\e'
 ws() { echo "$@"; }
