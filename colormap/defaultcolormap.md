@@ -62,48 +62,70 @@ Index	 H   	  L	    S
 15     	 0   	 80 -1      0
 ```
 
-## Connection between text attributes
+## Connection between text attributes and colormap
+
 
 Although the VT340 supports text colors, it is not "ANSI color".
 Instead, it represents some text attributes by using four specific
-colors in the colormap: 0, 7, 8, and 15. Sending the escape sequence
-to show **bold** text (`Esc``[``1``m`), for example, would use color
-number 15 as the foreground instead of 7.
+colors in the colormap: 0, 7, 8, and 15. 
 
-| Style                    | Foreground | Background | Escape Sequence |
+| Style      | Color Index | Used as color for | VT340 Default |
+|------------|-------------|-------------------|---------------|
+| Background | 0           | Background screen | Black         |
+| Foreground | 7           | Normal text       | Medium gray   |
+| Bright     | 15          | Bold text         | Light gray    |
+| Blink      | 8           | Blink+Bold text   | Dark gray     |
+
+For example, sending the ANSI escape sequence for **bold** text,
+`␛[1m`, uses color number 15 as the foreground instead of 7.
+Conversely, to change the foreground text color on a VT340, set color
+index 7 using ReGIS: `␛[1B^[P0pS(M7(AH60L80s60))␛\`
+
+Note that this color map is shared with sixel graphics, which means
+displaying images can mess up text legibility. Although DEC has
+mitigated that somewhat by making sixel's access to the colormap
+indirect and by starting at index 1, displaying an image with more
+than six colors will change the foreground text color.
+
+## Character attributes in combination
+
+For the most part, the use of colors behave as one would expect when
+attributes are used in combination. The one perhaps surprising design
+choice is how the VT340 renders Bold+Blinking text.
+
+For normal text, The Blink attribute is displayed as normal text (7 on
+0) alternating with reversed normal text (0 on 7) once a second.
+However, for Bold text, Blink does **not** look the same as Bold text
+(15 on 0) alternating with Reverse Bold text (0 on 15). Instead, it
+shows Bold text (15 on 0) alternating with Blink+Bold text (8 on 7).
+This is the only time that hackerb9 has found the VT340 using color
+number 8 for text attributes.
+
+| Attributes               | Foreground | Background | Escape Sequence |
 |--------------------------|------------|------------|-----------------|
-| Normal                   | 7          | 0          | `\e[0m`         |
-| Bold                     | 15         | 0          | `\e[1m`         |
-| Reverse                  | 0          | 7          | `\e[7m`         |
-| Blink (when off)         | 7          | 0          | `\e[5m`         |
-| Blink (when on)          | 0          | 7          |                 |
-| Bold Blink (off)         | 15         | 0          | `\e[1;5m`       |
-| Bold Blink (on)          | 8          | 7          |                 |
-| Reverse Bold Blink (off) | 0          | 15         | `\e[1;5m`       |
-| Reverse Bold Blink (on)  | 7          | 8          | `\e[1;5;7m`     |
-| Reverse Bold             | 0          | 15         | `\e[1;7m`       |
+| Normal                   | 7          | 0          | `␛[0m`          |
+| Bold                     | 15         | 0          | `␛[1m`          |
+| Reverse                  | 0          | 7          | `␛[7m`          |
+| Blink (when off)         | 7          | 0          | `␛[5m`          |
+| Blink (when on)          | 0          | 7          | "               |
+| Bold Blink (off)         | 15         | 0          | `␛[1;5m`        |
+| Bold Blink (on)          | 8          | 7          | "               |
+| Reverse Bold Blink (off) | 0          | 15         | `␛[1;5m`        |
+| Reverse Bold Blink (on)  | 7          | 8          | `␛[1;5;7m`      |
+| Reverse Bold             | 0          | 15         | `␛[1;7m`        |
 
-See the RGB script [../vms/rgb.sh](rgb.sh) for interactively choosing
-those four colors. This is a handy script as it can also be used with
-arguments to quickly reset the terminal to a favorite setting after
-viewing an image. (`rgb.sh 12 14 55 41`)
-
-Are there any VT340 emulators which can run rgb.sh? Emulators
-typically do not use the colormap to represent text attributes.
-Additionally, they would need to support ReGIS graphics for setting
-individual colors in the palette.
-
-<img src="../vms/RGB.png" align="center"/>
+Note that the _Underline_ character attribute is not mentioned in this
+table because the VT340 renders it as an actual underline, not using color.
 
 ## Inverse colors
 
 <img src="cursorblink.png" align="center"/>
 
-The VT340 has a concept of "inverse" colors in another sense: when the
-cursor is on top of sixel data, it flashes between normal and some
-other color picked from the palette. To find the inverse index number,
-xor the normal index number with 7. That flips the low three bits but
-keeps the high bit of the nybble.
+The VT340 has a concept of "inverse" colors in at least one sense:
+when the cursor is on top of sixel data, it flashes between normal and
+some other color picked from the palette. To find the inverse index
+number, xor the normal index number with 7. That flips the low three
+bits but keeps the high bit of the nybble.
 
 ```
 INVERSE COLOR PAIRS: XOR 7
@@ -114,13 +136,16 @@ INVERSE COLOR PAIRS: XOR 7
 ```
 
 Note that this mapping works somewhat like the way that text
-attributes are already inverted during blink and reverse (as above).
+attributes are already inverted during Blink and Reverse (as above).
 Both Blink and Reverse swap foreground text color 7 with background
 color 0. When blinking, **bold** text color 15 is switched with
-blinking-bold color 8. However, there is at least one exception: When
-reversed, bold text color 15 is swapped with background color 0.
+blinking-bold color 8. However, this analogy is not perfect: reversed,
+bold text color 15 is swapped with background color 0, not 8 as would
+be expected.
 
-### When using the default VT340 colormap
+Todo: Does the ReGIS graphics cursor invert the colors in the same way?
+
+### Inverse when using the default VT340 colormap
 
 One benefit of keeping the high bit is that inverting a color will not
 change the saturation when using the default colormap. Colors 8 to 15
@@ -136,6 +161,53 @@ Lightness:
 * If Saturation is >0 (color), then the Hue Angle is rotated by 180
   degrees.
 
+## Interactively choosing screen colors for text
+
+### Built-in color chooser
+
+The VT340 includes in its firmware a Color Set-up screen which allows
+one to recall the saved color map, save the color map, or adjust the
+RGB values of any of the 16 colors in the palette. Set color #0 for
+background and #7 for text foreground.
+
+As mentioned above, displaying sixel images with 7 or more colors can
+make text unreadable. To reset the color map to the default, one can
+use the Color Set-up by pressing these keys on a VT340 keyboard:
+
+<ul>
+<kbd>Set-Up</kbd>
+<kbd>Prev Screen</kbd>
+<kbd>Do</kbd>
+<kbd>Set-Up</kbd>
+</ul>
+
+### rgb.sh script for text colors
+
+An easier way to pick text colors is to use the
+[rgb.sh](../vms/rgb.sh) script to interactively choose colors from a
+list for Background, Foreground, Bold, and Blink. Once favorite colors
+are known, it can be used non-interactively via arguments: `rgb.sh 12
+14 55 41`.
+
+<a href="../vms/rgb.sh">
+<img src="../vms/RGB.png" align="center"/>
+</a>
+
+The script was originally written for the VT241 and is a bit clunky.
+Unlike the VT340's built-in Color Set-up, rgb.sh does not show a
+preview of the color choices, only names such as "Cornflower Blue",
+"Goldenrod", or "Turquoise". Additionally, only certain color names
+(RGBCMYKW) are recognized, all others must be chosen by number.
+
+<!-- Perhaps someday someone, maybe me, will rewrite this using proper
+ReGIS graphics to display previews of the colors. -->
+
+#### VT340 Emulation Question
+
+Which, if any, VT340 emulators can run rgb.sh? Emulators typically do
+not use the colormap to represent text attributes. Additionally, they
+would need to support ReGIS graphics for setting individual colors in
+the palette.
 
 
 
