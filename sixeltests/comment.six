@@ -1,10 +1,11 @@
-P//~Comment: This image comes from the MS Kermit distribution.
+P//~COMMENT=This image comes from the MS Kermit distribution.
 It was labelled as being part of a demo of WordPerfect for VMS
-\P//~Comment: This is an additional comment.
-\P//~Fooblybletch: Image viewers may want to ignore unknown metadata.
-\P//~Title: DEMO.SIX\P//~
+\P//~
+COMMENT=This is another comment.
+\P//~FOOBLYBLETCH=Image viewers may want to ignore unknown metadata.
+\P//~TITLE=DEMO.SIX\P//~
 
-Comment: Note that these embedded strings might start and end with
+COMMENT=Note that these embedded strings can start and end with
 whitespace for readability. Newlines cannot be added outside of the
 Device Control String as it would affect how the terminal displays the
 image.
