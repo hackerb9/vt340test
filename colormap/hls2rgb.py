@@ -11,7 +11,7 @@
 
 # The standard algorithm is not quite right as there are certain
 # values which are slightly off. For example, from the [default color
-# map](defaultcolormap.md):
+# map](colormap.md):
 #
 # 	HLS(0, 49, 59) maps to RGB(20, 20, 79) on the VT340,
 #	but by this algorithm: RGB(20, 20, 78)
