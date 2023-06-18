@@ -1,0 +1,23 @@
+$ /bin/time ./dsr_multiple.sh
+Device Status Reports
+
+DSR-OS:        $'\E[0n'
+DSR-CPR:       $'\E[11;22R'
+DSR-XCPR:      $'\E[?11;22;1R'
+DSR-PP:        $'\E[?13n'
+DSR-UDK:       $'\E[?20n'
+DSR-KBD:       $'\E[?27;1;0n'
+DSR-LOCSTAT:   $'\E[?53n'
+DSR-LOCTYPE:   $'\E[?57;0n'
+
+Multiple Reports Together
+
+ANSI Separate: $'\E[0n\E[11;22R'
+ANSI Combined: $'\E[0n'
+ANSI Repeats:  $'\E[0n'
+DEC Separate:  $'\E[?11;22;1R\E[?13n\E[?20n\E[?27;1;0n\E[?53n\E[?57;0n'
+DEC Combined:  $'\E[?11;22;1R'
+DEC Repeats:   $'\E[?13n'
+
+0.02user 0.01system 0:13.76elapsed 0%CPU (0avgtext+0avgdata 2728maxresident)k
+0inputs+0outputs (0major+1622minor)pagefaults 0swaps
