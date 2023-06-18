@@ -1,4 +1,4 @@
-#/!/bin/bash
+#!/bin/bash -e
 
 # Save current screen from a VT340 as a sixel screenshot in print.six. 
 
@@ -55,8 +55,8 @@ main() {
     errorfile=/dev/null		# No debugging file by default. (try --debug --small)
     trimheader=""		# Set this to remove the VT340 sixel header.
 
-    # Print full screen (vt340 crops this to 800x480+0+0.)
-    X1=0; Y1=0; X2=4095; Y2=4095
+    # Print full screen by default.
+    X1=-1; Y1=-1; X2=-1; Y2=-1
 
     # Change defaults based on command line arguments.
     parseargs "$@"
@@ -87,19 +87,24 @@ parseargs() {
 	    --transparent|--46l) decgpbm_flag=low; shift ;;
 	    --background|--46h) decgpbm_flag=high; shift ;;
  	    --printer|-p) hostcomm=0; shift ;;
- 	    --no-printer) hostcomm=2; shift ;;
-	    --output-file) outputfile="${2:-print.six}"; shift 2 ;;
+ 	    --host)       hostcomm=2; shift ;;
+	    --output-file|-o) outputfile="${2:-print.six}"; shift 2 ;;
  	    --debug|-debug) DEBUG=yup; shift ;;
 	    --small) # For debugging, we can send just a small cropped part.
 	    	# (100x100, ~30 seconds)
 	    	X1=350; Y1=190; X2=449; Y2=289; shift ;;
+	    --above|-a) # Snapshot of anything above cursor position
+		echo -n $'\r'		# Move cursor to beginning of line.
+		X1=4095; Y1=0; X2=-1; Y2=-1;
+		shift
+		;;
 	    --geometry|-g) shift ;;
 	    *x*|*+*|*-*) # Handle geometry, e.g., 300x200+50+75
 		read X1 Y1 X2 Y2 < <(parsegeometry "$1")
 		shift
 		;;
-	    --trim-header|-t) trimheader="Yup"; shift ;;    # For ImageMagick
-	    --no-trim-header|-T) trimheader=""; shift ;;    # compatible sixel,
+	    -t|--trim-header) trimheader="Yup"; shift ;;    # For ImageMagick
+	    -T|--no-trim-header) trimheader=""; shift ;;    # \compatible sixel,
 
 	    *) shift ;;		# Ignore unknown fnords.
 	esac    
@@ -114,12 +119,22 @@ parseargs() {
     bgname=([high]="Print background"  [low]="Transparent background")
 
     if [[ "$DEBUG" ]]; then
+	if (( X1>=0 && X2<0 )); then echo -n $'\e7'; fi # Save cursor
+
 	cat <<-EOF >&2
 	DEBUG is on.
 	DECGPBM is $decgpbm_flag (${bgname[$decgpbm_flag]})
 	MediaCopy to ${portname[hostcomm]} port.
-	Region to copy is ($X1, $Y1) to ($X2, $Y2).
 	EOF
+
+	if (( X1<0 )); then
+	    echo "Region to copy is entire screen." >&2
+	elif (( X2<0 )); then
+	    echo "Region to copy is ($X1, $Y1) to cursor." >&2
+	    echo -n $'\e8' # Restore cursor
+	else
+	    echo "Region to copy is ($X1, $Y1) to ($X2, $Y2)." >&2
+	fi
     fi
 }
 
@@ -135,6 +150,10 @@ parsegeometry() {
     # right/lower corner offset from the rightmost/bottom edge,
     # respectively. For example: 100x100-0-0 would copy the region
     # from (700, 380) to (799, 479). 
+
+    # A geometry specified as +X+Y (without the usual WIDTHxHEIGHT),
+    # will output "X Y -1 -1". This is useful for taking a screenshot
+    # from the current cursor position to (X, Y).
 
     # TODO: This routine should detect the size of the screen instead
     # of presuming the vt340's resolution (800x480) is correct.
@@ -174,9 +193,6 @@ parsegeometry() {
 	g=${g#$y}		# Remove y from input
     fi
     
-    if [[ $w == 0 ]]; then w=800; fi
-    if [[ $h == 0 ]]; then h=480; fi
-
     local -i x2=x+w-1
     local -i y2=y+h-1
 
@@ -190,6 +206,12 @@ parsegeometry() {
 	y=480-h-y
     fi
 
+    if (( w <= 0 || h <= 0 )); then	# No WxH specified, only +X+Y
+	if [[ "$xsign" == "-" ]]; then x=x2; fi
+	if [[ "$ysign" == "-" ]]; then y=y2; fi
+	x2=-1; y2=-1
+    fi
+
     echo "$x $y $x2 $y2"
 }
 
@@ -200,10 +222,15 @@ sendmediacopy() {
     # REGIS Screen Hard Copy with no parameters sends the whole screen, 
     # offset 50 pixels to the right. We use P[0,0] to disable the offset.
     # Full screen on VT340 is equivalent to X1=0; Y1=0; X2=799; Y2=479
-    REGIS_H="S(H(P[0,0]))"
-    #REGIS_H="S(H)"
 
-    if (( X1>0 || Y1>0 || X2>0 || Y2>0 )); then
+    if (( X1<0 )); then
+	# No coordinates, defaults to fullscreen.
+	REGIS_H="S(H(P[0,0]))"
+    elif (( X1>=0 && X2<0 )); then
+	# One coordinate to copy to the cursor.
+	REGIS_H="S(H(P[0,0])[$X1,$Y1])"
+    else
+	# Two coords set the region to capture.
 	REGIS_H="S(H(P[0,0])[$X1,$Y1][$X2,$Y2])"
     fi
 
