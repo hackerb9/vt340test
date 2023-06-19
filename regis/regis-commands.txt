@@ -3,7 +3,7 @@ For full documentation, see https://vt100.net/docs/vt3xx-gp/chapter1.html
 
 S  Screen     Set screen options. S(A[0,0][4095][4095]) - coordinate axes
    	      S(M1(R)) or S(M1(H120L50S100)) - Set color 1 to red
-W  Write      Provides writing controls. W(I<n>) to choose color n.
+W  Write      Provides writing controls. W(I<n>) - choose color n.
 P  Position   Moves the graphics cursor without drawing. P[x,y]
 V  Vector     Draws vectors (straight lines) between screen locations.
 C  Curve      Draws circles and arcs defined by screen locations.
@@ -15,10 +15,8 @@ F  PolyFill   Fills in a single closed figure, such as a circle or square.
 ;  Resynch    Resynchronizes the flow of ReGIS command strings
    	      to the beginning of a new command.
 
-Datatypes: Commands, Arguments, Macrograph, PV offset and char hex values.
-
 The four types of arguments used in ReGIS:
   * (...) Options and suboptions are always enclosed in parentheses.
   * 0-9 Digit strings define numeric parameters for commands and options.
-  * [,] Bracketed extents define position coordinates or text height and width.
+  * [,] Bracketed extents define position coordinates or text height & width.
   * " " ' ' Quoted text strings define text for display or printing.
