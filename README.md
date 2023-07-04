@@ -190,10 +190,10 @@ connection?)
 ### Dual sessions
 
 The VT340 allows two login sessions simultaneously. While it is
-possible to do over a single serial cable using DEC's proprietary SSU
-protocol, it is easier to just use the VT340's two communication
-ports. (See [flowcontrol](flowcontrol.md) for how to build a DEC423
-cable for Comm2).
+possible to do that over a single serial cable using DEC's proprietary
+SSU protocol, it is easier to just use the VT340's two communication
+ports. (See [MMJ](mmj.md) for how to build a DEC423 cable for
+Comm2).
 
 Press `F4` to switch which session is active. Use `Ctrl+F4` to split
 the screen vertically or horizontally.
@@ -281,9 +281,11 @@ screen without having to resend all the data.
   
 ### XON/XOFF Flow Control is Required
 
-It does not appear that the VT340 firmware can perform RTS/CTS flow
-control, although electrically it is possible. See
-[flowcontrol](flowcontrol.md) for more details.
+It does not appear that the VT340 firmware can perform RTS/CTS
+("hardware") flow control, although electrically it should be
+possible. See [flowcontrol](flowcontrol.md) for more details. The most
+important point about XON/XOFF is that the host's serial card must
+handle XON/XOFF on the UART chip to prevent garbled data.
 
 ### Smooth scrolling is on by factory default
 
@@ -315,10 +317,10 @@ While the VT340 allows the scrolling speed to be changed in the Set-Up
 menu, it does not appear to be programmatically changeable (as it is
 on the VT5x0 using DECSSCLS, Set Smooth Scroll Speed). Instead, DEC
 Private Mode #4, DECSCLM, Smooth Scroll Mode, is used as a binary
-switch. When DECSCLM is SET, Smooth-2 is selected. When DECSCLM is
-RESET, Jump scroll is used. Querying the private mode via DECRQM
-returns SET when any of the Smooth speeds are selected. If the user
-selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
+switch. When a program sets DECSCLM, Smooth-2 is selected. When
+DECSCLM is RESET, Jump scroll is used. Querying the private mode via
+DECRQM returns SET when any of the Smooth speeds are selected. If the
+user selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
 RECOGNIZED.
 
 Note that, although Smooth-2 is the factory default on the VT340, the

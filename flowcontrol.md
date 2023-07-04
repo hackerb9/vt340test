@@ -70,7 +70,13 @@ Normally the VT340 is in XON/XOFF mode (software flow control) and it
 is not possible to type ^S or ^Q (Ctrl+S or Ctrl+Q) from the keyboard
 as they simply toggle the Hold Screen. However, XON/XOFF can be
 disabled from the Communication Set-Up menu by changing the "Receive
-XOFF Point" to "Never". 
+XOFF Point" to "Never". However, since the VT340 appears to lack
+hardware flow control, this will almost assuredly lead to garbled
+screens.
+
+Even with XON/XOFF enabled on the VT340, garbling can still occur if
+the other end (the PC's serial port) does not support hardware
+XON/XOFF or if the system takes longer than 50ms to respond to XOFF.
 
 <details><summary>Sidenote about propagation delay</summary>
 
@@ -78,8 +84,8 @@ XOFF Point" to "Never".
 surprisingly low for a buffer of 1024 bytes. 
 * This is likely chosen to accomodate "propagation delay" .
 * If ^S/^Q are being sent literally across a network (as happens with
-ssh), it could take a relatively long time for the command to
-propagate and for the flow of incoming data to stop.
+  ssh), it could take a relatively long time for the command to
+  propagate and for the flow of incoming data to stop.
 * 1024-64 == 960 bytes remaining in the buffer.
 * At 9600 baud, the buffer would fill in 100 milliseconds.
 * At 19,200 baud, it would be full in 50 ms.
@@ -116,8 +122,8 @@ Vendor=067b, Product=2303). You can search for 067b:2303 and see what
 devices have that chip in it.
 
 Some people have recommended online to buy FTDI products, such as the
-UC232R-10, which are documented by them to support XON/XOFF. They seem
-to be a very reputable company.
+UC232R-10, which are documented by them to support hardware XON/XOFF.
+They seem to be a very reputable company.
 
 
 ## Hardware flow control
@@ -128,80 +134,7 @@ the 6 wire DEC423 connectors, DTR/DSR are available and could
 theoretically be wired to RTS/CTS on the host's serial port, presuming
 the VT340 firmware was updated.
 
-### Hackerb9's Guess at DEC423 Wiring
-
-Here's how hackerb9 wired up a 9-pin female to DEC423 (AKA MMJ,
-Modified Modular Jack) connector purchased from PacificCable.com.
-Since both the VT340 and a typical PC serial port are "DTE" equipment,
-they need to have "null modem" in between to crossover some of the
-wires.
-
-Putting both the DTR/DSR and null modem requirements together, one can
-connect a VT340's MMJ port to a UNIX host's serial port like so:
-
-| MMJ RS-232 name     | MMJ Pin | DE-9 pin | DE-9 RS-232 name |        |
-|---------------------|---------|----------|------------------|--------|
-| Data Terminal Ready | 1 →     | 8        | Clear To Send    | White  |
-| Transmit Data       | 2 →     | 2        | Receive Data     | Black  |
-| Ground              | 3 —     | 5        | Ground           | Red    |
-| Ground              | 4       | — 5      | Ground           | Green  |
-| Receive Data        | 5       | ← 3      | Transmit Data    | Yellow |
-| Data Set Ready      | 6       | ← 7      | Request To Send  | Blue   |
-
-Even though hardware flow control does not work, yet, this wiring
-works for communication. The words you are reading are flowing over a
-standard DECconnect "BC16E" cable and through such a connector. If you
-purchase AD-9FT6-G1D from PacificCable.com, it comes with the pins
-disconnected so you can choose how you wish to wire it.
-
-### DE-9 Pinout (Female)
-
-[Note: a "DE-9" port is what we used to call a "DB-9" port. Wikipedia
-says we were all wrong.]
-
-      ___________
-      \5 4 3 2 1/	DE-9
-       \9 8 7 6/ 	Female
-        ------- 	Connector
-
-### MMJ Pin 1 is furthest from "thumb" of MMJ latch
-
-In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
-(a 6-pin MMJ DEC-423 port, similar to EIA-423-D):
-
-```
-          _______________                 1 - DTR
-          |             |                 2 - TXD+
-          | 1 2 3 4 5 6 |                 3 - TXD-
-          |________    _|                 4 - RXD-
-                  |___|                   5 - RXD+
-                                          6 - DSR
-```
-
-| MMJ Pin | DEC-423 name | Signal    | Wire Color at Jack | DB-25 |
-|---------|--------------|-----------|--------------------|-------|
-| 1       | Rdy Out      | DTR       | White              | 20    |
-| 2       | Tx+          | TxD       | Black              | 2     |
-| 3       | Tx-          | GND       | Red                | 7     |
-| 4       | Rx-          | GND       | Green              | 7     |
-| 5       | Rx+          | RxD       | Yellow             | 3     |
-| 6       | Rdy In       | DSR & DCD | Blue               | 6 & 8 |
-
-Note: wire color gets flipped on one plug since DEC 423 uses
-crossover cables.
-
-### BC16E DEC 423 Cable
-
-| MMJ Plug 1 | Wire Color | DEC-423 | DEC-423 | Wire Color | MMJ Plug 2 |
-|------------|------------|---------|---------|------------|------------|
-| 1          | White      | Rdy Out | Rdy In  | Blue       | 6          |
-| 2          | Black      | Tx+     | Rx+     | Yellow     | 5          |
-| 3          | Red        | Tx-     | Rx-     | Green      | 4          |
-| 4          | Green      | Rx-     | Tx-     | Red        | 3          |
-| 5          | Yellow     | Rx+     | Tx+     | Black      | 2          |
-| 6          | Blue       | Rdy In  | Rdy Out | White      | 1          |
-
-
+See [Hackerb9's Guess at DEC423 Wiring](mmj.md)
 
 ## V.25 bis Hardware Handshaking?
 
