@@ -44,7 +44,7 @@ from a burst of only 0.84 seconds!
 
 There are two kinds of flow control. Hardware flow control (sometimes
 known as "RTS/CTS") and software flowcontrol (more commonly referred
-to as XON/XOFF). 
+to as "XON/XOFF"). 
 
 Hardware flow control uses physical hardware wires to signal whether a
 machine is ready to receive data or not. Is better supported by modern
@@ -92,39 +92,38 @@ surprisingly low for a buffer of 1024 bytes.
 </details>
 
 
-## USB Serial Ports are not all equal
+## Hardware for "Software" Flowcontrol
+
+TL;DR: USB Serial Ports are not all equal.
 
 When hackerb9 first got a VT340, it was a puzzle why it could only
 connect at 9600 baud. At 19200, even with XON/XOFF flow control
 enabled on the UNIX host (`stty ixon`), it was showing the backwards
 question marks indicating that characters were getting dropped.
 
-Hackerb9 spent a while trying to figure out what was going on.
-Propagation delay? Termios buffer flushing? Many esoteric topics were
-researched and W. Richard Stevens' weighty tome digested and disected.
-Teeth were gnashed. Hair was pulled.
+What was going on? Propagation delay? Termios buffer flushing? Many
+esoteric topics were researched and W. Richard Stevens' weighty tome
+digested and disected. Teeth were gnashed. Hair was pulled.
 
-Turns out, some USB serial adapters simply _do not support xon/xoff
-flow control_. Two different brands that had been lying around both
-had failed the same way. After figuring out that it is up to the
-hardware, hackerb9 tried a third and that _did_ work:
+Turns out, some USB serial adapters _do not support xon/xoff flow
+control_ in hardware (the UART chip). Hackerb9 tested four brands of
+USB serial ports, two of which failed and two which worked:
 
 | Brand      | Model  | Kernel Driver | Works |
 |------------|--------|---------------|-------|
-| Belkin     | F5U109 | mct_u232      | no    |
-| Targus     | ACP50  | mct_u232      | no    |
+| Belkin     | F5U109 | mct\_u232     | no    |
+| Targus     | ACP50  | mct\_u232     | no    |
 | Kensington | K33232 | pl2303        | YES   |
+| FTDI       | FT232R | ftdi_sio      | YES   |
 
-It is not recommended to buy the exact Kensington device listed here
-since it is an extremely old and large port replicator. However, the
-chip which is inside of it is Proflific Technology Inc's pl2303 (USB
-Vendor=067b, Product=2303). You can search for 067b:2303 and see what
-devices have that chip in it.
-
-Some people have recommended online to buy FTDI products, such as the
-UC232R-10, which are documented by them to support hardware XON/XOFF.
-They seem to be a very reputable company.
-
+Serial adapters which contain FTDI branded UARTs, such as the FT232R
+and FT232BM, are more likely to work as they are advertised as
+supporting "on chip" ("automatic") XON/XOFF. Prolific branded chips,
+such as the PL2303, may or may not work. It is not recommended to buy
+the exact Kensington device listed here since it is an extremely old
+and large port replicator. However, the chip which is inside of it is
+Prolific Technology Inc's pl2303 (USB Vendor=067b, Product=2303). You
+can search for 067b:2303 and see what devices have that chip in it.
 
 ## Hardware flow control
 
@@ -134,7 +133,7 @@ the 6 wire DEC423 connectors, DTR/DSR are available and could
 theoretically be wired to RTS/CTS on the host's serial port, presuming
 the VT340 firmware was updated.
 
-See [Hackerb9's Guess at DEC423 Wiring](mmj.md)
+See also: [DEC423 Wiring](mmj.md).
 
 ## V.25 bis Hardware Handshaking?
 
