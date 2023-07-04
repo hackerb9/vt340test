@@ -1,24 +1,24 @@
 # VT340 Default Color Map
 
-```
-Index	 H    L   S		 R   G   B
-0      	 0    0   0		 0   0   0	Background
-1      	 0   49  59		20  20  79 
-2      	120  46  71		79  13  13 
-3      	240  49  59		20  79  20			
-4      	 60  49  59		79  20  79			
-5      	300  49  59		20  79  79
-6      	180  49  59		79  79  20
-7      	 0   46   0		46  46  46	Foreground Text
-8      	 0   26   0		26  26  26	Bold+Blink FG
-9      	 0   46  28		33  33  59
-10     	120  42  38		59  26  26
-11     	240  46  28		33  59  33
-12     	 60  46  28		59  33  59
-13     	300  46  28		33  59  59
-14     	180  46  28		59  59  33
-15     	 0   79   0		79  79  79	Bold FG
-```
+| Index |   H |  L |  S |   |  R |  G |  B | Text attribute    |
+|-------|----:|---:|---:|---|---:|---:|---:|-------------------|
+| 0     |   0 |  0 |  0 |   |  0 |  0 |  0 | Screen Background |
+| 1     |   0 | 49 | 59 |   | 20 | 20 | 79 |                   |
+| 2     | 120 | 46 | 71 |   | 79 | 13 | 13 |                   |
+| 3     | 240 | 49 | 59 |   | 20 | 79 | 20 |                   |
+| 4     |  60 | 49 | 59 |   | 79 | 20 | 79 |                   |
+| 5     | 300 | 49 | 59 |   | 20 | 79 | 79 |                   |
+| 6     | 180 | 49 | 59 |   | 79 | 79 | 20 |                   |
+| 7     |   0 | 46 |  0 |   | 46 | 46 | 46 | Foreground Text   |
+| 8     |   0 | 26 |  0 |   | 26 | 26 | 26 | Bold+Blink FG     |
+| 9     |   0 | 46 | 28 |   | 33 | 33 | 59 |                   |
+| 10    | 120 | 42 | 38 |   | 59 | 26 | 26 |                   |
+| 11    | 240 | 46 | 28 |   | 33 | 59 | 33 |                   |
+| 12    |  60 | 46 | 28 |   | 59 | 33 | 59 |                   |
+| 13    | 300 | 46 | 28 |   | 33 | 59 | 59 |                   |
+| 14    | 180 | 46 | 28 |   | 59 | 59 | 33 |                   |
+| 15    |   0 | 79 |  0 |   | 79 | 79 | 79 | Bold Foreground   |
+
 
 <img src="showcolortable.png"/>
 
@@ -36,7 +36,7 @@ is listed as 53% (#878787) in the manual, but in reality it is 46%
 (#757575). Perhaps in an earlier firmware revision it did match the
 manual. At some point, it seems it was decided, for every color except
 the foreground, to subtract 1 from the percent saturation and subtract
-0 or 1 from the lightness. 
+0 or 1 from the lightness.
 
 Here is the HLS side of table 2-3 VT340 Default Color Map from the
 VT340 Graphics Programming manual (2nd ed.), with the delta of how it
@@ -67,7 +67,7 @@ Index	 H   	  L	    S
 
 Although the VT340 supports text colors, it is not "ANSI color".
 Instead, it represents some text attributes by using four specific
-colors in the colormap: 0, 7, 8, and 15. 
+colors in the colormap: 0, 7, 8, and 15.
 
 | Style      | Color Index | Used as color for | VT340 Default |
 |------------|-------------|-------------------|---------------|
@@ -208,7 +208,3 @@ Which, if any, VT340 emulators can run rgb.sh? Emulators typically do
 not use the colormap to represent text attributes. Additionally, they
 would need to support ReGIS graphics for setting individual colors in
 the palette.
-
-
-
-
