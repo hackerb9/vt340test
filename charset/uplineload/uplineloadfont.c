@@ -10,13 +10,13 @@
    o Takes 3 to 4 minutes to run.
 
    TODO:
+   o Save in downlineloadable font format.
    o Allow selecting character set from command line.
    o Add ability to switch 80/132 columns.
    o Look into querying terminal for installed character sets.
    o Prefix terminal name to each output file. (Use subdirs).
    o Are Double Width and Double Height characters the same, just stretched?
-   o Convert to downlineloadable font format.
-   o Investigate why it is so slow:
+   o Investigate why it is so slow on a VT340:
      * 2.36 seconds per 10x20 character
      * 3m21s for TCS (85 chars)
      * 3m07s for TCS (85 chars) with stty -echo
