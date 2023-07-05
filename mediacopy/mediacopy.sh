@@ -33,7 +33,8 @@
 #   mode to level2 in the VT340 Set-Up screen).
 #
 # * After saving to print.six convert to PNG if ImageMagick is installed.
-#
+# * (Add DPI data from the SSU to the PNG image instead of discarding it.)
+# 
 # * Command line args should allow percentage or even row & column,
 #   not require pixel coords for geometry.
 #
@@ -42,6 +43,7 @@
 # * Investigate if there is some secret, undocumented way to enable
 #   level 2 printing from the application side.
 #
+# * Rewrite this in C using the routine in 
 # 
 
 ########################################
