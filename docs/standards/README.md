@@ -80,7 +80,7 @@ and 3F): DEC Supplemental Graphic, User-preferred, DEC Special
 Graphic, and DEC Technical. ISO-2022 reserves that region for "private
 use".
 
-<details>
+<details><summary>Click to see more about standards compliance.</summary>
 
 #### What ISO 2022 Says
 
@@ -114,7 +114,7 @@ the International Registry.
 DEC Technical, for example, is very similar to the IR's 
 [Technical Set](IR143-Technical-Set.pdf), released in 1988.
 
-<img src="dectech-table.png" style="width:55%; float: left;">
-<img src="ir143-table.png" style="width:35%; float: right;">
+<img src="dectech-table.png" align="left" style="width:55%;">
+<img src="ir143-table.png" align="right" style="width:35%;">
 
 </details>
