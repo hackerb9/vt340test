@@ -8,7 +8,7 @@ lists some of the "coding standards" the terminal is compatible with.
 
 ## dpANS X3.134.1: 8-Bit ASCII structure and rules
 
-## dpANS X3.134.2: Code for information interchange of 7-bit and 8-bit ASCII supplemental multilingual graphic character set
+## dpANS X3.134.2: ASCII supplemental multilingual graphic character set
 
 ## ANSI X3.4 (1977): American Standard Code for Information Interchange (ASCII)
 
@@ -32,7 +32,7 @@ extensions can be made.
 
 ## ISO 2022-1986: Multilingual Code Extension Techniques.
 
-* [ECMA-35 (1985)](ECMA-35_1985.pdf] - Contemporary with VT340. 
+* [ECMA-35 (1985)](ECMA-35_1985.pdf) - Contemporary with VT340. 
   Verbatim identical to ISO 2022-1986.
 * [ANSI-X3.41 (1974)](ANSI-X3.41-1974.pdf) - Original standard.
   (Technically, [ECMA-35 (1971)](ECMA-35_1971.pdf) was the
@@ -46,20 +46,24 @@ set.
 
 ## ISO 6429-1983: Additional Control Functions for Character Imaging Devices
 
-## ISO 8859-1-1987: 8-bit single byte code graphic character sets: Part 1: Latin Alphabet Nr 1.
+## ISO 8859-1-1987: Latin Alphabet Nr 1.
 
 Essentially, Latin-1 appears to be a codification of DEC's
 Multilingual Character Set (MCS) with a few minor changes.
 
-## ISBN 2-12-953907-0: International Register of Coded Character Sets to be used with Escape Sequences
+## ISBN 2-12-953907-0: IR
 
 * [ISO International Register](ISO_IR_Character_Set_Registry_2004.pdf) (mirrored from https://itscj.ipsj.or.jp/)
 
-Not technically a standard, the "IR" is a list of the ISO 2022
-character sets in use around the world and what escape sequences
-are used to activate them. DEC released localized versions of the
-VT340 for markets -- such as Hebrew, Korean, and Russian -- that
-may have used these sequences to select the proper character set.
+The full name is _International Register of Coded Character Sets to be
+used with Escape Sequences_, but we'll just call it "IR". 
+
+Not technically a standard, the IR is a list of the ISO 2022 character
+sets in use around the world and what escape sequences are used to
+activate them. Beyond the escape codes built-in to the North American
+VT340, DEC released localized VT340s for markets -- such as Hebrew,
+Korean, and Russian -- that may have used these sequences to select
+the proper character set.
 
 ### "Compliance" and the Column 3 Exception
 
@@ -110,7 +114,7 @@ the International Registry.
 DEC Technical, for example, is very similar to the IR's 
 [Technical Set](IR143-Technical-Set.pdf), released in 1988.
 
-<img src="dectech-table.png" style="width:45%; align: left;">
-<img src="ir143-table.png" style="width:45%; align: right;">
+<img src="dectech-table.png" style="width:55%; float: left;">
+<img src="ir143-table.png" style="width:35%; float: right;">
 
 </details>
