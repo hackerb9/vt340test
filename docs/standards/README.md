@@ -25,12 +25,10 @@ standard that describes how valid escape sequences can be formed,
 defines the meaning for some sequences, and specifies how private
 extensions can be made.
 
-
 ## ISO 646-1977: International ASCII
 
 * ISO 646-1973 - Original international standardization,
 * Technically identical to ECMA-6 and CCITT Rec V.3 (Alphabet 5).
-
 
 ## ISO 2022-1986: Multilingual Code Extension Techniques.
 
@@ -57,10 +55,62 @@ Multilingual Character Set (MCS) with a few minor changes.
 
 * [ISO International Register](ISO_IR_Character_Set_Registry_2004.pdf) (mirrored from https://itscj.ipsj.or.jp/)
 
-	Not technically a standard, the "IR" is a list of the ISO 2022
-	character sets in use around the world and what escape sequences
-	are used to activate them. DEC released localized versions of the
-	VT340 for markets -- such as Hebrew, Korean, and Russian -- that
-	likely used these sequences to select the proper character set.
-	This may be an old list as it has had no new entries since 2004.
+Not technically a standard, the "IR" is a list of the ISO 2022
+character sets in use around the world and what escape sequences
+are used to activate them. DEC released localized versions of the
+VT340 for markets -- such as Hebrew, Korean, and Russian -- that
+may have used these sequences to select the proper character set.
 
+### "Compliance" and the Column 3 Exception
+
+The VT340 manual claims to be compliant with the IR and that seems to
+be true, but mostly in that DEC used an exception in ISO 2022 to make
+their own standards.
+
+Of the six "hard" character sets the VT340 offers, only two of them
+are the same as in the International Register:
+[ASCII](IR006-ASCII.pdf) and [Latin-1](IR100-Latin-1.pdf).
+
+The other four use final characters that are in "column 3" (between 30
+and 3F): DEC Supplemental Graphic, User-preferred, DEC Special
+Graphic, and DEC Technical. ISO-2022 reserves that region for "private
+use".
+
+<details>
+
+#### What ISO 2022 Says
+
+<blockquote>
+The use of escape sequences is specified in this Standard. However,
+escape sequence with Final characters from column 3 are reserved for
+private use subject to the categorization outlined below. Escape
+sequences for private use are not subject to registration under ISO
+2375.
+
+NOTE: _The implementors of any private escape sequence described as
+such in this Standard are alerted to the fact that other implementors
+may give different meanings to the same escape sequence or may use
+different escape sequences to mean the same thing. Furthermore, such
+meanings may subsequently be assigned to registered escape sequences.
+Interchanging parties are warned that the use of such private escape
+sequences may reduce their capability to interchange data subsequently._
+</blockquote>
+
+Which is not to say that DEC was doing something wrong or acting
+contrary to the standards bodies. They certainly worked with ECMA and
+ISO and it was their Multilingual Character Set which later became
+standardized as Latin-1.
+
+#### Could DEC have used standard character sets?
+
+Some of DEC's non-standard (but standards compliant) character sets
+could theoretically have been replaced with ones that are actually in
+the International Registry.
+
+DEC Technical, for example, is very similar to the IR's 
+[Technical Set](IR143-Technical-Set.pdf), released in 1988.
+
+<img src="dectech-table.png" style="width:45%; align: left;">
+<img src="ir143-table.png" style="width:45%; align: right;">
+
+</details>
