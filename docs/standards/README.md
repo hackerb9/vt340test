@@ -126,11 +126,14 @@ Set](IR143-Technical-Set.pdf), released in 1988.
 However, IR143 is missing the extra large mathematical symbols, such
 as the multipart summation sign that is in DEC Technical:
 
-<sub>
-<img src="tcs-31.png"><img src="tcs-23.png"><img src="tcs-35.png"><br/>
-<img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png"><br/>
-<img src="tcs-32.png"><img src="tcs-23.png"><img src="tcs-36.png"><br/>
-</sub>
+<center>
+|                        |                        |                        |
+|------------------------|------------------------|------------------------|
+| <img src="tcs-31.png"> | <img src="tcs-23.png"> | <img src="tcs-35.png"> |
+| <img src="blank0.png"> | <img src="tcs-37.png"> | <img src="blank0.png"> |
+| <img src="tcs-32.png"> | <img src="tcs-23.png"> | <img src="tcs-36.png"> |
+</center>
+
 <br clear="all"/>
 
 In fact, none of the standards in the IR appear to be designed for
