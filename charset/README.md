@@ -100,7 +100,7 @@ export LANG=$(locale -a 2>&- | egrep -s 8859.*15?$ | head -1)
 
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
-multiple bytes per character via "shifting" (AKA "ISO 2022").
+multiple bytes per character via "shifting". (See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf").
 
 <ul>
 * Quick shifting example (partial differential):
