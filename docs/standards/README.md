@@ -140,11 +140,12 @@ It is a strange lack, but perhaps the committee was trying to not be
 tied to any particular technology.
 
 <sub> Note: There _are_ character cell box drawing characters in
-IR168, the [Japanese Graphic Character Set](168.pdf), so such
-composition was not completely banned. IR168 is similar to the VT100
-Graphics Character Set, but is not a complete replacement as it lacks
-the five "scanline" characters. (Moreover, although it was possible on
-the VT382, it would likely be an interesting challenge to get a VT340
-to use a multibyte character set with 6,879 characters!)</sub>
+IR168, the [Japanese Graphic Character Set](IR168-Japanese.pdf), so
+such composition was not completely banned. IR168 is similar to the
+VT100 Graphics Character Set, but is not a complete replacement as it
+lacks the five "scanline" characters. (Moreover, although it was
+possible on the VT382, it would likely be an interesting challenge to
+get a VT340 to use a multibyte character set with 6,879
+characters!)</sub>
 
 </details>
