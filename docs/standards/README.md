@@ -53,8 +53,11 @@ set.
 
 ## ISO 8859-1-1987: Latin Alphabet Nr 1.
 
-Essentially, Latin-1 appears to be a codification of DEC's
+Essentially, [Latin-1](IR100-Latin-1.pdf) appears to be a codification of DEC's
 Multilingual Character Set (MCS) with a few minor changes.
+
+![The difference between DEC MCS and ISO Latin 1 on a VT340](../../charset/uplineload/mcs-lat1.gif)
+
 
 ## ISBN 2-12-953907-0: IR
 
@@ -105,10 +108,9 @@ Interchanging parties are warned that the use of such private escape
 sequences may reduce their capability to interchange data subsequently._
 </blockquote>
 
-Which is not to say that DEC was doing something wrong or acting
-contrary to the standards bodies. They certainly worked with ECMA and
-ISO and it was their Multilingual Character Set which later became
-standardized as Latin-1.
+Which is not to say that DEC was nefarious or acting contrary to the
+standards bodies. They certainly worked with ECMA/ISO and it was their
+Multilingual Character Set which later became standardized as Latin-1.
 
 #### Could DEC have used standard character sets?
 
