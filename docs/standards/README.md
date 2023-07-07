@@ -6,12 +6,6 @@ they were constrained by. The VT340 Text Programming Reference Manual
 lists some of the "coding standards" the terminal is compatible with.
 
 
-## dpANS X3.134.1: 8-Bit ASCII structure and rules
-
-## dpANS X3.134.2: ASCII supplemental multilingual graphic character set
-
-## ANSI X3.4 (1977): American Standard Code for Information Interchange (ASCII)
-
 ## ANSI-x3.64: _The_ ANSI Standard for Escape Sequences
 
 * [ANSI-X3.64 (1979)](ANSI-X3.64-1979.pdf) - Contemporary when VT340
@@ -29,6 +23,8 @@ See also: Hackerb9 has created a table of all ["ANSI" SGR Graphic
 Renditions](graphicrenditions.md) -- bold, italic, and so on -- from
 the ANSI standard, including which ones are supported by the VT100,
 VT340, or XTerm.
+
+## ANSI X3.4 (1977): American Standard Code for Information Interchange (ASCII)
 
 ## ISO 646-1977: International ASCII
 
@@ -48,6 +44,10 @@ VT340, or XTerm.
 This is the standard that explains how to use characters from other
 languages via "shifting" to replace sections of the 8-bit character
 set.
+
+## dpANS X3.134.1: 8-Bit ASCII structure and rules
+
+## dpANS X3.134.2: ASCII supplemental multilingual graphic character set
 
 ## ISO 6429-1983: Additional Control Functions for Character Imaging Devices
 
@@ -128,7 +128,8 @@ as the multipart summation sign that is in DEC Technical:
 
 <sub>
 <img src="tcs-31.png"><img src="tcs-23.png"><img src="tcs-35.png"><br/>
-<img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png"><br/>
+<img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png">_The
+whole is greater than the summation of its parts._<br/>
 <img src="tcs-32.png"><img src="tcs-23.png"><img src="tcs-36.png"><br/>
 </sub>
 <br clear="all"/>
