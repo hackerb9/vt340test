@@ -114,7 +114,7 @@ Multilingual Character Set which later became standardized as Latin-1.
 
 #### Could DEC have used standard character sets?
 
-On the surface, it looks ike some of DEC's standards _compliant_
+On the surface, it looks like some of DEC's standards-_compliant_
 non-standard character sets could have been replaced with ones that
 are actually in the International Registry.
 
@@ -136,18 +136,15 @@ as the multipart summation sign that is in DEC Technical:
 </sub>
 <br clear="all"/>
 
-In fact, none of the single-byte standards in the IR appear to be
-designed for composing adjacent glyphs using character cell terminals.
-It is a strange lack, but perhaps the committee was trying to not be
-tied to any particular technology.
+In fact, none of the standards in the IR appear to contain components
+designed for composing into larger characters. It is a mysterious
+lack. Was there an unspoken rule? If so, it was not that glyphs cannot
+be designed to connect in two dimensions as there is a character set
+([IR155, 1990](IR155-BoxDrawing.pdf)) just for box drawing characters.
 
-<sub> Note: There _are_ character cell box drawing characters in
-IR168, the [Japanese Graphic Character Set](IR168-Japanese.pdf), so
-such composition was not completely banned. IR168 is similar to the
-VT100 Graphics Character Set, but is not a complete replacement as it
-lacks the five "scanline" characters. (Moreover, although it was
-possible on the VT382, it would likely be an interesting challenge to
-get a VT340 to use a multibyte character set with 6,879
-characters!)</sub>
+<sub>The first glyphs which are clearly made to connect vertically are
+the line drawing characters in [IR058](IR058-Chinese.pdf), from 1982.
+However, they were included wholesale in a package of 7445 characters
+from another standard, GB 2312-80.</sub>
 
 </details>
