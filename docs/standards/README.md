@@ -25,6 +25,11 @@ standard that describes how valid escape sequences can be formed,
 defines the meaning for some sequences, and specifies how private
 extensions can be made.
 
+See also: Hackerb9 has created a table of all ["ANSI" SGR Graphic
+Renditions](graphicrenditions.md) -- bold, italic, and so on -- from
+the ANSI standard, including which ones are supported by the VT100,
+VT340, or XTerm.
+
 ## ISO 646-1977: International ASCII
 
 * ISO 646-1973 - Original international standardization,
@@ -53,7 +58,7 @@ Multilingual Character Set (MCS) with a few minor changes.
 
 ## ISBN 2-12-953907-0: IR
 
-* [ISO International Register](ISO_IR_Character_Set_Registry_2004.pdf) (mirrored from https://itscj.ipsj.or.jp/)
+* [ISO International Register](ISO_IR_Character_Set_Registry_2004.pdf) (mirrored from https://itscj.ipsj.or.jp/english/)
 
 The full name is _International Register of Coded Character Sets to be
 used with Escape Sequences_, but we'll just call it "IR". 
@@ -77,8 +82,8 @@ are the same as in the International Register:
 
 The other four use final characters that are in "column 3" (between 30
 and 3F): DEC Supplemental Graphic, User-preferred, DEC Special
-Graphic, and DEC Technical. ISO-2022 reserves that region for "private
-use".
+Graphic, and DEC Technical. ISO-2022 reserves column 3 for "private
+use", with a warning about using it.
 
 <details><summary>Click to see more about standards compliance.</summary>
 
@@ -107,14 +112,26 @@ standardized as Latin-1.
 
 #### Could DEC have used standard character sets?
 
-Some of DEC's non-standard (but standards compliant) character sets
-could theoretically have been replaced with ones that are actually in
-the International Registry.
+On the surface, it looks ike some of DEC's non-standard (standards
+_compliant_) character sets could have been replaced with ones that
+are actually in the International Registry.
 
-DEC Technical, for example, is very similar to the IR's 
-[Technical Set](IR143-Technical-Set.pdf), released in 1988.
+DEC Technical, for example, is very similar to the IR's [Technical
+Set](IR143-Technical-Set.pdf), released in 1988.
 
 <img src="dectech-table.png" align="left" style="width:55%;">
 <img src="ir143-table.png" align="right" style="width:35%;">
+
+However, IR143 is missing the extra large mathematical symbols, such
+as the multipart summation sign that is in DEC Technical:
+
+<img src="tcs-31.png"><img src="tcs-23.png"><img src="tcs-35.png"><br/>
+<img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png"><br/>
+<img src="tcs-32.png"><img src="tcs-23.png"><img src="tcs-36.png"><br/>
+
+In fact, none of the standards in the IR appear to be designed for
+composing adjacent glyphs using character cell terminals. It is a
+strange lack, but perhaps the committee was trying to not be tied to
+any particular technology.
 
 </details>
