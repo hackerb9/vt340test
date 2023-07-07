@@ -246,6 +246,7 @@ If you are curious about the hundreds of other character sets that
 were available at the time of the VT340, please see the "[ISO International
 Register of Coded Character Sets to be used with Escape
 Sequences](https://itscj.ipsj.or.jp/english/)", also known as the "IR".
+
 </sub>
 
 ### Activate Character Sets: Single and Locking Shifts
