@@ -240,14 +240,14 @@ gives the sequences that select the available 96-Character Sets.
 _Note: G0 can only hold 94-Character Sets, and thus cannot be used for
 these character sets_.
 
-<sub>
+<sub><blockquote>
 
 If you are curious about the hundreds of other character sets that
 were available at the time of the VT340, please see the "[ISO International
 Register of Coded Character Sets to be used with Escape
 Sequences](https://itscj.ipsj.or.jp/english/)", also known as the "IR".
 
-</sub>
+</blockquote></sub>
 
 ### Activate Character Sets: Single and Locking Shifts
 
