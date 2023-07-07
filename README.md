@@ -336,7 +336,16 @@ manual configuration in Set-Up.
 [![Technical Character Set glyphs)](charset/uplineload/char-tcs.gif)
 
 It appears the easiest way to use a VT340 in modern times is to enable
-the Latin1 character set in Set Up and and `export
-LANG=en_US.iso8859-1`. However, there may be ways to get more glyphs
-out of the VT340 without even down-line loading a new font. Please see
-[the charset subdirectory](charset/README.md).
+the Latin1 character set in Set Up and and `export LANG=en_US.iso8859-1`. 
+However, there may be ways to get more glyphs out of the VT340 without
+even down-line loading a new font. Please see [the charset
+subdirectory](charset/README.md).
+
+Hackerb9 has also made a tool, [uplineloadfont](charset/uplineload/),
+for automatically capturing a font from the screen. It works on the
+VT340, but should work on any terminal that supports ReGIS's Media
+Copy to Host. It creates separate images for each glyph, but can also
+make a montage, like this:
+
+[![Technical Character Set montage)](charset/uplineload/tcs-montage.png)
+
