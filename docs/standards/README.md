@@ -119,15 +119,19 @@ are actually in the International Registry.
 DEC Technical, for example, is very similar to the IR's [Technical
 Set](IR143-Technical-Set.pdf), released in 1988.
 
-<img src="dectech-table.png" align="left" style="width:55%;">
-<img src="ir143-table.png" align="right" style="width:35%;">
+<img src="dectech-table.png" align="left" style="width:55%;"/>
+<img src="ir143-table.png" align="right" style="width:35%;"/>
+<br clear="all"/>
 
 However, IR143 is missing the extra large mathematical symbols, such
 as the multipart summation sign that is in DEC Technical:
 
+<sub>
 <img src="tcs-31.png"><img src="tcs-23.png"><img src="tcs-35.png"><br/>
 <img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png"><br/>
 <img src="tcs-32.png"><img src="tcs-23.png"><img src="tcs-36.png"><br/>
+</sub>
+<br clear="all"/>
 
 In fact, none of the standards in the IR appear to be designed for
 composing adjacent glyphs using character cell terminals. It is a
