@@ -333,7 +333,7 @@ manual configuration in Set-Up.
 
 ### Character Sets
 
-[![Technical Character Set glyphs)](charset/uplineload/char-tcs.gif)
+![Technical Character Set glyphs](charset/uplineload/char-tcs.gif)
 
 It appears the easiest way to use a VT340 in modern times is to enable
 the Latin1 character set in Set Up and and `export LANG=en_US.iso8859-1`. 
@@ -347,5 +347,5 @@ VT340, but should work on any terminal that supports ReGIS's Media
 Copy to Host. It creates separate images for each glyph, but can also
 make a montage, like this:
 
-[![Technical Character Set montage)](charset/uplineload/tcs-montage.png)
+![Technical Character Set montage](charset/uplineload/tcs-montage.png)
 
