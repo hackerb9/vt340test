@@ -134,9 +134,17 @@ as the multipart summation sign that is in DEC Technical:
 </sub>
 <br clear="all"/>
 
-In fact, none of the standards in the IR appear to be designed for
-composing adjacent glyphs using character cell terminals. It is a
-strange lack, but perhaps the committee was trying to not be tied to
-any particular technology.
+In fact, none of the single-byte standards in the IR appear to be
+designed for composing adjacent glyphs using character cell terminals.
+It is a strange lack, but perhaps the committee was trying to not be
+tied to any particular technology.
+
+<sub> Note: There _are_ character cell box drawing characters in
+IR168, the [Japanese Graphic Character Set](168.pdf), so such
+composition was not completely banned. IR168 is similar to the VT100
+Graphics Character Set, but is not a complete replacement as it lacks
+the five "scanline" characters. (Moreover, although it was possible on
+the VT382, it would likely be an interesting challenge to get a VT340
+to use a multibyte character set with 6,879 characters!)</sub>
 
 </details>
