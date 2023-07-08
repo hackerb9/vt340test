@@ -97,7 +97,7 @@ bitplane() {
     echo "S("		# Adjust colormap so intersections look right
     echo "M4(H240 L49 S59)	M3(H60 L49 S59)" # Swap green & magenta.
     echo "M12(H240 L46 S28)	M11(H60 L46 S28)" # Same for low sat G&M.
-    echo "M15(H0 L46 S0)	M7(H0 L100 S0)"	  # Swap medium & bright gray.
+#    echo "M15(H0 L46 S0)	M7(H0 L100 S0)"	  # Swap medium & bright gray.
     echo ")"
 
     echo -n ${ST}
