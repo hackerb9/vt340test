@@ -307,20 +307,21 @@ to be, so hackerb9 measured the speeds using the
 Results:
 |   Setting | Scanlines per second | Text lines per second |
 |----------:|---------------------:|----------------------:|
-|  Smooth-1 |                   30 |                     3 |
-|  Smooth-2 |                   60 |                     6 |
-|  Smooth-4 |                  119 |                    12 |
-|      Jump |                  596 |                    60 |
+|  Smooth-1 |                   60 |                     3 |
+|  Smooth-2 |                  120 |                     6 |
+|  Smooth-4 |                  240 |                    12 |
+|      Jump |                 1192 |                    60 |
 | No Scroll |                  N/A |                   N/A |
 
 While the VT340 allows the scrolling speed to be changed in the Set-Up
 menu, it does not appear to be programmatically changeable (as it is
 on the VT5x0 using DECSSCLS, Set Smooth Scroll Speed). Instead, DEC
 Private Mode #4, DECSCLM, Smooth Scroll Mode, is used as a binary
-switch. When a program sets DECSCLM, Smooth-2 is selected. When
-DECSCLM is RESET, Jump scroll is used. Querying the private mode via
-DECRQM returns SET when any of the Smooth speeds are selected. If the
-user selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
+switch. When a program sets DECSCLM, Smooth-2 is selected (even if one
+of the other Smooth speeds was already enabled). When DECSCLM is
+RESET, Jump scroll is used. Querying the private mode via DECRQM
+returns SET when any of the Smooth speeds are selected. If the user
+selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
 RECOGNIZED.
 
 Note that, although Smooth-2 is the factory default on the VT340, the
