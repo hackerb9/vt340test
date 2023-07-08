@@ -117,15 +117,12 @@ Interchanging parties are warned that the use of such private escape
 sequences may reduce their capability to interchange data subsequently._
 </blockquote>
 
-Which is not to say that DEC was nefarious or acting contrary to the
-standards bodies. They certainly worked with ECMA/ISO and it was their
-Multilingual Character Set which later became standardized as Latin-1.
-
 #### Could DEC have used standard character sets?
 
 On the surface, it looks like some of DEC's standards-_compliant_
 non-standard character sets could have been replaced with ones that
-are actually in the International Registry.
+are actually in the International Registry. However, they had features
+that were not in any of the standards.
 
 DEC Technical, for example, is very similar to the IR's [Technical
 Set](IR143-Technical-Set.pdf), released in 1988.
@@ -134,8 +131,8 @@ Set](IR143-Technical-Set.pdf), released in 1988.
 <img src="ir143-table.png" align="right" style="width:35%;"/>
 <br clear="all"/>
 
-However, IR143 is missing the extra large mathematical symbols, such
-as the multipart summation sign that is in DEC Technical:
+IR143 is missing the extra large mathematical symbols, such as the
+multipart summation sign that is in DEC Technical:
 
 <sub>
 <img src="../../charset/img/tcs-31.png"><img src="../../charset/img/tcs-23.png"><img src="../../charset/img/tcs-35.png"><br/>
@@ -147,13 +144,15 @@ as the multipart summation sign that is in DEC Technical:
 
 In fact, none of the standards in the IR appear to contain components
 designed for composing into larger characters. It is a mysterious
-lack. Was there an unspoken rule? If so, it was not that glyphs cannot
-be designed to connect in two dimensions as there is a character set
-([IR155, 1990](IR155-BoxDrawing.pdf)) just for box drawing characters.
+lack. Even if DEC did not want to standardize their Technical
+Character Set, wouldn't some other organization do so? 
 
-<sub>The first glyphs which are clearly made to connect vertically are
-the line drawing characters in [IR058](IR058-Chinese.pdf), from 1982.
-However, they were included wholesale in a package of 7445 characters
-from another standard, GB 2312-80.</sub>
+If there was an unspoken rule, it was not that glyphs may only connect
+one dimensionally. There is a character set ([IR155,
+1990](IR155-BoxDrawing.pdf)) just for box drawing characters to make
+2-D diagrams. (The first glyphs which are clearly made to connect
+vertically are the line drawing characters in
+[IR058](IR058-Chinese.pdf), from 1982. They were included wholesale in
+a package of 7445 characters from another standard, GB 2312-80.)
 
 </details>
