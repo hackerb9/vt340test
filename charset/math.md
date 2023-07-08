@@ -6,15 +6,29 @@ Additionally, it contains characters that may be used to construct
 larger mathematical symbols, such as large integral and summation
 signs.
 
+
+<sub>
+<img src="img/tcs-31.png"><img src="img/tcs-23.png"><img src="img/tcs-35.png">
+<br/>
+<img src="img/blank0.png"><img src="img/tcs-37.png"><img src="img/blank0.png">
+<i>The whole is greater than the summation of its parts.</i><br/>
+<img src="img/tcs-32.png"><img src="img/tcs-23.png"><img src="img/tcs-36.png">
+<br/>
+</sub>
+<br clear="all"/>
+
+Also see [dectech.c](dectech.c), a program that shows a table of the
+DEC Technical Character Set and its output, [dectech.vt](dectech.vt)
+which can be sent to a terminal such as the VT340 using `cat`.
+
 <ul>
 
 ![dectech](dectech.png "Output from dectech")
 
 </ul>
 
-Also see [dectech.c](dectech.c), a program that shows a table of the
-DEC Technical Character Set and its output, [dectech.vt](dectech.vt)
-which can be sent to a terminal such as the VT340 using `cat`.
+
+
 
 ## Basic usage from a programmer's perspective:
 

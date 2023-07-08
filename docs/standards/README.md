@@ -129,10 +129,10 @@ However, IR143 is missing the extra large mathematical symbols, such
 as the multipart summation sign that is in DEC Technical:
 
 <sub>
-<img src="tcs-31.png"><img src="tcs-23.png"><img src="tcs-35.png"><br/>
-<img src="blank0.png"><img src="tcs-37.png"><img src="blank0.png">
+<img src="../../charset/img/tcs-31.png"><img src="../../charset/img/tcs-23.png"><img src="../../charset/img/tcs-35.png"><br/>
+<img src="../../charset/img/blank0.png"><img src="../../charset/img/tcs-37.png"><img src="../../charset/img/blank0.png">
   <i>The whole is greater than the summation of its parts.</i><br/>
-<img src="tcs-32.png"><img src="tcs-23.png"><img src="tcs-36.png"><br/>
+<img src="../../charset/img/tcs-32.png"><img src="../../charset/img/tcs-23.png"><img src="../../charset/img/tcs-36.png"><br/>
 </sub>
 <br clear="all"/>
 
