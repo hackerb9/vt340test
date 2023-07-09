@@ -40,7 +40,6 @@ ASCII character set:
 
 ### GL & GR
 
-
 DEC uses the terms "GL" and "GR" to refer to currently active
 character sets for the "graphic" characters on the "left" and "right"
 of an 8-bit character table. The left contains the usual 7-bit ASCII
@@ -96,6 +95,10 @@ export LANG=$(locale -a 2>&- | egrep -s 8859.*15?$ | head -1)
 
 </ul>
 
+See hackerb9's [vt340 setup script](../usage/vt340.setup.sh) that
+includes the above and other useful configurations for anyone
+attempting to use a VT340 in modern times.
+
 ## ISO 2022: "Shifting" (multibyte characters)
 
 While an 8-bit code works for single-byte character sets, the VT340
@@ -103,14 +106,16 @@ can simultaneously show characters that are beyond that range by using
 multiple bytes per character via "shifting". (See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf").
 
 <ul>
-* Quick shifting example (partial differential):
+* Quick shifting example (delta):
 
   ```bash
   $ echo $'\e+>'
   $ echo $'\eO\x64'
-  ∂
+  δ
   ```
 </ul>
+
+<details>
 
 To make things slightly confusing, there is an extra layer of
 indirection. In order to shift the character set the VT340 has four
@@ -123,8 +128,6 @@ In the example above, the first line (`\e+>`) selected "DEC Technical
 Character Set" for G3. The second line (`\eO\x64`) instructed the
 VT340 to temporarily shift in G3 and show codepoint 0x64, which
 happens to be "∂" in DEC Tech (and "d" in ASCII).
-
-<details>
 
 While setting G0 through G3 could be done one at a time, some
 character sets requires setting more than one. For example, a terminal
@@ -140,17 +143,69 @@ JIS X 0208, like so:
 The VT340 doesn't have Kanji and Katakana characters built-in and can
 only define one soft font, so it cannot do Japanese EUC.
 
-The G0 set has at most 94 characters and G1–G3 can each hold 96, which
-means that, at most, 382 graphics characters can be simultaneously
-shown within the repertoire of a typical terminal.
+</details>
 
-_[XXX: TODO Double check this]_ However, the VT340 seems to have an
-interesting feature where changing G0–G3 only alters future
-characters; it does not change characters which have already been
-printed on the screen. Possibly this is related to the way the VT340
-can store arbitrary sixel bitmaps on the screen.
+### How many characters can the VT340 show using ISO-2022?
+
+<details>
+
+In ISO-2022, the G0 set has at most 94 characters and G1–G3 can each
+hold 96, which means that, at most, 382 graphics characters can be
+simultaneously held within the repertoire of a typical terminal.
+
+However, the VT340 is _not_ limited to 382. Character sets can be
+changed at will on the VT340 without worry about previously displayed
+characters being altered. For example:
+
+``` bash
+$ echo -n $'\e+0\eOg\e+>\e0g\r'; tput smir; echo "both in g3: "; tput rmir
+both in g3: ±γ
+```
+
+[Insert mode (smir) used to show that the glyphs are still characters,
+not just bitmap detritus].
+
+Even more importantly, User Defined "soft" character sets (via
+[Down-Line-Loading](softchars.md)) can be altered without affecting
+the appearance of characters already shown. The VT340 Text Programming
+manual states:
+
+<blockquote><i>
+<b>PROGRAMMING TIP:</b>
+
+When you use the DECDLD device control string to load a soft character
+set, the control string does not affect the characters currently on
+the screen. You can refresh the screen to show the new character sets.
+See Chapter 2 for general information about device control strings.
+</i></blockquote>
+
+[Todo: The following has not yet been proven.] Theoretically, a VT340
+could show a different character in every character cell. That means a
+total of **2000** (=80×25) characters could be shown on-screen
+simultaneously.
+
+<details><summary>Click to see ~~fudging~~ fanciful numbers.</summary>
+
+If one allows for a thinner, less legible, 132 column font, then
+**3300** (=132×25) characters can be shown at once. Or, consider what
+can be written to the VT340's screen _memory_: although only 24 lines
+can be shown at a time, 144 lines can be written on and scrolled
+through using Page Memory commands. That gives **19,140** characters!
+(145×132, one status line for all pages). Trying to actually do this
+would be an extremely silly, but interesting, challenge.
 
 </details>
+
+However, this has not been verified as there are very few VT340 fonts
+available. [What has been tested: Hackerb9 has confirmed that the
+status line responds to the Select Character Set command and appears
+to keep a separate notion of GL and GR from the main screen. Hackerb9
+also confirmed that using page memory does not reset already drawn
+characters. Still to do: find or generate enough fonts that this can
+actually be tested].
+
+</details>
+
 
 ## Charmap and Locale
 
