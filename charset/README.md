@@ -15,19 +15,18 @@ There are four methods the VT340 can use to go beyond the 7-bit US
 ASCII character set:
 
 1. An 8-bit code, such as DEC-MCS or Latin-1. The VT340 uses the DEC
-   Multinational Character Set by default. I (hackerb9) suggest
-   switching that to the newer ISO 8859-1 (Latin-1) in the VT340
-   Set-Up menu.
+   Multinational Character Set by default. Hackerb9 suggests switching
+   that to the newer ISO 8859-1 (Latin-1) in the VT340 Set-Up menu.
 
 2. Escape sequences (ISO 2022 "shifts") to temporarily change the
    meaning of characters. This will be discussed in greater detail
    below.
 
-3. Create a completely new character set by down-line loading a "soft
-   character set", which includes redefining the glyphs for the
-   80-column and 132-column characters. (Only one soft character set
-   can be loaded at a time, but the VT340 does allow a different
-   soft character set for each session.)
+3. Create a completely new character set by down-line loading a "[soft
+   character set](softchars.md)", which includes redefining the glyphs
+   for the 80-column and 132-column characters. Only one soft
+   character set can be loaded at a time, but the VT340 does allow a
+   different soft character set for each session.
 
 4. Replace just a handful of the characters in US ASCII to make a
    7-bit "National Replacement Character Set", such as "Portuguese" or
@@ -76,15 +75,13 @@ redefinable._
 | *15* | SI    | US    | /    | ?    | O    | _    | o    | DEL  | SS3   | APC   | ¯    | ¿    | Ï    | ß    | ï    | ÿ    |
 </details>
 																						  		 			   
-## Latin-1 and friends
+## 1. Latin-1 and friends
 
 The VT340's setup menu does not allow setting GL and GR directly, but
 one can change the displayed character set, which does the same thing.
 For example, the author of this page (hackerb9) prefers to use Latin-1
 and sets the environment variable `LANG` to en_US.iso88591 to inform
-programs to display characters correctly. (Note: for LANG to work,
-modern systems often require uncommenting iso88591 in /etc/locale.gen
-and then re-running `sudo locale-gen`).
+programs to display characters correctly. 
 
 <ul>
 
@@ -93,13 +90,17 @@ export LANG=$(locale -a 2>&- | egrep -s 8859.*15?$ | head -1)
 [ "$LANG" ] || export LANG=C    # No Latin-1, so fallback to "C"
 ```
 
+_Note: for LANG to work, modern systems often require uncommenting
+iso88591 in /etc/locale.gen and then re-running `sudo locale-gen`._
+
+
 </ul>
 
-See hackerb9's [vt340 setup script](../usage/vt340.setup.sh) that
-includes the above and other useful configurations for anyone
-attempting to use a VT340 in modern times.
+See hackerb9's [vt340 setup script](../usage/vt340.setup.sh) that sets
+`LANG` and some other useful configurations for anyone attempting to
+use a VT340 in modern times.
 
-## ISO 2022: "Shifting" (multibyte characters)
+## 2. ISO 2022: "Shifting" (multibyte characters)
 
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
@@ -115,8 +116,6 @@ multiple bytes per character via "shifting". (See: "[ISO 2022:1986](../docs/stan
   ```
 </ul>
 
-<details>
-
 To make things slightly confusing, there is an extra layer of
 indirection. In order to shift the character set the VT340 has four
 "intermediate sets" G0, G1, G2, and G3 which the user (or a program)
@@ -129,23 +128,24 @@ Character Set" for G3. The second line (`\eO\x64`) instructed the
 VT340 to temporarily shift in G3 and show codepoint 0x64, which
 happens to be "∂" in DEC Tech (and "d" in ASCII).
 
+### How many characters can the VT340 show using ISO-2022?
+
 While setting G0 through G3 could be done one at a time, some
 character sets requires setting more than one. For example, a terminal
 like the VT382-J or MS Kermit could use Japanese EUC , which is a
 mixture of single-byte JIS X 0201 (two character sets) and double-byte
-JIS X 0208, like so:
+[JIS X 0208](../docs/standards/IR168-Japanese.pdf), like so:
 
 * Japanese Roman in G0,
 * Japanese Kanji in G1,
-* Japanese Katakana in G2. (Katakana characters are indicated by SS2
-  in the data — the SS2 is considered part of the file).
+* Japanese Katakana in G2. (Katakana characters are indicated by SS2,
+  `ESC N`, in the data).
 
-The VT340 doesn't have Kanji and Katakana characters built-in and can
-only define one soft font, so it cannot do Japanese EUC.
-
-</details>
-
-### How many characters can the VT340 show using ISO-2022?
+The VT340 does not have Kanji and Katakana characters built-in and can
+only define one soft font, so it cannot do Japanese EUC. Moreover, its
+soft font is limited to a single byte, so it cannot show Japanese
+Kanji without help from the host software to dynamically redefine the
+character set.
 
 <details>
 
