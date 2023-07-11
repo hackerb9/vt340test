@@ -55,6 +55,8 @@ char *scsname(char *scs) {
     if (strcmp(scs+2, "%0")==0) return "dtur";
     if (strcmp(scs+2, "&4")==0) return "dcyr";
 
+    if (strcmp(scs+2, "&0")==0) return "apl";
+
     return "unk";
     break;
 
@@ -148,6 +150,10 @@ char *scslongname(char *scs) {
   if (strcmp(shortname, "dheb")==0)  return "DEC Hebrew";
   if (strcmp(shortname, "dtur")==0)  return "DEC Turkish";
   if (strcmp(shortname, "dcyr")==0)  return "DEC Cyrillic";
+
+  /* Known VT340 soft character sets */
+  if (strcmp(shortname, "apl")==0)  return "DEC APL";
+  
 
   return scs+1;			/* Return escape sequence without escape */
 }

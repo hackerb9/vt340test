@@ -50,8 +50,9 @@ int main() {
   char *clear="\e[H\e[J";	/* Clear screen */
   //char *scs="\e+>";		/* Set dec-tech charset to G3 */
   //char *scs="\e+0";		/* 0 is the symbol for the vt100 gfx charset */
-  char *scs="\e+%5";		/* Set MCS charset to G3 */
+  //char *scs="\e+%5";		/* Set MCS charset to G3 */
   //char *scs="\e/A";		/* Set Latin-1 charset to G3 */
+  char *scs="\e+&0";		/* Set APL to G3 */
   char *ss3="\eO";		/* Single (non-locking) shift to G3 */
   int w, h;			/* cell width & height */
 
