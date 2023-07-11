@@ -1,8 +1,10 @@
 # uplineloadfont.c
 
-<img width=100 src="char-tcs.gif" align="right">
+<img width=100 src="char-tcs.gif" align="left">
 
 uplineloadfont saves the glyphs a terminal can display as image files. It is meant to be the opposite of downline-loading a soft font onto a terminal. 
+
+<br clear="all"/>
 
 ### Method
 
@@ -22,7 +24,7 @@ escape sequence. It should work on any terminal that understands that escape seq
 This should compile easily with any reasonably modern C compiler.
 Just type
 ```
-make run` 
+make run
 ```
 
 ### Output Format
