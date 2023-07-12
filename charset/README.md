@@ -54,6 +54,11 @@ redefinable._
 
 <details><summary>Click to see GL/GR table</summary>
 
+In this example, Graphic Left has been filled in with ASCII, as is
+typical, while Graphic Right has taken on the Latin-1 character set
+(see below).
+
+
 |      | ← *C* | *0* → | ←⎯   | ⎯⎯   | ⎯*G* | *L*⎯ | ⎯⎯   | ⎯→   | ←⎯*C* | *1*⎯→ | ←⎯   | ⎯⎯   | ⎯*G* | *R*⎯ | ⎯⎯   | ⎯→   |
 |------|-------|-------|------|------|------|------|------|------|-------|-------|------|------|------|------|------|------|
 |      | *00*  | *01*  | *02* | *03* | *04* | *05* | *06* | *07* | *08*  | *09*  | *10* | *11* | *12* | *13* | *14* | *15* |
@@ -80,8 +85,8 @@ redefinable._
 The VT340's setup menu does not allow setting GL and GR directly, but
 one can change the displayed character set, which does the same thing.
 For example, the author of this page (hackerb9) prefers to use Latin-1
-and sets the environment variable `LANG` to en_US.iso88591 to inform
-programs to display characters correctly. 
+and informs programs on the host machine to use that encoding by
+setting the environment variable `LANG` to en_US.iso88591.
 
 <ul>
 
@@ -93,12 +98,11 @@ export LANG=$(locale -a 2>&- | egrep -s 8859.*15?$ | head -1)
 _Note: for LANG to work, modern systems often require uncommenting
 iso88591 in /etc/locale.gen and then re-running `sudo locale-gen`._
 
+<sub>See hackerb9's [vt340 setup script](../usage/vt340.setup.sh) that sets
+`LANG` and some other useful configurations for anyone attempting to
+use a VT340 in modern times.</sub>
 
 </ul>
-
-See hackerb9's [vt340 setup script](../usage/vt340.setup.sh) that sets
-`LANG` and some other useful configurations for anyone attempting to
-use a VT340 in modern times.
 
 ## 2. ISO 2022: "Shifting" (multibyte characters)
 
@@ -196,13 +200,13 @@ would be an extremely silly, but interesting, challenge.
 
 </details>
 
-However, this has not been verified as there are very few VT340 fonts
-available. [What has been tested: Hackerb9 has confirmed that the
-status line responds to the Select Character Set command and appears
-to keep a separate notion of GL and GR from the main screen. Hackerb9
-also confirmed that using page memory does not reset already drawn
-characters. Still to do: find or generate enough fonts that this can
-actually be tested].
+However, this has not been verified as there are very few [VT340
+fonts](softchars.md) available. [What has been tested: Hackerb9 has
+confirmed that the status line responds to the Select Character Set
+command and appears to keep a separate notion of GL and GR from the
+main screen. Hackerb9 also confirmed that using page memory does not
+reset already drawn characters. Still to do: find or generate enough
+fonts that this can actually be tested].
 
 </details>
 
@@ -240,35 +244,36 @@ gives the sequences that select the available 96-Character Sets.
 
 <ul>
 
-| Character Set            | G0              | G1              | G2                | G3              |
-|--------------------------|-----------------|-----------------|-------------------|-----------------|
-| U.S. ASCII               | ESC(B           | ESC)B           | ESC\*B            | ESC+B           |
-| VT100 Graphics           | ESC(0           | ESC)0           | ESC\*0            | ESC+0           |
-| DEC Supplemental         | ESC(< or ESC(%5 | ESC)< or ESC)%5 | ESC\*< or ESC\*%5 | ESC+< or ESC+%5 |
-| DEC Technical            | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
-| DEC Great Britain        | ESC(A           | ESC)A           | ESC\*A            | ESC+A           |
-| German                   | ESC(K           | ESC)K           | ESC\*K            | ESC+K           |
-| French (France)          | ESC(R           | ESC)R           | ESC\*R            | ESC+R           |
-| Italian                  | ESC(Y           | ESC)Y           | ESC\*Y            | ESC+Y           |
-| Spanish                  | ESC(Z           | ESC)Z           | ESC\*Z            | ESC+Z           |
-| DEC Dutch                | ESC(4           | ESC)4           | ESC\*4            | ESC+4           |
-| DEC Finnish              | ESC(5           | ESC)5           | ESC\*5            | ESC+5           |
-| DEC Portuguese           | ESC(%6          | ESC)%6          | ESC\*%6           | ESC+%6          |
-| DEC Norwegian/Dutch      | ESC(6           | ESC)6           | ESC\*6            | ESC+6           |
-| DEC Swedish              | ESC(7           | ESC)7           | ESC\*7            | ESC+7           |
-| DEC French Canadian      | ESC(9           | ESC)9           | ESC\*9            | ESC+9           |
-| DEC Swiss                | ESC(=           | ESC)=           | ESC\*=            | ESC+=           |
-|                          |                 |                 |                   |                 |
-| _Not available on VT340_ | ____            | ____            | ____              | ____            |
-| ISO Norwegian/Danish     | ESC(‘           | ESC)’           | ESC\*’            | ESC+’           |
-| JIS Roman                | ESC(J           | ESC)J           | ESC\*J            | ESC+J           |
-| ISO Katakana             | ESC(I           | ESC)I           | ESC\*I            | ESC+I           |
-| 7-Bit Hebrew             | ESC(%=          | ESC)%=          | ESC\*%=           | ESC+%           |
-| Hebrew Supplemental      | ESC(“4          | ESC)”4          | ESC\*”4           | ESC+”4          |
-| 7-Bit Turkish            | ESC(%2          | ESC)%2          | ESC\*%2           | ESC+%2          |
-| Turkish Supplemental     | ESC(%0          | ESC)%0          | ESC\*%0           | ESC+%0          |
-| Greek Supplemental       | ESC(“?          | ESC)”?          | ESC\*”?           | ESC+”?          |
-
+| Character Set          | G0              | G1              | G2                | G3              |
+|------------------------|-----------------|-----------------|-------------------|-----------------|
+| U.S. ASCII             | ESC(B           | ESC)B           | ESC\*B            | ESC+B           |
+| VT100 Graphics         | ESC(0           | ESC)0           | ESC\*0            | ESC+0           |
+| DEC Supplemental       | ESC(< or ESC(%5 | ESC)< or ESC)%5 | ESC\*< or ESC\*%5 | ESC+< or ESC+%5 |
+| DEC Technical          | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
+| DEC Great Britain      | ESC(A           | ESC)A           | ESC\*A            | ESC+A           |
+| German                 | ESC(K           | ESC)K           | ESC\*K            | ESC+K           |
+| French (France)        | ESC(R           | ESC)R           | ESC\*R            | ESC+R           |
+| Italian                | ESC(Y           | ESC)Y           | ESC\*Y            | ESC+Y           |
+| Spanish                | ESC(Z           | ESC)Z           | ESC\*Z            | ESC+Z           |
+| DEC Dutch              | ESC(4           | ESC)4           | ESC\*4            | ESC+4           |
+| DEC Finnish            | ESC(5           | ESC)5           | ESC\*5            | ESC+5           |
+| DEC Portuguese         | ESC(%6          | ESC)%6          | ESC\*%6           | ESC+%6          |
+| DEC Norwegian/Dutch    | ESC(6           | ESC)6           | ESC\*6            | ESC+6           |
+| DEC Swedish            | ESC(7           | ESC)7           | ESC\*7            | ESC+7           |
+| DEC French Canadian    | ESC(9           | ESC)9           | ESC\*9            | ESC+9           |
+| DEC Swiss              | ESC(=           | ESC)=           | ESC\*=            | ESC+=           |
+|                        |                 |                 |                   |                 |
+| _Not builtin to VT340_ | ____            | ____            | ____              | ____            |
+| ISO Norwegian/Danish   | ESC(‘           | ESC)’           | ESC\*’            | ESC+’           |
+| JIS Roman              | ESC(J           | ESC)J           | ESC\*J            | ESC+J           |
+| ISO Katakana           | ESC(I           | ESC)I           | ESC\*I            | ESC+I           |
+| 7-Bit Hebrew           | ESC(%=          | ESC)%=          | ESC\*%=           | ESC+%           |
+| Hebrew Supplemental    | ESC(“4          | ESC)”4          | ESC\*”4           | ESC+”4          |
+| 7-Bit Turkish          | ESC(%2          | ESC)%2          | ESC\*%2           | ESC+%2          |
+| Turkish Supplemental   | ESC(%0          | ESC)%0          | ESC\*%0           | ESC+%0          |
+| Greek Supplemental     | ESC(“?          | ESC)”?          | ESC\*”?           | ESC+”?          |
+| APL Key Paired         | ESC(8           | ESC)8           | ESC\*8            | ESC+8           |
+| APL Composite          | ESC(&0          | ESC)&0          | ESC\*&0           | ESC+&0          |
 </ul>
 
 
