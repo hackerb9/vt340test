@@ -88,3 +88,18 @@ If you have files encoded in an NRC, you may be able to convert them
 to Unicode using `iconv`. If you have a program that outputs NRC, try
 using the `luit` program to wrap around it.
 
+The twelve NRCs builtin to the VT340.
+| Character Set          | G0              | G1              | G2                | G3              |
+|------------------------|-----------------|-----------------|-------------------|-----------------|
+| DEC Great Britain      | ESC(A           | ESC)A           | ESC\*A            | ESC+A           |
+| German                 | ESC(K           | ESC)K           | ESC\*K            | ESC+K           |
+| French (France)        | ESC(R           | ESC)R           | ESC\*R            | ESC+R           |
+| Italian                | ESC(Y           | ESC)Y           | ESC\*Y            | ESC+Y           |
+| Spanish                | ESC(Z           | ESC)Z           | ESC\*Z            | ESC+Z           |
+| DEC Dutch              | ESC(4           | ESC)4           | ESC\*4            | ESC+4           |
+| DEC Finnish            | ESC(5           | ESC)5           | ESC\*5            | ESC+5           |
+| DEC Portuguese         | ESC(%6          | ESC)%6          | ESC\*%6           | ESC+%6          |
+| DEC Norwegian/Dutch    | ESC(6           | ESC)6           | ESC\*6            | ESC+6           |
+| DEC Swedish            | ESC(7           | ESC)7           | ESC\*7            | ESC+7           |
+| DEC French Canadian    | ESC(9           | ESC)9           | ESC\*9            | ESC+9           |
+| DEC Swiss              | ESC(=           | ESC)=           | ESC\*=            | ESC+=           |

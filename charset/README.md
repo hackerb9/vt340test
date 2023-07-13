@@ -108,9 +108,11 @@ use a VT340 in modern times.</sub>
 
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
-multiple bytes per character via "shifting". (See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf").
+multiple bytes per character via "shifting". 
+(See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf")).
 
 <ul>
+
 * Quick shifting example (delta):
 
   ```bash
@@ -250,18 +252,6 @@ gives the sequences that select the available 96-Character Sets.
 | VT100 Graphics         | ESC(0           | ESC)0           | ESC\*0            | ESC+0           |
 | DEC Supplemental       | ESC(< or ESC(%5 | ESC)< or ESC)%5 | ESC\*< or ESC\*%5 | ESC+< or ESC+%5 |
 | DEC Technical          | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
-| DEC Great Britain      | ESC(A           | ESC)A           | ESC\*A            | ESC+A           |
-| German                 | ESC(K           | ESC)K           | ESC\*K            | ESC+K           |
-| French (France)        | ESC(R           | ESC)R           | ESC\*R            | ESC+R           |
-| Italian                | ESC(Y           | ESC)Y           | ESC\*Y            | ESC+Y           |
-| Spanish                | ESC(Z           | ESC)Z           | ESC\*Z            | ESC+Z           |
-| DEC Dutch              | ESC(4           | ESC)4           | ESC\*4            | ESC+4           |
-| DEC Finnish            | ESC(5           | ESC)5           | ESC\*5            | ESC+5           |
-| DEC Portuguese         | ESC(%6          | ESC)%6          | ESC\*%6           | ESC+%6          |
-| DEC Norwegian/Dutch    | ESC(6           | ESC)6           | ESC\*6            | ESC+6           |
-| DEC Swedish            | ESC(7           | ESC)7           | ESC\*7            | ESC+7           |
-| DEC French Canadian    | ESC(9           | ESC)9           | ESC\*9            | ESC+9           |
-| DEC Swiss              | ESC(=           | ESC)=           | ESC\*=            | ESC+=           |
 |                        |                 |                 |                   |                 |
 | _Not builtin to VT340_ | ____            | ____            | ____              | ____            |
 | ISO Norwegian/Danish   | ESC(‘           | ESC)’           | ESC\*’            | ESC+’           |
