@@ -88,18 +88,19 @@ If you have files encoded in an NRC, you may be able to convert them
 to Unicode using `iconv`. If you have a program that outputs NRC, try
 using the `luit` program to wrap around it.
 
-The twelve NRCs builtin to the VT340.
-| Character Set          | G0              | G1              | G2                | G3              |
-|------------------------|-----------------|-----------------|-------------------|-----------------|
-| DEC Great Britain      | ESC(A           | ESC)A           | ESC\*A            | ESC+A           |
-| German                 | ESC(K           | ESC)K           | ESC\*K            | ESC+K           |
-| French (France)        | ESC(R           | ESC)R           | ESC\*R            | ESC+R           |
-| Italian                | ESC(Y           | ESC)Y           | ESC\*Y            | ESC+Y           |
-| Spanish                | ESC(Z           | ESC)Z           | ESC\*Z            | ESC+Z           |
-| DEC Dutch              | ESC(4           | ESC)4           | ESC\*4            | ESC+4           |
-| DEC Finnish            | ESC(5           | ESC)5           | ESC\*5            | ESC+5           |
-| DEC Portuguese         | ESC(%6          | ESC)%6          | ESC\*%6           | ESC+%6          |
-| DEC Norwegian/Dutch    | ESC(6           | ESC)6           | ESC\*6            | ESC+6           |
-| DEC Swedish            | ESC(7           | ESC)7           | ESC\*7            | ESC+7           |
-| DEC French Canadian    | ESC(9           | ESC)9           | ESC\*9            | ESC+9           |
-| DEC Swiss              | ESC(=           | ESC)=           | ESC\*=            | ESC+=           |
+The twelve NRCs builtin to the VT340 and the escape codes for loading
+them.
+| Character Set       | G0     | G1     | G2      | G3     | International Registry                        |
+|---------------------|--------|--------|---------|--------|-----------------------------------------------|
+| DEC Great Britain   | ESC(A  | ESC)A  | ESC\*A  | ESC+A  | [IR-004](../docs/standards/IR004-British.pdf) |
+| German              | ESC(K  | ESC)K  | ESC\*K  | ESC+K  | [IR-021](../docs/standards/IR021-German.pdf)  |
+| French (France)     | ESC(R  | ESC)R  | ESC\*R  | ESC+R  | [IR-025](../docs/standards/IR025-French.pdf)  |
+| Italian             | ESC(Y  | ESC)Y  | ESC\*Y  | ESC+Y  | [IR-015](../docs/standards/IR015-Italian.pdf) |
+| Spanish             | ESC(Z  | ESC)Z  | ESC\*Z  | ESC+Z  | [IR-017](../docs/standards/IR017-Spanish.pdf) |
+| DEC Dutch           | ESC(4  | ESC)4  | ESC\*4  | ESC+4  | None                                          |
+| DEC Finnish         | ESC(5  | ESC)5  | ESC\*5  | ESC+5  | None                                          |
+| DEC Portuguese      | ESC(%6 | ESC)%6 | ESC\*%6 | ESC+%6 | None                                          |
+| DEC Norwegian/Dutch | ESC(6  | ESC)6  | ESC\*6  | ESC+6  | None                                          |
+| DEC Swedish         | ESC(7  | ESC)7  | ESC\*7  | ESC+7  | None                                          |
+| DEC French Canadian | ESC(9  | ESC)9  | ESC\*9  | ESC+9  | None                                          |
+| DEC Swiss           | ESC(=  | ESC)=  | ESC\*=  | ESC+=  | None                                          |
