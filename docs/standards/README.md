@@ -84,12 +84,14 @@ the proper character set.
 
 ### "Compliance" and the Column 3 Exception
 
-The VT340 manual claims to be compliant with the IR and that seems to
-be true, but mostly in that DEC used an exception in ISO 2022 to make
-their own standards.
+The VT340 manual claims it is compliant with the IR and that is true,
+in a sense. However, much of what is in accord with the IR are the
+dozen [National Replacement](../../charset/nrc.md) character sets
+which DEC has deprecated and disabled by default. [XXX double check
+this].
 
-Of the six "hard" character sets the VT340 offers, only two of them
-are the same as in the International Register:
+Of the six remaining, non-NRC, character sets that the VT340 offers,
+only two of them are the same as in the International Register:
 [ASCII](IR006-ASCII.pdf) and [Latin-1](IR100-Latin-1.pdf).
 
 The other four use final characters that are in "column 3" (between 30
