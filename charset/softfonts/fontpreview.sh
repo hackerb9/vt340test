@@ -16,6 +16,7 @@ position() {
 }    
 
 declare -i fn=0
+declare -i numfiles=${#files[@]}
 while :; do
     f=${files[fn]}
     if [[ -e "$f" ]]; then
@@ -31,10 +32,12 @@ while :; do
 	    echo "${REPLY//\//-/}"
 	    echo "${ST}"
 	done
+	[[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
 	echo "$f"
     else
 	echo "Error: '$f' does not exist" >&2
     fi
+
     echo
     echo "      [Q] Quit"
     echo "  [Space] Next" 
@@ -44,7 +47,9 @@ while :; do
 	q|Q|$'\e') exit ;;
 	" "|n)
 	    fn=fn+1
-	    if (( fn >= ${#files[@]} )); then exit; fi
+	    if (( fn >= numfiles )); then
+		if (( numfiles > 1 )); then fn=0 ; else exit; fi
+	    fi
 	    echo "fn is $fn and num files is ${#files}"
 	    ;;
 	b|B|p|$'\x7F'|$'\x08')
