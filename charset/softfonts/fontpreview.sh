@@ -20,17 +20,30 @@ declare -i numfiles=${#files[@]}
 while :; do
     f=${files[fn]}
     if [[ -e "$f" ]]; then
-	IFS=';' 
+	# Read DRCS header parameters into variables
+	IFS=';' read dummy Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 < "$f"
 
+	# Final parameter needs some demangling.
+	# PcssDscsSxbp1 looks like "0{&0?A???A"
+	Pcss=${PcssDscsSxbp1%%\{*} # Everything before the first '{'
+	DscsSxbp1=${PcssDscsSxbp1#*\{} # Everything after the first '{'
+	Dscs=${DscsSxbp1: 0:2}	       # First two characters
+	Sxbp1=${DscsSxbp1: 2}       # Everything remaining = first character.
+
+	# Read the sixel data into the array ${Sxbp[@]}
+	# Sxbp2 looks like "GO_?_OG/???@;?_OGO_/@?????@;gggwgki/A@;"... 93 chars
+	Sxbp=(${Sxbp1} ${Sxbp2//;/ })
+	numchars=${#Sxbp[@]}
+
+	# All good, let's show the data.
 	clear
-	i=20			# XXX should read from file
-	tr ';' '\n' < "$f"  | while read; do
-	    position ${i}
-	    i=$(( i+1 ))
+	declare -i i=$((16#20 + Pcn))
+	for c in "${Sxbp[@]}"; do
+	    position $((i++))
 	    
-	    echo "${DCS}q"
-	    echo "${REPLY//\//-/}"
-	    echo "${ST}"
+	    echo "${DCS}q"	# Start sixel image
+	    echo "${c//\//-/}"	# Replace / with - (graphic newline)
+	    echo "${ST}"	# End sixel image
 	done
 	[[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
 	echo "$f"
@@ -54,7 +67,7 @@ while :; do
 	    ;;
 	b|B|p|$'\x7F'|$'\x08')
 	    fn=fn-1
-	    if (( fn < 0 )); then fn=0; fi
+	    if (( fn < 0 )); then fn=$((numfiles-1)); fi
 	    ;;
 	*) echo "Unknown key '$REPLY'"
 	   ;;
@@ -66,7 +79,7 @@ done
 # Notes The DECDLD control string that defines a Soft Character Set
 # has the following format.
 #
-# DCS Pfn ; Pen ; Pe ; Pcmw; Pw; Pt ; Pcmh; Pcss {
+# DCS Pfn ; Pcn ; Pe ; Pcmw; Pw; Pt ; Pcmh; Pcss {
 # Dscs Sxbp1; Sxbp2 ;...; Sxbpn ST
 
 #	DCS	Device Control String Introducer
@@ -78,15 +91,15 @@ done
 #		Note: VT340 has only one DRCS buffer, so 0 and 1 work the same.
 
 #	Pcn	Starting character
-#		0  to  95
+#		0 to 95    or    1 to 94
 #
 #		First character is loaded into the ASCII table at
 #		location =
 #
-#			0x21 + Pcn - Pcss
+#			0x20 + Pcn
 #
-#		Meaning depends on character set size (Pcss below).
-#		Pcss is 0 for a 94-character set and 1 for 96.
+#		Range depends on character set size (Pcss below).
+#		When Pcss is 0, Pcn is limited to 1 to 94.
 
 # 	Pe	Erase Control
 #		0, 1, or 2
