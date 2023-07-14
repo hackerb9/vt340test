@@ -40,13 +40,15 @@ while :; do
     read -n1 -s
     case "$REPLY" in
 	q|Q|$'\e') exit ;;
-	" "|n) fn=fn+1
-	       if (( fn >= ${#files[@]} )); then exit; fi
-	       echo "fn is $fn and num files is ${#files}"
-	       ;;
-	b|B|p) fn=fn-1
-	       if (( fn < 0 )); then fn=0; fi
-	       ;;
+	" "|n)
+	    fn=fn+1
+	    if (( fn >= ${#files[@]} )); then exit; fi
+	    echo "fn is $fn and num files is ${#files}"
+	    ;;
+	b|B|p|$'\x7F'|$'\x08')
+	    fn=fn-1
+	    if (( fn < 0 )); then fn=0; fi
+	    ;;
 	*) echo "Unknown key '$REPLY'"
 	   ;;
     esac
