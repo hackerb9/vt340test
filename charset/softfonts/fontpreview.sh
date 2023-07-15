@@ -7,24 +7,26 @@ ESC=$'\e'
 DCS=${ESC}P
 ST=${ESC}\\
 
-declare -a files=("$@")
+# Globals
+declare -ag files=("$@")	# Soft font files specifed on command line
+declare -ig numfiles=${#files[@]} # Number of font files 
+declare -ig fn=0		  # Current file number
 
-position() {
-    # Move cursor to position number i (from 20 to 126)
-    local -i i="$1"
-    tput cup $(( 2* (i/16) )) $(( 2* (i - 16*(i/16)) ))
-}    
+declare -ig Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss # Parameters of current font
+declare -g Dscs				    # Font's "name" for SCS selection
+declare -ag Sxbp			    # Array of characters as sixels
+declare -g  numchars			    # Number of characters in Sxbp
 
-
-declare -A longname=([Pfn]="Font num of DRCS buffer"
-		     [Pcn]="Start charnum in table"
-		     [Pe]="Erase control"
-		     [Pcmw]="Character matrix width"
-		     [Pw]="Font width"
-		     [Pt]="Text or full-cell"
-		     [Pcmh]="Character matrix height"
-		     [Pcss]="Character set size"
-		     [Dscs]="SCS font name")
+# Verbose parameter description
+declare -Ag longname=([Pfn]="Font num of DRCS buffer"
+		      [Pcn]="Start charnum in table"
+		      [Pe]="Erase control"
+		      [Pcmw]="Character matrix width"
+		      [Pw]="Font width"
+		      [Pt]="Text or full-cell"
+		      [Pcmh]="Character matrix height"
+		      [Pcss]="Character set size"
+		      [Dscs]="SCS font name")
 
 
 meaningPcn=( $(printf "0x%02X " {32..128}) )
@@ -33,17 +35,154 @@ meaningPe=("Erase all chars in DRCS buffer with same rendition"
 	   "Erase all renditions (80- and 132-column)")
 meaningPcmw=("10 pixels wide for 80 columns, 6 for 132 cols."
 	     "Illegal value"
-	     "5x10 pixel cell (height is doubled by VT340)"
-	     "6x10 pixel cell (height is doubled by VT340)"
-	     "7x10 pixel cell (height is doubled by VT340)"
+	     "5x10 pixel cell (VT340 displays as 5x20)"
+	     "6x10 pixel cell (VT340 displays as 6x20)"
+	     "7x10 pixel cell (VT340 displays as 7x20)"
 	     $(printf "%d pixels wide " {5..20}))
 meaningPw=("80 columns (default)" "80 columns" "132 columns")
 meaningPt=("Text-cell (default)" "Text-cell" "Full-cell")
-meaningPcmh=("20 pixels high (default)"
+meaningPcmh=("20 pixels high (VT340 default)"
 	     "1 pixel high"
 	     $(printf "%d pixels high " {2..40}))
 meaningPcss=("94-character set size" "96-character set size")
 
+
+
+
+main() {
+    while :; do
+	filename="${files[fn]}"
+	if [[ -e "$filename" ]]; then
+	    if ! parsefile "$filename" 	# Writes to Sxbp and other global vars.
+	    then
+		exit 1
+	    fi
+
+	    # All good, let's show the data.
+	    clear
+	    [[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
+	    echo "$filename ($numchars characters, DSCS name '$Dscs')"
+
+	    declare -i i=$((16#20 + Pcn))
+	    for c in "${Sxbp[@]}"; do
+		position $((i++))
+
+		echo "${DCS}q"	# Start sixel image
+		echo "${c//\//-/}"	# Replace / with - (graphic newline)
+		echo "${ST}"	# End sixel image
+	    done
+	else
+	    echo "Error: '$filename' does not exist" >&2
+	fi
+
+	echo
+	echo "      [Q] Quit"
+	echo "  [Space] Next" 
+	echo "      [B] Back"
+	echo "      [I] Info"
+	read -n1 -s
+	case "$REPLY" in
+	    q|Q|$'\e') exit ;;
+	    " "|n)
+		fn=fn+1
+		if (( fn >= numfiles )); then
+		    if (( numfiles > 1 )); then fn=0 ; else exit; fi
+		fi
+		echo "fn is $fn and num files is ${#files}"
+		;;
+	    b|B|p|$'\x7F'|$'\x08')
+		fn=fn-1
+		if (( fn < 0 )); then fn=$((numfiles-1)); fi
+		;;
+	    i|I)
+		info | column -t -s ":"
+		read -n1 -s -p "Hit any key to continue"
+		;;
+	    '!')
+		debug | column -t -s ":"
+		read -n1 -s -p "Hit any key to continue"
+		;;
+	    *) echo "Unknown key ${REPLY@Q}"
+	       ;;
+	esac
+    done
+}
+
+parsefile() {
+    # Read soft font form file $1, write to global variables:
+    # Sxbp: Array of sixel characters
+    # Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss Dscs:  Parameters of current font
+    #
+    # Returns False if file fails basic sanity checks.
+    local filename="$1"
+
+    function parseerror {
+	echo "Error in $BASH_COMMAND at line $BASH_LINENO. Invalid file: $filename" >&2; return 1; }
+    
+    trap parseerror ERR
+
+    # Slurp up the entire font file into 'data' variable
+    local data=$(cat "$filename" | tr -d '\r\n')
+    # Remove DCS (and any leading junk).
+    data=${data##*$'\eP'}	# 7-bit DCS
+    data=${data##*$'\x90'}	# 8-bit DCS
+    # Remove ST (and any trailing junk).
+    data=${data%$'\e\\'*}	# 7-bit ST
+    data=${data%$'\x9C'*}	# 8-bit ST
+
+    # Sanity check: Is it in the proper form?
+    # 7 semicolon, left curlybrace, two chars, semicolon separated sixels
+    [[ ${data} =~ ^([0-9]+;){7} ]]
+    case $? in 
+	0) echo "Data is not insane">&2 ;;
+	1) echo "Error file $filename is not in correct format" >&2
+	   return 1
+	   ;;
+	2) echo "Programming error in jbgeck">&2
+	   return 1
+	   ;;
+	*) echo "This should never happen">&2 ;;
+    esac
+
+    # Sanity check: Read data first in a subshell as certain input
+    # could cause bash to die with a syntax error. E.g., '#!/bin/bash'.
+    if ! ( IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data" >/dev/null 2>&1 ); then
+	echo "Error parsing $filename" >&2
+	return 1
+    fi
+
+    # Read DRCS header parameters into variables
+    if ! IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data"
+    then
+	echo "Error parsing $filename" >&2
+	return 1
+    fi
+
+    # Final parameter needs some demangling.
+    # PcssDscsSxbp1 looks like "0{&0?A???A"
+    Pcss=${PcssDscsSxbp1%%\{*}     # Everything before the first '{'
+    DscsSxbp1=${PcssDscsSxbp1#*\{} # Everything after the first '{'
+    Dscs=${DscsSxbp1: 0:2}	      # First two characters
+    Sxbp1=${DscsSxbp1: 2}	      # Everything remaining.
+
+    # Defaults
+    local var
+    for var in Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss; do
+	local -n ref=$var	# Bash nameref (pointeresque).
+	ref=${ref:-0}		# Default to zero if not already set.
+    done
+
+    # Read the sixel data into the array ${Sxbp[@]}
+    # Sxbp2 looks like "GO_?_OG/???@;?_OGO_/@?????@;gggwgki/A@;"... 95 chars
+    Sxbp=(${Sxbp1} ${Sxbp2//;/ })
+    numchars=${#Sxbp[@]}
+}
+
+position() {
+    # Move cursor to position number i (from 20 to 126)
+    local -i i="$1"
+    tput cup $(( 2* (i/16) )) $(( 2* (i - 16*(i/16)) ))
+}    
 
 
 info() {
@@ -61,86 +200,8 @@ info() {
     echo "Chars defined: $numchars"
 }
 
-declare -i fn=0
-declare -i numfiles=${#files[@]}
-while :; do
-    filename=${files[fn]}
-    if [[ -e "$filename" ]]; then
-	# Slurp up the font file into a variable
-	data=$(cat "$filename" | tr -d '\r\n')
-	# Remove DCS (and any leading junk).
-	data=${data##*$'\eP'}	# 7-bit DCS
-	data=${data##*$'\x90'}	# 8-bit DCS
-	# Remove ST (and any trailing junk).
-	data=${data%$'\e\\'*}	# 7-bit ST
-	data=${data%$'\x9C'*}	# 8-bit ST
-
-	# Read DRCS header parameters into variables
-	IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data"
-
-	# Final parameter needs some demangling.
-	# PcssDscsSxbp1 looks like "0{&0?A???A"
-	Pcss=${PcssDscsSxbp1%%{*}     # Everything before the first '{'
-	DscsSxbp1=${PcssDscsSxbp1#*{} # Everything after the first '{'
-	Dscs=${DscsSxbp1: 0:2}	      # First two characters
-	Sxbp1=${DscsSxbp1: 2}	      # Everything remaining.
-
-	# Defaults
-	for var in Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss; do
-	    declare -n ref=$var		# Bash nameref (pointeresque).
-	    ref=${ref:-0}		# Default to zero if not already set.
-	done
-
-	# Read the sixel data into the array ${Sxbp[@]}
-	# Sxbp2 looks like "GO_?_OG/???@;?_OGO_/@?????@;gggwgki/A@;"... 95 chars
-	Sxbp=(${Sxbp1} ${Sxbp2//;/ })
-	numchars=${#Sxbp[@]}
-
-	# All good, let's show the data.
-	clear
-	[[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
-	echo "$filename ($numchars characters, DSCS name '$Dscs')"
-
-	declare -i i=$((16#20 + Pcn))
-	for c in "${Sxbp[@]}"; do
-	    position $((i++))
-	    
-	    echo "${DCS}q"	# Start sixel image
-	    echo "${c//\//-/}"	# Replace / with - (graphic newline)
-	    echo "${ST}"	# End sixel image
-	done
-    else
-	echo "Error: '$filename' does not exist" >&2
-    fi
-
-    echo
-    echo "      [Q] Quit"
-    echo "  [Space] Next" 
-    echo "      [B] Back"
-    echo "      [I] Info"
-    read -n1 -s
-    case "$REPLY" in
-	q|Q|$'\e') exit ;;
-	" "|n)
-	    fn=fn+1
-	    if (( fn >= numfiles )); then
-		if (( numfiles > 1 )); then fn=0 ; else exit; fi
-	    fi
-	    echo "fn is $fn and num files is ${#files}"
-	    ;;
-	b|B|p|$'\x7F'|$'\x08')
-	    fn=fn-1
-	    if (( fn < 0 )); then fn=$((numfiles-1)); fi
-	    ;;
-	i|I)
-	    info | column -t -s ":"
-	    read -n1 -s -p "Hit any key to continue"
-	    ;;
-	*) echo "Unknown key ${REPLY@Q}"
-	   ;;
-    esac
-done
     
+main "$@"
 
 
 # Notes The DECDLD control string that defines a Soft Character Set
