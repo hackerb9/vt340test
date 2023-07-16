@@ -1,7 +1,8 @@
 #!/bin/bash
 # Reset VT340 after screen has been messed up by soft fonts.
 
-
+printf '\eP1;1;2{ @\e\\'	# Clear any soft font that might shadow ASCII.
+# (This works because the VT340 can only hold one soft font)
 
 printf '\e(B'			# Assign ASCII to G0
 printf '\x0F'			# Assign G0 to Graphic Left (Locking Shift 0)
