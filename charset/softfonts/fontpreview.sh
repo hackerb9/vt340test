@@ -30,22 +30,23 @@ declare -Ag longname=([Pfn]="Font num of DRCS buffer"
 		      [Pcss]="Character set size"
 		      [Dscs]="SCS font name")
 
-
 meaningPcn=( $(printf "0x%02X " {32..128}) )
 meaningPe=("Erase all chars in DRCS buffer with same rendition"
 	   "Erase only chars in locations being reloaded"
 	   "Erase all renditions (80- and 132-column)")
+IFS=$'\n'
 meaningPcmw=("10 pixels wide for 80 columns, 6 for 132 cols."
 	     "Illegal value"
 	     "5x10 pixel cell (VT340 displays as 5x20)"
 	     "6x10 pixel cell (VT340 displays as 6x20)"
 	     "7x10 pixel cell (VT340 displays as 7x20)"
-	     $(printf "%d pixels wide " {5..20}))
-meaningPw=("80 columns (default)" "80 columns" "132 columns")
-meaningPt=("Text-cell (default)" "Text-cell" "Full-cell")
+	     $(printf "%d pixels wide\n" {5..20}))
 meaningPcmh=("20 pixels high (VT340 default)"
 	     "1 pixel high"
-	     $(printf "%d pixels high " {2..40}))
+	     $(printf "%d pixels high\n" {2..40}))
+unset IFS
+meaningPw=("80 columns (default)" "80 columns" "132 columns")
+meaningPt=("Text-cell (default)" "Text-cell" "Full-cell")
 meaningPcss=("94-character set size" "96-character set size")
 
 
