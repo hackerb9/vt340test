@@ -70,7 +70,7 @@ main() {
 	    for c in "${Sxbp[@]}"; do
 		position $((i++))
 
-		echo "${DCS}q"	# Start sixel image
+		echo "${DCS}9;1;q"	# Start sixel image (1:1 pixels)
 		echo "${c//\//-/}"	# Replace / with - (graphic newline)
 		echo "${ST}"	# End sixel image
 	    done
