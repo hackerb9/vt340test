@@ -3,6 +3,8 @@
 # Quickly dump the sixels from a DRCS (Dynamically Redefinable
 # Character Set) "soft font" file onto the screen.
 
+export LANG=C			# Use ASCII sort order for regexp brackets.
+
 ESC=$'\e'
 DCS=${ESC}P
 ST=${ESC}\\
@@ -88,7 +90,6 @@ main() {
 		if (( fn >= numfiles )); then
 		    if (( numfiles > 1 )); then fn=0 ; else exit; fi
 		fi
-		echo "fn is $fn and num files is ${#files}"
 		;;
 	    b|B|p|$'\x7F'|$'\x08')
 		fn=fn-1
@@ -116,38 +117,35 @@ parsefile() {
     # Returns False if file fails basic sanity checks.
     local filename="$1"
 
+    echo "Reading '$filename'"
+
     function parseerror {
 	echo "Error in $BASH_COMMAND at line $BASH_LINENO. Invalid file: $filename" >&2; return 1; }
-    
     trap parseerror ERR
 
     # Slurp up the entire font file into 'data' variable
     local data=$(cat "$filename" | tr -d '\r\n')
+    local DCSdataST="$data"
     # Remove DCS (and any leading junk).
     data=${data##*$'\eP'}	# 7-bit DCS
     data=${data##*$'\x90'}	# 8-bit DCS
+    local dataST="$data"
     # Remove ST (and any trailing junk).
     data=${data%$'\e\\'*}	# 7-bit ST
     data=${data%$'\x9C'*}	# 8-bit ST
 
-    # Sanity check: Is it in the proper form?
-    # 7 semicolon, left curlybrace, two chars, semicolon separated sixels
-    [[ ${data} =~ ^([0-9]+;){7} ]]
-    case $? in 
-	0) echo "Data is not insane">&2 ;;
-	1) echo "Error file $filename is not in correct format" >&2
-	   return 1
-	   ;;
-	2) echo "Programming error in jbgeck">&2
-	   return 1
-	   ;;
-	*) echo "This should never happen">&2 ;;
-    esac
+    if [[ ${DCSdataST} == ${dataST} ]]; then
+	echo "Could not find DCS escape sequence" >&2
+	return 1
+    fi
 
-    # Sanity check: Read data first in a subshell as certain input
-    # could cause bash to die with a syntax error. E.g., '#!/bin/bash'.
-    if ! ( IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data" >/dev/null 2>&1 ); then
-	echo "Error parsing $filename" >&2
+    if [[ ${dataST} == ${data} ]]; then
+	echo "Could not find ST escape sequence" >&2
+	return 1
+    fi
+
+
+    if ! sanitycheck "$data"; then
 	return 1
     fi
 
@@ -176,6 +174,71 @@ parsefile() {
     # Sxbp2 looks like "GO_?_OG/???@;?_OGO_/@?????@;gggwgki/A@;"... 95 chars
     Sxbp=(${Sxbp1} ${Sxbp2//;/ })
     numchars=${#Sxbp[@]}
+}
+
+sanitycheck() {
+    # Given the contents of a soft font file,
+    # with DCS, ST and whitespace stripped off,
+    # return TRUE if the file matches what we expect.
+    local data="$1"
+
+    # Regex sanity check: Is it in the proper form?
+    # 8 semicolons; left curly; 1 to 4 chars; semicolon separated sixels+slash.
+
+    # Up to eight semicolons, only digits interleaving, followed by left curly.
+    local parmsre='([0-9]*;){0,8}[0-9]*\{'
+    [[ ${data} =~ ^($parmsre) ]]
+    case $? in
+	0) echo -n "Sanity check: Parameter header looks good: " >&2
+	   echo ${BASH_REMATCH[0]} >&2
+	   ;;
+	1) echo "Sanity check: Parameter header doesn't seem right." >&2
+	   return 1
+	   ;;
+	2) echo "Orthorexic programming error A" >&2
+	   ;;
+    esac
+
+    local interre='[ -/]'
+    local finalre='[0-~]'	# Note: We set LANG=C above for ASCII order.
+    [[ ${data} =~ ^($parmsre)($interre{0,2})($finalre) ]]
+    case $? in
+	0) echo -n "Sanity check: DSCS sequence looks good: " >&2
+	   echo "'${BASH_REMATCH[-2]}${BASH_REMATCH[-1]}'" >&2
+	   ;;
+	1) echo "Sanity check: DSCS sequence doesn't seem right." >&2
+	   return 1
+	   ;;
+	2) echo "Regex Programming Error: If LANG is not C, the range [0-~] causes this." >&2
+	   echo "LANG is ${LANG}." >&2
+	   ;;
+    esac
+
+    local sxlre='[]0-9:<=>?@A-Z[\^_`a-z{|}~/]' semi=';'
+    [[ ${data} =~ ^($parmsre)($interre{0,2})($finalre)$semi?($sxlre*$semi?)+$ ]]
+    case $? in 
+	0) echo "Oh, good. Data is not insane.">&2
+	   # showargs "${BASH_REMATCH[@]}" | cat -v;  exit
+	   ;;
+	1) echo "Error file $filename is not in correct format" >&2
+	   echo "Rematch: ${BASH_REMATCH[@]}" | cat -v
+	   return 1
+	   ;;
+	2) echo "Programming error in regex sanity check">&2
+	   echo "Line number $BASH_LINENO"
+	   return 1
+	   ;;
+	*) echo "This should never happen">&2 ;;
+    esac
+
+    # Sanity check: Read data into integers first in a subshell as certain
+    # input could cause bash to die with a syntax error. E.g., '#!/bin/bash'.
+    if ! ( IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data" >/dev/null 2>&1 ); then
+	echo "Error parsing $filename" >&2
+	return 1
+    fi
+
+    return 0
 }
 
 position() {
@@ -278,6 +341,8 @@ main "$@"
 #
 #		The value of Pcss changes the meaning of the Pcn
 #		(starting character) parameter above.
+
+#	{	A literal left curly brace.
 
 # 	Dscs	Name for the soft character set which is used
 # 		in the select character set (SCS) escape sequence. 
