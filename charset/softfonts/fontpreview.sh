@@ -144,49 +144,52 @@ parsefile() {
 	return 1
     fi
 
-
     if ! sanitycheck "$data"; then
 	return 1
     fi
 
-    # Read DRCS header parameters into variables
-    if ! IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data"
-    then
-	echo "Error parsing $filename" >&2
-	return 1
-    fi
+    # Semicolons with only digits interleaving, followed by left curly.
+    local semi=';'
+    [[ "$data" =~ ^([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?\{ ]]
+    read dummy Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss p9 <<<$"${BASH_REMATCH[*]}"
+    # {Sidenote, the ninth parameter is not documented, but exists in the }
+    # {four APL fonts from DEC. Whatever it is, it is always set to 0.    }
 
-    # Final parameter needs some demangling.
-    # PcssDscsSxbp1 looks like "0{&0?A???A"
-    Pcss=${PcssDscsSxbp1%%\{*}     # Everything before the first '{'
-    DscsSxbp1=${PcssDscsSxbp1#*\{} # Everything after the first '{'
-    Dscs=${DscsSxbp1: 0:2}	      # First two characters
-    Sxbp1=${DscsSxbp1: 2}	      # Everything remaining.
+    # Read DRCS header parameters into variables
+    data="${data#*\{}"
+    local interre='[ -/]'
+    local finalre='[0-~]'	# Note: We set LANG=C above for ASCII order.
+    [[ "$data" =~ ^($interre{0,2}$finalre) ]]
+    Dscs="${BASH_REMATCH[1]}"
 
     # Defaults
     local var
     for var in Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss; do
 	local -n ref=$var	# Bash nameref (pointeresque).
-	ref=${ref:-0}		# Default to zero if not already set.
+	ref=${ref:-0}		# Default to zero if empty string.
     done
 
+    data="${data#${Dscs}}"
+
+    # data looks like "ouUOOUU/?~~GGG/?FFCCCCCC;????o?o/??{}B}BEC/??@B]B]B@;"
+    Sxbp1=${DscsSxbp1: 2}	      # Everything remaining.
+
     # Read the sixel data into the array ${Sxbp[@]}
-    # Sxbp2 looks like "GO_?_OG/???@;?_OGO_/@?????@;gggwgki/A@;"... 95 chars
-    Sxbp=(${Sxbp1} ${Sxbp2//;/ })
+    Sxbp=(${data//;/ })
     numchars=${#Sxbp[@]}
 }
 
 sanitycheck() {
     # Given the contents of a soft font file,
-    # with DCS, ST and whitespace stripped off,
+    # with DCS, ST and CR/NL stripped off,
     # return TRUE if the file matches what we expect.
     local data="$1"
 
     # Regex sanity check: Is it in the proper form?
     # 8 semicolons; left curly; 1 to 4 chars; semicolon separated sixels+slash.
 
-    # Up to eight semicolons, only digits interleaving, followed by left curly.
-    local parmsre='([0-9]*;){0,8}[0-9]*\{'
+    # Semicolons with only digits interleaving, followed by left curly.
+    local parmsre='([0-9]*;)*[0-9]*\{'
     [[ ${data} =~ ^($parmsre) ]]
     case $? in
 	0) echo -n "Sanity check: Parameter header looks good: " >&2
@@ -230,13 +233,6 @@ sanitycheck() {
 	   ;;
 	*) echo "This should never happen">&2 ;;
     esac
-
-    # Sanity check: Read data into integers first in a subshell as certain
-    # input could cause bash to die with a syntax error. E.g., '#!/bin/bash'.
-    if ! ( IFS=$';' read Pfn Pcn Pe Pcmw Pw Pt Pcmh PcssDscsSxbp1 Sxbp2 <<<"$data" >/dev/null 2>&1 ); then
-	echo "Error parsing $filename" >&2
-	return 1
-    fi
 
     return 0
 }
