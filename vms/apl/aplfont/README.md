@@ -44,17 +44,16 @@ should work on both original and new equipment.
 
 2. Graphic Right does not work on terminals where `LANG` is set to
    UTF-8. The solution is to temporarily map the set to Graphic Left
-   (replacing the ASCII characters). An application could send LS1,
-   the APL characters, then LS0.
+   (replacing the ASCII characters). An application could send **LS1**,
+   the APL characters, then **LS0**.
 
 
-| Name            | Mnemonic | Sequence | Hex   | Function                                                  |
-|-----------------|----------|----------|-------|-----------------------------------------------------------|
-| Locking Shift 0 | LS0      | \<SI\>   | 0F    | The G0 character set becomes the active GL character set. |
-| Locking Shift 1 | LS1      | \<SO\>   | 0E    | The G1 character set becomes the active GL character set. |
-| Locking Shift 2 | LS2      | ESC n    | 1B 6E | The G2 character set becomes the active GL character set. |
-| Locking Shift 3 | LS3      | ESC o    | 1B 6F | The G3 character set becomes the active GL character set. |
-
+	| Name            | Mnemonic | Sequence | Hex   | Function                                                  |
+	|-----------------|----------|----------|-------|-----------------------------------------------------------|
+	| Locking Shift 0 | LS0      | \<SI\>   | 0F    | The G0 character set becomes the active GL character set. |
+	| Locking Shift 1 | LS1      | \<SO\>   | 0E    | The G1 character set becomes the active GL character set. |
+	| Locking Shift 2 | LS2      | ESC n    | 1B 6E | The G2 character set becomes the active GL character set. |
+	| Locking Shift 3 | LS3      | ESC o    | 1B 6F | The G3 character set becomes the active GL character set. |
 
 
 [DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
