@@ -37,7 +37,7 @@ CHARMAP
 <U001E>     /x1e         RECORD SEPARATOR
 <U001F>     /x1f         UNIT SEPARATOR
 <U0020>     /x20         SPACE
-<U0021>     /x21         EXCLAMATION MARK
+<U0021>     /x21         Shriek
 <U0022>     /x22         QUOTATION MARK
 <U0023>     /x23         NUMBER SIGN
 <U0024>     /x24         DOLLAR SIGN
@@ -46,12 +46,12 @@ CHARMAP
 <U0027>     /x27         APOSTROPHE
 <U0028>     /x28         LEFT PARENTHESIS
 <U0029>     /x29         RIGHT PARENTHESIS
-<U002A>     /x2a         ASTERISK
-<U002B>     /x2b         PLUS SIGN
+<U002A>     /x2a         Star
+<U002B>     /x2b         Plus
 <U002C>     /x2c         COMMA
-<U002D>     /x2d         HYPHEN-MINUS
-<U002E>     /x2e         FULL STOP
-<U002F>     /x2f         SOLIDUS
+<U002D>     /x2d         Minus
+<U002E>     /x2e         Dot
+<U002F>     /x2f         Slash
 <U0030>     /x30         DIGIT ZERO
 <U0031>     /x31         DIGIT ONE
 <U0032>     /x32         DIGIT TWO
@@ -67,8 +67,8 @@ CHARMAP
 <U003C>     /x3c         LESS-THAN SIGN
 <U003D>     /x3d         EQUALS SIGN
 <U003E>     /x3e         GREATER-THAN SIGN
-<U003F>     /x3f         QUESTION MARK
-<U0040>     /x40         COMMERCIAL AT
+<U003F>     /x3f         Question MARK
+<U0040>     /x40         At
 <U0041>     /x41         LATIN CAPITAL LETTER A
 <U0042>     /x42         LATIN CAPITAL LETTER B
 <U0043>     /x43         LATIN CAPITAL LETTER C
@@ -96,7 +96,7 @@ CHARMAP
 <U0059>     /x59         LATIN CAPITAL LETTER Y
 <U005A>     /x5a         LATIN CAPITAL LETTER Z
 <U005B>     /x5b         LEFT SQUARE BRACKET
-<U005C>     /x5c         REVERSE SOLIDUS
+<U005C>     /x5c         Slope
 <U005D>     /x5d         RIGHT SQUARE BRACKET
 <U005E>     /x5e         CIRCUMFLEX ACCENT
 <U005F>     /x5f         LOW LINE
@@ -167,31 +167,31 @@ CHARMAP
 <UFFFD>     /xa0         (Undefined)
 <U00A8>     /xa1         Diaeresis
 <U2264>     /xa2         Less than or Equal to
-<U2228>     /xa3         Or	      
-<U2227>     /xa4         And	      
-<U2260>     /xa5         Not Equal To	      
+<U2228>     /xa3         Or
+<U2227>     /xa4         And
+<U2260>     /xa5         Not Equal To
 <U00F7>     /xa6         Divide
 <U00D7>     /xa7         Times
 <U00AF>     /xa8         High Minus
-<U237A>     /xa9         Alpha		    
-<U22A5>     /xaa         Decode
+<U237A>     /xa9         Alpha
+<U22A5>     /xaa         Up Tack
 <U2229>     /xab         Intersection
 <U230A>     /xac         Downstile
-<U220A>     /xad         Element of
+<U220A>     /xad         Epsilon
 <U2207>     /xae         Del
 <U2206>     /xaf         Delta
 <U2373>     /xb0         Iota
-<U2218>     /xb1         Jot 
+<U2218>     /xb1         Jot
 <U2395>     /xb2         Quad
-<U22A4>     /xb3         Encode
+<U22A4>     /xb3         Down Tack
 <U25CB>     /xb4         Circle
 <U2374>     /xb5         Rho
 <U2308>     /xb6         Upstile
-<U2193>     /xb7         Drop
+<U2193>     /xb7         Down Arrow
 <U222A>     /xb8         Union
 <U2375>     /xb9         Omega
-<U2283>     /xba         Superset of
-<U2282>     /xbb         Subset of
+<U2283>     /xba         Right shoe
+<U2282>     /xbb         Left shoe
 <U2190>     /xbc         Gets
 <U22A2>     /xbd         Right Tack
 <U2192>     /xbe         Goto
@@ -199,7 +199,7 @@ CHARMAP
 <U22C4>     /xc0         Diamond
 <U22A3>     /xc1         Left Tack
 <U2359>     /xc2         Delta Underbar
-% Is this how modern APL emits the underscore characters? 
+% Is this how modern APL emits the underscore characters?
 % Mathematical Italic Capital letters + combining low line (U+0332)?
 <U1D434>    /xc3         A
 <U1D435>    /xc4         B
@@ -229,8 +229,8 @@ CHARMAP
 <U1D44D>    /xdc         Z
 <U235D>     /xdd         Lamp
 <U2336>     /xde         I-Beam
-<U234E>     /xdf         Execute
-<U2355>     /xe0         Format
+<U234E>     /xdf         Hydrant
+<U2355>     /xe0         Thorn
 <U2339>     /xe1         Domino
 <U2347>     /xe2         Quad Left Arrow
 <U2348>     /xe3         Quad Right Arrow
@@ -238,37 +238,58 @@ CHARMAP
 <U234C>     /xe5         Quad Down Caret
 <U234B>     /xe6         Grade Up
 <U2352>     /xe7         Grade Down
-<U236B>     /xe8         Del Tilde (?)
+<U236B>     /xe8         Del Tilde
 <U2371>     /xe9         Nor
 <U2372>     /xea         Nand
 <U235F>     /xeb         Log
-<U2296>     /xec         Circle Bar (Rotate)
+<U2296>     /xec         Circle Bar
 <U2349>     /xed         Transpose
-<U233D>     /xee         Rotate
+<U233D>     /xee         Circle Stile
 <U236A>     /xef         Comma Bar
 <U233F>     /xf0         Slash Bar
-<U2340>     /xf1         Backslash Bar
-<U2286>     /xf2         Subset or Equal to
+<U2340>     /xf1         Slope Bar
+<U2286>     /xf2         Left Shoe Underbar
 <U2287>     /xf3         Superset or Equal to
-<U2261>     /xf4         Match
-<U2191>     /xf5         Take
-<U2337>     /xf6         Squish
-<U2337>     /xf7         Squish
-<U2337>     /xf8         Squish
-<U2337>     /xf9         Squish
-<U2337>     /xfa         Squish
-<U2337>     /xfb         Squish
-<U2337>     /xfc         Squish
-% Did the APL OUT character never get added to Unicode? It is
+<U2261>     /xf4         Equal Underbar
+<U2191>     /xf5         Up Arrow
+<U2337>     /xf6         Squad
+<U2337>     /xf7         Squad
+<U2337>     /xf8         Squad
+<U2337>     /xf9         Squad
+<U2337>     /xfa         Squad
+<U2337>     /xfb         Squad
+<U2337>     /xfc         Squad
+% Did /xfd, the APL OUT character, never get added to Unicode? It is
 % specified in IBM's APL Codepage, so this isn't just some random
 % thing DEC added.
 <U2404>     /xfd         OUT
-<U2337>     /xfe         Squish
+<U2337>     /xfe         Squad
 <UFFFD>     /xff         (Undefined)
 END CHARMAP
+
 
 % Not exactly sure how to use this charmap yet.
 % Compile it into foo directory:
 % localedef -f charmap.apl -i en_US ./foo
 % And then what do I do to get it working?
 % LOCPATH=./foo LC_ALL=en_US.APL date
+
+
+
+% Characters mentioned in Dyalog's help manual but not
+% available in DEC's VT340 font.
+%   ≢    U+2262  Equal Underbar Slash (NOT IDENTICAL TO)
+%   ⍷    U+2377  Epsilon Underbar
+%   ⍸    U+2378  Iota Underbar
+%   ⍬    U+236C  Zilde
+%   ⍨    U+2368  Tilde Diaeresis
+%   ⍣    U+2363  Star Diaeresis
+%   ⍠    U+2360  Variant
+%   ⌸	U+2338	Quad Equal
+%   ⌺	U+233A	Quad Diamond
+%   ⍤	U+2364	Jot Diaeresis
+%   ⍥	U+2365  Circle Diaeresis
+
+% See:
+% http://help.dyalog.com/latest/index.htm#Language/Introduction/Language%20Elements.htm
+
