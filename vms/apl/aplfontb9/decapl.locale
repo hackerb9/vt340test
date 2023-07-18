@@ -36,7 +36,7 @@ category "i18n:2012";LC_CTYPE
 END LC_IDENTIFICATION
 
 LC_CTYPE
-
+copy "en_US"
 translit_start
 
 % NULL
