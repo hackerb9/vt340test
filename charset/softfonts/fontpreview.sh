@@ -66,12 +66,19 @@ main() {
 	    clear
 	    [[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
 	    echo "$filename ($numchars characters, DSCS name '$Dscs')"
+	    if (( Pcmw >= 2 && Pcmw <= 4 )); then
+		echo "(Height doubled for VT200 fonts)"	
+	    fi
 
 	    declare -i i=$((16#20 + Pcn))
 	    for c in "${Sxbp[@]}"; do
 		position $((i++))
 
-		echo "${DCS}9;1;q"	# Start sixel image (1:1 pixels)
+		if ! (( Pcmw >= 2 && Pcmw <= 4 )); then
+		    echo "${DCS}9;1;q"	# Start sixel image (1:1 pixels)
+		else
+		    echo "${DCS}q"	# Start with 2:1 pixels for VT220 fonts
+		fi
 		echo "${c//\//-/}"	# Replace / with - (graphic newline)
 		echo "${ST}"	# End sixel image
 	    done
@@ -100,7 +107,7 @@ main() {
 	    i|I)
 		info | column -t -s ":"
 		read -n1 -s -p "Hit any key to continue"
-		if [[ "$REPLY" == "q" ]]; then exit; fi
+		if [[ "$REPLY" == "q" ]]; then echo; exit; fi
 		;;
 	    '!')
 		debug | column -t -s ":"
@@ -312,7 +319,7 @@ main "$@"
 #		0 = 10 pixels wide for 80 columns,
 #		     6 pixels wide for 132 columns. (default)
 #		1 = illegal.
-#		2 = 5 x 10 pixel cell (VT200 compatible = vt340 doubles height).
+#		2 = 5 x 10 pixel cell (VT200 compatible = vt340 doubles height)
 #		3 = 6 x 10 pixel cell (VT200 compatible).
 #		4 = 7 x 10 pixel cell (VT200 compatible).
 #		5 = 5 pixels wide.
