@@ -65,7 +65,8 @@ main() {
 	    # All good, let's show the data.
 	    clear
 	    [[ $numfiles -gt 1 ]] && echo -n "$((fn+1))/${numfiles} "
-	    echo "$filename ($numchars characters, DSCS name '$Dscs')"
+	    echo -n "$filename ($numchars character$(s $numchars), "
+	    echo "DSCS name '$Dscs')"
 	    if (( Pcmw >= 2 && Pcmw <= 4 )); then
 		echo "(Height doubled for VT200 fonts)"	
 	    fi
@@ -118,6 +119,12 @@ main() {
 	esac
     done
 }
+
+s() {
+    # Plural? Add an 's'.
+    if (( $1 != 1 )); then echo -n "s"; fi
+}
+
 
 parsefile() {
     # Read soft font form file $1, write to global variables:
