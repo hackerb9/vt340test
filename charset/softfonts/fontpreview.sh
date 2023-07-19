@@ -15,6 +15,7 @@ declare -ig numfiles=${#files[@]} # Number of font files
 declare -ig fn=0		  # Current file number
 
 declare -ig Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss # Parameters of current font
+declare -ig Psgr			    # "Secret" ninth parameter.
 declare -g Dscs				    # Font's "name" for SCS selection
 declare -ag Sxbp			    # Array of characters as sixels
 declare -g  numchars			    # Number of characters in Sxbp
@@ -28,6 +29,7 @@ declare -Ag longname=([Pfn]="Font num of DRCS buffer"
 		      [Pt]="Text or full-cell"
 		      [Pcmh]="Character matrix height"
 		      [Pcss]="Character set size"
+		      [Psgr]="Graphic Rendition"
 		      [Dscs]="SCS font name")
 
 meaningPcn=( $(printf "0x%02X " {32..128}) )
@@ -48,9 +50,8 @@ unset IFS
 meaningPw=("80 columns (default)" "80 columns" "132 columns")
 meaningPt=("Text-cell (default)" "Text-cell" "Full-cell")
 meaningPcss=("94-character set size" "96-character set size")
-
-
-
+meaningPsgr=("Normal text" Bold Dim Italic Underline Blinking Reverse Invisible
+	     [9]=Strikethrough [21]="Double underline" [53]=Overline)
 
 main() {
     while :; do
@@ -99,6 +100,7 @@ main() {
 	    i|I)
 		info | column -t -s ":"
 		read -n1 -s -p "Hit any key to continue"
+		if [[ "$REPLY" == "q" ]]; then exit; fi
 		;;
 	    '!')
 		debug | column -t -s ":"
@@ -152,9 +154,10 @@ parsefile() {
     # Semicolons with only digits interleaving, followed by left curly.
     local semi=';'
     [[ "$data" =~ ^([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?([0-9]*)${semi}?\{ ]]
-    read dummy Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss p9 <<<$"${BASH_REMATCH[*]}"
-    # {Sidenote, the ninth parameter is not documented, but exists in the }
-    # {four APL fonts from DEC. Whatever it is, it is always set to 0.    }
+    read dummy Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss Psgr <<<$"${BASH_REMATCH[*]}"
+
+    # Sidenote: the ninth parameter, graphic rendition, is not used by
+    # the VT340, but exists in the four APL fonts from DEC (always 0).
 
     # Read DRCS header parameters into variables
     data="${data#*\{}"
@@ -165,7 +168,7 @@ parsefile() {
 
     # Defaults
     local var
-    for var in Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss; do
+    for var in Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss Psgr; do
 	local -n ref=$var	# Bash nameref (pointeresque).
 	ref=${ref:-0}		# Default to zero if empty string.
     done
@@ -248,7 +251,7 @@ position() {
 info() {
     # Show info from global variables read from font's parameters.
     echo "Filename: $filename"
-    for var in  Dscs Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss; do
+    for var in  Dscs Pfn Pcn Pe Pcmw Pw Pt Pcmh Pcss Psgr; do
 	local -n ref=$var		# Bash nameref (pointeresque).
 	local -n m=meaning$var
 	if [[ -z "${m}" ]]; then
@@ -267,7 +270,7 @@ main "$@"
 # Notes The DECDLD control string that defines a Soft Character Set
 # has the following format.
 #
-# DCS Pfn ; Pcn ; Pe ; Pcmw; Pw; Pt ; Pcmh; Pcss {
+# DCS Pfn ; Pcn ; Pe ; Pcmw; Pw; Pt ; Pcmh; Pcss; Psgr {
 # Dscs Sxbp1; Sxbp2 ;...; Sxbpn ST
 
 #	DCS	Device Control String Introducer
@@ -338,6 +341,17 @@ main "$@"
 #
 #		The value of Pcss changes the meaning of the Pcn
 #		(starting character) parameter above.
+
+#       Psgr	Select Graphics Rendition
+#		0 = normal text (default)	3 = italic   
+#		1 = bold			4 = underline
+#		2 = dim				5 = blink    
+#				...etc...
+#
+#		If specified, Psgr is an integer which specifies in
+#		which Graphic Rendition this font is active. Most
+#		terminals ignore this and do not document it. For more
+#		information see DEC's ANSI-compatible PPL document.
 
 #	{	A literal left curly brace.
 
