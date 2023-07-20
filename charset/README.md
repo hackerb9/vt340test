@@ -14,9 +14,9 @@ character sets.
 There are four methods the VT340 can use to go beyond the 7-bit US
 ASCII character set:
 
-1. An 8-bit code, such as DEC-MCS or Latin-1. The VT340 uses the DEC
-   Multinational Character Set by default. Hackerb9 suggests switching
-   that to the newer ISO 8859-1 (Latin-1) in the VT340 Set-Up menu.
+1. An 8-bit code in "GR". The VT340 uses DEC-MCS by default, but
+   Hackerb9 suggests changing that to Latin-1 in the VT340 Set-Up.
+   (See below).
 
 2. Escape sequences (ISO 2022 "shifts") to temporarily change the
    meaning of characters. This will be discussed in greater detail
@@ -79,14 +79,17 @@ typical, while Graphic Right has taken on the Latin-1 character set
 | *14* | SO    | RS    | .    | >    | N    | ^    | n    | ~    | SS2   | PM    | ®    | ¾    | Î    | Þ    | î    | þ    |
 | *15* | SI    | US    | /    | ?    | O    | _    | o    | DEL  | SS3   | APC   | ¯    | ¿    | Ï    | ß    | ï    | ÿ    |
 </details>
-																						  		 			   
+
 ## 1. Latin-1 and friends
 
-The VT340's setup menu does not allow setting GL and GR directly, but
-one can change the displayed character set, which does the same thing.
-For example, the author of this page (hackerb9) prefers to use Latin-1
-and informs programs on the host machine to use that encoding by
-setting the environment variable `LANG` to en_US.iso88591.
+The author of this page (hackerb9) prefers to use Latin-1. There are
+two steps to set that up:
+
+1. In the VT340 SET-UP menu, go to General Set-Up and change User
+   Preference Char Set from DEC-MCS to Latin-1. 
+   
+2. Inform programs on the host machine to use that encoding by setting
+   the environment variable `LANG` to en_US.iso88591.
 
 <ul>
 
@@ -109,7 +112,7 @@ use a VT340 in modern times.</sub>
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
 multiple bytes per character via "shifting". 
-(See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf")).
+(See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf)").
 
 <ul>
 
@@ -133,6 +136,30 @@ In the example above, the first line (`\e+>`) selected "DEC Technical
 Character Set" for G3. The second line (`\eO\x64`) instructed the
 VT340 to temporarily shift in G3 and show codepoint 0x64, which
 happens to be "∂" in DEC Tech (and "d" in ASCII).
+
+
+<UL><SUB>
+
+   The VT340 manual states that, when you turn on or reset the
+   terminal, you automatically select either the DEC multinational
+   character set or ISO Latin-1, depending up on what the user
+   preferred supplemental set is.
+
+   It should be noted that the default assumption that the 8-bit set
+   will be in G1, just as the 7-bit set is in G0, is incorrect. In
+   fact, this is how a VT340's presets look at power on:
+   
+   |         Name | Points to      |   |          Name | Points to      |
+   |-------------:|----------------|---|--------------:|----------------|
+   | Graphic Left | G0             |   | Graphic Right | G2             |
+   |              |                |   |               |                |
+   |           G0 | ASCII          |   |            G1 | ASCII          |
+   |           G2 | MCS or Latin-1 |   |            G3 | MCS or Latin-1 |
+
+   The rationale behind this is not yet clear.
+
+</sub></ul>
+
 
 ### How many characters can the VT340 show using ISO-2022?
 
