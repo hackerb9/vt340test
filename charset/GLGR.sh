@@ -21,13 +21,19 @@ LS3R="${ESC}|"		# Locking Shift G3 Right
 # locking shift is invoked.
 
 cleanup() {
+    # Ugh. There appears to be no way to restore the state of GL and GR.
+    # (Single-shift only works for showing G2 and G3.)
+    # We'll just presume GL=G0 and GR=G1.
     printf "${LS0}${LS1R}"	# Set Graphic Left to G0, Graphic Right to G1
 }
 trap cleanup EXIT
 
 main() {
+    printf "      %30s      %30s\n"  "Graphic Left" "Graphic Right"
+    printtable
+    printf "\n"
     printf "${LS0}${LS1R}"	# Set Graphic Left to G0, Graphic Right to G1
-    printf "      %30s      %30s\n"  "Graphic Left (G0)" "Graphic Right (G1)"
+    printf "      %30s      %30s\n"  "(G0)" "(G1)"
     printtable
     printf "\n"
     printf "      %30s      %30s\n"  "(G2)" "(G3)"
@@ -36,20 +42,32 @@ main() {
 }
 
 printtable() {
-    # Show all "graphic" (non-control) characters. Left is 7-bit, Right 8-bit.
-    # Before calling this, use a locking shift to set GL and GR.
+    # Show all "graphic" (non-control) characters.
+    # Defaults to showing GL as 7-bit, GR as 8-bit.
+    # If arguments are given,
+    #   $1 is a single shift for GL
+    #   $2 is a single shift for GR
+    local SSL SSR
 
-    # Plus 8
-    p8=([2]=A [3]=B [4]=C [5]=D [6]=E [7]=F)
+    if [[ "$1" && "$2" ]]; then
+	SSL="$1"
+	SSR="$2"
+	# Do not add 80 to ASCII chars for GR
+	p8=([2]=2 [3]=3 [4]=4 [5]=5 [6]=6 [7]=7)
+    else
+	SSL="" SSR=""
+	# Plus 8
+	p8=([2]=A [3]=B [4]=C [5]=D [6]=E [7]=F)
+    fi
 
     for a in {2..7}; do
 	printf "    "
 	for b in {0..9} {A..F}; do
-	    printf " \x$a$b"
+	    printf " ${SSL}\x$a$b"
 	done
 	printf "\t"
 	for b in {0..9} {A..F}; do
-	    printf " \x${p8[$a]}$b" 
+	    printf " ${SSR}\x${p8[$a]}$b" 
 	done
 	printf "\n"
     done
