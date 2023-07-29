@@ -206,7 +206,7 @@ CHARMAP
 <U22A3>     /xc1         Left Tack
 <U2359>     /xc2         Delta Underbar
 % Is this how modern APL emits the underscore characters?
-% Mathematical Italic Capital letters + combining low line (U+0332)?
+% Mathematical Italic Capital letters (+ combining low line (U+0332))?
 <U1D434>    /xc3         A
 <U1D435>    /xc4         B
 <U1D436>    /xc5         C
