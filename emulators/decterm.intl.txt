@@ -1,0 +1,395 @@
+Extracts from [Writing Software for the International
+Market](https://www.cs.auckland.ac.nz/references/unix/digital/AQ0R4CTE/DOCU_006.HTM),
+Digital Unix Library, March 1996.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2.7.3.9 DECterm Graphics V1.1 The following information is specific to
+DECterm graphics:
+
+	In some cases, a private colormap is created in DECterm. This
+	private colormap is created when ReGIS or Sixel graphics are
+	displayed in the window and a sufficient number of colors from the
+	default colormap cannot be allocated. The result is that when the
+	DECterm window has input focus, the colormap changes for the
+	entire workstation. The default colormap is four colors on a
+	four-plane or monochrome system and 16 colors on color systems
+	with more than four planes.
+
+	To restore a DECterm window to the default colormap, select Clear
+	Display from the Commands menu to clear the window. Then select
+	Reset Terminal from the Commands menu to reset the terminal.
+
+	Only graphics, not text, are written to the graphics backing
+	store. When part of a window has to be redrawn in DECterm, the
+	graphics portion of the window is drawn first, then the text is
+	overlaid. As a result, the redrawn window might not look the same
+	as the original picture.
+
+	ReGIS addresses the entire window, not just 24 rows and 80
+	columns, so the aspect ratio between text and graphics might not
+	always be the same as on the VT330 or VT340 terminal.
+
+	The following ReGIS features are not implemented:
+	    Command Display mode
+	    Scrolling
+	    Output cursors 
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    4    Using Screen-Handling Routines for Character-Cell Terminals
+    4.2    Drawing Ruled Lines in a DECterm Window
+
+    Programming guides for video terminals discuss how you use ANSI escape
+    sequences to perform operations, such as inserting and deleting
+    characters, inserting and removing blank lines, and requesting
+    character display in double height and width. Because a DECterm window
+    is a terminal emulator, these escape sequences also apply to programs
+    that display text and graphics in a DECterm window.
+
+    Digital UNIX enhancements for Asian languages include additional
+    escape sequences for drawing and removing ruled lines in a specified
+    area of a DECterm window. These additional escape sequences allow
+    applications to construct tables and diagrams. The feature is a market
+    requirement for Japanese terminals but has been incorporated into
+    DECterm software for all terminal types.
+
+    The following sections describe the escape sequences that draw and
+    erase lines according to pattern and area parameters.
+
+4.2.1    Drawing Ruled Lines in a Pattern
+
+The escape sequence identified by the mnemonic DECDRLBR draws ruled lines on
+the boundaries of a rectangular area according to a specified pattern. The
+following table provides format information:
+
+┏━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Mnemonic  │ Description       │ Sequence                                    ┃
+┠───────────┼───────────────────┼─────────────────────────────────────────────┨
+┃ DECDRLBR  │ Draws ruled lines │ CSI P1;Px;Plx;Py;Ply ,r where:              ┃
+┃           │ on the boundaries │                                             ┃
+┃           │ of a rectangular  │ P1 indicates the pattern of drawing ruled   ┃
+┃           │ area              │ lines. P1 indicates whether lines are drawn ┃
+┃           │                   │ on all sides of the rectangular area, on    ┃
+┃           │                   │ the left and right sides only, on the top   ┃
+┃           │                   │ and bottom only, and so forth.              ┃
+┃           │                   │                                             ┃
+┃           │                   │ Px indicates the absolute position of the   ┃
+┃           │                   │ start point in columns.                     ┃
+┃           │                   │                                             ┃
+┃           │                   │ Plx indicates the width of the area in      ┃
+┃           │                   │ columns.                                    ┃
+┃           │                   │                                             ┃
+┃           │                   │ Py indicates the absolute position of the   ┃
+┃           │                   │ start point in rows.                        ┃
+┃           │                   │                                             ┃
+┃           │                   │ Ply indicates the height of the area in     ┃
+┃           │                   │ rows.                                       ┃
+┃           │                   │                                             ┃
+┃           │                   │                                             ┃
+┗━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+When the DECDRLBR escape sequence is received from an application, DECterm
+software draws ruled lines on one or more of the boundaries of the area between
+the coordinates(Px,Py ) and(Px+Plx-1, Py+Ply -1) according to the pattern
+specified in P1. Consider the following example:
+
+CSI 15 ; 1 ; 5 ; 1 ; 2 , r
+
+The preceding escape sequence causes DECterm software to draw ruled lines as
+shown in Figure 4-1.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Figure 4-1: Drawing Ruled Lines with the DECDRLBR Sequence
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[FIGU_006]
+
+
+DECterm software draws ruled lines that are one pixel in width. When the
+display scrolls, these lines correctly scroll as if text.
+
+Figure 4-2 and the table following the figure describe the bit pattern that the
+DECDRLBR parameters map to.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Figure 4-2: Bit Pattern for DECDRLBR Parameters
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[FIGU_008]
+
+
+┏━━━━━━━━┯━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Bit    │ Bit Value │ Description                        ┃
+┠────────┼───────────┼────────────────────────────────────┨
+┃ Bit 0  │ 1         │ Draws line on the bottom boundary  ┃
+┠────────┼───────────┼────────────────────────────────────┨
+┃ Bit 1  │ 2         │ Draws line on the right boundary   ┃
+┠────────┼───────────┼────────────────────────────────────┨
+┃ Bit 2  │ 4         │ Draws line on the top boundary     ┃
+┠────────┼───────────┼────────────────────────────────────┨
+┃ Bit 3  │ 8         │ Draws line on the left boundary    ┃
+┗━━━━━━━━┷━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+The DECDRLBR parameters are more completely described in the following list:
+
+
+  • Pattern of ruled lines(P1 )
+
+    The pattern is a bitmask that controls how the ruled lines are drawn on the
+    boundaries of the area. Ruled lines are drawn according to whether the bits
+    for the boundaries are set on or off. For example, ruled lines are drawn on
+    all boundaries if P1 is set to 15 and on the top and bottom boundary if P1
+    is set to 5:
+
+    Boundary : Bottom   Right   Top    Left
+    P1       = Bit0   + Bit1  + Bit2 + Bit3
+    P1       = 1      + 2     + 4    + 8      = 15
+    P1       = 1              + 4             =  5
+
+  • Absolute position of the start point(Px,Py )
+
+    Px is the starting column position and Py is the starting row position. If
+    you omit these parameters or explicitly set them to 0 (zero), the starting
+    position is at column 1 and row 1. In other words, the upper left corner of
+    the rectangle is at the coordinates (1,1).
+
+  • Size of the area(Plx,Ply )
+
+    Plx is the width of the area in columns and Ply is the height of the area
+    in rows. If you omit these parameters or explicitly set them to 0 (zero),
+    the area is 1 column in width and 1 row in height.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.2.2    Erasing Ruled Lines in a Pattern
+
+The escape sequence DECERLBRP erases ruled lines on the boundaries of a
+rectangular area according to a specified pattern. The following table provides
+format information:
+
+┏━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Mnemonic   │ Description      │ Sequence                                    ┃
+┠────────────┼──────────────────┼─────────────────────────────────────────────┨
+┃ DECERLBRP  │ Erases ruled     │ CSI P1;Px;Plx;Py ,s where: P1 indicates the ┃
+┃            │ lines on the     │ pattern of drawing ruled lines. P1          ┃
+┃            │ boundaries of a  │ indicates whether lines are drawn on all    ┃
+┃            │ rectangular      │ sides of the rectangular area, on the left  ┃
+┃            │ area             │ and right sides only, on the top and bottom ┃
+┃            │                  │ only, and so forth.                         ┃
+┃            │                  │                                             ┃
+┃            │                  │ Px indicates the absolute position of the   ┃
+┃            │                  │ start point in columns.                     ┃
+┃            │                  │                                             ┃
+┃            │                  │ Plx indicates the width of the area in      ┃
+┃            │                  │ columns.                                    ┃
+┃            │                  │                                             ┃
+┃            │                  │ Py indicates the absolute position of the   ┃
+┃            │                  │ start point in rows.                        ┃
+┃            │                  │                                             ┃
+┃            │                  │ Ply indicates the height of the area in     ┃
+┃            │                  │ rows.                                       ┃
+┃            │                  │                                             ┃
+┃            │                  │                                             ┃
+┗━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.2.3    Erasing All Ruled Lines in an Area
+
+The escape sequence DECERLBRA erases all ruled lines, not just those drawn on
+the area boundaries, in a rectangular area. The following table provides format
+information:
+
+┏━━━━━━━━━━━━┯━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Mnemonic   │ Description │ Sequence                                         ┃
+┠────────────┼─────────────┼──────────────────────────────────────────────────┨
+┃ DECERLBRA  │ Erases      │ CSI P1;Px;Plx;Py;Ply ,t where: P1 determines     ┃
+┃            │ ruled lines │ whether the area encompasses the entire display  ┃
+┃            │ within a    │ screen or a specific section of the screen. When ┃
+┃            │ rectangular │ P1 is the value 1, DECterm software erases all   ┃
+┃            │ area        │ ruled lines on the screen. In this case, the     ┃
+┃            │             │ parameters Px, Plx, Py, and Ply are ignored.     ┃
+┃            │             │ When P1 is the value 2, DECterm software erases  ┃
+┃            │             │ all ruled lines within a rectangular area        ┃
+┃            │             │ defined by the parameters Px, Plx, Py, and Ply.  ┃
+┃            │             │ When P1 is omitted or explicitly set to 0        ┃
+┃            │             │ (zero), DECterm software erases all ruled lines  ┃
+┃            │             │ on the screen (the same result as for the value  ┃
+┃            │             │ 1, which is the default).                        ┃
+┃            │             │                                                  ┃
+┃            │             │ Px indicates the absolute position of the start  ┃
+┃            │             │ point in columns.                                ┃
+┃            │             │                                                  ┃
+┃            │             │ Plx indicates the width of the area in columns.  ┃
+┃            │             │                                                  ┃
+┃            │             │ Py indicates the absolute position of the start  ┃
+┃            │             │ point in rows.                                   ┃
+┃            │             │                                                  ┃
+┃            │             │ Ply indicates the height of the area in rows.    ┃
+┃            │             │                                                  ┃
+┃            │             │                                                  ┃
+┗━━━━━━━━━━━━┷━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.2.4    Interaction of Ruled Lines and Other DECterm Escape Sequences
+
+Table 4-18 describes the effect of using standard DECterm escape sequences when
+ruled lines are drawn on the screen. 
+
+      Table 4-18: Behavior of Standard Escape Sequences with Ruled Lines
+┏━━━━━━━━━━┯━━━━━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Mnemonic │ Description     │ Effect on Ruled Lines                          ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ DECDWL,  │ Display as      │ These escape sequences have no effect on ruled ┃
+┃ DECDHLT, │ double width or │ lines, whose width is always one pixel.        ┃
+┃ DECDHLB  │ double height   │ Furthermore, the parameter units for the       ┃
+┃          │                 │ escape sequences controlling ruled line        ┃
+┃          │                 │ display are always specified in terms of       ┃
+┃          │                 │ single width and single height columns and     ┃
+┃          │                 │ rows, even when the escape sequences are used  ┃
+┃          │                 │ with those that double the height and width of ┃
+┃          │                 │ text.                                          ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ GSM      │ Modify graphic  │ These escape sequences have no effect on ruled ┃
+┃          │ size            │ lines, whose width is always one pixel.        ┃
+┃          │                 │ Comments made in the entry for DECDWL,         ┃
+┃          │                 │ DECDHLT, and DECDHLB also apply to GSM.        ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ ED, EL,  │ Erase display,  │ These escape sequences do not erase ruled      ┃
+┃ ECH      │ erase line, and │ lines, only the characters within the          ┃
+┃          │ erase           │ boundaries of the ruled lines. For example:    ┃
+┃          │ character       │                                                ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │ |ABCDEF|abcdef|     |      |      |            ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|     |      |      |            ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ DL       │ Delete line     │ This escape sequence erases both lines of      ┃
+┃          │                 │ characters and ruled lines at the active       ┃
+┃          │                 │ position of deletion. The text lines and       ┃
+┃          │                 │ accompanying ruled lines that follow the       ┃
+┃          │                 │ deletion point are scrolled up. For example:   ┃
+┃          │                 │                                                ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │ |ABCDEF|abcdef|     |123456|123456|            ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|                                ┃
+┃          │                 │ +------+------+                                ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ IL       │ Insert line     │ This escape sequence causes insertion of blank ┃
+┃          │                 │ lines at the active position. It causes both   ┃
+┃          │                 │ text and accompanying ruled lines currently at ┃
+┃          │                 │ the active position to be scrolled down. For   ┃
+┃          │                 │ example:                                       ┃
+┃          │                 │                                                ┃
+┃          │                 │ +------+------+                                ┃
+┃          │                 │ |ABCDEF|abcdef|                                ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|     |ABCDEF|abcdef|            ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │                     |123456|123456|            ┃
+┃          │                 │                     +------+------+            ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ DCH      │ Delete          │ This escape sequence does not delete ruled     ┃
+┃          │ character       │ lines. The following example shows the result  ┃
+┃          │                 │ of deleting four characters at the third       ┃
+┃          │                 │ column position:                               ┃
+┃          │                 │                                                ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │ |ABCDEF|abcdef|     |ABabcd|ef    |            ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|     |123456|123456|            ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ ICH      │ Insert          │ This escape sequence causes blank spaces to be ┃
+┃          │ character       │ inserted at the active position but has no     ┃
+┃          │                 │ effect on ruled lines. The following example   ┃
+┃          │                 │ shows the result of inserting four characters  ┃
+┃          │                 │ at the third column position:                  ┃
+┃          │                 │                                                ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │ |ABCDEF|abcdef|     |AB    |CDEFab|cdef        ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|     |123456|123456|            ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ IRM      │ Invoke insert/  │ Insert/replace mode has no effect on ruled     ┃
+┃          │ replace mode    │ lines. The following example shows the result  ┃
+┃          │                 │ of inserting the characters w, x, y, and z at  ┃
+┃          │                 │ the third column position and replacing the    ┃
+┃          │                 │ character f with s:                            ┃
+┃          │                 │                                                ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │ |ABCDEF|abcdef|     |ABwxyz|CDEFab|cdes        ┃
+┃          │                 │ +------+------+ --> +------+------+            ┃
+┃          │                 │ |123456|123456|     |123456|123456|            ┃
+┃          │                 │ +------+------+     +------+------+            ┃
+┃          │                 │                                                ┃
+┃          │                 │                                                ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ DECCOLM  │ Invoke column   │ Ruled lines are erased with accompanying text  ┃
+┃          │ mode            │ when column mode is in effect.                 ┃
+┠──────────┼─────────────────┼────────────────────────────────────────────────┨
+┃ RIS,     │ Reset to        │ The RIS sequence erases all ruled lines        ┃
+┃ DECSTR   │ initial state   │ displayed on the screen while the DECSTR       ┃
+┃          │ and soft        │ sequence does not. Note that the Clear Display ┃
+┃          │ terminal,       │ option on the DECterm Commands menu erases all ┃
+┃          │ invoke reset    │ ruled lines whereas the Reset Terminal option  ┃
+┃          │ SETUP mode      │ does not.                                      ┃
+┗━━━━━━━━━━┷━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.2.5    Determining if the DECterm Device Setting Supports Ruled Lines
+
+The feature that allows applications to draw ruled lines is enabled only when a
+DECterm window is emulating a terminal type that supports this feature. Your
+application can check for device support by requesting primary device
+attributes from DECterm software.
+
+VT terminals and DECterm software return a primary device attributes report on
+request from applications. If the extension value 43 is included in this
+report, drawing ruled lines is enabled for the device. This extension is valid
+at a level-2 video display or higher. For example, if a DECterm window is
+emulating a VT382-J terminal, which is the Japanese version of a VT382, the
+primary device attributes are generated as follows:
+
+CSI ? 63 ; 1 ; 2 ; 4 ; 5 ; 6 ; 7 ; 8 ; 10 ; 15 ; 43 c
+
+Applications can send either the CSI c or CSI 0 c escape sequence to a VT
+terminal or DECterm software to request a device attributes report.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.3    DECterm Programming Restrictions
+
+This section discusses DECterm software restrictions with respect to terminal
+programming features discussed in hardware manuals.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.3.1    Downline Loadable Characters
+
+DECterm software does not support the downline loadable characters that are
+used for preloading and on-demand loading of terminals. The software ignores
+the escape sequence for these characters.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4.3.2    DRCS Characters
+
+DECterm software supports only the Standard Character Set (SCS) component of
+DRCS. When DECterm software receives the SCS characters, it searches the X
+window server for the fonts with XLFD named as -*-dec-drcs and treats them as a
+soft character set. The software ignores the DECDLD control string sent by the
+terminal programming application.
+
