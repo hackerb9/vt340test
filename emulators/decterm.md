@@ -10,12 +10,14 @@ limitations.
 * DECterm can emulate Japanese features (in VT382-J mode) that were
   not present in the VT340. 
   
+## Device Attributes  
+  
 * In VT382-J mode, the DECterm's Primary Device Attributes are
   generated as follows:
 
 	    CSI ? 63 ; 1 ; 2 ; 4 ; 5 ; 6 ; 7 ; 8 ; 10 ; 15 ; 43 c
 
-  This is almost exactly the same as the VT382 DA report, with the
+  This is almost exactly the same as the [VT382](../docs/kindred/EK-VT382-RM-001_Kanji_Display_Terminal_Programmer_Reference_Manual.pdf) DA report, with the
   addition of extension number "43" (ruled lines), which the VT382-J
   does support despite not advertising it.
 
@@ -45,37 +47,59 @@ limitations.
    | 19  | dual sessions       | X          |                    |
    | 43  | ruled line drawing  |            | X                  |
 
+## Graphics differences
+
 * Unlike a VT340, DECterm supports the Japanese VT382 extension for
   ruled lines. (Primary device attribute extension #43). See section
 	  4.2 of [Writing Software for the International Market](https://www.cs.auckland.ac.nz/references/unix/digital/AQ0R4CTE/DOCU_006.HTM),
 
 * Despite the attributes shown above, DECterm does suppport ReGIS
-  graphics, just without Command Display mode, Scrolling, or Output
-  Cursors. Additionally ReGIS addresses the entire window, not just 24
-  rows and 80 columns, so the aspect ratio between text and graphics
-  might not always be the same as on the VT330 or VT340 terminal.
+  graphics, somewhat.
+  
+  * DECterm lacks the VT340's ReGIS Command Display mode, Scrolling,
+  and Output Cursors.
+  
+  * DECterm's ReGIS addresses the entire window, not just 24 rows and
+  80 columns. The DECterm documentation mentions that this will throw
+  the aspect ratio off between text and graphics. Presumably, this
+  refers to ReGIS's graphical text, not the more ordinary character
+  cell text, which could never be safely mixed with ReGIS graphics.
+  (To mix graphics and character cell text, one should use sixel, not
+  ReGIS).
+
+* The extant documentation for DECterm does not detail the sixel
+  behavior. Hackerb9 suspects that it differs from a VT340's
+  implementation at least in terms of color registers and the sixel
+  palette when multiple images are displayed. Additionally, it is
+  unclear if the sixel canvas is limited to 800x480, as it is on the
+  VT340, or if it is allowed to change with the window size, as modern
+  terminal emulators do. 
+  
+## Character Sets
 
 * DECterm handles character sets differently from a true VT340:
 
   * Does NOT emulate the VT340's Downline Loadable Characters ("soft
-    fonts"). DECDLD control string is ignored. [See 4.3 below.]
+    fonts"). **DECDLD** control string is ignored.
 
   * Does not use the VT382's method for preloading or on-demand
     loading of Asian characters.
 
   * Instead, DEC Character Sets are implemented using X.
   
+	<blockquote>	
     DECterm software supports only the Standard Character Set (SCS)
 	component of DRCS. When DECterm software receives the SCS
 	characters, it searches the X window server for the fonts with
-	XLFD named as -*-dec-drcs and treats them as a soft character set.
-	The software ignores the DECDLD control string sent by the
+	XLFD named as `-*-dec-drcs` and treats them as a soft character set.
+	The software ignores the **DECDLD** control string sent by the
 	terminal programming application.
+	</blockquote>
 
   * Sidenote: DEC didn't have to go that route. 
 
     * See [“RLogin”](http://nanno.dip.jp/softlib/man/rlogin/) for a
-      terminal that does support DECDLD.
+      terminal emulator that does support **DECDLD** soft fonts.
 
     * See [drcsterm](https://pypi.org/project/drcsterm/) for a filter
       that converts UCS Private Area (Plain 16) to Dynamically
@@ -83,7 +107,7 @@ limitations.
 
       * Mapping Rule
 
-      	DRCSTerm uses UCS 16 Plane (U+100000-U+10FFFF). If output
+      	DRCSTerm uses UCS Plane 16 (U+100000-U+10FFFF). If output
 		character stream includes characters in this range, such as;
 
 		U+10*XXYY* ( 0x40 <= 0x*XX* <=0x7E, 0x20 <= 0x*YY* <= 0x7F )
@@ -95,4 +119,6 @@ limitations.
 
       
 * See also, [hackerb9's extracts](decterm.intl.txt) from 
-  [Writing Software for the International Market](../../docs/kindred/vt382/Writing\ International.pdf) from the Digital UNIX documentation Library, March 1996.
+  [Writing Software for the International Market](../docs/kindred/VT382/Writing International.pdf) from the Digital UNIX documentation Library, March 1996.
+
+* http://vt100.net/dec/vt320/soft_characters
