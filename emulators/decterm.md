@@ -119,6 +119,6 @@ limitations.
 
       
 * See also, [hackerb9's extracts](decterm.intl.txt) from 
-  [Writing Software for the International Market](../docs/kindred/VT382/Writing International.pdf) from the Digital UNIX documentation Library, March 1996.
+  [Writing Software for the International Market](../docs/kindred/VT382/Writing%20International.pdf) from the Digital UNIX documentation Library, March 1996.
 
 * http://vt100.net/dec/vt320/soft_characters
