@@ -108,8 +108,8 @@ Locking Shift 0 ('0x0F').
 </sub></ol>
 
 
-| Name            | Mnemonic | Sequence | Hex   | Function                                                  |
-|-----------------|----------|----------|-------|-----------------------------------------------------------|
-| Locking Shift 0 | LS0      | \<SI\>   | 0F    | The G0 character set becomes the active GL character set. |
-| Locking Shift 1 | LS1      | \<SO\>   | 0E    | The G1 character set becomes the active GL character set. |
+| Name            | Mnemonic | Hex   | Function                                                  |
+|-----------------|----------|-------|-----------------------------------------------------------|
+| Locking Shift 0 | LS0      | 0F    | The G0 character set becomes the active GL character set. |
+| Locking Shift 1 | LS1      | 0E    | The G1 character set becomes the active GL character set. |
 
