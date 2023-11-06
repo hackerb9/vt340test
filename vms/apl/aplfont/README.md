@@ -77,7 +77,7 @@ Or, simply download a fixed version from hackerb9's [modified APL font](../aplfo
 
 ### Problem 2: 8-bit codes from a program (GR)
 
-Solution: Program should send **LS1** (`0x0E`), the APL characters, then **LS0** (`0x0F`).
+Solution: Program should send **LS1** (`0x0E`), the APL characters as ASCII, then **LS0** (`0x0F`).
 
 Modern Unicode terminals cannot use Graphic Right 
 to display alternate glyphs because bytes with the high-bit
