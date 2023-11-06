@@ -9,7 +9,7 @@ they do not conflict with UTF-8.
 | VT220    | [APL$VT220_FONT](APL$VT220_FONT.FNT)                 | [APL$VT220_FONT](APL$VT220_FONT) (same as 80-column)        |
 | VT240    | [APL$VT240_FONT](APL$VT240_FONT.FNT) (same as VT220) | [APL$VT240_FONT_132](APL$VT240_FONT_132.FNT)                |
 | VT320    | [APL$VT22O_FONT](APL$VT22O_FONT.FNT)                 | [APL$VT320_FONT_132](APL$VT320_FONT_132.FNT)                |
-| VT330    | [APL$VT330_FONT](APL$VT330_FONT.FNT) (same as VT340) | [APL$VT330_FONT_132](APL$VT330_FONT_132.FNT) (same as VT340 |
+| VT330    | [APL$VT330_FONT](APL$VT330_FONT.FNT) (same as VT340) | [APL$VT330_FONT_132](APL$VT330_FONT_132.FNT) (same as VT340) |
 | VT340    | [APL$VT340_FONT](APL$VT340_FONT.FNT)                 | [APL$VT340_FONT_132](APL$VT340_FONT_132.FNT)                |
 
 Usage is identical to the [original fonts](../aplfont), except that
