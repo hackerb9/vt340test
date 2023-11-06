@@ -21,6 +21,9 @@ VT220 lacks.</sub></sup>
 
 </i></ul>
 
+![Montage of DEC's VT340 APL characters][montage]
+
+[montage]: ../../../charset/uplineload/apl-montage.png "Picture enlarged to show detail"
 
 ## Usage
 
@@ -54,6 +57,12 @@ See [DECAPL](../aplfontsb9/DECAPL.md) for the full character map.
 
 [Dscs]: https://github.com/hackerb9/vt340test/blob/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
 
+### Problem 0: Squished characters in VT340 version.
+
+Some of the VT340 APL characters appear to be half-height, as if they
+had been designed for a VT220 instead of a VT340. See the commentary on
+[hackerb9's modified fonts](../aplfontb9#squished-fonts-on-vt340) for details.
+
 ### Problem 1: 8-bit control codes in font files
 
 The original FNT files do _not_ work on modern unicode terminals 
@@ -68,7 +77,7 @@ Or, simply download a fixed version from hackerb9's [modified APL font](../aplfo
 
 ### Problem 2: 8-bit codes from a program (GR)
 
-Solution: Send **LS1** (`0x0E`), the APL characters, then **LS0** (`0x0F`).
+Solution: Program should send **LS1** (`0x0E`), the APL characters, then **LS0** (`0x0F`).
 
 Modern Unicode terminals cannot use Graphic Right 
 to display alternate glyphs because bytes with the high-bit
@@ -77,21 +86,25 @@ for both old and new terminals is to "shift in" the APL characters
 so that Graphic Left (GL) — a fancy term for plain old 7-bit ASCII 
 — will be displayed as APL. 
 
-DEC's APL font files load themselves into G1 (the terminal's 
-Graphic Set #1). A program can send **LS1** (byte '0x0E'), 
-Locking Shift 1, to signal
+As mentioned above, DEC's APL font files load themselves
+into G1 on the terminal (Graphic Set #1). A program can send
+Locking Shift 1 (byte '0x0E') to signal
 to the terminal that any following ASCII characters should
 be displayed using the font in G1. To return to
-interpreting ASCII characters normally, use **LS0** ('0x0F'),
-Locking Shift 0.
-(G0 is the default Graphic Set which is not necessarily but
-almost invariably just the normal ASCII glyphs).
+interpreting ASCII characters normally, a program sends
+Locking Shift 0 ('0x0F').
 
 <ol><sub>
-	Side note: we use a "locking shift" instead of a "single shift" because
-	the committees somehow omitted SS1 (single shift G1 to GL) from the ANSI
-	standard for terminals. Could they have believed it was superfluous
-	since G1 was trivially displayable using GR at the time?
+	Note 1: G0 is the default Graphic Set which is
+	not necessarily but almost invariably 
+	just the normal ASCII glyphs.<br/><br/>	
+	Note 2: one must use a "locking shift" 
+ 	instead of a "single shift" because
+	the committees somehow omitted SS1 
+	(single shift G1 to GL) from the ANSI
+	standard for terminals. [Could they have
+	believed it was superfluous since G1 was
+	trivially displayable using GR at the time?]
 </sub></ol>
 
 
@@ -99,13 +112,4 @@ almost invariably just the normal ASCII glyphs).
 |-----------------|----------|----------|-------|-----------------------------------------------------------|
 | Locking Shift 0 | LS0      | \<SI\>   | 0F    | The G0 character set becomes the active GL character set. |
 | Locking Shift 1 | LS1      | \<SO\>   | 0E    | The G1 character set becomes the active GL character set. |
-| Locking Shift 2 | LS2      | ESC n    | 1B 6E | The G2 character set becomes the active GL character set. |
-| Locking Shift 3 | LS3      | ESC o    | 1B 6F | The G3 character set becomes the active GL character set. |
 
-
-----------------------------------------------------------------------
-
-## Squished fonts on VT340
-
-Some of the characters appear squashed. See the commentary on
-[hackerb9's modified fonts](../aplfontb9) for details.
