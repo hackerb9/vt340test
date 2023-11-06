@@ -51,7 +51,7 @@ they are automatically loaded as G1 (Graphic Set #1).
 
 By default the VT340 uses G1 for displaying "Graphic Right", 
 that is, it is the font for the 8-bit characters 0xA1 to 0xFE. 
-See [DECAPL](../aplfontsb9/DECAPL.md) for the full character map. 
+See [DECAPL](../aplfontb9/DECAPL.md) for the full character map. 
 
 [DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
 
