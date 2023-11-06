@@ -12,14 +12,14 @@ These files are the "soft fonts" that DEC shipped with VAX APL.
 | VT330      | [APL$VT330_FONT](APL$VT330_FONT.FNT) | [APL$VT330_FONT_132](APL$VT330_FONT_132.FNT) |
 | VT340      | [APL$VT340_FONT](APL$VT340_FONT.FNT) | [APL$VT340_FONT_132](APL$VT340_FONT_132.FNT) |
 
-<ul><sub><i>
+<ul><i>
 
-Duplicates: The [install file](../saveset/A/kitinstal.com) copies the
+<sup><sub>Duplicates: The [install file](../saveset/A/kitinstal.com) copies the
 VT220 80-column font as "VT240" and both the 80- and 132-column VT330
 fonts as "VT340". Note that the VT240 has a 132-column font which the
-VT220 lacks.
+VT220 lacks.</sub></sup>
 
-</i></sub></ul>
+</i></ul>
 
 
 ## Usage
