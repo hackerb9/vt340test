@@ -1,4 +1,4 @@
-# The APL soft fonts from DEC and their discontents
+# The APL soft fonts from DEC and how to use them
 
 These files are the "soft fonts" that DEC shipped with VAX APL. 
 
