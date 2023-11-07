@@ -161,6 +161,23 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 </sub></ul>
 
 
+### Example: APL
+
+The VAX/VMS APL program manual shows that all four intermediate sets
+were mapped:
+
+| Set | Mapping          | Escape sequence |
+|-----|------------------|-----------------|
+| G0  | ASCII            | ESC(B           |
+| G1  | APL Composite    | ESC)&0          |
+| G2  | Latin-1 or MCS   | ESC.A or ESC(<  |
+| G3  | Special Graphics | ESC+0           |
+
+(See [APL Composite font](../vms/apl/aplfont/README.md).)
+
+It does not appear that Graphic Right (8-bit charcters) was changed,
+so it would have stayed at the power on default of G2.
+
 ### How many characters can the VT340 show using ISO-2022?
 
 While setting G0 through G3 could be done one at a time, some
