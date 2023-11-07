@@ -281,14 +281,14 @@ gives the sequences that select the available 96-Character Sets.
 | DEC Technical          | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
 |                        |                 |                 |                   |                 |
 | _Not builtin to VT340_ | ____            | ____            | ____              | ____            |
-| ISO Norwegian/Danish   | ESC(\‘           | ESC)\`          | ESC\*\`           | ESC+\`          |
+| ISO Norwegian/Danish   | ESC(\‘          | ESC)\`          | ESC\*\`           | ESC+\`          |
 | JIS Roman              | ESC(J           | ESC)J           | ESC\*J            | ESC+J           |
 | ISO Katakana           | ESC(I           | ESC)I           | ESC\*I            | ESC+I           |
 | 7-Bit Hebrew           | ESC(%=          | ESC)%=          | ESC\*%=           | ESC+%           |
-| Hebrew Supplemental    | ESC(“4           | ESC)”4           | ESC\*”4            | ESC+”4           |
+| Hebrew Supplemental    | ESC(“4          | ESC)”4          | ESC\*”4           | ESC+”4          |
 | 7-Bit Turkish          | ESC(%2          | ESC)%2          | ESC\*%2           | ESC+%2          |
 | Turkish Supplemental   | ESC(%0          | ESC)%0          | ESC\*%0           | ESC+%0          |
-| Greek Supplemental     | ESC(“?           | ESC)”?           | ESC\*”?            | ESC+”?           |
+| Greek Supplemental     | ESC(“?          | ESC)”?          | ESC\*”?           | ESC+”?          |
 | APL Key Paired         | ESC(8           | ESC)8           | ESC\*8            | ESC+8           |
 | APL Composite          | ESC(&0          | ESC)&0          | ESC\*&0           | ESC+&0          |
 </ul>
