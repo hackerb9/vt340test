@@ -25,6 +25,8 @@ VT220 lacks.</sub></sup>
 
 [montage]: ../../../charset/uplineload/apl-montage.png "Picture enlarged to show detail"
 
+
+
 ## Usage
 
 To load the font into the terminal as G1:
@@ -59,10 +61,6 @@ Dynamically Redefinable Character Set ("DRCS") with [SCS designator][Dscs]
 `&0`. Because the files end with the byte sequence `ESC` `)` `&` `0`, 
 they are automatically loaded as G1 (Graphic Set #1).
 
-By default the VT340 uses G1 for displaying "Graphic Right", that is,
-it is the font for the 8-bit characters 0xA1 to 0xFE. See
-[DECAPL](../aplfontb9/DECAPL.md) for the full character map.
-
 [DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
 
 [Dscs]: https://github.com/hackerb9/vt340test/blob/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
@@ -87,12 +85,16 @@ Shift 0 ('0x0F').
 
 | Name                  | Mnemonic | Hex   | Set the active GL character set to |
 |-----------------------|----------|-------|------------------------------------|
-| Locking Shift 0       | LS0      | 0F    | The G0 character set.              |
-| Locking Shift 1       | LS1      | 0E    | The G1 character set.              |
+| Locking Shift 0       | LS0      | 0F    | the G0 character set.              |
+| Locking Shift 1       | LS1      | 0E    | the G1 character set.              |
 
 
 
 <details><summary><h3>Discussion on using 8-bit characters</h3></summary>
+
+By default the VT340 uses Intermediate Graphics Set G2 for displaying
+"Graphic Right", that is, it looks in G2 for the font to display the
+8-bit characters 0xA1 to 0xFE. (Usually, G2 holds the Latin-1 font.)
 
 Modern Unicode terminals cannot use Graphic Right to display alternate
 glyphs because bytes with the high-bit set are reserved for UTF-8
@@ -106,15 +108,21 @@ into GR and only switch it out if one wanted to use characters from
 the Latin-1 _répertoire_.
 
 Of course, now that UTF-8 is the standard for terminals, there is no
-point in using Graphic Right for this kind of optimization. However,
-if you wish to do it, you'd simply use the "Right" versions of the
-Locking shift. Note that the VT340's default Graphic Right is G2,
-which is typically Latin-1 (or the nearly identical MCS).
+point in using Graphic Right for this kind of optimization. 
+
+However, if you wish to do it, the key is to simply use the "Right"
+versions of the Locking shift. In particular, shift in G1 to GR using
+**LS1R**. From then on, ASCII characters can be used as normal and APL
+can be shown any time using 8-bit characters. See
+[DECAPL](../aplfontb9/DECAPL.md) for a full character map.
+
+To reset the terminal to the default, use **LS2R** to shift G2 to GR.
+That will once again allow access to Latin-1 characters. 
 
 | Name                  | Mnemonic | Hex   | Set the active GR character set to |
 |-----------------------|----------|-------|------------------------------------|
-| Locking Shift 1 Right | LS1R     | 1B 7E | The G1 character set.              |
-| Locking Shift 2 Right | LS2R     | 1B 7D | The G2 character set.              |
+| Locking Shift 1 Right | LS1R     | 1B 7E | the G1 character set.              |
+| Locking Shift 2 Right | LS2R     | 1B 7D | the G2 character set.              |
 
 </details>
 
@@ -153,5 +161,14 @@ Or, simply download a fixed version from hackerb9's [modified APL font](../aplfo
 	standard for terminals. [Could they have
 	believed it was superfluous since G1 was
 	trivially displayable using GR at the time?]
+</sub></ol>
+
+<ol><sub> 
+	Note 3: Technically, the default for G2 on a VT340 is "MCS",
+	the DEC Multilingual Character Set. However, since it is so
+ 	similar to the much better known Latin-1, I just call it "Latin-1".
+    Additionally, anyone who uses a VT340 in modern times
+    probably has configured it to genuine Latin-1. (I certainly recommend
+	doing that.)
 </sub></ol>
 
