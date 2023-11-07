@@ -27,19 +27,29 @@ VT220 lacks.</sub></sup>
 
 ## Usage
 
-To load the font into the terminal (G1 and GR):
+To load the font into the terminal as G1:
 
     cat 'APL$VT340_FONT.FNT'
     
-To show an APL character on a non-unicode terminal:
-    
-    echo $'The VT340 can show Domino as character 0xE1: \xe1'
-
-Any terminal, unicode or not, can use locking shifts:
+To show an APL character on VT340 and modern terminals, use locking shifts:
 
     LS0=$'\x0F'
     LS1=$'\x0E'
     echo "With UTF-8, Domino is the letter 'a' after 0x0E: ${LS1}a${LS0}"
+
+<details><summary><h3>Alternate method using 8-bit characters</h3></summary>
+
+This works on a VT340 and other Latin-1 terminals, but is not
+compatible with modern UTF-8 terminals.
+    
+    LS1R=$'\x1B\x7E'
+    LS2R=$'\x1B\x7D'
+
+	echo ${LS1R} 		# Map GR as G1 (APL)
+    echo $'The VT340 can show Domino as character 0xE1: \xe1'
+	echo ${LS2R} 		# Map GR as G2 (Default, usually Latin-1 on VT340)
+
+</details>
 
 ## Discussion
 
@@ -49,13 +59,66 @@ Dynamically Redefinable Character Set ("DRCS") with [SCS designator][Dscs]
 `&0`. Because the files end with the byte sequence `ESC` `)` `&` `0`, 
 they are automatically loaded as G1 (Graphic Set #1).
 
-By default the VT340 uses G1 for displaying "Graphic Right", 
-that is, it is the font for the 8-bit characters 0xA1 to 0xFE. 
-See [DECAPL](../aplfontb9/DECAPL.md) for the full character map. 
+By default the VT340 uses G1 for displaying "Graphic Right", that is,
+it is the font for the 8-bit characters 0xA1 to 0xFE. See
+[DECAPL](../aplfontb9/DECAPL.md) for the full character map.
 
 [DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
 
 [Dscs]: https://github.com/hackerb9/vt340test/blob/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
+
+### Detailed walkthrough of LS1, LS0
+
+As a reminder, this APL font is used by a program sending **LS1**
+(`0x0E`), the APL characters as ASCII, then **LS0** (`0x0F`).
+
+The solution that works for both old and new terminals is to "shift
+in" the APL characters to "Graphic Left" (GL) — a fancy term for how
+the terminal interprets characters from 0x20 to 0x7F, which is usually
+just plain old 7-bit ASCII. Once shifted, ASCII values will display as
+APL instead of ASCII text.
+
+As mentioned above, DEC's APL font files load themselves into G1 on
+the terminal (Intermediate Graphic Set #1). A program can send Locking
+Shift 1 (byte '0x0E') to signal to the terminal that all following
+ASCII characters should be displayed using the font in G1. To return
+to interpreting ASCII characters normally, a program can send Locking
+Shift 0 ('0x0F').
+
+| Name                  | Mnemonic | Hex   | Set the active GL character set to |
+|-----------------------|----------|-------|------------------------------------|
+| Locking Shift 0       | LS0      | 0F    | The G0 character set.              |
+| Locking Shift 1       | LS1      | 0E    | The G1 character set.              |
+
+
+
+<details><summary><h3>Discussion on using 8-bit characters</h3></summary>
+
+Modern Unicode terminals cannot use Graphic Right to display alternate
+glyphs because bytes with the high-bit set are reserved for UTF-8
+sequences. However, a non-Unicode terminal like the VT340 have the
+option to access APL characters more efficiently by using 8-bit
+characters. This saves on the bytes sent every time a program wants to
+switch between 7-bit characters being interpreted as ASCII or APL.
+Since a program will often want to show both, it is plausible that
+20th century programmers would have chosen to simply load the APL font
+into GR and only switch it out if one wanted to use characters from
+the Latin-1 _répertoire_.
+
+Of course, now that UTF-8 is the standard for terminals, there is no
+point in using Graphic Right for this kind of optimization. However,
+if you wish to do it, you'd simply use the "Right" versions of the
+Locking shift. Note that the VT340's default Graphic Right is G2,
+which is typically Latin-1 (or the nearly identical MCS).
+
+| Name                  | Mnemonic | Hex   | Set the active GR character set to |
+|-----------------------|----------|-------|------------------------------------|
+| Locking Shift 1 Right | LS1R     | 1B 7E | The G1 character set.              |
+| Locking Shift 2 Right | LS2R     | 1B 7D | The G2 character set.              |
+
+</details>
+
+
 
 ### Problem 0: Squished characters in VT340 version.
 
@@ -75,41 +138,20 @@ files like so:
 
 Or, simply download a fixed version from hackerb9's [modified APL font](../aplfontb9).
 
-### Problem 2: 8-bit codes from a program (GR)
-
-Solution: Program should send **LS1** (`0x0E`), the APL characters as ASCII, then **LS0** (`0x0F`).
-
-Modern Unicode terminals cannot use Graphic Right 
-to display alternate glyphs because bytes with the high-bit
-set are reserved for UTF-8 sequences. A solution that works 
-for both old and new terminals is to "shift in" the APL characters
-so that Graphic Left (GL) — a fancy term for plain old 7-bit ASCII 
-— will be displayed as APL. 
-
-As mentioned above, DEC's APL font files load themselves
-into G1 on the terminal (Graphic Set #1). A program can send
-Locking Shift 1 (byte '0x0E') to signal
-to the terminal that any following ASCII characters should
-be displayed using the font in G1. To return to
-interpreting ASCII characters normally, a program sends
-Locking Shift 0 ('0x0F').
 
 <ol><sub>
 	Note 1: G0 is the default Graphic Set which is
 	not necessarily but almost invariably 
-	just the normal ASCII glyphs.<br/><br/>	
+	just the normal ASCII glyphs.
+</sub></ol>
+
+<ol><sub>
 	Note 2: one must use a "locking shift" 
  	instead of a "single shift" because
-	the committees somehow omitted SS1 
+	the standards committees somehow omitted SS1 
 	(single shift G1 to GL) from the ANSI
 	standard for terminals. [Could they have
 	believed it was superfluous since G1 was
 	trivially displayable using GR at the time?]
 </sub></ol>
-
-
-| Name            | Mnemonic | Hex   | Function                                                  |
-|-----------------|----------|-------|-----------------------------------------------------------|
-| Locking Shift 0 | LS0      | 0F    | The G0 character set becomes the active GL character set. |
-| Locking Shift 1 | LS1      | 0E    | The G1 character set becomes the active GL character set. |
 
