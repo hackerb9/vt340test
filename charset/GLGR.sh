@@ -71,20 +71,20 @@ printtable() {
     fi
 
     for a in {2..7}; do
-	printf "${LSW}"
 	printf "    "
+	printf "${LSW}"		# Locking shift GL to west charset 
 	for b in {0..9} {A..F}; do
 	    printf " \x$a$b"
 	done
-	printf "${LSE}"
+	printf "${LS0}"		# Reset GL to ASCII
 	printf "\t"
+	printf "${LSE}"		# Locking shift GL to east charset 
 	for b in {0..9} {A..F}; do
 	    printf " ${SSR}\x${p8[$a]}$b" 
 	done
+	printf "${LS0}"		# Reset GL to ASCII
 	printf "\n"
     done
-    # Restore GL to ASCII
-    printf "${LS0}"
 }
 
 
