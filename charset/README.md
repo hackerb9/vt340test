@@ -145,9 +145,9 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
    character set or ISO Latin-1, depending up on what the user
    preferred supplemental set is.
 
-   It should be noted that the default assumption that the 8-bit set
-   will be in G1, just as the 7-bit set is in G0, is incorrect. In
-   fact, this is how a VT340's presets look at power on:
+   It should be noted that the logical assumption that the 8-bit set
+   will be in G1, just as the 7-bit set is in G0, is **incorrect**. In
+   fact, this is how a VT340's presets look at power-on:
    
    |         Name | Points to      |   |          Name | Points to      |
    |-------------:|----------------|---|--------------:|----------------|
@@ -163,20 +163,22 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 
 ### Example: APL
 
-The VAX/VMS APL program manual shows that all four intermediate sets
-were mapped:
+The [VAX/VMS APL User's Guide][APUG] shows that all four intermediate sets
+were mapped to create a "composite" character set:
 
-| Set | Mapping          | Escape sequence |
-|-----|------------------|-----------------|
-| G0  | ASCII            | ESC(B           |
-| G1  | APL Composite    | ESC)&0          |
-| G2  | Latin-1 or MCS   | ESC.A or ESC(<  |
-| G3  | Special Graphics | ESC+0           |
+| Set | Mapping          | Escape sequence                |
+|-----|------------------|--------------------------------|
+| G0  | ASCII            | `ESC` `(` `B`                  |
+| G1  | APL              | `ESC` `)` `&` `0`              |
+| G2  | Latin-1 or MCS   | `ESC` `.` `A` or `ESC` `(` `<` |
+| G3  | Special Graphics | `ESC` `+` `0`                  |
+| GL  | G0               | `0x0F`                         |
+| GR  | G1               | `ESC` `~`                      |
 
-(See [APL Composite font](../vms/apl/aplfont/README.md).)
+(See [APL Composite font](../vms/apl/aplfontb9/DECAPL.md).)
 
-It does not appear that Graphic Right (8-bit charcters) was changed,
-so it would have stayed at the power on default of G2.
+[APLUG]: ../vms/apl/PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
+
 
 ### How many characters can the VT340 show using ISO-2022?
 
