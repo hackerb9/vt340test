@@ -175,12 +175,20 @@ Based on table 1-16 in the VMS APL User's Guide.
 | 5_ | P   | Q   | R   | S   | T   | U   | V   | W   | X   | Y   | Z   | [   | \\  | ]   | ^   | \_  |
 | 6_ | \`  | a   | b   | c   | d   | e   | f   | g   | h   | i   | j   | k   | l   | m   | n   | o   |
 | 7_ | p   | q   | r   | s   | t   | u   | v   | w   | x   | y   | z   | {   | \|  | }   | ~   | ␡   |
-| 8_ | ␦   | ␦   | ␦   | ␦   | IND | NEL | SSA | ESA | HTS | HTJ | VTS | PLD | PLU | RI  | SS2 | SS3 |
-| 9_ | DCS | PU1 | PU2 | STS | CCH | MW  | SPA | EPA | ␦   | ␦   | ␦   | CSI | ST  | OSC | PM  | APC |
-| A_ | ␦   | ¨   | ≤   | ∨   | ∧   | ≠   | ÷   | ×   | ¯   | ⍺   | ⊥   | ∩   | ⌊   | ∊   | ∇   | ∆   |
+| 8_ | ␢   | ␢   | ␢   | ␢   | IND | NEL | SSA | ESA | HTS | HTJ | VTS | PLD | PLU | RI  | SS2 | SS3 |
+| 9_ | DCS | PU1 | PU2 | STS | CCH | MW  | SPA | EPA | ␢   | ␢   | ␢   | CSI | ST  | OSC | PM  | APC |
+| A_ | ␢   | ¨   | ≤   | ∨   | ∧   | ≠   | ÷   | ×   | ¯   | ⍺   | ⊥   | ∩   | ⌊   | ∊   | ∇   | ∆   |
 | B_ | ⍳   | ∘   | ⎕   | ⊤   | ○   | ⍴   | ⌈   | ↓   | ∪   | ⍵   | ⊃   | ⊂   | ←   | ⊢   | →   | ≥   |
 | C_ | ⋄   | ⊣   | ⍙   | 𝐴   | 𝐵   | 𝐶   | 𝐷   | 𝐸   | 𝐹   | 𝐺   | 𝐻   | 𝐼   | 𝐽   | 𝐾   | 𝐿   | 𝑀   |
 | D_ | 𝑁   | 𝑂   | 𝑃   | 𝑄   | 𝑅   | 𝑆   | 𝑇   | 𝑈   | 𝑉   | 𝑊   | 𝑋   | 𝑌   | 𝑍   | ⍝   | ⌶   | ⍎   |
 | E_ | ⍕   | ⌹   | ⍇   | ⍈   | ⍞   | ⍌   | ⍋   | ⍒   | ⍫   | ⍱   | ⍲   | ⍟   | ⊖   | ⍉   | ⌽   | ⍪   |
-| F_ | ⌿   | ⍀   | ⊆   | ⊇   | ≡   | ↑   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | OUT | ⌷   |     |
+| F_ | ⌿   | ⍀   | ⊆   | ⊇   | ≡   | ↑   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   |
 |    | _0  | _1  | _2  | _3  | _4  | _5  | _6  | _7  | _8  | _9  | _A  | _B  | _C  | _D  | _E  | _F  |
+
+Note 1: ␢ represents characters that are unused.
+
+Note 2: "OUT" is at 0xFD in the font but not shown in the user
+guide. 
+
+Note 3: The font does not define 0xFF although the table shows it as a
+Squish Quad.
