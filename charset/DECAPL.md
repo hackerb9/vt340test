@@ -9,17 +9,18 @@
 | 6_ | ⍕  | ⌹  | ⍇  | ⍈  | ⍞  | ⍌  | ⍋  | ⍒  | ⍫  | ⍱  | ⍲  | ⍟  | ⊖  | ⍉  | ⌽  | ⍪  |
 | 7_ | ⌿  | ⍀  | ⊆  | ⊇  | ≡  | ↑  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ␄  | ⌷  |    |
 
-This is the character set which is embedded in the [fonts](README.md)
-which DEC included with APL for the VAX circa 1990 as documented in
-the [Users Guide][APLUG]. Note that this differs from both the
-character set APL uses internally and from the older chart in DEC STD
-107 (1980).
+This is the 7-bit character set which is embedded in the
+[fonts](README.md) which DEC included with APL for the VAX circa 1990
+as documented in the [Users Guide][APLUG]. 
+
+Note that this differs from both the character set APL uses internally
+and from the older chart in DEC STD 107 (1980). It can be used as an
+8-bit charset by setting GR to G1 (see [Composite APL Character Set] below).
 
 [APLUG]: ../PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
 
 To display an APL character, send its GL/ASCII character after **LS1**
-(0x0E) and before **LS0** (0x0F). The "GR" column is only used if GR
-is set to point to G1 (see Composite APL Character Set below).
+(0x0E) and before **LS0** (0x0F). 
 
 | Character | GL | ASCII | Common Name              | DEC VAX APL name      | TTY<br/>input | GR<br/>(8-bit) |
 |-----------|----|-------|--------------------------|-----------------------|---------------|----------------|
@@ -111,7 +112,7 @@ is set to point to G1 (see Composite APL Character Set below).
 | ⌷         | 7a | z     | Squad                    |                       |               | fa             |
 | ⌷         | 7b | {     | Squad                    |                       |               | fb             |
 | ⌷         | 7c | \|    | Squad                    |                       |               | fc             |
-|           | 7d | }     | OUT [_See note 2_]       | _[Unused]_            |               | fd             |
+| OUT       | 7d | }     | OUT [_See note 2_]       | _[Unused]_            |               | fd             |
 | ⌷         | 7e | ~     | Squad                    | Squish Quad           | .SQ           | fe             |
 
 Note 1: The left/right tack convention changed around the turn of the
@@ -138,6 +139,12 @@ The setup is:
 
 ### Escape codes to set up Composite APL
 
+The VMS APL User's Guide says that the VT340 used the "APL Composite
+Character Set". Table 1-16 shows that bytes with the high-bit set
+display the APL glyphs. While this would be more convenient instead of
+constantly sending shifts (LS0, LS1), this technique would not work in
+a modern UTF-8 terminal.
+
 Hackerb9's guess for how to replicate the Composite APL setup: first
 load the APL font (by catting it to the screen) which names the font
 Dscs `&0` and maps it to G1 (`ESC` `)` `&` `0`). Then send these
@@ -154,25 +161,26 @@ escape codes:
 
 To return to normal, remap GR to point to G2: `ESC` `}`.
 
+### Composite APL table
 
+Based on table 1-16 in the VMS APL User's Guide.
 
-### APL in GR (8-bit chars)
-
-Hackerb9 believes that the VAX APL manual says that GR, the active
-8-bit character set, was changed to point to G1 (APL). Meaning, the
-APL program used bytes with the high-bit set to show APL instead of
-shifts (LS0, LS1). This technique would not work in a modern terminal
-which supports UTF-8.
-
-Here are the hexadecimal codes for APL when shifted into GR.
-
-
-|    | _0 | _1 | _2 | _3 | _4 | _5 | _6 | _7 | _8 | _9 | _A | _B | _C | _D | _E | _F |
-|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| A_ |    | ¨  | ≤  | ∨  | ∧  | ≠  | ÷  | ×  | ¯  | ⍺  | ⊥  | ∩  | ⌊  | ∊  | ∇  | ∆  |
-| B_ | ⍳  | ∘  | ⎕  | ⊤  | ○  | ⍴  | ⌈  | ↓  | ∪  | ⍵  | ⊃  | ⊂  | ←  | ⊢  | →  | ≥  |
-| C_ | ⋄  | ⊣  | ⍙  | 𝐴  | 𝐵  | 𝐶  | 𝐷  | 𝐸  | 𝐹  | 𝐺  | 𝐻  | 𝐼  | 𝐽  | 𝐾  | 𝐿  | 𝑀  |
-| D_ | 𝑁  | 𝑂  | 𝑃  | 𝑄  | 𝑅  | 𝑆  | 𝑇  | 𝑈  | 𝑉  | 𝑊  | 𝑋  | 𝑌  | 𝑍  | ⍝  | ⌶  | ⍎  |
-| E_ | ⍕  | ⌹  | ⍇  | ⍈  | ⍞  | ⍌  | ⍋  | ⍒  | ⍫  | ⍱  | ⍲  | ⍟  | ⊖  | ⍉  | ⌽  | ⍪  |
-| F_ | ⌿  | ⍀  | ⊆  | ⊇  | ≡  | ↑  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ␄  | ⌷  |    |
-
+|    | _0  | _1  | _2  | _3  | _4  | _5  | _6  | _7  | _8  | _9  | _A  | _B  | _C  | _D  | _E  | _F  |
+|----|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 0_ | ␀   | ␁   | ␂   | ␃   | ␄   | ␅   | ␆   | ␇   | ␈   | ␉   | ␊   | ␋   | ␌   | ␍   | ␎   | ␏   |
+| 1_ | ␐   | ␑   | ␒   | ␓   | ␔   | ␕   | ␖   | ␗   | ␘   | ␙   | ␚   | ␛   | ␜   | ␝   | ␞   | ␟   |
+| 2_ | ␠   | !   | "   | #   | $   | %   | &   | '   | (   | )   | \*  | +   | ,   | -   | .   | /   |
+| 3_ | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | :   | ;   | \<  | =   | >   | ?   |
+| 4_ | @   | A   | B   | C   | D   | E   | F   | G   | H   | I   | J   | K   | L   | M   | N   | O   |
+| 5_ | P   | Q   | R   | S   | T   | U   | V   | W   | X   | Y   | Z   | [   | \\  | ]   | ^   | \_  |
+| 6_ | \`  | a   | b   | c   | d   | e   | f   | g   | h   | i   | j   | k   | l   | m   | n   | o   |
+| 7_ | p   | q   | r   | s   | t   | u   | v   | w   | x   | y   | z   | {   | \|  | }   | ~   | ␡   |
+| 8_ | ␦   | ␦   | ␦   | ␦   | IND | NEL | SSA | ESA | HTS | HTJ | VTS | PLD | PLU | RI  | SS2 | SS3 |
+| 9_ | DCS | PU1 | PU2 | STS | CCH | MW  | SPA | EPA | ␦   | ␦   | ␦   | CSI | ST  | OSC | PM  | APC |
+| A_ | ␦   | ¨   | ≤   | ∨   | ∧   | ≠   | ÷   | ×   | ¯   | ⍺   | ⊥   | ∩   | ⌊   | ∊   | ∇   | ∆   |
+| B_ | ⍳   | ∘   | ⎕   | ⊤   | ○   | ⍴   | ⌈   | ↓   | ∪   | ⍵   | ⊃   | ⊂   | ←   | ⊢   | →   | ≥   |
+| C_ | ⋄   | ⊣   | ⍙   | 𝐴   | 𝐵   | 𝐶   | 𝐷   | 𝐸   | 𝐹   | 𝐺   | 𝐻   | 𝐼   | 𝐽   | 𝐾   | 𝐿   | 𝑀   |
+| D_ | 𝑁   | 𝑂   | 𝑃   | 𝑄   | 𝑅   | 𝑆   | 𝑇   | 𝑈   | 𝑉   | 𝑊   | 𝑋   | 𝑌   | 𝑍   | ⍝   | ⌶   | ⍎   |
+| E_ | ⍕   | ⌹   | ⍇   | ⍈   | ⍞   | ⍌   | ⍋   | ⍒   | ⍫   | ⍱   | ⍲   | ⍟   | ⊖   | ⍉   | ⌽   | ⍪   |
+| F_ | ⌿   | ⍀   | ⊆   | ⊇   | ≡   | ↑   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | ⌷   | OUT | ⌷   |     |
+|    | _0  | _1  | _2  | _3  | _4  | _5  | _6  | _7  | _8  | _9  | _A  | _B  | _C  | _D  | _E  | _F  |
