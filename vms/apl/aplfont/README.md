@@ -114,7 +114,7 @@ However, if you wish to do it, the key is to simply use the "Right"
 versions of the Locking shift. In particular, shift in G1 to GR using
 **LS1R**. From then on, ASCII characters can be used as normal and APL
 can be shown any time using 8-bit characters. See
-[DECAPL](../aplfontb9/DECAPL.md) for a full character map.
+[DECAPL](../../../charset/DECAPL.md) for a full character map.
 
 To reset the terminal to the default, use **LS2R** to shift G2 to GR.
 That will once again allow access to Latin-1 characters. 

@@ -175,7 +175,7 @@ were mapped to create a "composite" character set:
 | GL  | G0               | `0x0F`                         |
 | GR  | G1               | `ESC` `~`                      |
 
-(See [APL Composite font](../vms/apl/aplfontb9/DECAPL.md).)
+(See [APL Composite font](DECAPL.md).)
 
 [APLUG]: ../vms/apl/PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
 

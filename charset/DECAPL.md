@@ -136,11 +136,11 @@ The setup is:
 |        | G2  | Latin-1 (DEC Supplemental) |
 |        | G3  | DEC Special Graphics       |
 
-### Escape codes to set up
+### Escape codes to set up Composite APL
 
-To replicate the Composite APL setup, one would first load the APL
-font (by catting it to the screen) which names the font Dscs `&0` and
-then maps it to G1. (`ESC` `)` `&` `0`). Then one would use these
+Hackerb9's guess for how to replicate the Composite APL setup: first
+load the APL font (by catting it to the screen) which names the font
+Dscs `&0` and maps it to G1 (`ESC` `)` `&` `0`). Then send these
 escape codes:
 
 | Set | Mapping          | Escape sequence                |
@@ -152,13 +152,17 @@ escape codes:
 | GL  | G0               | `0x0F`                         |
 | GR  | G1               | `ESC` `~`                      |
 
-### APL in GR
+To return to normal, remap GR to point to G2: `ESC` `}`.
 
-If I'm reading the manual correctly, GR, the active 8-bit character
-set, was changed to point to G1 (APL) instead of G2 (Latin-1).
-Meaning, the APL program used bytes with the high-bit set to show APL
-instead of shifts (LS0, LS1). This technique would not work in a
-modern terminal which supports UTF-8. 
+
+
+### APL in GR (8-bit chars)
+
+Hackerb9 believes that the VAX APL manual says that GR, the active
+8-bit character set, was changed to point to G1 (APL). Meaning, the
+APL program used bytes with the high-bit set to show APL instead of
+shifts (LS0, LS1). This technique would not work in a modern terminal
+which supports UTF-8.
 
 Here are the hexadecimal codes for APL when shifted into GR.
 
@@ -171,3 +175,4 @@ Here are the hexadecimal codes for APL when shifted into GR.
 | D_ | 𝑁  | 𝑂  | 𝑃  | 𝑄  | 𝑅  | 𝑆  | 𝑇  | 𝑈  | 𝑉  | 𝑊  | 𝑋  | 𝑌  | 𝑍  | ⍝  | ⌶  | ⍎  |
 | E_ | ⍕  | ⌹  | ⍇  | ⍈  | ⍞  | ⍌  | ⍋  | ⍒  | ⍫  | ⍱  | ⍲  | ⍟  | ⊖  | ⍉  | ⌽  | ⍪  |
 | F_ | ⌿  | ⍀  | ⊆  | ⊇  | ≡  | ↑  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ␄  | ⌷  |    |
+

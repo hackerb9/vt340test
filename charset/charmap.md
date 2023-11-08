@@ -49,7 +49,7 @@ compile a gconv module.
 
 ### Example charmap file: decapl
 
-Here is an example [charmap file](../vms/apl/aplfontb9/decapl.charmap)
+Here is an example [charmap file](decapl.charmap)
 which converts APL symbols, like ⍋, into a byte, such as 0xE6. It
 presumes the VT340 has the APL softfont loaded into Graphic Right,
 which is what happens when an 
