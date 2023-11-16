@@ -20,60 +20,22 @@ here.
 * DECSDM (Sixel Display Mode), when enabled, DISABLES Sixel Scrolling
   in the Graphics Set-up screen and vice versa.
 
-* Showing images with 16 colors messes up text foreground/background. 
-
-  * Soft Terminal Reset does *not* reset color palette.
-
-        CSI ! p
-        echo $'\x9b!p'	 # or $'\e[!p'
-
-
-  * Hard Terminal Reset does reset palette, but it takes a long time to
-    execute as it goes through the whole power-on self-test again.
-    echo $'\ec'
-
-  * It is difficult to reset colors from the builtin setup because the
-    current color map is used for the color setup screen so you can't
-    see what you're doing.
-
-  * To reset colors from keyboard (without needing to look):
-
-        [Set-Up] [Prev Screen] [Do] [Set-Up]
-
-    That pulls up the palette editor and recalls the saved color map.
-
-  * Switching to Tektronix mode and back does not restore the palette.
-
-        echo $'\e[?38h\e[?38l'		# Colors do not change
-
+* Showing images with 16 colors changes text foreground/background,
+  sometimes making them illegible. There is no obvious way to reset
+  the colors. See [Colormap Reset](colormap/colorreset.md) for
+  details.
+  
   * Unlike REGIS, sixel color numbering is different from VT340's
     setup screen numbering! No matter what number you assign a sixel
     color, it is only the order that you did the assignment that
-    matters in terms of where it is put in the VT340 color map.
-    Strangely, the first sixel color defined is mapped to VT color #1,
-    not color #0. The sixth color assigned (color #7) becomes the
+    matters in terms of where it is put in the VT340 color map. Note
+    that the first sixel color defined is mapped to VT color #1, not
+    color #0. The sixth color assigned (color #7) becomes the
     foreground color. The sixteenth assigned color wraps around and
     modifies VT color #0, so to set the background color, one must set
     all the other colors first. This is probably intentional: a sixel
     file that doesn't make use of all 16 colors would not make
     annoying changes to the background.
-
-  * To reset the color palette programmatically, try hackerb9's
-    [resetpalette.sh](colormap/resetpalette.sh) script which uses
-    DECRSTS (Reset Terminal State) to set the color table directly
-    instead of using sixel commands. It uses the actual Color Table
-    Report returned by his VT340+ in response to DECRQTSR (Request
-    Terminal State Report).
-
-  * OPEN QUESTION: How does one convert an image to sixteen colors,
-    but with three of the colors (fg, bg, and bright) fixed and the
-    others free?
-
-  * Note: lsix splits the montage into rows to reduce waiting when
-    there are more than 21 images to show. However, each montage has
-    separate color map, which means the previous row's colors will get
-    messed up. I'm not sure there's a good solution for this other
-    than to force a fixed palette (would grayscale be a good idea?).
 
 ### Number of colors on a genuine VT340
 
@@ -97,6 +59,17 @@ here.
   * When quantizing colors (reducing the color palette to 16) using
     ImageMagick, it may help to specify `-depth 4` so ImageMagick
     doesn't allocate two colors that are functionally identical.
+
+  * OPEN QUESTION: How does one convert an image to sixteen colors,
+    but with three of the colors (fg, bg, and bright) fixed and the
+    others free?
+
+  * Note: [lsix](https://github.com/hackerb9/lsix) splits the montage
+    into rows to reduce waiting when there are more than 21 images to
+    show. However, each montage has separate color map, which means
+    the previous row's colors will get messed up. I'm not sure there's
+    a good solution for this other than to force a fixed palette
+    (would grayscale be a good idea?).
 
 ### VT340 Screen Resolution 
 
@@ -138,10 +111,10 @@ manually change the Sixel Graphics Mode to "Level 2" before using
 media copy. Without that, it sends Level 1 output with pixel aspect
 ratio set to 2:1. 
 
-The script isn't working quite right yet because occasionally the
+~~The script isn't working quite right yet because occasionally the
 VT340 pauses transmission in the middle and causes an 8-bit glitch in
 the output data. (Could just be hackerb9's terminal or his serial port
-connection?)
+connection?)~~ _[Bug was in hackerb9's script]_
 
 ### Keyboard
 
