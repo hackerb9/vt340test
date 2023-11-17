@@ -138,12 +138,12 @@ VT340 to temporarily shift in G3 and show codepoint 0x64, which
 happens to be "∂" in DEC Tech (and "d" in ASCII).
 
 
-<UL><SUB>
-
+<UL>
+   
    The VT340 manual states that, when you turn on or reset the
    terminal, you automatically select either the DEC multinational
-   character set or ISO Latin-1, depending up on what the user
-   preferred supplemental set is.
+   character set or ISO Latin-1, depending upon what the user
+   preferred supplemental set is.</sub>
 
    It should be noted that the logical assumption that the 8-bit set
    will be in G1, just as the 7-bit set is in G0, is **incorrect**. In
@@ -158,7 +158,7 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 
    The rationale behind this is not yet clear.
 
-</sub></ul>
+</ul>
 
 
 ### Example: APL
