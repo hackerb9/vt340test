@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Given a size in pixels, output a square colorwheel for a Sixel
+# capable terminal. Default size 480 pixels.
+# Use +dither if you do not want solid, undithered colors.
+#
+# Mostly based on ImageMagick's documentation on how
+# to create a colorwheel.
+#
+#   "You can generate the separate channel value images, and
+#    Combine the images to generate specific types of images
+#    which are hard to generate in other ways."
+#
+# Written by b9 in 2019, donated to the public domain. Failing that,
+# this is licensed under the CC-0 (do whatever you want) license.
+
+# Use ./colorwheel +dither to disable dithering.
+if [ "$1" = "+dither" ]; then dither=$1; shift; fi
+
+# Use ./colorwheel <size> for a different size square (default 480).
+size=${1:-480}			# width and height of output
+				
+thrice=$((size*3))
+half=$((size/2))
+
+# Number of colors the terminal can show.
+case "${TERM}" in
+    vt340) colors=16  ;;
+    vt330) colors=4   ;;		# Actually, vt330 is grayscale.
+    vt240) colors=4   ;;
+    *)     colors=256 ;;
+esac
+
+# Make the pieces
+cd /tmp
+convert -size ${size}x${thrice} gradient: -rotate 90 \
+	-distort Arc '360 -90.1 500' +repage \
+	-gravity center -crop ${size}x${size}+0+0 +repage  angular.png
+convert -size ${size}x${size} xc:white                     solid.png
+convert -size ${size}x${size} radial-gradient: -negate     radial.png
+
+# Stick them together and show them on the sixel terminal
+convert angular.png solid.png radial.png \
+	-combine -set colorspace HSB \
+	-colorspace sRGB ${dither} -colors ${colors} \
+	sixel:-
+
+rm angular.png solid.png radial.png
