@@ -38,11 +38,10 @@
 
 # Sixel images often do *not* end with a `-` (Graphics New Line = GNL)
 # which sends the sixel cursor down 6 pixels. Any text printed next
-# will potentially overlap the last row of sixels!
-
-# I am not yet positive, but I believe that, in general, applications
-# should send sixel images without a GNL but then send `^J`, a text
-# newline (NL), before displaying more text or graphics.
+# will potentially overlap the last row of sixels! Hackerb9 believes
+# that is correct and, in general, applications should send sixel
+# images without a GNL but then send `^J`, a text newline (NL), before
+# displaying more text or graphics.
 
 # IMPORTANT: sometimes neither a graphics nor a text newline is wanted. 
 # For example, if an image is full screen, either newline would cause
