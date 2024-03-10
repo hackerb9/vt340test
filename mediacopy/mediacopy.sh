@@ -56,6 +56,7 @@ main() {
     outputfile="print.six"	# Default output filename is print.six.
     errorfile=/dev/null		# No debugging file by default. (try --debug --small)
     trimheader=""		# Set this to remove the VT340 sixel header.
+    pngoutput=""		# Set this write PNG format, not sixel.
 
     # Print full screen by default.
     X1=-1; Y1=-1; X2=-1; Y2=-1
@@ -66,10 +67,12 @@ main() {
     # Send the escape sequence to tell terminal to send the screen as sixels
     sendmediacopy
 
+    # Redirect printing to the outputfile, debugging to errorfile.
+    exec >"$outputfile"   2>"$errorfile"
+
     # Receive data from terminal
-    if [[ $hostcomm == 2 ]]; then
-	receivesixeldata
-    fi
+    if [[ $hostcomm == 2 ]]; then receivesixeldata; fi |
+	if [[ $pngoutput ]]; then convert six:- png:-; else cat; fi
 
     # TODO: Check if image got saved to print.six correctly as Level 2.
     # If it didn't, then use ImageMagick to convert the image to the
@@ -88,25 +91,39 @@ parseargs() {
 	case "$1" in
 	    --transparent|--46l) decgpbm_flag=low; shift ;;
 	    --background|--46h) decgpbm_flag=high; shift ;;
- 	    --printer|-p) hostcomm=0; shift ;;
- 	    --host)       hostcomm=2; shift ;;
-	    --output-file|-o) outputfile="${2:-print.six}"; shift 2 ;;
- 	    --debug|-debug) DEBUG=yup; shift ;;
+ 	    --printer) hostcomm=0; shift ;;
+ 	    --host)    hostcomm=2; shift ;;
+	    --output-file|-o)
+		outputfile="${2:-print.six}"
+		shift 2
+		if [[ $outputfile =~ png$ ]]; then pngoutput=Yup; fi
+		;;
+ 	    --debug|-debug) DEBUG=yup;
+			    shift
+			    ;;
 	    --small) # For debugging, we can send just a small cropped part.
 	    	# (100x100, ~30 seconds)
-	    	X1=350; Y1=190; X2=449; Y2=289; shift ;;
+	    	X1=350; Y1=190; X2=449; Y2=289;
+		shift
+		;;
 	    --above|-a) # Snapshot of anything above cursor position
 		echo -n $'\r'		# Move cursor to beginning of line.
 		X1=4095; Y1=0; X2=-1; Y2=-1;
 		shift
 		;;
+
+	    -t|--trim-header) trimheader="Yup"; shift ;;    # For ImageMagick
+	    -T|--no-trim-header) trimheader=""; shift ;;    # \compatible sixel
+
+	    -p|--png)   pngoutput="Yup"; outputfile="print.png"; shift ;;
+	    -P|--sixel) pngoutput=""   ; shift ;;
+
+	    # Handle geometry, e.g., 300x200+50+75
 	    --geometry|-g) shift ;;
-	    *x*|*+*|*-*) # Handle geometry, e.g., 300x200+50+75
+	    *x[0-9]*|*[0-9]x*|*+[0-9]*|*-[0-9]*) 
 		read X1 Y1 X2 Y2 < <(parsegeometry "$1")
 		shift
 		;;
-	    -t|--trim-header) trimheader="Yup"; shift ;;    # For ImageMagick
-	    -T|--no-trim-header) trimheader=""; shift ;;    # \compatible sixel,
 
 	    *) shift ;;		# Ignore unknown fnords.
 	esac    
@@ -277,15 +294,16 @@ sendmediacopy() {
 receivesixeldata() {
     # Receive sixel data until Esc \ is seen on stdin.
 
-    # Redirect printing to the outputfile, debugging to errorfile.
-    exec >"$outputfile"   2>"$errorfile"
-
     while read -r -s -d $'\e'; do
-	if [[ -z "$trimheader" ]]; then echo -n "$REPLY"$'\e'; fi
+	if [[ -z "$trimheader" && -z "$pngoutput" ]]; then
+            echo -n "$REPLY"$'\e'
+	fi
 	read -r -s -N1 next_char
 	cat -v >&2 <<<"Found in header $REPLY Esc $next_char"
 	if [[ "$next_char" == "P" ]]; then break; fi
-	if [[ -z "$trimheader" ]]; then echo -n "$next_char"; fi
+	if [[ -z "$trimheader" && -z "$pngoutput" ]]; then
+	    echo -n "$next_char"
+	fi
     done
     echo "Found Esc P (DCS String Start)" >&2
     echo -n P
