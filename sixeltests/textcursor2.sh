@@ -13,10 +13,19 @@
 #         Same as a TEXT NEWLINE but does not reset column nor scroll screen.
 #
 #     GRAPHIC NEWLINE - A dash ('-') inside the sixel data before ST (Esc \).
-#         Text (usually) overwrites image. Column not reset.
+#         Text (usually) overwrites image. Text cursor column is not reset.
+#
+#         When the image height is a multiple of the character cell height,
+#         the cursor is always moved to the blank line beneath the image.
+#         Hackerb9 suggests not using it for that, though, since a
+#         TEXT NEWLINE (above) works without regard for image height.
 #
 #     NOTHING -
 #         Text always overwrites image. Column not reset.
+#
+#         When the image height is a multiple of the character cell
+#         height, the text cursor is perfectly aligned to overwrite
+#         the bottom line of the image.
 
 # Note: this programs does not demonstrate the difference between text
 # newline, index, and cursor down, hence they are all colored the same.
