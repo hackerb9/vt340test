@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Where is the text cursor placed after various heights of sixels when
-# separated by GNL.
+# separated by GNL? Note that the VT340 behaviour is only valid for 20
+# pixel high fonts.
 
 #     GRAPHIC NEWLINE - A dash ('-') inside the sixel data before ST (Esc \).
 #         Text (usually) overwrites image. Column not reset.
@@ -100,6 +101,7 @@ main() {
     done
 
     echo
+
     waitforkey
 
     title
@@ -134,12 +136,19 @@ main() {
     done
 
     echo
+    waitforkey
 
 }
 
+declare -ig p=1			# Allow -p option to print screen to a file
 waitforkey() {
-    read -p $'Hit a key\r' -n1 -s
-    echo -n $'         \r'
+    if [[ $pflag ]]; then
+	../mediacopy/mediacopy.sh -t --background -o trailing-gnl$p.png
+	p=p+1
+    else
+	read -p $'Hit a key\r' -n1 -s
+	echo -n $'         \r'
+    fi
 }
 
 # Generate bar of height w with final graphics new line removed
@@ -205,15 +214,12 @@ set_cursor_pos() {
 }
 
 
+# Use -p to print to files.
+if [[ "$1" == "-p" ]]; then pflag=yup; shift; fi
+
 main "$@"
 
 
 # NB: The VT340's font is always 20 pixels high. The algorithm DEC
 # used appears to be optimized for that height as it has nice
-# properties when used with a single newline while requiring very
-# little processing on an 8085 CPU. Unfortunately, due to the
-# shortcuts DEC took, the algorithm is not directly applicable to
-# terminals with different character cell heights. Instead, I
-# (hackerb9) encourage terminal developers to consider what DEC was
-# trying to do rather than copy the VT340's precise implementation.
-
+# properties for images of that height while requiring little CPU. 
