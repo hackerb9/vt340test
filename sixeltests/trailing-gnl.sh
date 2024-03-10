@@ -146,7 +146,7 @@ main() {
 
 }
 
-p=1
+declare -ig p=1
 waitforkey() {
     if [[ $pflag ]]; then
 	# Allow -p option to print screen to a file
