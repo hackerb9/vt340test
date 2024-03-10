@@ -1,11 +1,17 @@
 #!/bin/bash
 
 # Where is the text cursor placed after various heights of sixels when
-# separated by GNL? Note that the VT340 behaviour is only valid for 20
-# pixel high fonts.
+# separated by GNL?
 
-#     GRAPHIC NEWLINE - A dash ('-') inside the sixel data before ST (Esc \).
-#         Text (usually) overwrites image. Column not reset.
+# GRAPHIC NEWLINE - A dash ('-') inside the sixel data before ST (Esc \).
+#     Text (usually) overwrites image. Column not reset.
+
+# | Image height before GNL | 1-18 | 19-36 | 37-54 | 55-78 | 79- |
+# |-------------------------|------|-------|-------|-------|-----|
+# | Starting pixel of text  | 0    | 20    | 40    | 60    | 80  |
+
+# (Note that this VT340 behaviour is only valid for 20
+# pixel high fonts.)
 
 CSI=$'\e['			# Control Sequence Introducer 
 DCS=$'\eP'			# Device Control String
@@ -140,9 +146,10 @@ main() {
 
 }
 
-declare -ig p=1			# Allow -p option to print screen to a file
+p=1
 waitforkey() {
     if [[ $pflag ]]; then
+	# Allow -p option to print screen to a file
 	../mediacopy/mediacopy.sh --background -o trailing-gnl$p.png
 	p=p+1
     else
