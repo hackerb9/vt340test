@@ -32,7 +32,6 @@
 #   (Also, give a message suggesting that the user change the printing
 #   mode to level2 in the VT340 Set-Up screen).
 #
-# * After saving to print.six convert to PNG if ImageMagick is installed.
 # * (Add DPI data from the SSU to the PNG image instead of discarding it.)
 # 
 # * Command line args should allow percentage or even row & column,
@@ -43,9 +42,9 @@
 # * Investigate if there is some secret, undocumented way to enable
 #   level 2 printing from the application side.
 #
-# * Rewrite this in C using the routine in 
+# * Rewrite this in C using lex/antlr or the routine in
+#   vt340test/charset/uplineload/mediacopy.c
 # 
-
 ########################################
 
 main() {
@@ -94,9 +93,12 @@ parseargs() {
  	    --printer) hostcomm=0; shift ;;
  	    --host)    hostcomm=2; shift ;;
 	    --output-file|-o)
-		outputfile="${2:-print.six}"
+		outputfile="${2}"
 		shift 2
-		if [[ $outputfile =~ png$ ]]; then pngoutput=Yup; fi
+		if [[ $outputfile =~ png$ ]]; then
+		    pngoutput=Yup
+		    trimheader=Yup
+		fi
 		;;
  	    --debug|-debug) DEBUG=yup;
 			    shift
@@ -115,7 +117,10 @@ parseargs() {
 	    -t|--trim-header) trimheader="Yup"; shift ;;    # For ImageMagick
 	    -T|--no-trim-header) trimheader=""; shift ;;    # \compatible sixel
 
-	    -p|--png)   pngoutput="Yup"; outputfile="print.png"; shift ;;
+	    -p|--png)   pngoutput="Yup"; trimheader="Yup"
+			outputfile="${outputfile%.six}.png";
+			shift
+			;;
 	    -P|--sixel) pngoutput=""   ; shift ;;
 
 	    # Handle geometry, e.g., 300x200+50+75
@@ -295,17 +300,14 @@ receivesixeldata() {
     # Receive sixel data until Esc \ is seen on stdin.
 
     while read -r -s -d $'\e'; do
-	if [[ -z "$trimheader" && -z "$pngoutput" ]]; then
-            echo -n "$REPLY"$'\e'
-	fi
+	if [[ -z "$trimheader" ]]; then echo -n "$REPLY"$'\e'; fi
 	read -r -s -N1 next_char
 	cat -v >&2 <<<"Found in header $REPLY Esc $next_char"
 	if [[ "$next_char" == "P" ]]; then break; fi
-	if [[ -z "$trimheader" && -z "$pngoutput" ]]; then
-	    echo -n "$next_char"
-	fi
+	if [[ -z "$trimheader" ]]; then echo -n "$next_char"; fi
     done
     echo "Found Esc P (DCS String Start)" >&2
+    if [[ "$trimheader" ]]; then echo -n $'\e'; fi
     echo -n P
     
     # Read until the escape-backslash that ends sixel data
