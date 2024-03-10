@@ -143,7 +143,7 @@ main() {
 declare -ig p=1			# Allow -p option to print screen to a file
 waitforkey() {
     if [[ $pflag ]]; then
-	../mediacopy/mediacopy.sh -t --background -o trailing-gnl$p.png
+	../mediacopy/mediacopy.sh --background -o trailing-gnl$p.png
 	p=p+1
     else
 	read -p $'Hit a key\r' -n1 -s
