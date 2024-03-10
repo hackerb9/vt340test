@@ -5,15 +5,31 @@
 
 #     A TEXT NEWLINE - ^J after sixel image.
 #         Text does not (usually) overwrite image. Column reset to 1.
-
-#     CURSOR DOWN - Esc [ 1 B after sixel image.
+#
+#     INDEX - Esc D after sixel image.
 #         Same as a TEXT NEWLINE but does not reset column.
-
+#
+#     CURSOR DOWN - Esc [ 1 B after sixel image.
+#         Same as a TEXT NEWLINE but does not reset column nor scroll screen.
+#
 #     GRAPHIC NEWLINE - A dash ('-') inside the sixel data before ST (Esc \).
 #         Text (usually) overwrites image. Column not reset.
-
+#
 #     NOTHING -
 #         Text always overwrites image. Column not reset.
+
+# Note: this programs does not demonstrate the difference between text
+# newline, index, and cursor down, hence they are all colored the same.
+#
+# * TEXT NEWLINE resets the text cursor position to the first column
+#   (the left side of the screen), while the other two leave the
+#   column unchanged, directly beneath the bottom left corner of the
+#   sixel image.
+#
+# * When on the last text row, CURSOR DOWN, unlike text newline and
+#   index, does not scroll the screen, which means the subsequent text
+#   following DOWN would overwrite the image badly.
+
 
 CSI=$'\e['			# Control Sequence Introducer 
 DCS=$'\eP'			# Device Control String
@@ -34,16 +50,25 @@ main() {
 
     tput home; echo
     for h in {12..22}; do
-	tput cuf 20
+	tput cuf 16
+	bar $color $((w-h)) $h
+	tput ind
+	echo "$h Index"
+    done
+
+    tput home; echo
+    for h in {23..30}; do
+	tput cuf 32
 	bar $color $((w-h)) $h
 	tput cud 1
 	echo "$h Down"
     done
 
+
     tput home; echo
     color=4
     for h in {5..22}; do
-	tput cuf 40
+	tput cuf 48
 	bargnl $color $((w-h)) $h
 	echo "$h GNL"
     done
@@ -51,7 +76,7 @@ main() {
     tput home; echo
     color=1
     for h in {5..25}; do
-	tput cuf 60
+	tput cuf 64
 	bar $color $((w-h)) $h
 	echo "$h Nothing"
     done
