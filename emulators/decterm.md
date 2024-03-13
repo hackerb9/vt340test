@@ -10,7 +10,10 @@ limitations.
 * DECterm can emulate Japanese features (in VT382-J mode) that were
   not present in the VT340. 
   
-## Device Attributes  
+* DECterm does not allow the VT340's soft fonts nor the VT382's
+  on-demand loading of Asian characters.
+
+## Device Attributes
   
 * In VT382-J mode, the DECterm's Primary Device Attributes are
   generated as follows:
@@ -102,7 +105,7 @@ limitations.
       terminal emulator that does support **DECDLD** soft fonts.
 
     * See [drcsterm](https://pypi.org/project/drcsterm/) for a filter
-      that converts UCS Private Area (Plain 16) to Dynamically
+      that converts UCS Private Area (Plane 16) to Dynamically
       Redefined Charater Sets via ISO-2022 designation sequences.
 
       * Mapping Rule
@@ -116,8 +119,6 @@ limitations.
 
 		`ESC` `(` `SP` <\x*XX*> <\x*YY*> `ESC` `(` `B`
 
-
-      
 * See also, [hackerb9's extracts](decterm.intl.txt) from 
   [Writing Software for the International Market](../docs/kindred/VT382/Writing%20International.pdf) from the Digital UNIX documentation Library, March 1996.
 
