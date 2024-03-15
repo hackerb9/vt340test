@@ -33,7 +33,8 @@ echo "    A 20x20 blue, striped square overlayed on a 100x100 red square"
 
 row=3
 tput cup $row 0
-yes E | tr -d '\n' | dd status=none bs=$((9*80)) count=1
+COLUMNS=${COLUMNS:-80}
+yes E | tr -d '\n' | dd status=none bs=$((9*$COLUMNS)) count=1
 
 tput cup $row 0
 echo $blue100
@@ -55,7 +56,7 @@ echo -n P2=0 RA=60x60
 
 row=14
 tput cup $row 0
-yes E | tr -d '\n' | dd status=none bs=$((9*80)) count=1
+yes E | tr -d '\n' | dd status=none bs=$((9*COLUMNS)) count=1
 
 tput cup $row 0
 echo $blue100
