@@ -23,6 +23,11 @@ transredstripe20=$'\eP9;1;0q#1!20i-!20i-!20i-!20A\e\\'
 opaqueredstripe20ra=$'\eP9;0;0q"1;1;60;60#1!20i-!20i-!20i-!20A\e\\'
 transredstripe20ra=$'\eP9;1;0q"1;1;60;60#1!20i-!20i-!20i-!20A\e\\'
 
+echo -n $'\e+>' # DEC Technical charset
+uparrow=$'\e[B\eO|' # up arrow
+box=$'\eP9;1;0q"1;1;10;20 #7~!8@~- #7~!8?~- #7~!8?~- #7B!8AB \e\\'
+cursor=$box$uparrow$'\e[1D\e[1Bcursor'
+
 clear
 echo "    A 20x20 blue, striped square overlayed on a 100x100 red square"
 
@@ -33,14 +38,16 @@ yes E | tr -d '\n' | dd status=none bs=$((9*80)) count=1
 tput cup $row 0
 echo $blue100
 tput cup $((row+1)) 2
-echo $transredstripe20ra
+echo -n $transredstripe20ra
+echo -n "$cursor"
 tput cup $((row-1)) 0
 echo -n P2=1 RA=60x60
 
 tput cup $row 40
 echo $blue100
 tput cup $((row+1)) 42
-echo $opaqueredstripe20ra
+echo -n $opaqueredstripe20ra
+echo -n "$cursor"
 tput cup $((row-1)) 40
 echo -n P2=0 RA=60x60
 
@@ -53,7 +60,8 @@ yes E | tr -d '\n' | dd status=none bs=$((9*80)) count=1
 tput cup $row 0
 echo $blue100
 tput cup $((row+1)) 2
-echo $transredstripe20
+echo -n $transredstripe20
+echo -n "$cursor"
 tput cup $((row-1)) 0
 tput el
 echo -n P2=1 no RA
@@ -61,7 +69,8 @@ echo -n P2=1 no RA
 tput cup $row 40
 echo $blue100
 tput cup $((row+1)) 42
-echo $opaqueredstripe20
+echo -n $opaqueredstripe20
+echo -n "$cursor"
 tput cup $((row-1)) 40
 echo -n P2=0 no RA
 
