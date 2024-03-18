@@ -20,7 +20,7 @@ their defaults at power on.
 If you don't want to make text unreadable, The two most important
 colors to _not_ change are colors number 0 and 7 (bg and fg). Instead,
 use colors 1 to 6 and 9 to 14 for graphics. If twelve colors is
-insufficient, color 8 (bold+blink foreground) is reasonably safe to
+insufficient, color 8 (bold+blink bg) is reasonably safe to
 commandeer. Color 15 (bold fg) can also be used in a pinch.
 
 ## Intentionally changing the text color
@@ -38,6 +38,24 @@ ReGIS on the VT340 specifies colors in the
 it is not worth even mentioning.</sub>
 
 </details>
+
+## Escape sequences for text attributes
+
+From [colormap.md](../colormap/colormap.md):
+
+| Attributes               | Foreground | Background | Escape Sequence |
+|--------------------------|------------|------------|-----------------|
+| Normal                   | 7          | 0          | `␛[0m`          |
+| Bold                     | 15         | 0          | `␛[1m`          |
+| Reverse                  | 0          | 7          | `␛[7m`          |
+| Blink (when off)         | 7          | 0          | `␛[5m`          |
+| Blink (when on)          | 0          | 7          | "               |
+| Bold Blink (off)         | 15         | 0          | `␛[1;5m`        |
+| Bold Blink (on)          | 8          | 7          | "               |
+| Reverse Bold Blink (off) | 0          | 15         | `␛[1;5m`        |
+| Reverse Bold Blink (on)  | 7          | 8          | `␛[1;5;7m`      |
+| Reverse Bold             | 0          | 15         | `␛[1;7m`        |
+
 
 ## Resetting the VT340 colormap
 
