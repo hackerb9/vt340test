@@ -1,0 +1,177 @@
+
+                      Welcome to the world of mdraw V3.5
+
+This document is aimed toward the VT330 owner, but a VT240 owner may still learn
+something. Most commands are available from the keyboard as well as the menu, so
+if you don't have a mouse, that is okay. When the instructions say to select the
+menu item for a command (e.g. `4' to draw a rectangle) that menu item is just a
+character, so you may alternately press that key on the keyboard for the same
+effect. 
+
+See the `start' file for information on setting up the program and logicals.
+
+1.	Introduction
+
+The world of mdraw consists of three things. These are the workspace, objects
+and actions. You can manipulate the workspace with actions, such as changing
+global values like linestyle, gridsize and textsize or deleting all objects in
+the workspace. You can manipulate objects with actions, such as creating
+objects, moving, joining, cutting, and changing linestyles. The actions act upon
+objects or the workspace. If an action is meant for objects, you must have an
+object selected. If it is meant to alter the workspace it does not matter if an
+object is selected. There are several actions which will alter either an object
+or the workspace, such as linestyle, so be aware of this. 
+
+2.	Creating Objects
+
+Mdraw draws several objects. Lines, circles, boxes, splines, and text. To draw
+an object, you must select the menu item for that object. The menu items for
+each object are listed below. The menu item you have selected will light up.
+Move the mouse to the destination and press a button. If the object needs more
+info, such as the opposite corner for a box, the menu item will stay lit, and
+the mouse cursor will be a rubber band box or line, depending on the object.
+Keep moving the mouse and entering new points of information until you are done
+with the object. The menu item will return to normal, and the completed object
+will be placed on the workspace. This object will be automatically selected for
+any further action by a dotted box being drawn around it. (if the object is a
+box the selection box will be drawn exactly on top of the object box, obscuring
+it until deselection).
+
+3.	Selecting objects 
+
+To select an object from the workspace, move the mouse cursor so that it is on
+top of the object you want and press the middle button. To deselect an object,
+move to a place where there is no object and press the middle button. When an
+object is selected, a dotted box will be drawn around the object. Several
+objects may occupy the same place on the workspace. Imagine these objects to be
+stacked above or below each other. To select an object below another object,
+press the button (or key) several times, until the right object is selected. If
+there are no more objects below, then no object is selected, effectively
+deselecting the last object. You may use the keyboard and press the `<find>' key
+or the `<select>' key or the `f' key. These keys work slightly different
+however. See below for more info. You may select objects above or below in this
+stack of objects with the `[' key and the `]' key. `[' moves up the stack, `]'
+moves down. 
+
+The `<find>' key finds the top object in the stack, the `<select>' key selects
+the next object down in the stack. 
+
+4.	Actions
+
+Once an object is selected from the workspace, mdraw allows a several actions
+which change the object in relation to the workspace. They are: move, cut, and
+paste. Mdraw allows some actions which alter the objects characteristics, such
+as its linestyle, and its associated file. You may also show characteristics of
+an object by pressing the `W' key when one is selected. All these actions must
+have a selected object to work on. So select an object before you try them out. 
+
+To move an object, select it with the middle button, move the mouse to the
+destination, press the left button (or press the `m' key). 
+
+To join objects, a rectangle will be drawn which surrounds the objects to be
+joined. First move the cursor to one of the intended rectangle, press `j', move
+to the opposite corner of the joining rectangle and press a key. Objects `under'
+this rectangle will bejoined and a single object will be formed, this object
+will be selected and the bounding box drawn around it. The way mdraw determines
+`under' is if a corner of the joining rectangle is inside the objects bounding
+box, or the objects corner is inside the joining rectangle. This new joined
+object cannot have an associated file, but instead uses the associated file of
+one its sub-objects (as long as the sub-object is a primitive object and not a
+joined object). If it doesn't look right you can unjoin it and try again. 
+
+To unjoin and object, select an object with the middle button, press `J'. The
+component objects will be unjoined and placed in the workspace, and no object
+will be selected. 
+
+To cut an object, select it with the middle button, select `c' from the menu, or
+press `c' on the keyboard, or press the `<remove>' key. 
+
+To paste an object, it must have been cut first. Select `p' from the menu, move
+to the destination and press a button. Or you may move to the destination then
+press the `p' key or the `<insert here>' key. 
+
+To change linestyle, select the object, press the `_' (underline) key. A prompt
+will tell you the present line style and you may type in the new style number.
+The object will be redrawn immediately in the new style. Note: if the object is
+a box, the dotted selection box will cover up the new linestyle, and you should
+deselect the object to see the change. 
+
+To change the associated file, select an object, and press the `A' key. A prompt
+will tell you the present file, and you may enter the new name, including the
+file extension. It is important to include the file extension. 
+
+5.	Workspace
+
+The workspace is the place where objects are placed when created or pasted and
+where the menu is displayed. When an object is placed there, it may be
+constrained to some workspace attributes. These are: Grid, linestyle, and fill. 
+
+Grid constrains all cursor input to the intersections of a grid. This
+may be toggled on and off by pressing the `g' key. This grid size may be
+changed. Press `G' key and a prompt will tell you the current size and you may
+enter the new size. 
+
+Linestyle determines the linestyle for all created (not pasted) objects, and may
+also be changed. Press the `_' key when NO objects are selected, and a prompt
+will show the current style and you must enter the new style number. The menu
+will be immediately redrawn in the new style for visual confirmation. 
+	
+Fill determines if boxes and circles are drawn filled in. This may be toggled on
+and off by pressing the `F' key. 
+
+Information about the status of the workspace may be shown by pressing the `W'
+key. 
+	
+The menu may be toggled by pressing the `F20' key. (upper right of keyboard). 
+
+6.	Objects
+
+Circle:	Press `0', move mouse to center, press button, move mouse to edge, press
+	button. You may create a filled circle by turning on fill (press `F')
+	before creating circle. 
+
+Line:	Press `1', move mouse to start point, press button, move mouse to end
+	point, press button. 
+
+Box:	Press `4', move mouse, press button, move mouse, press button. You may
+	create a filled box by turning fill on (press `F') before creating box. 
+
+Spline:	Press `s', move mouse to first point, press button, move mouse, to
+	finish spline press left mouse button (or spacebar), any other button 
+	will enter next point. You may have arrowheads on splines by turning on
+	arrows (press `k').  
+
+Text:	Press `t', move mouse to destination, press button, type in text, hit
+	return. You may change text size by pressing `T' and answering prompt. 
+
+
+7.	Miscellaneous
+
+X:	Delete all objects from the workspace, but not cut buffer. Automatically
+	sets the zoom file to previously loaded or saved filename. 
+
+I:	Toggle mouse cursor shape 
+
+C:	Use current mouse position as new center of screen and move all
+	objects to reflect this 
+
+u:	Delete last item placed on the workspace 
+
+r:	Redraw screen 
+
+R:	Redraw grid (if it is on)
+
+<help>:	Draw help screen (press any key to exit help screen)
+
+z:	Zoom up to a parent file (Note this will lose any changes not saved)
+
+x:	eXplode an object to get to the associated mdraw file
+        
+A:	Associate object with a file. (Note: the object must be a primitive 
+	object, i.e. not a joined object.)
+
+Z:	Set the zoom file for the present file. You should then save the file to
+	keep this change. 
+
+Q:	Quit 
+

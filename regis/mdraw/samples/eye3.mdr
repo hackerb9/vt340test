@@ -1,0 +1,141 @@
+
+  335  315   99   20
+ T(W(F2),S01)"Place where"
+ style=  1
+ 
+
+  575  295   45   20
+ T(W(F2),S01)"Pupil"
+ style=  1
+ 
+
+  415  245   40   80
+ P[+40,+80]C(S)[+0,+0][-40,-80][](E)F(V(B)[+5,+15][+4,-2](E))
+ style=  1
+ 
+
+  295  255   20   70
+ P[+20,+70]C(S)[+0,+0][-20,-70][](E)F(V(B)[+2,+16][+5,-1](E))
+ style=  1
+ 
+
+  435  245  120   60
+ P[+120,+60]C(S)[+0,+0][-120,-60][](E)F(V(B)[+13,+9][+2,-4](E))
+ style=  1
+ 
+
+  565  305  -10    0
+ V[-10,+0]
+ style=  1
+ 
+
+  465  325  -10    0
+ V[-10,+0]
+ style=  1
+ 
+
+  505  215  100   30
+ P[+100,+0]C(S)[+0,+0][-100,+30][](E)F(V(B)[+16,-2][-1,-5](E))
+ style=  1
+ 
+
+  325  325  -10    0
+ V[-10,+0]
+ style=  1
+ 
+
+  235  225   40   30
+ P[+0,+0]C(S)[+0,+0][+40,+30][](E)F(V(B)[-11,-12][-3,+4](E))
+ style=  1
+ 
+
+  270  200  290   60
+ P[+20,+60]C(S)[+0,+0][-20,+0][+150,-60][+140,+50][+0,+0](E)
+ style=  1
+
+
+  290  250  270   40
+ P[+0,+10]C(S)[+0,+0][+130,+30][+140,-40][+0,+0](E)
+ style=  1
+
+
+  379  209   62   62
+ P[+31,+31]C[-10,-30]
+ style=  1
+
+
+  400  230   20   20
+ F(P[+10,+10]C[+0,-10])
+ style=  1
+
+
+  300  180  210   50
+ P[+0,+50]C(S)[+0,+0][+100,-50][+110,+30][+0,+0](E)
+ style=  1
+
+
+  335  335   99   20
+ T(W(F2),S01)"gunky stuff"
+ style=  1
+
+
+  335  355   54   20
+ T(W(F2),S01)"lives."
+ style=  1
+
+
+  165  205   90   20
+ T(W(F2),S01)"Epicanthic"
+ style=  1
+
+
+  165  225   36   20
+ T(W(F2),S01)"fold"
+ style=  1
+
+
+   25   15  360  140
+ V(B)[+360,+0][+0,+140][-360,+0](E)
+ style=  1
+ 
+
+   35   25  306   20
+ T(W(F2),S01)"The human eye is capable of giving"
+ style=  1
+ 
+
+   35   45  333   20
+ T(W(F2),S01)"quality visual information under many"
+ style=  1
+ 
+
+   35   65  297   20
+ T(W(F2),S01)"different conditions. The eye and"
+ style=  1
+ 
+
+   35   85  306   20
+ T(W(F2),S01)"brain automatically compensate for"
+ style=  1
+ 
+
+   35  105  342   20
+ T(W(F2),S01)"these conditions to bring clear vision"
+ style=  1
+ 
+
+   35  125  117   20
+ T(W(F2),S01)"into control."
+ style=  1
+ 
+
+  479  316   36   20
+ T(W(F3),S01)"Iris"
+ style=  1
+iris.mdr
+
+  615  205   63   20
+ T(W(F3),S01)"Eyeball"
+ style=  1
+eye.mdr
+

@@ -1,0 +1,65 @@
+Summary
+
+Mdraw is an object oriented drawing package for ReGis terminals.
+
+
+Startup Information
+
+Programs needed (all these should go in the `mdraw:' directory)
+===============
+mdraw.exe	- Object oriented drawing program
+vregis.exe	- convert mdraw file to `.pic' screen dump and/or TeX file
+sixel.com	- Runs one of the following screen dump programs:
+	sixland.exe	- Landscape screen dump
+	sixel.exe	- Portrait screen dump
+
+
+Files needed (this should go in the mdraw: directory)
+============
+mdraw.mdr	- Title screen
+
+
+Logicals and symbols needed
+===========================
+mdraw	- `assign <disk-directory-path> mdraw'
+mdraw	- `mdraw :== $mdraw:mdraw.exe'
+sixel	- `sixel :== @mdraw:sixel.com'
+vregis	- `vregis :== $mdraw:vregis.exe'
+
+Before drawing, make sure the terminal can draw ReGIS graphics, and make sure
+that it is in VT300-8Bit mode from the setup menu. To start drawing, just type
+`mdraw' at the prompt, and you will see a title screen which displays the
+version number. Press a key (but not return) or mouse button and the screen will
+clear and crosshairs will appear. You may now begin entering commands, either
+from the keyboard or through the mouse and menu. To turn the menu on, press the
+F20 key. To get a simple help screen, press the `help' key.
+
+Once you have an mdraw file (with the extension `.mdr') that you want to print
+out in one form or another, you can call the `vregis' command. The mdraw to
+sixel conversion program `vregis' has command line parameters: 
+
+`vregis [-x] [-t] [-l] [-o] [-v] file[.ext] (...file[.ext]...) '. 
+
+The `-v' will just view the picture without doing any screen dump, so there will
+be no raw `.pic' file. 
+
+The `-x' means to output a TeX file, this file may be referenced from another
+TeX file with the \input command. 
+
+The `-o' means to output a TeX file and also includes commands to draw a box
+around the image. This file may be included in any other TeX file just like the
+-x option. 
+
+The `-t' is like `-x' but has TeX handle the smaller fonts, but it doesn't
+handle math characters, so you'll have to go in and put dollar signs around all
+the funny symbols. 
+
+The `-l' means to output a landscape `.pic' file, with no TeX file. 
+
+It defaults to look for a `.mdr' file, and if you give it a `.ext' extension the
+rest of the command line will be assumed to be that type file, until another
+file extension is found. 
+
+Remember! you must have the VT330 in `VT300-8bit' in the General Set-up of the
+set-up menu for the mouse to work properly, if you don't you will get a message
+and the program might crash. 

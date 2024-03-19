@@ -1,0 +1,23 @@
+\font\romanlarge=cmr12
+\font\romannormal=cmr10
+\romanlarge
+\centerline{How mdraw fits in with \TeX}
+\smallskip
+\romannormal
+\centerline{\input model.tex }
+\centerline{Fig. 1}
+\medskip
+If you are a person who uses \TeX , and you would like to include some simple
+graphics along with you document, or would like to see what the document looks
+like before you print it out, today is your lucky day.
+
+The drawing above shows the relationship of several programs, the ones in
+circles, and the types of files they use and produce. Normally \TeX\ produces a
+`.dvi' file which could only be sent to the printer. Now there is a new program
+to convert the `.dvi' for display on a terminal. There is also new input into
+\TeX\ in the form of a `.pic' file. This file is basically a screen dump of
+graphics drawn by mdraw. In order to easily use this `.pic' file in a \TeX\
+file, another \TeX\ file is created which holds all the bizarre commands to 
+handle the `.pic' file. All that needs to be done to the top document is 
+to include this supporting \TeX\ file. 
+\bye

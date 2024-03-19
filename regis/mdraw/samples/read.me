@@ -1,0 +1,39 @@
+This file describes the sample mdraw files.
+
+To view a file, type `vregis -v filename'
+To convert a file for printing, type `vregis filename'
+To convert a file for TeX, and TeX handle fonts, type `vregis -t filename'
+To convert a file for including in a TeX document, type `vregis -x filename'
+
+
+model.mdr	- shows how mdraw fits in with TeX (used inside of use.tex )
+		  To see it, `vregis -t model' then form the use.tex file
+		  with TeX.
+sample.mdr	- a simple drawing. 
+cowboy.mdr	- a dude.
+graph.mdr	- a simple line chart.
+
+eye3.mdr	- picture of an eye. This is the top drawing in an heirarchical 
+	  tree of pictures. When you are running mdraw, you can see that
+	  some of the words that are brighter than others. These objects
+	  are the links to the other drawings. They were linked with the
+	  Associate command. Select one, then press 'x'. To get back press 'z'.
+
+	The other files in the tree are:
+		eye3
+	   ,-----|
+	  eye   iris
+	   |	 |
+	  rods	stem
+
+flow.mdr - this shows how to use the duplicate function. Several objects
+	   are set off to one side, and can be used quickly. Turn the grid
+	   on with `g'. Select one of the objects on the left, move the mouse
+	   and press 'd'. Move the mouse again and press `d'. Select a different
+	   object and build a simple flowchart.
+	   Some simple flowcharts are in flow1,flow2 and flow3. The `flow.com'
+	   command file will process these for inclusion into charts.tex which
+	   then will TeX and print to an ln03 laser printer. ( you may want
+	   to edit this file)
+
+
