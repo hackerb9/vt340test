@@ -123,3 +123,14 @@ limitations.
   [Writing Software for the International Market](../docs/kindred/VT382/Writing%20International.pdf) from the Digital UNIX documentation Library, March 1996.
 
 * http://vt100.net/dec/vt320/soft_characters
+
+## Fonts and ReGIS
+
+Apparently DECterm's ReGIS graphics were not aligned quite right by
+default. The fix was to use the font from VWS VT200 emulator,
+available in the [vwsvtfont/](vwsvtfont/) as .pcf (X Portable Compiled
+Format) font files. Despite being called a "VT200" font, these seem to
+be more suited to the VT340 as the font bounding box is 10x20 (for the
+files that end in "19") or 20x40 (for the files ending in "38"). The
+VT220's font was only 8x10.
+
