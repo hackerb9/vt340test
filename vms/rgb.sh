@@ -361,7 +361,6 @@ ws() { echo "$@"; }
 colours="BLACK BLUE RED GREEN MAGENTA CYAN YELLOW WHITE"
 term=`getjpi termimal`
 if ! getdvi $term tt_regis; then nosup; fi
-OperatingLevel=63
 case $(getdvi $term devtype) in
     62) vt_240
 	;;
