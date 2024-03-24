@@ -82,17 +82,35 @@ letters in English words. A quick grep of `/usr/dict/words` shows that
 | 38133    | Scandia Elite 12       || 38159    | European Elite 12               |
 
 
+### Character Sets
 
+Courier 10
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnopgrstuvwxyz
+0123456789        £!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~¬
 
+Courier Legal 10 Part Number 38104-02
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnoparstuvwxyz
+0123456789        ¢!"#$%&°()*+,-./:;§=†?@[®]©_'¼‗¶™½
 
+Courier Legal 10A Part Number 38108-02
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+0123456789        ¢!"#$%&'()*+,-./:;¼=½?@[®]©_°§¶†™‗
 
+Courier 72 (10 Pitch) 
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnopqrstuvwxyz
+0123456789        ¢!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~¬
 
+Courier 10 U.K. Part Number 38140-01
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnopqrstuvwxyz
+0123456789        ½!"₤$%&'()*+,-./:;<=>?@[\]^_`{|}~#
 
+Courier 10 German Part Number 38156-01
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnoparstuvwxyz
+0123456789        §!"₤$%&'()*+,-./:;<=>?ẞÄÖÜ^_`äöü~|
 
-
-
-
-
+Courier 10 Titan
+ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnoparstuvwxyz
+0123456789        [!"µ$%&'()*+,-./:;¼=½?@]£°¾_,.<²>³
 
 ## DEC LQP01 / Diablo HyType 1345A capabilities
 
