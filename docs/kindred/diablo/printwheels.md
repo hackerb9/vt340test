@@ -91,12 +91,14 @@ ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnopgrstuvwxyz
 Courier Legal 10 Part Number 38104-02
 ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnoparstuvwxyz
 0123456789        ¢!"#$%&°()*+,-./:;§=†?@[®]©_'¼‗¶™½
+0123456789               '          < >   \ ^ `{|}~¬
 
 Courier Legal 10A Part Number 38108-02
 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 0123456789        ¢!"#$%&'()*+,-./:;¼=½?@[®]©_°§¶†™‗
+0123456789        ¢!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~¬
 
-Courier 72 (10 Pitch) 
+Courier 72 (10 Pitch) Part Number 38107-01
 ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnopqrstuvwxyz
 0123456789        ¢!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~¬
 
@@ -128,32 +130,56 @@ ABCDEFGHIJKLMNOPORSTUVWXYZabcdefghijklmnoparstuvwxyz
 
 Xerox/Diablo seem to have had many names for Courier.
 
-* Courier 10
-  * Plastic, Part Number 38100-01
-  * Probably the most basic form of Courier offered, except that it
-    has a slash through the zero which none of the others have.
 * Courier 72
   * Plastic, Part Number 38107-01
+	<img src="courier72.png" width=80%>
   * This is the default wheel for the HyType 1345 (according to the
     maintenance manual), so it is most likely what DEC used in their
     documentation.
+
+* Courier 10
+  * Plastic, Part Number 38100-01
+	<img src="courier10.png" width=80%>
+  * Compared to Courier 72
+    * Has a slash through the zero.
+	* `¢` replaced with `£`.
+
 * Courier Legal 10
+  * Plastic, Part Number 38104-02
+	<img src="courierlegal10.png" width=80%>
+  * Compared to Courier 72
+	* Lacks `<`, `>`,`\\`, `\^`, \`,  `{`, `\|`, `}`, `~`, `¬`, 
+	* Gains `§`, `†`, `®`, `©` , `°`, `¼`, `‗`, `¶`, `™`, `½`
+
+* Courier Legal 10A
+  * Plastic, Part Number 38108-02
+	<img src="courierlegal10a.png" width=80%>
+  * Same characters as Legal 10, just scrambled on the wheel.
+
 * Titan 10
   * Diablo 96 Metal, Part Number 311900-01
-  * French, Part Number 311687-01
-  * German, Part Number 311835-01
-  * UK, Part Number 311825-01
-  * Spanish, Part Number 311790-01
-  * Norwegian/Danish, Part Number 311801-01
-  * Swedish, Part Number 311810-01
+	<img src="titan10.png" width=80%>
+  * French Metal, Part Number 311687-01
+	<img src="titan10fr.png" width=80%>
+  * German Metal, Part Number 311835-01
+	<img src="titan10de.png" width=80%>
+  * UK Metal, Part Number 311825-01
+	<img src="titan10uk.png" width=80%>
+  * Spanish Metal, Part Number 311790-01
+	<img src="titan10es.png" width=80%>
+  * Norwegian/Danish Metal, Part Number 311801-01
+	<img src="titan10no.png" width=80%>
+  * Swedish Metal, Part Number 311810-01
+	<img src="titan10sw.png" width=80%>
 
 * P & P #3
   * Xerox 96 Metal, Part Number 311912-01
+	<img src="pp3.png" width=80%>
 
 ### Non-ASCII characters on Courier variants
 
-Courier 72, Courier 10, Courier Legal 10, and Titan 10 have some extra
-glyphs that probably should be trained by the OCR as well.
+Courier 72, Courier 10, Courier Legal 10, Titan 10, and P&P #3 have
+some extra glyphs that probably should be trained by the OCR as well.
 
 
 | C 72 | C 10 | CL 10 | CL 10A | T 10 |
