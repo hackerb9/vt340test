@@ -219,6 +219,6 @@ some extra glyphs that probably should be trained by the OCR as well.
 | ¶ | Paragraph        |      |      | ✓         |      |
 | ‗ | Double underline |      |      | ✓         |      |
 | µ | Mu / Micro       |      |      |           | ✓    |
-| ¾ |                  |      |      |           | ✓    |
-| ² |                  |      |      |           | ✓    |
-| ³ |                  |      |      |           | ✓    |
+| ¾ | Three quarters   |      |      |           | ✓    |
+| ² | Superscript 2    |      |      |           | ✓    |
+| ³ | Superscript 3    |      |      |           | ✓    |
