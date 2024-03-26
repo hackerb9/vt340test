@@ -1,0 +1,7555 @@
+
+
+
+
+      VSXXX-CA/CB
+
+
+      Peripheral Repeater
+
+
+      Technical Manual
+      Order Number: EK-VSXPR-TM-001
+
+
+
+
+
+
+
+
+
+
+
+
+      February 1988
+
+
+
+
+
+
+
+
+
+
+
+                          digital equipment corporation
+                                 maynard, massachusetts
+
+
+
+
+
+
+
+
+   ___________________________________________________
+   February 1988
+
+   The information in this document is subject
+   to change without notice and should not be
+   construed as a commitment by Digital Equipment
+   Corporation. Digital Equipment Corporation assumes
+   no responsibility for any errors that may appear in
+   this document.
+
+   The software described in this document is
+   furnished under a license and may be used or copied
+   only in accordance with the terms of such license.
+
+   Digital Equipment Corporation assumes no responsi-
+   bility for the use or reliability of its software
+   on equipment that is not supplied by Digital or its
+   affiliated companies.
+
+    Copyright (c)1988 by Digital Equipment Corporation
+                  All Rights Reserved
+   ___________________________________________________
+                   Printed in U.S.A.
+                          USA
+
+   This equipment generates, uses, and may emit radio
+   frequency energy. The equipment has been type
+   tested and found to comply with the limits for a
+   Class A computing device pursuant to Subpart J
+   of Part 15 of FCC Rules, which are designed to
+   provide reasonable protection against such radio
+   frequency interference. Operation of this equipment
+   in a residential area may cause interference in
+   which case the user at his own expense will be
+   required to take whatever measures may be required
+   to correct the interference.
+   ___________________________________________________
+
+   The following are trademarks of Digital Equipment
+   Corporation:
+   DEC             ULTRIX          VAXstation
+   DECnet          ULTRIX-32       VMS
+   DECUS           UNIBUS          VT
+   MicroVAX        VAX
+   MicroVMS        VAXBI
+                                   DIGITAL
+   PDP             VAXcluster
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                               Contents
+_______________________________________________________
+
+
+How to Use This Book
+                     .............................. ix
+
+Chapter 1   Physical Description
+1.1         Introduction .......................... 1-1
+1.2         Physical Description................... 1-5
+1.2.1       Jumpers ............................... 1-9
+1.2.2       Connectors ............................ 1-10
+1.2.3       Part Numbers .......................... 1-13
+1.3         Specifications ........................ 1-18
+
+Chapter 2   Functional Description
+2.1         Introduction .......................... 2-1
+2.2         Peripheral Repeater Board ............. 2-2
+2.2.1       8031 Microprocessor ................... 2-2
+2.2.2       Address Space.......................... 2-7
+2.2.2.1     I/O Registers.......................... 2-8
+2.2.2.2     Internal Data Memory................... 2-12
+2.2.3       Address Latch.......................... 2-13
+2.2.4       Data Transceivers ..................... 2-14
+2.2.5       Control Buffer/Decoder ................ 2-14
+2.2.6       Address Decoder ....................... 2-17
+2.2.7       ROM/SRAM .............................. 2-20
+
+
+
+
+
+
+
+                                                    ___
+                                                    iii
+
+
+
+
+
+
+
+
+
+2.2.8       DC349 OCTALART ........................ 2-21
+2.2.8.1     DC349 Receiver Buffer and Transmitter
+            Holding Register ...................... 2-26
+2.2.8.2     DC349 Status Register ................. 2-28
+2.2.8.3     DC349 Mode Register 1 ................. 2-30
+2.2.8.4     DC349 Mode Register 2 ................. 2-32
+2.2.8.5     DC349 Command Register ................ 2-33
+2.2.8.6     DC349 Interrupt Summary Register ...... 2-35
+2.2.8.7     DC349 Data Set Change Summary Register  2-37
+2.2.8.8     DC349 Interrupts  ..................... 2-38
+2.2.9       Interactive Device Receivers and
+            Transmitters .......................... 2-39
+2.2.10      Function Register ..................... 2-40
+2.2.11      Diagnostic Register ................... 2-43
+2.2.12      Power Up and Power Monitor Circuits ... 2-53
+2.3         Operational Firmware................... 2-55
+2.3.1       Device Identification ................. 2-56
+2.3.2       Communications Overview  .............. 2-57
+2.3.2.1     Queues and Interrupt Routines ......... 2-57
+2.3.2.2     Communications Protocol  .............. 2-59
+2.3.2.3     Device Self-Test Commands ............. 2-66
+2.3.2.4     Overrun Errors ........................ 2-67
+2.3.2.5     Maximum Bytes per Transmission ........ 2-67
+2.3.2.6     Timers ................................ 2-68
+2.3.3       Peripheral Repeater Commands .......... 2-68
+2.3.3.7     T Command (Self-Test) ................. 2-69
+2.3.3.2     Self-Test Report  ..................... 2-69
+2.3.3.3     R Command (Report Status) ............. 2-70
+2.3.3.4     C Command (Change Baud Rate) .......... 2-71
+2.3.3.5     L Command (Light LED) ................. 2-75
+2.4         H7820 Power Supply .................... 2-75
+
+
+
+
+
+
+__
+iv
+
+
+
+
+
+
+
+
+
+Chapter 3   Diagnostics
+3.1         Introduction .......................... 3-1
+3.2         Self-Test  ............................ 3-3
+3.2.1       Running Self-Test ..................... 3-3
+3.2.2       Exiting Self-Test ..................... 3-4
+3.3         Manufacturing Mode .................... 3-4
+
+Chapter 4   Troubleshooting and Repair
+4.1         Problem Summary ....................... 4-1
+4.2         Repair................................. 4-2
+4.2.1       Removal ............................... 4-4
+4.2.2       Replacement ........................... 4-4
+
+Appendix A  Interactive Device Parameters
+A.1         LK201 Keyboard ........................ A-2
+A.2         VSXXX-AA Mouse ........................ A-3
+A.3         VSXXX-AB Tablet ....................... A-4
+A.4         GTCO Tablet ........................... A-5
+A.5         VSXXX-DA Dial Array ................... A-6
+A.6         Evans & Sutherland Controls Dials ..... A-7
+A.7         Evans & Sutherland Button Array ....... A-8
+A.8         Evans & Sutherland Keyboard ........... A-8
+A.9         Spare Port ............................ A-9
+A.10        Host Port  ............................ A-9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      _
+                                                      v
+
+
+
+
+
+
+
+
+
+Figures
+1-1         VAXstation 8000 ....................... 1-3
+1-2         VAXstation 8000 Block Diagram ......... 1-5
+1-3         Peripheral Repeater ................... 1-6
+1-4         Peripheral Repeater Component Locations 1-8
+1-5         Peripheral Repeater Back Panel  ....... 1-9
+2-1         Peripheral Repeater Board Block Diagram 2-3
+2-2         8031 Microprocessor Block Diagram ..... 2-4
+2-3         Control Buffer/Decoder Block Diagram .. 2-15
+2-4         Address Decoder Block Diagram ......... 2-17
+2-5         ROM/SRAM Block Diagram ................ 2-20
+2-6         DC349 OCTALART Block Diagram .......... 2-21
+2-7         DC349 Receiver Buffer Format .......... 2-27
+2-8         DC349 Transmitter Holding Register
+            Format ................................ 2-27
+2-9         DC349 Status Register Format .......... 2-28
+2-10        DC349 Mode Register 1 Format .......... 2-30
+2-11        DC349 Mode Register 2 Format .......... 2-32
+2-12        DC349 Command Register Format ......... 2-34
+2-13        DC349 Interrupt Summary Register
+            Format ................................ 2-36
+2-14        DC349 Data Set Change Register Format   2-38
+2-15        Function Register Block Diagram ....... 2-42
+2-16        Function Register Format .............. 2-43
+2-17        Diagnostic Register Block Diagram ..... 2-44
+2-18        Diagnostic Register Format ............ 2-44
+2-19        Power Up and Power Monitor Block
+            Diagram  .............................. 2-54
+2-20        Peripheral Repeater/KA800 Packet
+            Format ................................ 2-60
+2-21        Packet Protocol ....................... 2-61
+2-22        Device ID Byte Format ................. 2-64
+2-23        T Command Packet Format  .............. 2-69
+2-24        Self-Test Report Packet Format  ....... 2-70
+2-25        R Command Packet Format  .............. 2-71
+
+
+__
+vi
+
+
+
+
+
+
+
+
+
+2-26        C Command Packet 7-Byte Format  ....... 2-71
+2-27        C Command Packet 9-Byte Format  ....... 2-72
+2-28        L Command Packet Format  .............. 2-75
+4-1         Pedestal, Monitor, and Peripheral Repeater
+            Cables ................................ 4-5
+4-2         Peripheral Device Cables .............. 4-6
+
+Tables
+1-1         Peripheral Repeater Board Connectors .. 1-10
+1-2         Part Numbers .......................... 1-14
+1-3         Physical Specifications  .............. 1-18
+1-4         Electrical Specifications ............. 1-19
+1-5         Environmental Specifications .......... 1-20
+2-1         8031 Microprocessor Signals ........... 2-5
+2-2         Peripheral Repeater Memory Map ........ 2-7
+2-3         I/O Registers Memory Map .............. 2-9
+2-4         8031 Internal Data Memory Map ......... 2-13
+2-5         Control Buffer/Decoder Signals  ....... 2-16
+2-6         Address Decoder Signal Derivation ..... 2-18
+2-7         DC349 OCTALART Signals ................ 2-22
+2-8         DC349 Receiver Buffer Bit Description . 2-27
+2-9         DC349 Transmitter Holding Register Bit
+            Description ........................... 2-27
+2-10        DC349 Status Register Bit Description . 2-28
+2-11        DC349 Mode Register 1 Bit Description . 2-30
+2-12        DC349 Mode Register 2 Bit Description . 2-33
+2-13        DC349 Command Register Bit Description  2-34
+2-14        DC349 Interrupt Summary Register Bit
+            Description ........................... 2-36
+2-15        DC349 Data Set Change Summary Register Bit
+            Description ........................... 2-38
+2-16        Function Register Bit Description ..... 2-43
+2-17        Diagnostic Register Bit Description ... 2-45
+2-18        Diagnostic and Function LED Indication
+            Summary  .............................. 2-46
+
+
+
+                                                    ___
+                                                    vii
+
+
+
+
+
+
+
+
+
+2-19        Diagnostic LED Code Description ....... 2-48
+2-20        Packet Format Description ............. 2-62
+2-21        System Error Report Error Codes ....... 2-63
+2-22        Device ID Byte Bit Description  ....... 2-64
+2-23        Port Number Codes ..................... 2-73
+2-24        Baud Rate Codes ....................... 2-73
+2-25        Parity Codes .......................... 2-74
+2-26        Bits/Character Codes .................. 2-74
+2-27        H7820 Power Supply Specifications ..... 2-76
+2-28        H7820 Connector P11 Pin Assignments ... 2-77
+4-1         Troubleshooting ....................... 4-2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+____
+viii
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   How to Use This Book
+_______________________________________________________
+
+
+
+
+The Peripheral Repeater
+
+   The VSXXX-CA/CB Peripheral Repeater, also called
+   the PR Box, is a concentrator and multiplexer
+   between a graphics subsystem control processor and
+   up to seven interactive devices such as a keyboard,
+   mouse, tablet, or other devices used with graphics
+   workstations.
+
+____
+Note
+     ___ __________ ________ ___ ________ __ __ ____
+     The peripheral repeater was designed to be part
+   __ ___ ________ _________ __ _ __________ _____ ___
+   of the graphics subsystem in a VAXstation 8000. The
+   _______ _________ ___ ____ _________ __ _ _______
+   control processor for that subsystem is a DIGITAL
+   _____ _________ __________ ______ ___ ____ __ ___
+   KA800 processor (sometimes called the ACP, an in-
+   _____ _________ __ __ ___ _____ ____ __ _________
+   house acronym). It is the KA800 that is connected
+   __ ___ ____ ____ __ ___ __________ _________
+   to the host port on the peripheral repeater.
+
+   ___ __________ ____ ____ ________ _ ____ __________
+   The VAXstation 8000 also includes a host subsystem.
+   ___ _________ ___ ____ _________ __ _ _______
+   The processor for that subsystem is a DIGITAL
+   ______ ___ __ __ _______ ______ ___ _____ ___
+   KA825, and it is usually called the host. The
+   _____ ___ __ ______ __________ __ ___ __________
+   KA825 has no direct connection to the peripheral
+   _________
+   repeater.
+
+                           _____
+                           KA800
+   __________ ____ _______       ______ __ ___
+   Throughout this manual,       refers to the
+   _________ _________ __ ___ __________ _________
+   processor connected to the peripheral repeater,
+       ____
+       host
+   ___      ______ __ ___ ____ _________ __________
+   and      refers to the host subsystem processor.
+
+
+
+
+
+
+
+
+                                                     __
+                                                     ix
+
+
+
+
+
+
+
+
+
+Purpose of This Manual
+
+   This manual describes the functional operation and
+   maintenance of the VSXXX-CA/CB Peripheral Repeater.
+
+Intended Audience
+
+   This manual is written for:
+
+    _
+      Engineers and programmers concerned with
+    _
+      interfaces to the peripheral repeater.
+
+    _
+      DIGITAL field service engineers and manufactur-
+    _
+      ing repair technicians concerned with repairing
+      the peripheral repeater.
+
+____
+Note
+     _________ ___ __________ ________ __ ___ ________
+     Normally, the peripheral repeater is not repaired
+   __ ___ ______ ________ ___ ________ ________ __
+   in the field; instead, the internal assembly is
+   _________
+   replaced.
+
+Associated Documents
+
+   The following table lists the manuals and guides
+   associated with the peripheral repeater.
+   ____________________________________________________
+   Order Number     Title
+
+   EK-VS800-SM      VAXstation 8000 System Manual
+
+   EK-VS800-IG      VAXstation 8000 Installation Guide
+
+   EK-VSXDA-TM      VSXXX-DA Dial Array Technical
+                    Manual
+
+   EK-VR290-IN      VR290 Color Video Monitor
+   ____________________________________________________
+                    Installation/Owner's Guide
+
+
+
+
+
+
+
+
+
+
+_
+x
+
+
+
+
+
+
+
+
+
+Conventions
+
+   The notational conventions used in this manual are
+   described in the following table.
+   ____________________________________________________
+   Convention    Meaning
+
+   <mm:nn>       Read as "mm through nn." This use of
+                 angle brackets and the colon indicates
+                 a bit field, or a set of lines or
+                 signals. For example, A<17:00> is
+                 the mnemonic for address lines "A17
+                 through A00."
+
+   Addresses     Unless otherwise noted, all addresses
+                 are given in hexadecimal notation.
+
+   k, M          Abbreviations for kilo, Mega. Unless
+                 otherwise noted, k and M represent the
+                 full decimal value of quantities. For
+                 example:
+
+                    8 kbytes    8192 bytes    8000 bytes
+                                          /
+                   32 kwords   32768 words   32000 words
+                                          /
+                  512 kbits   524288 bits   512000 bits
+                                          /
+                    4 Mbytes 4194304 bytes 4000000 bytes
+                                          /
+
+   <KEYNAME>     Represents nonprinting keyboard keys,
+                 such as <Ctrl> , <F11> , or <Return> .
+
+   <Ctrl/n>      Represents the keys needed to enter a
+                 control sequence. A control sequence
+                 is entered by pressing <Ctrl> and
+                 typing   at the same time.
+
+   ^n            Terminal echo for control sequence
+                 <Ctrl/n> .
+
+   Abbreviations Abbreviations are in accordance with
+   ____________________________________________________
+                            .
+                 ___ ___ ___
+                 DEC STD 015
+
+
+
+                                                     __
+                                                     xi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             Chapter  1
+
+
+                                   Physical Description
+_______________________________________________________
+
+
+
+   This chapter introduces and gives a physical
+   description of the VSXXX-CA/CB Peripheral Repeater,
+   or PR Box.
+
+
+1.1 Introduction
+
+   The peripheral repeater is used in a graphics
+   workstation, such as the VAXstation 8000, and is
+   located beneath the graphics monitor, as shown in
+   Figure 1-1. The peripheral repeater is primarily
+   a concentrator and multiplexer for the workstation
+   peripherals, or interactive devices. It has the
+   following features and functions:
+
+    _
+      Provides a common connection point for the
+    _
+      workstation interactive devices.
+
+    _
+      Provides power to the interactive devices.
+    _
+
+    _
+      Assembles/disassembles communications packets to
+    _
+      and from the system.
+
+    _
+      Converts the RS232C and RS423 signals used by
+    _
+      the interactive devices to/from RS232C signals
+      used by the system.
+
+
+
+
+                              Physical Description  1-1
+
+
+
+
+
+
+
+
+
+    _
+      Includes:
+    _
+
+         ROM-based self-tests for its internal logic.
+
+         A self-test loopback mode for each interac-
+         tive device port.
+
+         A manufacturing test mode.
+
+         A power supply status monitoring and
+         reporting function.
+
+         A switched receptacle to provide ac power to
+         the monitor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1-2  Physical Description
+
+
+
+
+
+
+
+
+
+   Figure 1-1: VAXstation 8000
+
+
+
+
+
+
+
+
+
+
+
+
+
+           To be photo? Check w/ Ray Laurencelle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              Physical Description  1-3
+
+
+
+
+
+
+
+
+
+   The peripherals, or interactive devices, supported
+   by the peripheral repeater include:
+
+    _
+      LK201 Keyboard
+    _
+
+    _
+      VSXXX-AA Mouse
+    _
+
+    _
+      VSXXX-AB Graphics Tablet
+    _
+
+    _
+      VSXXX-DA Dial Array
+    _
+
+    _
+      Other RS423/RS232C-compatible devices
+    _
+
+   Appendix A lists the typical interactive devices
+   and their operational parameters.
+
+   Figure 1-2 is a block diagram showing the rela-
+   tionship of the peripheral repeater to other major
+   components of a graphics workstation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1-4  Physical Description
+
+
+
+
+
+
+
+
+
+   Figure 1-2: VAXstation 8000 Block Diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1103
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.2 Physical Description
+
+   The peripheral repeater is shown in Figure 1-3.
+   The two major components are the enclosure and the
+   internal assembly.
+
+   The plastic enclosure is open on the bottom and
+   rear. It is designed to be placed beneath a VR290
+   color monitor. With the internal assembly installed
+   or removed, the enclosure will support the weight
+   of the monitor; therefore, the monitor need not be
+   moved to service the peripheral repeater. The power
+
+
+                              Physical Description  1-5
+
+
+
+
+
+
+
+
+
+   switch and power LED indicator are mounted on the
+   internal assembly and project through holes in the
+   front of the enclosure.
+
+   Figure 1-3: Peripheral Repeater
+
+
+
+
+
+
+
+
+                         ASD-1131
+
+
+
+
+
+
+
+
+
+   With the exception of the plastic enclosure, all of
+   the peripheral repeater components are mounted on
+   or in the internal assembly. The internal assembly
+   is basically a 6-sided metal box.
+
+   The top of the box is extended on the left and
+   right edges to form flanges which ride in tracks
+   on the plastic enclosure. The rear edge of the top
+   is turned down to form a handle for removing the
+   internal assembly from the enclosure.
+
+   The major components contained within the internal
+   assembly are shown in Figure 1-4, and include:
+
+    _
+      Peripheral repeater printed circuit board
+    _
+
+    _
+      Power supply printed circuit board
+    _
+
+    _
+      Cooling fans (3)
+    _
+
+    _
+      AC wiring harness
+    _
+
+
+1-6  Physical Description
+
+
+
+
+
+
+
+
+
+    _
+      Power switch
+    _
+
+    _
+      Power LED indicator
+    _
+
+    _
+      Back panel components
+    _
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              Physical Description  1-7
+
+
+
+
+
+
+
+
+
+   Figure 1-4: Peripheral Repeater Component Locations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1130
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1-8  Physical Description
+
+
+
+
+
+
+
+
+
+   The back panel components, identified in Figure 1-5,
+   are mounted on the peripheral repeater printed cir-
+   cuit board and project through holes in the back
+   panel of the internal assembly chassis. These com-
+   ponents include the interactive device connectors,
+   Function LED, and diagnostic LEDs. The ac power
+   connectors, which also project through the back
+   panel, are not mounted on the peripheral repeater
+   printed circuit board.
+
+   Figure 1-5: Peripheral Repeater Back Panel
+
+
+
+
+
+
+
+
+                ASD-1133 (to be corrected)
+
+
+
+
+
+
+
+
+
+1.2.1 Jumpers
+
+   There are two jumpers in the peripheral repeater
+   and both are factory set.
+
+    1. Power Supply Jumper. The jumper on the power
+      supply board selects either 120 Vac (labeled
+      115V on the board) or 240 Vac (labeled 230V on
+      the board) operation.
+
+
+
+
+
+
+                              Physical Description  1-9
+
+
+
+
+
+
+
+
+
+    2. External Address Jumper. The jumper on the
+      peripheral repeater board is the external
+      address jumper for the 8031 microprocessor. This
+      jumper must be in place.
+
+1.2.2 Connectors
+
+   Table 1-1 describes the various connectors and
+   connections in the peripheral repeater.
+
+   ____________________________________________________
+   Table 1-1: Peripheral Repeater Board Connectors
+   ____________________________________________________
+   Connector      Pins    Signal           Fuse      RS232/RS423
+
+   J1
+      Spare       1       GND                        RS232
+                  2       SP1 XMT
+                  3       SP1 RCV
+                  4:6     nc
+                  7       GND
+                  8:25    nc
+
+   J2
+      KA800       1       GND                        RS232
+                  2       ACP[1]XMT
+                  3       ACP[1]RCV
+                  4:6     nc
+                  7       GND
+                  8:11    nc
+                  12      GND
+                  13:18   nc
+                          ST LOOP
+                  19      nc
+                  20:25
+
+   ____________________________________________________
+   [1 ]The KA800 in a VAXstation 8000.
+
+
+
+
+
+
+
+
+
+1-10  Physical Description
+
+
+
+
+
+
+
+
+
+   Table 1-1 (Continued): Peripheral Repeater Board
+    ____________________________________________________
+                           Connectors
+   ____________________________________________________
+   Connector      Pins    Signal           Fuse      RS232/RS423
+
+   J3
+      Dial        1       +12V             F11       RS423
+   Array          2       -12V             0.125
+                  3:4     nc               A
+                  5       +5V              F12
+                  6       +5V              0.125 A
+                  7       nc
+                  8       KNB PRESENT
+                  9:10    GND              F3
+                  11      KNOBS RCV        3.000
+                  12      KNOBS XMT        A[2]
+                  13:18   ESD GROUND [3]   F6
+                                           3.000
+                                           A[2]
+
+   J4
+      Button      1       +5V              F10       RS232
+   Array          2       +12V             0.750
+                  3       GND              A
+                  4       -12V             F14
+                  5       BTNS PRESENT     0.125 A
+                  6       BTNS RCV
+                  7       nc
+                  8       BTNS XMT         F15
+                  9:12    ESD GROUND [3]   0.125 A
+
+   J5
+      LK201       1       KBD XMT                    RS423
+      Keyboard    2       GND
+                  3       +12V             F1
+                  4       KBD RCV          0.375 A
+
+   J6
+      Fan 1       1       GND
+                  2       +12V
+
+   ____________________________________________________
+   [2 ]These pins and fuses are connected in parallel.
+   [3 ]Fingers on connector shell connected to ground.
+
+
+
+
+                             Physical Description  1-11
+
+
+
+
+
+
+
+
+
+   Table 1-1 (Continued): Peripheral Repeater Board
+    ____________________________________________________
+                           Connectors
+   ____________________________________________________
+   Connector      Pins    Signal           Fuse      RS232/RS423
+
+   J7
+      Tablet      1       GND                        RS232
+                  2       TAB RCV
+                  3       TAB XMT
+                  4       -12V             F7
+                  5       +5V              0.125
+                  6       +12V             A
+                  7       TAB PRESENT      F5
+                  8:9     ESD GROUND [3]   0.250
+                                           A
+                                           F4
+                                           0.375 A
+
+   J8
+      Mouse       1       GND                        RS232
+                  2       MOUSE RCV
+                  3       MOUSE XMT
+                  4       -12V             F8
+                  5       +5V              0.125
+                  6       +12V             A
+                  7       MSE PRESENT      F9
+                  8:9     ESD GROUND [3]   0.250
+                                           A
+                                           F2
+                                           0.375 A
+
+   J9
+      Manufacturing       RESET
+                  1
+                  2       EOP
+      Test
+
+   J10
+       Fan 3      1       GND
+                  2       +12V
+
+   ____________________________________________________
+   [3 ]Fingers on connector shell connected to ground.
+
+
+
+
+
+
+1-12  Physical Description
+
+
+
+
+
+
+
+
+
+   Table 1-1 (Continued): Peripheral Repeater Board
+    ____________________________________________________
+                           Connectors
+   ____________________________________________________
+   Connector      Pins    Signal           Fuse      RS232/RS423
+
+   J11
+       DC Power   1:4     +5V
+                  5:8     GND
+                  9       +12V
+                  10      GND
+                  11      -12V
+                  12      GND
+
+   J12
+       Fan 2      1       GND
+                  2       +12V
+
+   J13
+       Power      1       Green Cathode
+   LED            2       nc
+                  3       Red Cathode
+
+   J14
+       Keyboard   1       KBD PRESENT                RS232
+                  2       SP2 RCV
+                  3       SP2 XMT
+                  4       GND
+                  5       +5V              F13
+                  6:7     ESD GROUND [3]   0.750 A
+   ____________________________________________________
+   [3 ]Fingers on connector shell connected to ground.
+   ____________________________________________________
+
+1.2.3 Part Numbers
+
+   Table 1-2 lists the part numbers for the peripheral
+   repeater's major components, subassemblies, and
+   cables.
+
+
+
+
+
+
+
+
+
+
+                             Physical Description  1-13
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-2: Part Numbers
+                                               Part
+   ____________________________________________________
+   Part Description                            Number
+
+   Internal Assembly
+
+   Peripheral Repeater Internal Assembly       70-
+   (without cover):                            24065-
+        AC Power Harness                        01
+        Fan Assembly                            70-
+        Peripheral Repeater Printed Circuit     24063-
+   Board                                       01
+        Power LED Assembly                      70-
+        Power Switch                            24061-
+        Power Supply Printed Circuit Board,     01
+   120V                                        54-
+        Power Supply Printed Circuit Board,     17157-
+   240V                                        01
+                                               70-
+                                               24052-
+                                               01
+                                               12-
+                                               22355-
+                                               10
+                                               H7820-
+                                               A
+                                               H7820-B
+
+
+
+   Signal Cables
+
+   Peripheral Repeater to Dial Array Signal    17-
+   Cable                                       01416-
+   Peripheral Repeater to Pedestal Signal      01
+   Cable                                       17-
+                                               01354-
+                                               01
+
+
+
+
+1-14  Physical Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-2 (Continued): Part Numbers
+                                               Part
+   ____________________________________________________
+   Part Description                            Number
+
+   Peripheral Repeater Power Cords
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             Physical Description  1-15
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-2 (Continued): Part Numbers
+                                               Part
+   ____________________________________________________
+   Part Description                            Number
+
+   Africa        2.5 m (100 in)                1700456-
+   Australia     2.5 m (100 in)                05
+   Austria       2.5 m (100 in)                1700198-
+   Belgium       2.5 m (100 in)                04
+   Canada        2.4 m  (96 in), 110V          1700199-
+                 2.4 m  (96 in), 220V          07
+   Denmark       2.5 m (100 in)                1700199-
+   Finland       2.5 m (100 in)                07
+   France        2.5 m (100 in)                1700083-
+   Germany       2.5 m (100 in)                43
+   India         2.5 m (100 in)                1700083-
+   Ireland       2.5 m (100 in)                44
+   Israel        2.5 m (100 in)                1700310-
+   Italy         2.5 m (100 in)                07
+   Japan         2.4 m  (96 in), 110V          1700199-
+                 2.4 m  (96 in), 220V          07
+   Mexico        2.4 m  (96 in), 110V          1700199-
+                 2.4 m  (96 in), 220V          07
+   Netherlands   2.5 m (100 in)                1700199-
+   New Zealand   2.5 m (100 in)                07
+   Norway        2.5 m (100 in)                1700456-
+   Portugal      2.5 m (100 in)                05
+   Spain         2.5 m (100 in)                1700209-
+   Sweden        2.5 m (100 in)                04
+   Switzerland   2.5 m (100 in)                1700457-
+   United        2.5 m (100 in)                05
+   Kingdom       2.4 m  (96 in)                1700364-
+   United                                      05
+   States                                      1700083-
+                                               43
+                                               1700083-
+                                               44
+                                               1700083-
+                                               43
+                                               1700083-
+                                               44
+                                               1700199-
+                                               07
+                                               1700198-
+1-16  Physical Description
+                                               04
+                                               1700199-
+                                               07
+                                               1700199-
+                                               07
+                                               1700199-
+                                               07
+                                               1700199-
+                                               07
+                                               1700210-
+                                               04
+                                               1700209-
+                                               04
+                                               1700083-
+                                               44
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-2 (Continued): Part Numbers
+                                               Part
+   ____________________________________________________
+   Part Description                            Number
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             Physical Description  1-17
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-2 (Continued): Part Numbers
+                                               Part
+   ____________________________________________________
+   Part Description                            Number
+
+
+   Peripheral Repeater to Monitor Power
+   Cords
+
+   United        0.9 m (36.00 in)              17-
+   States        1.0 m (39.37 in)              00442-
+   Other                                       15
+   countries                                   17-
+                                               00365-
+                                               19
+   ____________________________________________________
+
+
+1.3 Specifications
+
+   Table 1-3 through Table 1-5 list the physical,
+   electrical, and environmental specifications for
+   the peripheral repeater.
+
+   ____________________________________________________
+   Table 1-3: Physical Specifications
+   ____________________________________________________
+   Parameter Specifications
+
+   Height     8.3 cm  (3.25 in)
+
+   Width     39.6 cm (15.59 in)
+
+   Depth     39.6 cm (15.59 in)
+
+   Weight     5.4 kg  (12.00 lb)
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+1-18  Physical Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-4: Electrical Specifications
+   Parameter                      Specifications
+   ____________________________________________________
+                         Typical  Minimum  Maximum
+
+   Frequency              60 Hz    47 Hz    63 Hz
+
+   Power consumption     200 W             330 W[1]  
+
+   Voltage               115       88      132 Vac[2]
+                         Vac      Vac      264 Vac[3]
+                         230 Vac  176 Vac
+
+   Current               2.40 A (steady state)[2]
+                         1.30 A (steady state)[3]
+
+   AC power output                           1.50 A[2]
+                                             0.75 A[3]
+
+   DC power output                         102.00 W
+
+         +5 Vdc                    3.00 A    10.00 A
+        +12 Vdc                    0.50 A     4.00 A
+        -12 Vdc                    0.00 A     0.25 A
+   ____________________________________________________
+   [1]Including ac and dc output loads.
+   [2]VSXXX-CA
+   [3]VSXXX-CB
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             Physical Description  1-19
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-5: Environmental Specifications
+   ____________________________________________________
+   Parameter                         Specification
+
+   Operating
+        Temperature                   10° to 40° C (50° to
+        Altitude                      104° F)[1]  
+        Relative humidity             2.4 km (8000 ft) maxi-
+        Maximum wet-bulb tempera-     mum
+   ture                              10% to 90% (noncondens-
+        Minimum dew-point tempera-    ing)
+   ture                              28° C (82.4° F)
+                                      2° C (36° F)
+
+   Nonoperating
+        Temperature                   -40° to 66° C (-40° to
+        Altitude                      151° F)
+        Relative humidity             4.9 km (16000 ft) typi-
+                                     cal
+                                     10% to 95% (noncondens-
+                                     ing)
+
+   Storage
+        Temperature                   5° to 50° C (41° to 122°
+        Relative humidity             F)
+        Maximum wet-bulb tempera-     10% to 95% (noncondens-
+   ture                              ing)
+                                     32° C (90° F)
+
+   Air flow                          0.009 m[3]/s (18
+                                     ft[3]/min)
+
+                                     _______  _______
+   Heat dissipation                  Minimium Maximum
+
+                                     29 W      85 W
+                                     99       290
+                                     Btu/h    Btu/h
+
+   ____________________________________________________
+   [1]De-rate maximum operating temperature 1.82° C/km
+   (1.0° F/1000 ft) above sea level.
+
+
+
+1-20  Physical Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 1-5 (Continued): Environmental Specifications
+   ____________________________________________________
+   Parameter                         Specification
+
+                                     _______  _______
+   Acoustics                         LPNE     LPA
+
+                                     4.8 B    42 dBa
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             Physical Description  1-21
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             Chapter  2
+
+
+                                 Functional Description
+_______________________________________________________
+
+
+
+   This chapter gives a functional and architectural
+   description of the peripheral repeater.
+
+
+2.1 Introduction
+
+   The peripheral repeater is a self-contained
+   subsystem based on an 8-bit 8031 microprocessor.
+   It processes and controls the flow of information
+   between the KA800 and the interactive devices.
+
+____
+Note
+     ___ __________ ________ ___ ________ __ __ ____
+     The peripheral repeater was designed to be part
+   __ ___ ________ _________ __ _ __________ _____ ___
+   of the graphics subsystem in a VAXstation 8000. The
+   _______ _________ ___ ____ _________ __ _ _ _______
+   control processor for that subsystem is a a DIGITAL
+   _____ _________ __________ ______ ___ ____ __ ___
+   KA800 processor (sometimes called the ACP, an in-
+   _____ _________ __ __ ___ _____ ____ __ _________
+   house acronym). It is the KA800 that is connected
+   __ ___ ____ ____ __ ___ __________ _________
+   to the host port on the peripheral repeater.
+
+   ___ __________ ____ ____ ________ _ ____ __________
+   The VAXstation 8000 also includes a host subsystem.
+   ___ _________ ___ ____ _________ __ _ _______
+   The processor for that subsystem is a DIGITAL
+   ______ ___ __ __ _______ ______ ___ _____ ___
+   KA825, and it is usually called the host. The
+   _____ ___ __ ______ __________ __ ___ __________
+   KA825 has no direct connection to the peripheral
+   _________
+   repeater.
+
+                           _____
+                           KA800
+   __________ ____ _______       ______ __ ___
+   Throughout this manual,       refers to the
+   _________ _________ __ ___ __________ _________
+   processor connected to the peripheral repeater,
+       ____
+       host
+   ___      ______ __ ___ ____ _________ __________
+   and      refers to the host subsystem processor.
+
+
+                            Functional Description  2-1
+
+
+
+
+
+
+
+
+
+   The peripheral repeater is a free-running subsys-
+   tem. It performs self-test at power up to check its
+   internal status. Following successful completion of
+   self-test, the peripheral repeater initializes it-
+   self and starts a continuous scan for activity from
+   the KA800 or interactive devices.
+
+   The functional hardware components of the periph-
+   eral repeater are contained on the peripheral re-
+   peater printed-circuit board, or PRB, and the H7820
+   power supply printed-circuit board. The operational
+   and diagnostic firmware are contained in 8 kbytes
+   of ROM (read-only memory) on the PRB.
+
+
+2.2 Peripheral Repeater Board
+
+   Figure 2-1 is a block diagram of the peripheral
+   repeater printed-circuit board. The blocks are
+   described in the following subsections.
+
+2.2.1 8031 Microprocessor
+
+   The 8031 microprocessor (Figure 2-2) is an 8-
+   bit microprocessor that includes the following
+   features:
+
+    _
+      32 I/O lines (four 8-bit ports)
+    _
+
+    _
+      128-byte internal data memory
+    _
+
+    _
+      64-kbyte external data memory address space
+    _
+
+    _
+      64-kbyte external program memory address space
+    _
+      (no internal program memory.)
+
+    _
+      Two 16-bit timer/counters
+    _
+
+    _
+      A 5-source/2-level interrupt structure
+    _
+
+   The peripheral repeater program memory and external
+   data memory occupy only the lowest 24 kbytes of the
+   128-kbyte external memory address space. Program
+   memory is contained in an 8-kbyte ROM (read-only
+   memory). External data memory is contained in two
+   8-kbyte SRAMs (static random-access memories).
+
+
+
+2-2  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-1: Peripheral Repeater Board Block Diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                ASD-1134 (to be corrected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            Functional Description  2-3
+
+
+
+
+
+
+
+
+
+   Figure 2-2: 8031 Microprocessor Block Diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1104
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-4  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-1 describes the 8031 microprocessor input
+   and output signals.
+
+   ____________________________________________________
+   Table 2-1: 8031 Microprocessor Signals
+                    Pin
+   ____________________________________________________
+   Signal      Port Name   Description
+
+   ADDR 15:08  2    A      Eight high-order address
+                    15:8   bits.
+
+   ADDR        0    AD     Eight multiplexed data or
+   07:00            7:0    low-order address bits.
+   DATA 07:00
+
+                           Self-Test Loop
+   ST LOOP     1    P17                  . This signal
+                           is for manufacturing test.
+                           The cable between the KA800
+                           and peripheral repeater
+                           J2 is NOT wired for this
+                           signal.
+
+                           End Of Pass
+   EOP         1    P16               . This signal is
+                           for manufacturing test.
+
+                           Interrupt 0
+   INT 0       3    P32               . Interrupt line
+                           from the OCTALART (DC349).
+
+                           Read
+   RD          3    P37        . Source of the read
+                           signals for external data
+                           memory (SRAM), Function
+                           Register (FUNC REG), and
+                           Diagnostic Register (DIAG
+                           REG), and the data strobe
+                           signal for the OCTALART
+                           (DC349) registers.
+
+
+
+
+
+
+
+                            Functional Description  2-5
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-1 (Continued): 8031 Microprocessor Signals
+                    Pin
+   ____________________________________________________
+   Signal      Port Name   Description
+
+                           Write
+   WR          3    P36         . Source of the write
+                           signals for external data
+                           memory (SRAM), Function
+                           Register (FUNC REG), and
+                           Diagnostic Register (DIAG
+                           REG), and the data strobe
+                           signal for the OCTALART
+                           (DC349) registers.
+
+                           Address Latch Enable
+   ALE              ALE                        .
+                           Latches the eight low-
+                           order bits of address in
+                           the address latch (ADDR
+                           LTCH).
+
+                           Program Store Enable
+   PSEN             PSEN                       .
+                           Source of the read signal
+                           for program memory (ROM).
+
+                           Crystal
+   XTAL2            XTAL2         . External crystal
+                           oscillator input. The 8031
+                           divides the input frequency
+                           by 2.
+
+                           Power-up Reset
+   PWR UP           RST                  . Initializes
+                           the 8031 when power is
+                           turned on.
+
+                           External Access
+   EA               EA                    . Tied to
+                           ground on an 8031 to enable
+                           access to external program
+                           memory.
+   ____________________________________________________
+
+
+
+
+
+2-6  Functional Description
+
+
+
+
+
+
+
+
+
+2.2.2 Address Space
+
+   The 8031 microprocessor has separate address spaces
+   for program memory and data memory. Program memory
+   is entirely external to the 8031, while data memory
+   comprises both external memory and on-chip, or
+   internal, memory. The 16-bit address allows both
+   program memory and external data memory to occupy
+   up to 64 kbytes of address space. The appropriate
+   address space is selected by using PSEN as the
+   read strobe for program memory, and RD and WR as
+   the data strobes for external data memory. Note
+   that the peripheral repeater uses only 32 kbytes
+   of address space and that program and external
+   data memory occupy uniquely addressed segments. See
+   Table 2-2.
+
+   ____________________________________________________
+   Table 2-2: Peripheral Repeater Memory Map
+   Address
+   ____________________________________________________
+   Range       Size      Description
+
+   FFFF-E000     8       External Data Memory (I/O
+               kbytes    Registers)
+
+   DFFF-6000    32       Not used
+               kbytes
+
+   5FFF-4000     8       External Data memory (SRAM 1)
+               kbytes
+
+   3FFF-2000     8       External Data memory (SRAM 0)
+               kbytes
+
+   1FFF-0000     8       External Program Memory--
+               kbytes    Operating System and Power Up
+                         Self-test (ROM).
+                         Note that the first 256
+                         bytes, 00FF-0000, are the
+                         8031 internal data memory.
+   ____________________________________________________
+
+
+
+
+                            Functional Description  2-7
+
+
+
+
+
+
+
+
+
+2.2.2.1 I/O Registers
+
+   The I/O Registers space, also called the I/O Page
+   or Bank 7, is part of external data memory and
+   is allocated as shown in Table 2-3. This space
+   is selected when ADDR 15:13 are asserted, causing
+   signal SEL BNK 7 (Figure 2-4 and Table 2-6) to be
+   asserted. When SEL BNK 7 is asserted, note that:
+
+    _
+      ADDR 12 is asserted, ADDR 11 is deasserted, and
+    _
+      ADDR <10:00> are ignored when the Diagnostic
+      Register is addressed.
+
+    _
+      ADDR 12 is deasserted, ADDR 11 is asserted, and
+    _
+      ADDR <10:00> are ignored when the Diagnostic
+      Register is addressed.
+
+    _
+      ADDR <11:12> are deasserted and ADDR <10:08> and
+    _
+      ADDR 06 are ignored when the DC349 registers are
+      addressed.
+
+      In addition, if ADDR 02 is set, ADDR <05:03>
+      (the channel number bits) are also ignored and
+      either the DC349 Interrupt Summary Register
+      or DC349 Data Set Change Summary Register is
+      addressed.
+
+    _
+      ADDR 07 is deasserted to write the writable
+    _
+      DC349 registers. Therefore, addresses in the
+      range E0BD₁₆through E080₁₆are read addresses,
+      and addresses in the range E03B₁₆through
+      E000₁₆are write addresses. Read/modify/write
+      instructions should not be used to access these
+      registers.
+
+    _
+      DC349 Mode Registers 1 and 2 have the same ad-
+    _
+      dress and are accessed by sequential opera-
+      tions (read/read, read/write, write/read, or
+      write/write) to that address. The first oper-
+      ation accesses Mode Register 1, the next Mode
+      Register 2, the next Mode Register 1, and so
+      on. Reading the Command Register resets the
+      sequential counter to point to Mode Register 1.
+
+
+
+
+
+2-8  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-3: I/O Registers Memory Map
+   ____________________________________________________
+   AddressAccess Register
+
+   F000   Read   Mode Register
+          Write
+
+   E800   Read   Diagnostic Register
+          Write
+
+   E0BD   Read   DC349 Data Set Change Summary
+                 Register
+
+   E0BC   Read   DC349 Interrupt Summary Register
+
+   E0BB   Read   DC349 Channel 7 Command Register
+   E0BA   Read   DC349 Channel 7 Mode Registers 1 and
+   E0B9   Read   2
+   E0B8   Read   DC349 Channel 7 Status Register
+                 DC349 Channel 7 Receiver Buffer
+                 Register
+
+   E0B3   Read   DC349 Channel 6 Command Register
+   E0B2   Read   DC349 Channel 6 Mode Registers 1 and
+   E0B1   Read   2
+   E0B0   Read   DC349 Channel 6 Status Register
+                 DC349 Channel 6 Receiver Buffer
+                 Register
+
+   E0AB   Read   DC349 Channel 5 Command Register
+   E0AA   Read   DC349 Channel 5 Mode Registers 1 and
+   E0A9   Read   2
+   E0A8   Read   DC349 Channel 5 Status Register
+                 DC349 Channel 5 Receiver Buffer
+                 Register
+
+
+
+
+
+
+
+
+                            Functional Description  2-9
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-3 (Continued): I/O Registers Memory Map
+   ____________________________________________________
+   AddressAccess Register
+
+   E0A3   Read   DC349 Channel 4 Command Register
+   E0A2   Read   DC349 Channel 4 Mode Registers 1 and
+   E0A1   Read   2
+   E0A0   Read   DC349 Channel 4 Status Register
+                 DC349 Channel 4 Receiver Buffer
+                 Register
+
+   E09B   Read   DC349 Channel 3 Command Register
+   E09A   Read   DC349 Channel 3 Mode Registers 1 and
+   E099   Read   2
+   E098   Read   DC349 Channel 3 Status Register
+                 DC349 Channel 3 Receiver Buffer
+                 Register
+
+   E093   Read   DC349 Channel 2 Command Register
+   E092   Read   DC349 Channel 2 Mode Registers 1 and
+   E091   Read   2
+   E090   Read   DC349 Channel 2 Status Register
+                 DC349 Channel 2 Receiver Buffer
+                 Register
+
+   E08B   Read   DC349 Channel 1 Command Register
+   E08A   Read   DC349 Channel 1 Mode Registers 1 and
+   E089   Read   2
+   E088   Read   DC349 Channel 1 Status Register
+                 DC349 Channel 1 Receiver Buffer
+                 Register
+
+   E083   Read   DC349 Channel 0 Command Register
+   E082   Read   DC349 Channel 0 Mode Registers 1 and
+   E081   Read   2
+   E080   Read   DC349 Channel 0 Status Register
+                 DC349 Channel 0 Receiver Buffer
+                 Register
+
+
+
+
+
+2-10  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-3 (Continued): I/O Registers Memory Map
+   ____________________________________________________
+   AddressAccess Register
+
+   E03B   Write  DC349 Channel 7 Command Register
+   E03A          DC349 Channel 7 Mode Registers 1 and
+   E038   Write  2
+                 DC349 Channel 7 Transmitter Holding
+          Write  Register
+
+   E033   Write  DC349 Channel 6 Command Register
+   E032          DC349 Channel 6 Mode Registers 1 and
+   E030   Write  2
+                 DC349 Channel 6 Transmitter Holding
+          Write  Register
+
+   E02B   Write  DC349 Channel 5 Command Register
+   E02A          DC349 Channel 5 Mode Registers 1 and
+   E028   Write  2
+                 DC349 Channel 5 Transmitter Holding
+          Write  Register
+
+   E023   Write  DC349 Channel 4 Command Register
+   E022          DC349 Channel 4 Mode Registers 1 and
+   E020   Write  2
+                 DC349 Channel 4 Transmitter Holding
+          Write  Register
+
+   E01B   Write  DC349 Channel 3 Command Register
+   E01A          DC349 Channel 3 Mode Registers 1 and
+   E018   Write  2
+                 DC349 Channel 3 Transmitter Holding
+          Write  Register
+
+   E013   Write  DC349 Channel 2 Command Register
+   E012          DC349 Channel 2 Mode Registers 1 and
+   E010   Write  2
+                 DC349 Channel 2 Transmitter Holding
+          Write  Register
+
+
+
+
+                           Functional Description  2-11
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-3 (Continued): I/O Registers Memory Map
+   ____________________________________________________
+   AddressAccess Register
+
+
+   E00B   Write  DC349 Channel 1 Command Register
+   E00A          DC349 Channel 1 Mode Registers 1 and
+   E008   Write  2
+                 DC349 Channel 1 Transmitter Holding
+          Write  Register
+
+   E003   Write  DC349 Channel 0 Command Register
+   E002          DC349 Channel 0 Mode Registers 1 and
+   E000   Write  2
+                 DC349 Channel 0 Transmitter Holding
+          Write  Register
+   ____________________________________________________
+
+2.2.2.2 Internal Data Memory
+
+   Internal data memory comprises 256 bytes, allocated
+   as shown in Table 2-4. Access to this memory is
+   controlled by the 8031 instruction addressing mode.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-12  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-4: 8031 Internal Data Memory Map
+   Address
+   ____________________________________________________
+   Range       Size      Description
+
+   00FF-0080   128       Special Function Registers
+               bytes
+
+   007F-0030    80       Scratch Pad Area
+               bytes
+
+   002F-0020    16       Bit-addressable Segment
+               bytes
+
+   001F-0018     8       Register Bank 3
+               bytes
+
+   0010-0017     8       Register Bank 2
+               bytes
+
+   000F-0008     8       Register Bank 1--Default Stack
+               bytes     Area
+
+   0007-0000     8       Register Bank 0--Default
+               bytes     Register Bank
+   ____________________________________________________
+
+2.2.3 Address Latch
+
+   The lowest eight bits of address and data are mul-
+   tiplexed on lines AD<7:0>, as shown in Figure 2-1.
+   When an address is on these lines, signal ALE is
+   asserted by the 8031, and the address is latched
+   in the ADDR LTCH (Address Latch). The output of the
+   ADDR LTCH is ADDR<7:0>.
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-13
+
+
+
+
+
+
+
+
+
+2.2.4 Data Transceivers
+
+   The DATA XCVR (Data Transceivers), Figure 2-1,
+   determine the direction of data transferred between
+   the DATA<7:0> lines and the multiplexed address and
+   data AD<7:0> lines. When the 8031 asserts BUS READ
+   through the CTRL BFFR DCDR, data is transferred to
+   the 8031; when BUS READ is not asserted, data is
+   transferred from the 8031.
+
+2.2.5 Control Buffer/Decoder
+
+   The CTRL BFFR DCDR (control buffer/decoder) is
+   shown in Figure 2-3. Its input and output signals
+   are described in Table 2-5.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-14  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-3: Control Buffer/Decoder Block Diagram
+
+
+
+
+
+
+
+
+
+
+                         ASD-1105
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-15
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-5: Control Buffer/Decoder Signals
+   ____________________________________________________
+   Signal    Description
+
+   WR        Source of the WRITE signal and one source
+             for the UART STB signal.
+
+   RD        Source of the READ signal and one source
+             for the UART STB signal.
+
+   PSEN      Source of the BPSEN signal.
+
+   WRITE     The write enable signal for data memory
+             (SRAM) and the Function and Diagnostic
+             registers (FUNC REG and DIAG REG).
+
+   READ      The read enable signal for data memory
+             (SRAM) and the Function and Diagnostic
+             registers (FUNC REG and DIAG REG). READ
+             is also one source for the BUS READ
+             signal.
+
+             Buffered Program Store Enable
+   BPSEN                                  . The read
+             enable signal for program memory (ROM).
+             BPSEN is also one source for the BUS READ
+             signal.
+
+   BUS READ  This signal controls the direction of the
+             data transfer through the bus transceiver
+             (DATA XCVR). See Figure 2-1. When BUS
+             READ is asserted, data is input to the
+             8031; when not asserted, data is output
+             from the 8031.
+
+             UART Strobe
+   UART STB             . This signal is the data
+             strobe (data valid) signal for read and
+             write data transfers between the DATA
+             XCVR and the DC349 OCTALART.
+   ____________________________________________________
+
+
+
+
+2-16  Functional Description
+
+
+
+
+
+
+
+
+
+2.2.6 Address Decoder
+
+   The ADDR DCDR (address decoder) generates the
+   signals which select ROM, either SRAM, or the
+   I/O registers (the DC349 registers, Diagnostic
+   Register, and Function Register). It is shown in
+   Figure 2-4 and it's input and output signals are
+   described in Table 2-6.
+
+   Figure 2-4: Address Decoder Block Diagram
+
+
+
+
+
+
+
+
+
+
+                         ASD-1106
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-17
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-6: Address Decoder Signal Derivation
+   ADDR    Address
+   ____________________________________________________
+   15:11[1]Range        Output       Description
+
+                                     Select Bank 7
+   HHHxx   FFFF-E000    SEL BNK 7
+                                     selects the top
+                                     8-kbyte bank of
+                                     memory address
+                                     space which
+                                     contains the I/O
+                                     Registers; that
+                                     is, the Function,
+                                     Diagnostic,
+                                     and OCTALART
+                                     registers.
+
+                                     Select Mode
+   HHHHL   FFFF-F000    SEL MODE
+                                     Register
+                        REG                  . Selects
+                                     the Function
+                                     Register. The
+                                     Function Register
+                                     default address
+                                     is F000.
+
+                                     Select Diagnostic
+   HHHLH   EFFF-E800    SEL DIAG
+                                     Register
+                        REG                  . The
+                                     Diagnostic
+                                     Register default
+                                     address is E800.
+
+                                     Select DC349
+   HHHLL   E7FF-E000    SEL DC349                .
+                                     The addresses
+                                     for the OCTALART
+                                     registers fall
+                                     into this range.
+
+   ____________________________________________________
+   [1]x = don't care.
+
+
+
+
+2-18  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-6 (Continued): Address Decoder Signal
+    ____________________________________________________
+                           Derivation
+   ADDR    Address
+   ____________________________________________________
+   15:11[1]Range        Output       Description
+
+                                     Select RAM 1
+   LHLxx   5FFF-4000    SEL RAM 1                .
+                                     Selects the
+                                     upper 8 kbytes
+                                     of external data
+                                     memory.
+
+                                     Select RAM 0
+   LLHxx   3FFF-2000    SEL RAM 0                .
+                                     Selects the
+                                     lower 8 kbytes
+                                     of external data
+                                     memory.
+
+                                     Select ROM 0
+   LLLxx   1FFF-0000    SEL ROM 0                .
+                                     Selects the 8-
+                                     kbyte program
+                                     memory.
+   ____________________________________________________
+   [1]x = don't care.
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-19
+
+
+
+
+
+
+
+
+
+2.2.7 ROM/SRAM
+
+   The peripheral repeater uses only 32 kbytes of the
+   128-kbyte external memory address space. The top
+   8-kbyte bank is reserved for the I/O Registers.
+   Program memory is contained in an 8-kbyte ROM
+   and external data memory is contained in two
+   8-kbyte SRAMs. The ADDR DCDR provides the chip
+   select signals for the ROM and the two SRAMs. See
+   Figure 2-5.
+
+   Figure 2-5: ROM/SRAM Block Diagram
+
+
+
+
+
+
+
+
+                         ASD-1107
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-20  Functional Description
+
+
+
+
+
+
+
+
+
+2.2.8 DC349 OCTALART
+
+   The DC349 OCTALART, Figure 2-6, contains eight
+   ARTs (asynchronous receiver/transmitters) and a
+   baud-rate generator. It performs the operations
+   necessary for independent full-duplex operation
+   on eight serial data lines, or channels. The
+   DC349 input and output signals are described in
+   Table 2-7.
+
+   Figure 2-6: DC349 OCTALART Block Diagram
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1108
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-21
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-7: DC349 OCTALART Signals
+               Pin
+   ____________________________________________________
+   Signal      Name     Description
+
+                        Select DC349/Chip Select
+   SEL DC349   CS                               .
+                        When asserted, this signal
+                        enables data transfers on
+                        DATA <07:00> lines to or from
+                        the internal registers. Data
+                        transfer timing and direction
+                        are controlled by UART STB and
+                        ADDR 07.
+
+                        Address 05:00
+   ADDR 05:00  A5:A0                 . These bits
+                        select the internal register;
+                        bits ADDR <05:03> select
+                        the channel and ADDR <02:00>
+                        select the register.
+
+                        UART Strobe/Data Strobe
+   UART STB    DS2:DS1                         .
+                        During a write to the DC349,
+                        UART STB is asserted after
+                        data is placed on DATA <07:00>
+                        and deasserted before the data
+                        is removed. On a read from the
+                        DC349, UART STB is asserted
+                        before the data is placed on
+                        DATA <07:00>.
+
+                        Address 07/-Write
+   ADDR 07     WR                        . When
+                        asserted, data is read from
+                        the DC349 registers. When not
+                        asserted, data is written to
+                        the DC349 registers.
+
+
+
+
+
+
+
+
+2-22  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-7 (Continued): DC349 OCTALART Signals
+               Pin
+   ____________________________________________________
+   Signal      Name     Description
+
+   DATA 07:00  D7:D0    Parallel input and output
+                        data lines. Data is input to
+                        the internal registers (write
+                        operation) when SEL DC349
+                        and UART STB are asserted and
+                        ADDR 07 is deasserted. Data
+                        is output from the internal
+                        registers (read operation)
+                        when SEL DC349, UART STB, and
+                        ADDR 07 are asserted.
+
+                        Interrupt 0/Interrupt Request
+   INT 0       IRQ                                   .
+                        Asserted when a channel's
+                        receiver buffer is full,
+                        a change has occurred on a
+                        carrier detect (DCD) line,
+                        or a channel's transmitter
+                        holding register is empty.
+
+                               Transmit Data
+               TXDn     Serial              .
+
+                               Receive Data
+               RXDn     Serial             .
+
+                        Data Set Ready
+               DSRn                    (not used).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-23
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-7 (Continued): DC349 OCTALART Signals
+               Pin
+   ____________________________________________________
+   Signal      Name     Description
+
+                        Carrier Detect
+               DCDn                   . A transition
+                        on any of these lines
+                        indicates a data set change
+                        and is one of the conditions
+                        for asserting INT 0.
+                        Through external inverters,
+                        these pins are connected to
+                        the device present signals of
+                        the devices that supply such
+                        signals.
+
+                        Clock
+   UART CLK    CLK           . Source for internal
+                        clocks and baud rates.
+
+                        Power Up A/Reset
+   PWR UP A    RESET                    . Places the
+                        DC349 in a known state at
+                        power up.
+   ____________________________________________________
+
+   There are 50 accessible DC349 registers:
+
+    _
+      Eight (one per channel) each:
+    _
+
+         Receiver Buffer
+
+         Transmitter Holding Register
+
+         Status Register
+
+         Mode Register 1
+
+         Mode Register 2
+
+         Command Register
+
+    _
+      Interrupt Summary Register
+    _
+
+    _
+      Data Set Change Summary Register
+    _
+
+   The format for the 16-bit DC349 register address
+   is:
+
+
+
+2-24  Functional Description
+
+
+
+
+
+
+
+
+
+
+                  HHH LL XXX w X nnn rrr
+
+   The format is described in the following table.
+   ____________________________________________________
+   ADDR  State Description
+
+   15:13 HHH   SEL BNK 7--asserted to access all I/O
+               Registers.
+
+   12:11 LL    SEL DC349--asserted to access all DC349
+               registers.
+
+   10:08 XXX   Don't care--not used for any DC349
+               register access.
+
+      07 w     Write bit, where:
+
+         H     DC349 register read operation
+         L     DC349 register write operation.
+
+      06 X     Don't care--not used for any DC349
+               register access.
+
+   05:03 nnn   Binary-coded channel number, where:
+
+         LLL   channel 0
+         LLH   channel 1
+         LHL   channel 2
+         LHH   channel 3
+         HLL   channel 4
+         HLH   channel 5
+         HHL   channel 6
+         HHH   channel 7
+
+   02:00 rrr   Register select code, where:
+
+
+
+
+
+
+
+                           Functional Description  2-25
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   ADDR  State Description
+
+         LLL   Receiver Buffer (ADDR 07 = H)
+         LLL   Transmitter Holding Register (ADDR 07 =
+         LLH   L)
+         LHL   Status Register
+         LHH   Mode Registers 1 and 2[1]
+         HLL   Command Register
+         HLH   Interrupt Summary Register
+         HHL   Data Set Change Summary Register
+         HHH   Not used
+               Not used
+   ____________________________________________________
+   [1]Mode Registers 1 and 2 are accessed by sequen-
+   tial operations (read/read, read/write, write/read,
+   or write/write) to the same address. The first op-
+   eration accesses Mode Register 1, the next Mode
+   Register 2, the next Mode Register 1, and so on.
+   ____________________________________________________
+
+   The register formats are described in the following
+   subsections.
+
+2.2.8.1 DC349 Receiver Buffer and Transmitter Holding
+        Register
+
+   The Receiver Buffer (Figure 2-7) and Transmitter
+   Holding Register (Figure 2-8) occupy the same
+   address space on the chip; however, receiver (read)
+   and transmitter (write) addresses are different
+   because ADDR 07 controls the read/write function.
+   The Receiver Buffer comprises a 2-entry FIFO and
+   a character assembly register. The Transmitter
+   Holding Register comprises a 2-entry FIFO and a
+   serialization register. Receiver Buffer bits are
+   described in Table 2-8, and Transmitter Holding
+   Register bits are described in Table 2-9.
+
+
+
+
+
+
+
+
+2-26  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-7: DC349 Receiver Buffer Format
+
+
+
+
+                         ASD-1109
+
+
+
+
+
+   ____________________________________________________
+   Table 2-8: DC349 Receiver Buffer Bit Description
+   ____________________________________________________
+   Bit  Name    Access    Description
+
+   07:00  -     Read      Received Data
+                Only
+   ____________________________________________________
+
+
+   Figure 2-8: DC349 Transmitter Holding Register
+                Format
+
+
+
+
+                         ASD-1110
+
+
+
+
+
+   Table 2-9: DC349 Transmitter Holding Register Bit
+    ____________________________________________________
+               Description
+   ____________________________________________________
+   Bit  Name    Access    Description
+
+   07:00  -     Write     Transmit Data
+                Only
+   ____________________________________________________
+
+
+
+
+
+                           Functional Description  2-27
+
+
+
+
+
+
+
+
+
+2.2.8.2 DC349 Status Register
+
+   The octalart Status Register is described in
+   Figure 2-9 and Table 2-10.
+
+   Figure 2-9: DC349 Status Register Format
+
+
+
+
+                         ASD-1111
+
+
+
+
+
+   ____________________________________________________
+   Table 2-10: DC349 Status Register Bit Description
+   ____________________________________________________
+   Bit Name    Access    Description
+
+                         Data Set Ready
+   07  DSR     Read                    . Indicates
+               Only      the inverted state of the
+                         -DSR pin. Not used in the
+                         peripheral repeater.
+
+                         Data Carrier Detect
+   06  DCD     Read                         .
+               Only      Indicates the inverted state
+                         of the -DCD pin. A transition
+                         on this pin is interpreted as
+                         a device present signal.
+
+                         Framing Error
+   05  FER     Read                   . When set,
+               Only      indicates the character in
+                         the Receiver Buffer was not
+                         framed by a stop bit.
+
+
+
+
+
+
+
+
+2-28  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-10 (Continued): DC349 Status Register Bit
+    ____________________________________________________
+                            Description
+   ____________________________________________________
+   Bit Name    Access    Description
+
+                         Overrun Error
+   04  ORR     Read                   . When set,
+               Only      indicates the character in
+                         the Receiver Buffer was not
+                         read before another character
+                         was received.
+
+                         Parity Error
+   03  PER     Read                  . When set,
+               Only      indicates the character
+                         in the Receiver Buffer was
+                         received with incorrect
+                         parity.
+
+                         Transmitter Empty
+   02  TXEMT   Read                       . When set,
+               Only      indicates the transmitter
+                         serialization logic has
+                         completed transmitting a
+                         character.
+
+                         Receiver Buffer Ready
+   01  RXRDY   Read                           . When
+               Only      set, indicates a character
+                         has been received.
+
+                         Transmitter Holding Register
+   00  TXRDY   Read
+                         Ready
+               Only           . When set, indicates
+                         the Transmitter Holding
+                         Register is empty and will
+                         cause an interrupt if TXIE
+                         (Command Register bit 01) is
+                         set.
+   ____________________________________________________
+
+
+
+
+
+
+
+
+                           Functional Description  2-29
+
+
+
+
+
+
+
+
+
+2.2.8.3 DC349 Mode Register 1
+
+   Mode Register 1 and Mode Register 2 have the same
+   address and are accessed by sequential operations
+   (read/read, read/write, write/read, or write/write)
+   to that address. The first operation accesses Mode
+   Register 1, the next Mode Register 2, the next Mode
+   Register 1, and so on. Reading the Command Register
+   resets the sequential counter to point to Mode
+   Register 1.
+
+   Figure 2-10: DC349 Mode Register 1 Format
+
+
+
+                         ASD-1112
+
+
+
+
+
+   ____________________________________________________
+   Table 2-11: DC349 Mode Register 1 Bit Description
+   ____________________________________________________
+   Bit    Name    Access     Description
+
+   07:06  STOP    Read/Write Stop Bits, where:
+        
+    0  0                     not used
+        
+    0  1                     1     stop bit
+
+    1  0                     1-1/2 stop bits
+
+    1  1                     2     stop bits
+
+
+
+
+
+
+
+
+
+
+2-30  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-11 (Continued): DC349 Mode Register 1 Bit
+    ____________________________________________________
+                            Description
+   ____________________________________________________
+   Bit    Name    Access     Description
+
+   05:04  PARITY  Read/Write Parity Control, where:
+    0  0                     parity disabled
+        
+    0  1                     odd parity enabled
+
+    1  0                     even parity enabled
+
+    1  1
+
+   03:02  CHARL   Read/Write Character Length, where:
+        
+    0  0                     5 data bits
+        
+    0  1                     6 data bits
+
+    1  0                     7 data bits
+
+    1  1                     8 data bits
+
+                             Modem Control Interrupt
+      00  MCIE    Read/Write
+                             Enable
+                                   . When set in
+                             conjunction with RXIE
+                             (Command Register bit
+                             05), enables DSR and DCD
+                             interrupts.
+
+      01    -      -         Not used.
+
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-31
+
+
+
+
+
+
+
+
+
+2.2.8.4 DC349 Mode Register 2
+
+   Mode Register 1 and Mode Register 2 have the same
+   address and are accessed by sequential operations
+   (read/read, read/write, write/read, or write/write)
+   to that address. The first operation accesses Mode
+   Register 1, the next Mode Register 2, the next Mode
+   Register 1, and so on. Reading the Command Register
+   resets the sequential counter to point to Mode
+   Register 1.
+
+   Figure 2-11: DC349 Mode Register 2 Format
+
+
+
+
+                         ASD-1113
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-32  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-12: DC349 Mode Register 2 Bit Description
+   ____________________________________________________
+   Bit    Access     Description
+
+   07:04  Read/Write Transmitter Baud Rate
+                     Receiver Baud Rate, where:
+   03:00  Read/Write
+
+   0000                  50.0 baud
+   0001                  75.0 baud
+   0010                 110.0 baud
+   0011                 134.5 baud
+   0100                 150.0 baud
+   0101                 300.0 baud
+   0110                 600.0 baud
+   0111                1200.0 baud
+   1000                1800.0 baud
+   1001                2000.0 baud
+   1010                2400.0 baud
+   1011                3600.0 baud
+   1100                4800.0 baud
+   1101                7200.0 baud
+   1110                9600.0 baud
+   1111               19200.0 baud
+   ____________________________________________________
+
+2.2.8.5 DC349 Command Register
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-33
+
+
+
+
+
+
+
+
+
+   Figure 2-12: DC349 Command Register Format
+
+
+
+
+                         ASD-1114
+
+
+
+
+
+   ____________________________________________________
+   Table 2-13: DC349 Command Register Bit Description
+   ____________________________________________________
+   Bit    Name      Access     Description
+
+                               Operating Mode
+   07:06  OP MODE   Read/Write               , where:
+
+        
+    0  0                       normal operation
+        
+    0  1                       automatic echo[1]
+
+    1  0                       local loopback
+
+    1  1                       remote loopback[1]
+
+                               Receiver Interrupt
+      05  RXIE      Read/Write
+                               Enable
+                                     . When set,
+                               enables reception of
+                               a character to generate
+                               an interrupt.
+
+                               Reset Error
+      04  RERR      Read/Write            . Set by
+                               software to clear Status
+                               Register error flags
+                               FER, ORR, and PER.
+
+   ____________________________________________________
+   [1]Not used in VAXstation 8000.
+
+
+
+
+
+2-34  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-13 (Continued): DC349 Command Register Bit
+    ____________________________________________________
+                            Description
+   ____________________________________________________
+   Bit    Name      Access     Description
+
+                               Transmit Break
+      03  TXBRK     Read/Write               . When
+                               set, forces a BREAK
+                               condition until this bit
+                               is reset.
+
+                               Receiver Enable
+      02  RXEN      Read/Write                . When
+                               set, enables receiver
+                               operation.
+
+                               Transmitter Interrupt
+      01  TXIE      Read/Write
+                               Enable
+                                     . When set,
+                               enables TxRDY to cause
+                               an interrupt.
+
+                               Transmitter Enable
+      00  TXEN      Read/Write                   . When
+                               set, enables transmitter
+                               operation.
+   ____________________________________________________
+
+2.2.8.6 DC349 Interrupt Summary Register
+
+   If ADDR 02 is set when the DC349 registers are
+   addressed, the channel number (ADDR <05:03>) is
+   ignored and either the Interrupt Summary Register
+   or Data Set Change Summary Register is addressed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-35
+
+
+
+
+
+
+
+
+
+   Figure 2-13: DC349 Interrupt Summary Register
+                 Format
+
+
+
+
+                         ASD-1115
+
+
+
+
+
+   Table 2-14: DC349 Interrupt Summary Register Bit
+    ____________________________________________________
+                Description
+   ____________________________________________________
+   Bit    Name    Access    Description
+
+                            Interrupt Request
+      07  IRQ     Read                       .
+                  Only      When set, indicates
+                            that an interrupt has
+                            occurred. The source of
+                            the interrupt is indicated
+                            by <3:0>.
+
+   06:04    -       -       Always read as zero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-36  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-14 (Continued): DC349 Interrupt Summary
+    ____________________________________________________
+                            Register Bit Description
+   ____________________________________________________
+   Bit    Name    Access    Description
+
+                            Interrupting Line Number
+   03:01  INT LN  Read                              ,
+                  Only      where:
+
+     000                    channel 0
+        
+     001                    channel 1
+        
+     010                    channel 2
+        
+     011                    channel 3
+        
+     100                    channel 4
+
+     101                    channel 5
+
+     110                    channel 6
+
+     111                    channel 7
+
+                            Transmit/-Receive
+      00  TX/-RX  Read                       . Set
+                  Only      when the interrupt source
+                            is the transmitter; clear
+                            when the interrupt source
+                            is the receiver.
+   ____________________________________________________
+
+2.2.8.7 DC349 Data Set Change Summary Register
+
+   If ADDR 02 is set when the DC349 registers are
+   addressed, ADDR <05:03> (the channel number) is
+   ignored and either the Interrupt Summary Register
+   or Data Set Change Summary Register is addressed.
+
+
+
+
+
+
+
+                           Functional Description  2-37
+
+
+
+
+
+
+
+
+
+   Figure 2-14: DC349 Data Set Change Register Format
+
+
+
+
+                         ASD-1116
+
+
+
+
+
+   Table 2-15: DC349 Data Set Change Summary Register
+    ____________________________________________________
+                Bit Description
+   ____________________________________________________
+   Bit  Name        Access    Description
+
+                              Data Set Change
+   07:00DSCHNG 7:0  Read                     . A set
+                    Only      bit indicates a change
+                              in the state of either
+                              -DSR or -DCD for the
+                              corresponding channel.
+                              If MCIE (Mode Register
+                              1 bit 00) is set, Data
+                              Set Change will cause an
+                              interrupt.
+   ____________________________________________________
+
+2.2.8.8 DC349 Interrupts
+
+   The IRQ output of the DC349 is controlled by an
+   interrupt scanner, which sequentially checks
+   channels 0 through 7 for a receiver interrupt
+   condition, then checks channels 0 through 7 for
+   a transmitter interrupt condition. If stopped for a
+   receiver interrupt condition, the scanner resumes
+   the sequential scan from the point at which it was
+   stopped. If stopped for a transmitter interrupt
+   condition, the scanner restarts the scan with
+   receiver channel 0. Any interrupt must be serviced
+   before subsequent interrupts can be posted.
+
+
+
+
+
+2-38  Functional Description
+
+
+
+
+
+
+
+
+
+   Three conditions can cause an interrupt:
+
+    _
+      A channel's receive buffer is full and receive
+    _
+      interrupts are enabled for that channel (RXIE is
+      set).
+
+    _
+      A transition occurs on a channel's carrier
+    _
+      detect line (DCD) and modem control interrupts
+      are enabled for that channel (MCIE is set).
+
+    _
+      A channel's transmitter holding register is
+    _
+      empty and transmit interrupts are enabled for
+      that channel (TXIE is set).
+
+2.2.9 Interactive Device Receivers and Transmitters
+
+   As shown in Figure 2-6, serial data is transferred
+   between the DC349 OCTALART and the interactive
+   devices through eight drivers (DRVR) and eight
+   receivers (RCVR). The drivers and receivers provide
+   the TTL signal levels required by the DC349 and
+   the RS232/RS422 signal levels required by the
+   interactive devices.
+
+   Each receiver and driver is connected to an ESD/EOS
+   (electrostatic discharge and electrical overstress)
+   protection circuit. Each of these circuits consists
+   of a bidirectional zener diode and a resistor.
+
+   In addition, inverters (INVT) are connected between
+   the device present lines from the applicable
+   devices and the DC349 carrier detect pins on the
+   following ports:
+
+
+   Port
+                     1      2      3      4      6
+
+
+
+   Connector
+                    J8     J7     J3     J4     J14
+
+
+
+
+
+
+
+                           Functional Description  2-39
+
+
+
+
+
+
+
+
+
+2.2.10 Function Register
+
+   The Function Register, Figure 2-15, consists of two
+   flip-flops and drivers connected to the data lines
+   and the tricolor Function LED on the rear panel of
+   the peripheral repeater. This register is addressed
+   as described in Table 2-6. The register format is
+   described in Figure 2-16 and Table 2-16.
+
+   The Function LED glows either red, yellow, or
+   green, as follows:
+
+    _
+      Red
+    _
+
+      When the peripheral repeater is in manufacturing
+      mode, the Function LED glows red, except when
+      the Function Register is being tested.
+
+    _
+      Yellow
+    _
+
+      During power-up, the Function LED glows yellow.
+      If an error that will make the system unusable
+      is detected during power-up, the following
+      actions occur:
+
+       1. The Function LED remains yellow.
+
+       2. An error code is displayed in the Diagnostic
+         Register.
+
+       3. The peripheral repeater does not go into
+         operational mode.
+
+      Errors that prevent the peripheral repeater
+      from entering operational mode are 8031
+      errors detected by the 8031 tests listed in
+      Section 3.2.
+
+      If there are no errors that make the peripheral
+      repeater unusable, the Function LED will turn
+      green.
+
+
+
+
+
+
+
+
+2-40  Functional Description
+
+
+
+
+
+
+
+
+
+    _
+      Green
+    _
+
+      After the Function LED turns green, the
+      peripheral repeater waits for the KA800 to
+      respond to the diagnostic report with an
+      ACK/NAK (see Section 2.3), indicating that the
+      communications link between the KA800 and the
+      peripheral repeater is established. If the link
+      is not established, a KA800 error code is loaded
+      into the Diagnostic Register and the peripheral
+      repeater enters operational mode. If the link
+      is later established, the error code is cleared.
+      Table 2-18 gives a summary of the Diagnostic and
+      Function LED indications.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-41
+
+
+
+
+
+
+
+
+
+   Figure 2-15: Function Register Block Diagram
+
+
+
+
+
+
+
+
+
+
+                ASD-1117 (to be corrected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-42  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-16: Function Register Format
+
+
+
+
+                         ASD-1118
+
+
+
+
+
+   ____________________________________________________
+   Table 2-16: Function Register Bit Description
+   ____________________________________________________
+   Bit    Access     Description          Function LED
+
+   07:02    -        Not used.
+
+   01:00  Read/Write Function Code,
+                     where:
+    0  0             Self-test mode.      Yellow
+        
+    0  1             Self-test mode.      Green
+        
+    1  0             Operating mode.      Red
+
+    1  1             Manufacturing mode.
+   ____________________________________________________
+
+2.2.11 Diagnostic Register
+
+   The Diagnostic Register, Figure 2-17, consists
+   of eight flip-flops and drivers connected to the
+   data lines and diagnostic LEDs. The register is
+   addressed as described in Table 2-6. The register
+   format is described in Figure 2-18 and Table 2-17.
+
+   Table 2-18 gives a summary of the Diagnostic and
+   Function LED indications.
+
+
+
+
+
+
+                           Functional Description  2-43
+
+
+
+
+
+
+
+
+
+   Figure 2-17: Diagnostic Register Block Diagram
+
+
+
+
+
+
+
+
+
+                         ASD-1121
+
+
+
+
+
+
+
+
+
+
+   Figure 2-18: Diagnostic Register Format
+
+
+
+
+                         ASD-1119
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-44  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-17: Diagnostic Register Bit Description
+   ____________________________________________________
+   Bit    Name    Access     Description
+
+                             Peripheral Repeater
+      07  PR      Read/Write
+                             bit
+                                . When set, lights
+                             diagnostic LED 7. This
+                             bit is interpreted
+                             according to Table 2-18
+                             and Table 2-19.
+
+                             System bit
+      06  SYS     Read/Write           . When set,
+                             lights diagnostic LED 6
+                             and indicates a KA800
+                             error. The code displayed
+                             in diagnostic LEDs 5
+                             through 0 apply to the
+                             KA800. See Table 2-18 and
+                             Table 2-19.
+
+   05:00    -     Read/Write Error/Test Code--These bits
+                             drive diagnostic LEDs 5
+                             through 0 and are combined
+                             with <07:06> to make up
+                             the 2-digit hexadecimal
+                             code that indicates the
+                             failed test or error
+                             code. See Table 2-18 and
+                             Table 2-19.
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-45
+
+
+
+
+
+
+
+
+
+   Table 2-18: Diagnostic and Function LED Indication
+    ____________________________________________________
+                Summary
+   Function     Diagnostic
+   ____________________________________________________
+   LED          LEDs[1]       Description
+
+                __  ______
+                76  543210
+
+   Green        00  000000    No peripheral repeater
+                              (PR) or KA800 errors. PR
+                              is in operational mode.
+
+   Green        01  eeeeee    KA800 error, no PR
+                              error. PR is in
+                              operational mode.[2]
+
+   Green        10  eeeeee    PR error, no KA800
+                              error. PR is attempting
+                              to enter operational
+                              mode.[3]
+
+   Yellow       10  dddddd    Self-test. PR is
+                              executing self-test.
+
+   Yellow       10  eeeeee    PR 8031 error. PR will
+                              not enter operational
+                              mode.[3]
+
+   Red          10  dddddd    Manufacturing mode.
+                              PR is in manufacturing
+                              mode.
+
+   ____________________________________________________
+   [1]1 = on, 0 = off, d = dynamic, e = error code.
+   [2]For additional information on error codes see
+   the                              .
+       __________ ____ ______ ______
+       VAXstation 8000 System Manual
+   [3]8031 errors are the only errors which will
+   prevent the peripheral repeater from entering
+   operational mode.
+
+
+
+
+2-46  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-18 (Continued): Diagnostic and Function LED
+    ____________________________________________________
+                            Indication Summary
+   Function     Diagnostic
+   ____________________________________________________
+   LED          LEDs[1]       Description
+
+   Red          10  eeeeee    Error detected while the
+                              PR is in manufacturing
+                              mode.
+
+   Green        11  eeeeee    PR and KA800 error.
+                              Error code applies to
+                              KA800. PR is attempting
+                              to enter operational
+                              mode.[2,3]
+   ____________________________________________________
+   [1]1 = on, 0 = off, d = dynamic, e = error code.
+   [2]For additional information on error codes see
+   the                              .
+       __________ ____ ______ ______
+       VAXstation 8000 System Manual
+   [3]8031 errors are the only errors which will
+   prevent the peripheral repeater from entering
+   operational mode.
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-47
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-19: Diagnostic LED Code Description
+                Diagnostic
+   Function     LEDs                 Failed Test or
+   _________________________________ ___________________
+   LED             76543210[1]Code[2]Error 
+                                     
+
+   Green           00000000   none   No problems,
+                                     system totally
+                                     functional
+
+   Green           01000000    40    KA800 did not
+                                     respond to a
+                                     packet with
+                                     ACK/NAK in the
+                                     allotted time.
+
+   Red or          10000001    81    8031
+   yellow
+
+   Red or          10000010    82    Diagnostic
+   green[3]                          register
+
+   Red or          10000011    83    Function register
+   green[3]
+
+   Red or          10000100    84    External RAM
+   green[3]
+
+   Red or          10000101    85    ROM checksum
+   green[3]
+
+   Red or          10000110    86    Unsolicited
+   green[3]                          interrupt received
+
+   ____________________________________________________
+   [1]1 = on, 0 = off, nnn = channel number.
+   [2]Hexadecimal.
+   [3]The Function LED may be yellow an instant before
+   it turns green.
+
+
+
+
+
+2-48  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-19 (Continued): Diagnostic LED Code
+    ____________________________________________________
+                            Description
+                Diagnostic
+   Function     LEDs                 Failed Test or
+   _________________________________ ___________________
+   LED             76543210[1]Code[2]Error 
+                                     
+   Red or          10001nnn          DC349 error
+   green[3]                          generating or
+                                     receiving an
+                                     interrupt, where:
+
+                   10001000    88    Channel 0
+                   10001001    89    Channel 1
+                   10001010    8A    Channel 2
+                   10001011    8B    Channel 3
+                   10001100    8C    Channel 4
+                   10001101    8D    Channel 5
+                   10001110    8E    Channel 6
+                   10001111    8F    Channel 7
+
+   Red or          10010nnn          DC349 register
+   green[3]                          error, where:
+
+                   10010000    90    Channel 0
+                   10010001    91    Channel 1
+                   10010010    92    Channel 2
+                   10010011    93    Channel 3
+                   10010100    94    Channel 4
+                   10010101    95    Channel 5
+                   10010110    96    Channel 6
+                   10010111    97    Channel 7
+
+   Red or          10011nnn          DC349 local
+   green[3]                          loopback error,
+                                     where:
+
+
+
+
+
+
+
+                           Functional Description  2-49
+
+
+
+
+
+
+
+
+
+   Table 2-19 (Continued): Diagnostic LED Code
+    ____________________________________________________
+                            Description
+                Diagnostic
+   Function     LEDs                 Failed Test or
+   ____________________________________________________
+   LED             76543210[1]Code[2]Error
+
+
+   ____________________________________________________
+   [1]1 = on, 0 = off, nnn = channel number.
+   [2]Hexadecimal.
+   [3]The Function LED may be yellow an instant before
+   it turns green.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-50  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-19 (Continued): Diagnostic LED Code
+    ____________________________________________________
+                            Description
+                Diagnostic
+   Function     LEDs                 Failed Test or
+   ____________________________________________________
+   LED             76543210[1]Code[2]Error
+
+                   10011000    98   Channel 0
+                   10011001    99   Channel 1
+                   10011010    9A   Channel 2
+                   10011011    9B   Channel 3
+                   10011100    9C   Channel 4
+                   10011101    9D   Channel 5
+                   10011110    9E   Channel 6
+                   10011111    9F   Channel 7
+
+   Red             10100nnn         DC349 external
+                                    loopback error,
+                                    where:[4]
+
+                   10100000    A0   Channel 0
+                   10100001    A1   Channel 1
+                   10100010    A2   Channel 2
+                   10100011    A3   Channel 3
+                   10100100    A4   Channel 4
+                   10100101    A5   Channel 5
+                   10100110    A6   Channel 6
+                   10100111    A7   Channel 7
+
+   Red             10101nnn         DC349 DSR or DCD
+                                    error, where:[4]
+
+   ____________________________________________________
+   [1]1 = on, 0 = off, nnn = channel number.
+   [2]Hexadecimal.
+   [4]These tests are run only in manufacturing mode.
+
+
+
+
+
+
+
+
+                           Functional Description  2-51
+
+
+
+
+
+
+
+
+
+   Table 2-19 (Continued): Diagnostic LED Code
+    ____________________________________________________
+                            Description
+                Diagnostic
+   Function     LEDs                 Failed Test or
+   ____________________________________________________
+   LED             76543210[1]Code[2]Error
+                                     
+                   10101000    A8   Channel 0
+                   10101001    A9   Channel 1
+                   10101010    AA   Channel 2
+                   10101011    AB   Channel 3
+                   10101100    AC   Channel 4
+                   10101101    AD   Channel 5
+                   10101110    AE   Channel 6
+   ____________________________________________________
+                   10101111    AF   Channel 7
+   [1]1 = on, 0 = off, nnn = channel number.
+   [2]Hexadecimal.
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-52  Functional Description
+
+
+
+
+
+
+
+
+
+2.2.12 Power Up and Power Monitor Circuits
+
+   The Power Up and Power Monitor circuits are shown
+   in Figure 2-19. The Power Up circuit consists of
+   an RC circuit and several inverters. When power
+   is turned on, the RC circuit charges up to a HIGH
+   level at the input to the first of three Schmitt-
+   trigger inverters (ST INVT), which provide the PWR
+   UP A L and PWR UP B L outputs. A buffer inverter
+   (BFFR INVT) provides the PWR UP H output.
+
+   The Power Monitor is based on four comparators
+   which sense overvoltage and under-voltage condi-
+   tions in the +12V and -12V supplies. The +2V refer-
+   ence input for the four comparators (two OVER and
+   two UNDER) is provided by an operational amplifier
+   (+2V REF), which is controlled by a 1.25V zener
+   diode. The other input to each of the comparators
+   is a voltage divider.
+
+   Under normal conditions, the voltage dividers
+   (>+2V) for the overvoltage comparators provide
+   an input level that is greater than +2V, and
+   the voltage dividers (<+2V) for the overvoltage
+   comparators provide an input level that is
+   less than +2V. In this state, the output of the
+   comparators is HIGH and the preset input to the
+   flip-flop (F/F) is not asserted. The F/F is cleared
+   at power up, and the Power Status LED (PWR LED)
+   glows green.
+
+   If the comparator input from either >+2V divider is
+   less than +2V, or the comparator input from either
+   <+2V divider is greater than +2V, the output of the
+   associated comparator will go LOW, asserting the
+   preset input to the F/F and causing the PWR LED to
+   glow red.
+
+   The monitor reacts to over and under voltage
+   conditions in excess of +12V+15% and -12V+15%.
+
+
+
+
+
+
+
+                           Functional Description  2-53
+
+
+
+
+
+
+
+
+
+   Figure 2-19: Power Up and Power Monitor Block
+                 Diagram
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                ASD-1122 (to be corrected)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-54  Functional Description
+
+
+
+
+
+
+
+
+
+2.3 Operational Firmware
+
+   The peripheral repeater operational firmware and
+   diagnostic firmware occupy less than 4 kbytes of
+   the 8-kbyte program memory ROM on the PRB. The
+   diagnostic firmware is described in Chapter 3. All
+   the firmware is run by the 8031 microprocessor.
+
+   When power is turned on, the diagnostics are run.
+   When testing is completed, the diagnostics leave
+   the peripheral repeater in a known state:
+
+    _
+      Data memory is initialized.
+    _
+
+    _
+      Queues are cleared.
+    _
+
+    _
+      The DC349 ARTs are set to the default inter-
+    _
+      active device baud rates and data formats (see
+      Appendix A).
+
+    _
+      The Diagnostic and Function registers are set to
+    _
+      the appropriate values.
+
+    _
+      A system status area containing peripheral
+    _
+      repeater status is setup.
+
+   On completion of the self-test diagnostics, a
+   diagnostic report is sent to the KA800, and the
+   peripheral repeater enters operational mode.
+   If there are no other messages to transmit,
+   the peripheral repeater waits 10 seconds for an
+   ACK/NAK (acknowledge/negative acknowledge) from
+   the KA800. (Note that the ACK/NAK timeout for all
+   other packets is 20 ms.) Reception of the ACK/NAK
+   indicates a communications link is established
+   between the peripheral repeater and the KA800.
+   If the ACK/NAK is not received, an error code is
+   loaded into the Diagnostic Register.
+
+   In either case, if the diagnostics have been com-
+   pleted without error, the peripheral repeater
+   enters operational mode. When the operational
+   firmware starts running, the DC349 ARTs are en-
+   abled, providing communications between the inter-
+   active devices and the KA800 through the peripheral
+
+
+
+
+                           Functional Description  2-55
+
+
+
+
+
+
+
+
+
+   repeater. In operational mode, the peripheral re-
+   peater is a communications concentrator between the
+   interactive devices and the KA800.
+
+   A "keep-alive" timer is also enabled and is used
+   to indicate that the link between the peripheral
+   repeater and KA800 is active. For example, in the
+   VAXstation 8000, the KA800 has a "watch-dog" timer
+   with a 10-second interval. When it receives a null
+   keep-alive message from the peripheral repeater, it
+   resets its watch-dog timer.
+
+2.3.1 Device Identification
+
+   The KA800 sends data to a physical port address.
+   The address is taken from a KA800-maintained
+   table of which device is attached to which DC349
+   port. This table identifies the device attached to
+   the rear panel device connectors as follows (see
+   Figure 2-6 and Table 2-22 for port and connector
+   identification):
+
+    1. KA800 Port--If the KA800 is not connected, the
+      system is inoperable.
+
+    2. LK201 Port--The KA800 ROM-based firmware checks
+      for the LK201 keyboard. This keyboard is
+      required as part of the host-processor system
+      console.
+
+    3. Spare Port--If the spare port is connected,
+      the attached device will be determined by the
+      KA800 RAM-resident, user-supplied, operational
+      firmware.
+
+    4. Other Ports--In its self-test report (sent at
+      power-up or on request), the peripheral repeater
+      reports which ports have an        device-
+                                  ______
+                                  active
+      present signal (any port except the KA800 port,
+      LK201 keyboard port, or spare port).
+
+      If the present device has the same connector
+      configuration as another device (for example,
+      the mouse and tablet), the KA800 determines
+
+
+
+
+2-56  Functional Description
+
+
+
+
+
+
+
+
+
+      which type of device is connected by requesting
+      a self-test report from the device.
+
+      A device is marked as not present or unknown
+      if:
+
+       _
+         It's device present signal is inactive.
+       _
+
+       _
+         It fails to respond to a self-test request
+       _
+         from the KA800.
+
+2.3.2 Communications Overview
+
+   All data received and transmitted by the peripheral
+   repeater is handled by interrupt routines. These
+   include routines to handle packets to and from the
+   KA800 and various multibyte commands and reports
+   to and from the peripheral devices. The interrupt
+   routines assemble/disassemble packets and move
+   the packets/data to and from transmit and receive
+   queues.
+
+   In general, data is transferred from the KA800
+   receive queue (receive queue 7) to some other
+   channel transmit queue; and from some peripheral
+   channel receive queue to the KA800 transmit queue
+   (transmit queue 7).
+
+2.3.2.1 Queues and Interrupt Routines
+
+   Transmit and Receive Queues:
+                                 There are eight
+   transmit queues and eight receive queues. A
+   background process constantly scans the transmit
+   and receive queues to see if they are empty. If
+   the receive queue for a particular peripheral
+   channel is not empty, its contents are transferred
+   to transmit queue 7 (the transmit queue to the
+   KA800). If a transmit queue is not empty, then the
+   transmitter for that channel is enabled.
+
+   Commands from the KA800 to the peripheral repeater
+   are received in receive queue 7 (the KA800 receive
+   queue) and placed in transmit queue 8, where they
+   are interpreted by the peripheral repeater. Receive
+
+
+
+
+                           Functional Description  2-57
+
+
+
+
+
+
+
+
+
+   queue 8 is also special in that it is primarily
+   used internally by the peripheral repeater.
+
+   The Timer Interrupts Routine (described below)
+   maintains the Send Keep Alive Flag. If this flag
+   is set, then the Keep Alive Packet is loaded into
+   transmit queue 7 (the transmit queue to the KA800).
+
+   Receive Interrupt Routine:
+                               This routine does the
+   following:
+
+    _
+      Assembles data received from a peripheral device
+    _
+      and places it in the receive queue associated
+      with the device port.
+
+    _
+      Disassembles packets received from the KA800
+    _
+      and places the data in receive queue 7 (the
+      queue for the KA800 port). The data includes
+      a peripheral device ID, which enables the
+      background process to move the data to the
+      transmit queue associated with the device port.
+
+   Transmit Interrupt Routine:
+                                This routine does the
+   following:
+
+    _
+      Transmits data to a peripheral from the transmit
+    _
+      queue associated with the device port.
+
+    _
+      Assembles data into packets and transmits the
+    _
+      packet to the KA800 from transmit queue 7 (the
+      transmit queue associated with the KA800 port).
+
+    _
+      Resets the keep-alive timer.
+    _
+
+    _
+      Transmits ACK/NAK.
+    _
+
+   Timer Interrupts Routine:
+                              This routine does the
+   following:
+
+    _
+      Sets the Send Keep Alive Flag if time expires.
+    _
+
+    _
+      Includes timers for peripheral data packeting,
+    _
+      ACK/NAK, and port off/on functions.
+
+
+
+
+
+
+
+2-58  Functional Description
+
+
+
+
+
+
+
+
+
+   Reports received from the peripheral devices are
+   considered complete if the number of characters
+   received equals the maximum report size for that
+   device, or a character timeout occurs. In other
+   words, there is a maximum report size associated
+   with each port as well as a timeout based on the
+   baud rate for that port.
+
+   For example, Appendix A shows that the maximum
+   report size for the VSXXX-AB Tablet is the position
+   report at 5 bytes, while its diagnostic report
+   is 4 bytes. Because the tablet diagnostic report
+   does not equal the maximum report size, character
+   timeout is used to indicate the end of the report.
+   At 4800 baud and 11 bits per character (1 start
+   bit, 8 data bits, 2 stop bits), each character is
+   transmitted in approximately 2.3 ms. Therefore,
+   the timer for the tablet port is set to 2.3 ms.
+   After the last character of the diagnostic report
+   is sent, this timer expires, indicating that the
+   report is complete.
+
+2.3.2.2 Communications Protocol
+
+   Packets are exchanged between the peripheral
+   repeater and KA800 as follows (see Figure 2-20).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-59
+
+
+
+
+
+
+
+
+
+   Figure 2-20: Peripheral Repeater/KA800 Packet
+                 Format
+
+
+
+
+
+                         ASD-1120
+
+
+
+
+
+
+   The originator sends its data and waits for an
+   ACK (acknowledge) or NAK (negative acknowledge).
+   If NAK is returned, the originator retransmits
+   the previous packet. The receiving device, which
+   sent the NAK, will discard the previous packet,
+   and respond to the retransmitted packet as a new
+   packet.
+
+   When the KA800 sends a T or R command to the
+   peripheral repeater, it expects either an ACK or
+   NAK to the command packet, and it also expects to
+   receive a packet with the Reply bit (04) set in the
+   DEV ID byte.
+
+   If an error occurs, the System Error bit (07) is
+   set in the DEV ID byte and the packet contains only
+   an error byte.
+
+   The packet format is shown in Figure 2-21 and
+   described in Table 2-20. The DEV ID byte format is
+   shown in Figure 2-22 and described in Table 2-22.
+   The error byte codes are listed in Table 2-21.
+
+
+
+
+
+
+
+
+
+2-60  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-21: Packet Protocol
+
+
+
+
+
+
+
+
+
+
+                         ASD-1132
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-61
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-20: Packet Format Description
+   ____________________________________________________
+   ByteName        Size   Value[1]Description
+
+                                  Start of Header
+     1 SOH         1        1
+                   byte
+
+                                  Device ID
+     2 DEV ID      1        -              . See
+                   byte           Figure 2-22 and
+                                  Table 2-22.
+
+     3 BYTE COUNT  1        -     The number of DATA
+                   byte           bytes.
+
+   m:n DATA        Variable -     Data, message, or
+                                  report bytes. The
+                                  number of bytes
+                                  depends on the
+                                  interactive device
+                                  (identified in DEV
+                                  ID byte).
+
+   n+1 CHECKSUM    1        -     The last byte.
+                   byte           The value is the
+                                  checksum for the
+                                  complete packet.
+
+   ____________________________________________________
+   [1]Hexadecimal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-62  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-20 (Continued): Packet Format Description
+   ____________________________________________________
+   ByteName        Size   Value[1]Description
+
+                                  Acknowledge/Negative
+       ACK/NAK     1      6/15
+                                  Acknowledge
+                   byte                      . The 1-
+                                  byte response to a
+                                  packet is either an
+                                  ACK (byte value =
+                                  6) if the packet was
+                                  received correctly,
+                                  or a NAK (byte value
+                                  = 15₁₆) indicating
+                                  that something was
+                                  wrong with the
+                                  reception and the
+                                  packet should be
+   ____________________________________________________
+                                  retransmitted.
+   [1]Hexadecimal
+
+   ____________________________________________________
+
+   ____________________________________________________
+   Table 2-21: System Error Report Error Codes
+   ____________________________________________________
+   Code[1] Description
+
+     01    Bad command sent from KA800.
+
+     02    Device queue overflow.
+   ____________________________________________________
+   [1]Hexadecimal
+
+   ____________________________________________________
+
+   Two methods of error checking are used on packets
+   transmitted to and from the KA800:
+
+    1. A checksum for the transmission (add with
+      carry).
+
+    2. Odd parity for each byte.
+
+
+
+
+
+
+
+
+                           Functional Description  2-63
+
+
+
+
+
+
+
+
+
+   Figure 2-22: Device ID Byte Format
+
+
+
+
+                         ASD-1123
+
+
+
+
+
+   ____________________________________________________
+   Table 2-22: Device ID Byte Bit Description
+   ____________________________________________________
+   Bit    Name    Description
+
+                  System Error
+      07  SE                  . This bit is used to
+                  send error reports to the KA800.
+                  When this bit is set, the packet
+                  contains only an error byte. This
+                  byte contains one of the error codes
+                  listed in Table 2-21.
+
+                  Device Change
+      06  DC                   . When set, this bit
+                  indicates that a device with a
+                  device present signal has been
+                  either connected to or disconnected
+                  from the peripheral repeater.
+                  When this bit is set, the packet
+                  contains only a configuration byte.
+                  In this byte a bit is set for each
+                  device that has a device present
+                  line connected to the peripheral
+                  repeater.
+
+
+
+
+
+
+
+
+
+
+2-64  Functional Description
+
+
+
+
+
+
+
+
+
+   Table 2-22 (Continued): Device ID Byte Bit
+    ____________________________________________________
+                            Description
+   ____________________________________________________
+   Bit    Name    Description
+
+                  Keep Alive
+      05  KA                . This bit is used to send
+                  null transmissions to the KA800 if
+                  there has been no other transaction
+                  within approximately 10 seconds.
+                  This bit is set only for null, keep-
+                  alive transactions, and the device
+                  ID (<02:00>) is the peripheral
+                  repeater. When the KA800 receives
+                  this bit, it ignores <04:03> and
+                  resets its watchdog timer.
+
+                  Reply
+      04  RPL          . When set, this bit indicates
+                  to the KA800 that the information
+                  in the packet data bytes is in
+                  response to a KA800 request; it is
+                  not a report or data spontaneously
+                  originated by the peripheral
+                  repeater or an attached device.
+                  The reply bit is set in response to
+                  the T and R commands (described in
+                  Section 2.3.3).
+
+                  Reception Error
+      03  RE                     . When set, this
+                  bit indicates that an error has
+                  occurred and is associated with the
+                  device identified in <02:00>. This
+                  bit is set by a parity, framing, or
+                  overrun error on the DC349 channel
+                  associated with the device.
+
+                  Device ID
+   02:00  DEV ID           . A 3-bit interactive
+                  device identity code, where:
+
+
+
+
+
+
+                           Functional Description  2-65
+
+
+
+
+
+
+
+
+
+   Table 2-22 (Continued): Device ID Byte Bit
+    ____________________________________________________
+                            Description
+   ____________________________________________________
+   Bit    Name    Description
+
+     000          LK201 Keyboard
+        
+     001          VSXXX-AH Mouse or either tablet
+
+     010          VSXXX-AB or Evans & Sutherland
+                  Tablet or VSXXX-AH Mouse
+
+     011          VSXXX-DA Dial Array or Evans &
+                  Sutherland DIGIT Box
+
+     100          Evans & Sutherland Button Array
+        
+     101          Spare Port 0
+
+     110          Evans & Sutherland Keyboard
+
+     111          Peripheral repeater including KA800
+                  port[1]
+   ____________________________________________________
+   [1]The KA800 port is considered to be part of the
+   peripheral repeater and has the same device ID.
+   ____________________________________________________
+
+2.3.2.3 Device Self-Test Commands
+
+   Note that if the KA800 sends a self-test command
+   directly to a peripheral (the device ID is not 7),
+   the protocol is the same as it is for a command to
+   the peripheral repeater, but the DEV ID byte of the
+   response packet differs as follows.
+
+    _
+      Peripheral repeater command response:
+    _
+
+         Reply bit: set
+
+         Device ID: 7
+
+    _
+      Peripheral device command response:
+    _
+
+         Reply bit: clear
+
+         Device ID: 0 through 6
+
+
+
+
+2-66  Functional Description
+
+
+
+
+
+
+
+
+
+   There are no peripheral repeater commands for
+   testing individual peripherals.
+
+2.3.2.4 Overrun Errors
+
+   If a device overrun error occurs, data may be
+   lost. When the peripheral repeater gets an overrun
+   error and continues to receive data from that
+   device before it can empty the device's queue, the
+   receiver for that device is turned off for 10 ms.
+   The receiver is then turned on, and received data
+   is assembled into a packet and placed in the KA800
+   transmit queue. Data transmitted by the device
+   during the 10 ms receiver-off time is lost.
+
+2.3.2.5 Maximum Bytes per Transmission
+
+   Device responses or reports transmitted to the
+   peripheral repeater are limited to a maximum of
+   six consecutive data bytes. If a peripheral device
+   transmits more than six consecutive data bytes
+   without a null period between bytes, the peripheral
+   repeater assembles separate packets, each with a
+   maximum of six data bytes.
+
+   Packets transmitted to the peripheral repeater from
+   the KA800 are not checked for a maximum number
+   of data bytes. However, KA800 packets should
+   be limited to no more than nine data bytes. The
+   peripheral repeater can safely store up to 256
+   packets, each having nine data bytes, and warn the
+   KA800 if a queue overflow occurs. Alternatively,
+   the peripheral repeater can accept larger packets
+   less frequently; for example, it can accept 128
+   packets, each having 18 data bytes, with a longer
+   null period between packets.
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-67
+
+
+
+
+
+
+
+
+
+2.3.2.6 Timers
+
+   Device Intercharacter Timer:
+                                 Timers are used to
+   handle the assembly of device data into packets
+   for transmission to the KA800. When the peripheral
+   repeater receives a null period between bytes from
+   a device, it closes the packet and places it on the
+   KA800 transmit queue. The null period is equal to
+   two character times, based on the baud rate of the
+   device port.
+
+   KA800 Intercharacter Timer:
+                                By default, the null
+   time between bytes received from the KA800 is 10
+   ms. If this time expires, the peripheral repeater
+   transmits a NAK to the KA800. Note that this
+   intercharacter timer is not the same as ACK/NAK
+   timer described below. If the KA800's default baud
+   rate is changed, the intercharacter timer reverts
+   to two character times, based on the new baud rate.
+
+   ACK/NAK Timer:
+                   This is a 20 ms timer, set as
+   soon as the last byte (checksum) in a packet is
+   transmitted to the KA800. If this time expires
+   before the KA800 returns an ACK or NAK, the
+   peripheral repeater transmits the next packet in
+   the KA800 transmit queue.
+
+   Keep-Alive Timer:
+                      If no other packets are sent to
+   the KA800 before this 10 second timer expires, a
+   null packet is transmitted to the KA800.
+
+2.3.3 Peripheral Repeater Commands
+
+   The KA800 encodes the following commands in the
+   data bytes of a packet to the peripheral repeater.
+
+
+
+
+
+
+
+
+
+
+
+2-68  Functional Description
+
+
+
+
+
+
+
+
+
+2.3.3.7 T Command (Self-Test)
+
+   In response to this command, the peripheral
+   repeater runs self-test and returns a self-test
+   report, including configuration information, to
+   the KA800. This command temporarily disconnects
+   the peripheral repeater from the KA800 for less
+   than 10 seconds. The command packet format is shown
+   in Figure 2-23, where bytes 1, 2, 3, and 5 are
+   as described in Table 2-20. Byte 4 has the value
+   84 (54₁₆), the ASCII value for the letter T. The
+   self-test report is described in Section 2.3.3.2.
+
+   Figure 2-23: T Command Packet Format
+
+
+
+                         ASD-1124
+
+
+
+
+2.3.3.2 Self-Test Report
+
+   The peripheral repeater transmits this report to
+   the KA800 at the completion of self-test either at
+   power up or in response to a self-test command, and
+   in response to a report status command. The report
+   packet format is shown in Figure 2-24, where bytes
+   1 and 8 are as described in Table 2-20. Bytes 2
+   through 7 are as follows:
+
+    _
+      Byte 2 is the device ID byte and has a value of
+    _
+      23 (17₁₆). This value indicates that the device
+      ID (bits <03:00>) is 7 and the Reply bit (bit
+      04) is set.
+
+    _
+      Byte 3 is the number of data bytes and has a
+    _
+      value of 4.
+
+    _
+      Byte 4 is a two-digit hexadecimal error code,
+    _
+      different from byte 5 (see Table 2-19 for the
+      error codes).
+
+
+
+                           Functional Description  2-69
+
+
+
+
+
+
+
+
+
+    _
+      Byte 5 is a two-digit hexadecimal error code,
+    _
+      different from byte 4 (see Table 2-19 for the
+      error codes).
+
+    _
+      Byte 6 is the bit-encoded configuration, where
+    _
+            is set if a device with an active device
+      ___ _
+      bit n
+      present signal is attached to       .
+                                    ____ _
+                                    port n
+
+    _
+      Byte 7 is the hexadecimal value of the periph-
+    _
+      eral repeater's firmware revision.
+
+
+   Figure 2-24: Self-Test Report Packet Format
+
+
+
+
+                         ASD-1125
+
+
+
+
+
+2.3.3.3 R Command (Report Status)
+
+   The report status command requests the status of
+   the peripheral repeater, including peripheral
+   configuration. In response to this command the
+   peripheral repeater returns a self-test report
+   (described in Section 2.3.3.2). The command packet
+   format is shown in Figure 2-25, where bytes 1, 2,
+   3, and 5 are as described in Table 2-20. Byte 4 has
+   the value 82 (52₁₆), the ASCII value for the letter
+   R.
+
+
+
+
+
+
+
+
+
+
+
+2-70  Functional Description
+
+
+
+
+
+
+
+
+
+   Figure 2-25: R Command Packet Format
+
+
+
+                         ASD-1126
+
+
+
+
+2.3.3.4 C Command (Change Baud Rate)
+
+   The change baud rate command has two formats:
+
+   7-Byte Format:
+                   This format requests a specified
+   baud rate on a specified port. The command packet
+   format is shown in Figure 2-26, where bytes 1, 2,
+   3, and 7 are as described in Table 2-20. Bytes 4
+   through 7 contain the following:
+
+    _
+      Byte 4 has the value 67 (43₁₆), the ASCII value
+    _
+      for the letter C.
+
+    _
+      Byte 5 is the binary-coded port number, as shown
+    _
+      in Table 2-23.
+
+    _
+      Byte 6 is the hexadecimal-coded baud rate as
+    _
+      shown in Table 2-24.
+
+
+   Figure 2-26: C Command Packet 7-Byte Format
+
+
+
+                         ASD-1127
+
+
+
+
+   9-Byte Format:
+                   This format requests a specified
+   baud rate, parity, and bits/character on the Spare
+   port only. The command packet format is shown in
+   Figure 2-27, where bytes 1, 2, 3, and 9 are as
+   described in Table 2-20. Bytes 4 through 9 contain
+   the following:
+
+    _
+      Byte 4 has the value 67 (43₁₆), the ASCII value
+    _
+      for the letter C.
+                           Functional Description  2-71
+
+
+
+
+
+
+
+
+
+    _
+      Byte 5 is the binary-coded port number, and
+    _
+      always has a value of 5 (Spare port) in this
+      packet format.)
+
+    _
+      Byte 6 is the hexadecimal-coded baud rate as
+    _
+      shown in Table 2-24.
+
+    _
+      Byte 7 is the ASCII-coded parity, as shown in
+    _
+      Table 2-25.
+
+    _
+      Byte 8 is the hexadecimal-coded number of bits
+    _
+      per character, as shown in Table 2-26.
+
+
+   Figure 2-27: C Command Packet 9-Byte Format
+
+
+
+
+                         ASD-1128
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2-72  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-23: Port Number Codes
+   ____________________________________________________
+   Code      Port
+
+   00000000  LK201 Keyboard
+           
+   00000001  Mouse
+           
+   00000010  Tablet
+           
+   00000011  Dial Array
+           
+   00000100  Evans & Sutherland Button Array
+
+   00000101  Spare
+
+   00000110  Evans & Sutherland Keyboard
+
+   00000111  Peripheral Repeater KA800 Port
+   ____________________________________________________
+
+   ____________________________________________________
+   Table 2-24: Baud Rate Codes
+   ____________________________________________________
+   Baud Rate   Hexadecimal Value
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-73
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-24 (Continued): Baud Rate Codes
+   ____________________________________________________
+   Baud Rate   Hexadecimal Value
+
+      50.0            00
+      75.0            01
+     110.0            02
+     134.5            03
+     150.0            04
+     300.0            05
+     600.0            06
+    1200.0            07
+    1800.0            08
+    2000.0            09
+    2400.0            0A
+    3600.0            0B
+    4800.0            0C
+    7200.0            0D
+    9600.0            0E
+   19200.0            0F
+   ____________________________________________________
+
+   ____________________________________________________
+   Table 2-25: Parity Codes
+                      Decimal
+   ____________________________________________________
+   Parity ASCII Code  Value        Hexadecimal Value
+
+   Even        E           69             45
+   None        N           78             4E
+   Odd         O           79             4F
+   ____________________________________________________
+
+   ____________________________________________________
+   Table 2-26: Bits/Character Codes
+   ____________________________________________________
+   Bits/Character  Hexadecimal Value
+
+        5                 05
+        7                 06
+        6                 07
+        8                 08
+   ____________________________________________________
+
+
+
+
+
+2-74  Functional Description
+
+
+
+
+
+
+
+
+
+2.3.3.5 L Command (Light LED)
+
+   The light LED command specifies a pattern to be
+   displayed in diagnostic LEDs 6:0. Note that only
+   LEDs 6:0 can be controlled by this command; LED
+   7 is controlled by the peripheral repeater and is
+   used only for error display. The command packet
+   format is shown in Figure 2-28, where bytes 1, 2,
+   3, and 6 are as described in Table 2-20. Bytes 4
+   and 5 are coded as follows.
+
+    _
+      Byte 4 has the value 76 (4C₁₆), the ASCII value
+    _
+      for the letter L.
+
+    _
+      Byte 5 is bit pattern to light the LEDs, where:
+    _
+
+         1 = on
+
+         0 = off
+
+         Bit 6 = LED 6
+
+         Bit 0 = LED 0
+
+
+   Figure 2-28: L Command Packet Format
+
+
+
+                         ASD-1129
+
+
+
+
+
+2.4 H7820 Power Supply
+
+   The H7820 is a switching-mode power supply with the
+   following specifications.
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-75
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-27: H7820 Power Supply Specifications
+   ____________________________________________________
+   Parameter      Specification
+
+   Input
+
+       Power      160 W
+
+       Voltage    115 Vac nom ( 88 to 132 Vac), H7820-
+       Current    AA
+                  2.4 A maximum, H7820-AA
+
+       Voltage    230 Vac nom (176 to 264 Vac), H7820-
+       Current    AB
+                  1.3 A maximum, H7820-AB
+
+   Output
+
+       Power      104 W
+
+        +5.1 Vdc   +4.85 to  +5.35 Vdc @ 3.0 to 10.00
+                  A
+
+       +12.1 Vdc  +11.50 to +12.70 Vdc @ 0.5 to  4.00
+                  A
+
+       -12.0 Vdc  -11.40 to -12.60 Vdc @ 0.0 to  0.25
+                  A
+   ____________________________________________________
+
+   The H7820 circuit board is connected to the
+   peripheral repeater circuit board with 12 wires,
+   terminated in connector P11. The pin assignments
+   are listed in Table 2-28.
+
+
+
+
+
+
+
+
+
+
+2-76  Functional Description
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 2-28: H7820 Connector P11 Pin Assignments
+   ____________________________________________________
+   Pin    Assignment
+
+   1:4     +5.1 Vdc
+
+   5:8    Ground
+    10    Ground
+    12    Ground
+
+     9    +12.1 Vdc
+
+    11    -12.0 Vdc
+   ____________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                           Functional Description  2-77
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             Chapter  3
+
+
+                                            Diagnostics
+_______________________________________________________
+
+
+
+   This chapter describes the peripheral repeater
+   diagnostics and how they are used.
+
+
+3.1 Introduction
+
+   The peripheral repeater firmware includes diagnos-
+   tic tests that are run at power-up for self-test,
+   on command for fault isolation, and for manufactur-
+   ing tests. These are all the same diagnostics, with
+   additional diagnostics for manufacturing mode. The
+   diagnostics check the peripheral repeater logic.
+   They do not test attached devices, request attached
+   devices to run self-tests, or report the results
+   of attached device self-tests. The operational and
+   diagnostic firmware are resident in the 8-kbyte
+   program memory ROM on the PRB. Operational firmware
+   is described in Section 2.3.
+
+   At power-up, the diagnostics have control of the
+   peripheral repeater and perform self-tests on the
+   logic. If the appropriate loopback is connected
+   to the KA800 port on the peripheral repeater, the
+   diagnostics run in manufacturing mode.
+
+
+
+
+
+                                       Diagnostics  3-1
+
+
+
+
+
+
+
+
+
+   In manufacturing mode the diagnostics loop
+   continuously and do not enter operational mode. No
+   devices are attached, and loopbacks are connected
+   to all DC349 ports. If an error is detected in this
+   mode, the diagnostics loop continuously on the test
+   that detected the error.
+
+   The peripheral repeater mode is reported in the
+   tricolor Function LED and the diagnostic status
+   is reported in the eight diagnostic LEDs. These
+   LEDs are driven by the Function and Diagnostic
+   registers, described in Chapter 2, and are
+   located on the peripheral repeater rear panel. In
+   manufacturing mode, the Function LED is always red
+   (except during the Function Register test).
+
+   The following is a list of some of the diagnostics'
+   capabilities and limitations.
+
+    _
+      The diagnostics execute the manufacturing test
+    _
+      and power-up tests in less than 10 seconds.
+
+    _
+      The diagnostics will isolate the peripheral
+    _
+      repeater if it is the failing FRU (field
+      replaceable unit).
+
+    _
+      When possible, the diagnostics indicate
+    _
+      which peripheral repeater component(s) failed
+      (hardware fault isolation to the component level
+      is not a diagnostic design goal).
+
+    _
+      Report detected hardware failures in the
+    _
+      diagnostic LEDs.
+
+    _
+      Report VR290 monitor failure as a system error
+    _
+      in the diagnostic LEDs.
+
+
+
+
+
+
+
+
+
+
+
+3-2  Diagnostics
+
+
+
+
+
+
+
+
+
+3.2 Self-Test
+
+   The power-up self-test verifies peripheral repeater
+   operation at power-up or on command.
+
+   The power-up self-test tests the peripheral
+   repeater circuit board extensively, but does not
+   fully test the transmitter/receiver side of the
+   DC349 OCTALART. The power-up self-test includes:
+
+    _
+      8031 microprocessor tests:
+    _
+
+         Internal RAM
+
+         Programmable timers
+
+         Interrupts
+
+         Condition codes (Processor Status Word
+         register)
+
+         Internal I/O ports 0 and 2
+
+         Addressing (data pointer)
+
+    _
+      Peripheral repeater circuit board tests:
+    _
+
+         SRAM
+
+         ROM (pseudocyclic redundancy check)
+
+         Diagnostic and Function registers
+
+         DC349 registers and local loopback
+
+         DC349 interrupts
+
+3.2.1 Running Self-Test
+
+   Self-test is run automatically at power-up. In the
+   VAXstation 8000, it can also be run on command as
+   a subtest under the KA800 self-test RBD (ROM-based
+   diagnostic). For information on running KA800 RBDs,
+   see the                              .
+           __________ ____ ______ ______
+           VAXstation 8000 System Manual
+
+
+
+
+
+
+
+                                       Diagnostics  3-3
+
+
+
+
+
+
+
+
+
+3.2.2 Exiting Self-Test
+
+   At the completion of self-test, the Function LED
+   turns green and the peripheral repeater waits
+   for the KA800 to respond to the diagnostic report
+   with an ACK/NAK (see Section 2.3), indicating that
+   the communications link between the KA800 and the
+   peripheral repeater is established. If the link
+   is not established, a KA800 error code is loaded
+   into the Diagnostic Register and the peripheral
+   repeater enters operational mode. If the link is
+   later established, the error code is cleared.
+
+
+3.3 Manufacturing Mode
+
+   The peripheral repeater is put into manufacturing
+   mode by connecting the special manufacturing loop-
+   back to the KA800-port rear-panel connector, J2.
+   This loopback connects pin 7 of 8031 microprocessor
+   Port 1 to ground. When this loopback is connected,
+   the tricolor Function LED glows red (except dur-
+   ing the Function Register test). The manufacturing
+   mode tests expect loopbacks to be attached to the
+   rear panel connectors for all the DC349 ports with
+   device present signals implemented:
+
+
+   Port
+                     1      2      3      4      6
+
+
+
+   Connector
+                    J8     J7     J3     J4     J14
+
+
+
+   In manufacturing mode, the same tests are executed
+   as in power-up self-test. Two additional tests are
+   also run:
+
+    _
+      An external loopback test tests the transceiver/receiver
+    _
+      side of all the DC349 ports, including the con-
+      nection to the rear panel connectors.
+
+
+
+
+3-4  Diagnostics
+
+
+
+
+
+
+
+
+
+    _
+      All DC349 port DSR (data set ready) and DCD
+    _
+      (carrier detect) functions are tested. This
+      verifies that:
+
+         DSR and DCD pins not used for device present
+         are connected to ground at the DC349.
+         This sets the DSR and DCD bits in the
+         channel's Status Register (see Figure 2-9
+         and Table 2-10).
+
+         DCD pins which are used for device present
+         are connected to ground at the port's rear
+         panel connector. This clears the DCD bit
+         in the channel's Status Register because of
+         the intervening inverter (see Figure 2-9 and
+         Table 2-10).
+
+   It is these two additional manufacturing tests
+   that require external loopbacks on all DC349 port
+   connectors.
+
+   In this mode, the diagnostics will loop continu-
+   ously until either peripheral repeater power is
+   turned off or the special manufacturing loopback is
+   removed from the host port connector. In addition,
+   the manufacturing test will loop continuously if a
+   hard or intermittent error is detected, displaying
+   the number of the failing test in the diagnostic
+   LEDs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       Diagnostics  3-5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             Chapter  4
+
+
+                             Troubleshooting and Repair
+_______________________________________________________
+
+
+
+   Normally, the peripheral repeater is not repaired
+   in the field; the entire internal assembly is
+   replaced. This chapter briefly describes what to
+   check before replacing the internal assembly.
+
+
+4.1 Problem Summary
+
+   Peripheral repeater failures are indicated in two
+   ways: by the front panel Power LED and/or by the
+   KA800 RBDs. Table 4-1 lists the symptoms, possible
+   causes, and action to take when a peripheral
+   repeater failure is indicated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        Troubleshooting and Repair  4-1
+
+
+
+
+
+
+
+
+
+4.2 Repair
+
+   The peripheral repeater is repaired by removing and
+   replacing the internal assembly.
+
+____
+Note
+     ___ __________ ________ ________ ________ ___ __
+     The peripheral repeater internal assembly can be
+   _______ ___ ________ _______ ________ ___ _______
+   removed and replaced without removing the monitor
+   ____ ____ ___ __________ _________
+   from atop the peripheral repeater.
+
+   ____________________________________________________
+   Table 4-1: Troubleshooting
+   ____________________________________________________
+   Symptom                    Cause            Action
+
+   Front panel Power LED      No ac power      Make
+   is off on both the                          sure
+   peripheral repeater and                     wall
+   monitor. [1]                                recep-
+                                               tacle
+                                               circuit
+                                               breaker
+                                               is on.
+                                               Make
+                                               sure
+                                               power
+                                               cord
+                                               is con-
+                                               nected.
+
+                                               Make
+                                               sure
+                                               power
+                                               switch
+                                               is on.
+
+   ____________________________________________________
+   [1]It is assumed that the monitor power cord is
+   connected to the peripheral repeater ac power out
+   receptacle.
+
+
+
+
+
+
+4-2  Troubleshooting and Repair
+
+
+
+
+
+
+
+
+
+   ____________________________________________________
+   Table 4-1 (Continued): Troubleshooting
+   ____________________________________________________
+   Symptom                    Cause            Action
+
+   Front panel Power LED      Peripheral       Replace
+   is off on peripheral       repeater +5V     periph-
+   repeater; monitor power    power supply     eral
+   LED is on. [1]             failure.         re-
+                                               peater
+                                               in-
+                                               ternal
+                                               assem-
+                                               bly.
+
+   Front panel Power LED is   Peripheral       Replace
+   red.                       repeater +12V    periph-
+                              or -12V power    eral
+                              supply failure.  re-
+                                               peater
+                                               in-
+                                               ternal
+                                               assem-
+                                               bly.
+
+   KA800 diagnostics          See Table 2-19   Replace
+   indicate a peripheral                       periph-
+   repeater failure and                        eral
+   the rear panel Function                     re-
+   and Diagnostic LEDs                         peater
+   contain one of the codes                    in-
+   listed in Table 2-18 and                    ternal
+   Table 2-19. [2]                             assem-
+                                               bly.
+   ____________________________________________________
+   [1]It is assumed that the monitor power cord is
+   connected to the peripheral repeater ac power out
+   receptacle.
+   [2]The Function LED should never glow red if the
+   manufacturing turnaround is not connected.
+   ____________________________________________________
+
+
+
+
+                        Troubleshooting and Repair  4-3
+
+
+
+
+
+
+
+
+
+4.2.1 Removal
+
+    1. Turn the peripheral repeater ac power off.
+
+    2. Disconnect the power and peripheral cables from
+      the rear panel of the peripheral repeater. Note
+      the position of each cable.
+
+    3. Loosen the hex-socket cap screw at the top-
+      center of the rear panel.
+
+    4. Slide the internal assembly out of the plastic
+      cabinet.
+
+4.2.2 Replacement
+
+    1. Slide the internal assembly into the plastic
+      cabinet.
+
+    2. Tighten the hex-socket cap screw at the top-
+      center of the rear panel.
+
+    3. Connect the power and peripheral cables to
+      the rear panel of the peripheral repeater. See
+      Figure 4-1 and Figure 4-2.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4-4  Troubleshooting and Repair
+
+
+
+
+
+
+
+
+
+   Figure 4-1: Pedestal, Monitor, and Peripheral
+                Repeater Cables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1102
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        Troubleshooting and Repair  4-5
+
+
+
+
+
+
+
+
+
+   Figure 4-2: Peripheral Device Cables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         ASD-1101
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4-6  Troubleshooting and Repair
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            Appendix  A
+
+
+                          Interactive Device Parameters
+_______________________________________________________
+
+
+
+   This appendix lists the following information, as
+   applicable, for the DC349 ports and/or the attached
+   interactive devices.
+
+    _
+      Interface
+    _
+
+    _
+      Baud Rate
+    _
+
+    _
+      Data Format
+    _
+
+    _
+      Commands
+    _
+
+    _
+      Reports
+    _
+
+    _
+      Initialization
+    _
+
+    _
+      Mode
+    _
+
+
+
+
+
+
+
+
+
+
+
+
+                     Interactive Device Parameters  A-1
+
+
+
+
+
+
+
+
+
+A.1 LK201 Keyboard
+
+   Interface:
+               RS423
+
+   Baud Rate:
+               4800
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 stop bit
+
+   Data values from 255 through 64 represent matrix
+   positions; values from 63 through 1 are reserved
+   for other information, such as diagnostic status,
+   ID, and so on.
+
+   Commands:
+
+    _
+      Reinitialize keyboard (FD₁₆)
+    _
+
+    _
+      Jump to self-test (CB₁₆)
+    _
+
+   Reports:
+
+    _
+      Self-test. This report consists of four bytes:
+    _
+
+         Byte 0: Firmware ID = 01 (first release)
+
+         Byte 1: Hardware ID = 00 (first release)
+
+         Byte 2: 0 or error code
+
+         Byte 3: 0 or key code (stuck key)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A-2  Interactive Device Parameters
+
+
+
+
+
+
+
+
+
+A.2 VSXXX-AA Mouse
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               4800
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 parity bit
+   (odd), 1 stop bit
+
+   Commands:
+
+    _
+      Self-test. This command is T (54₁₆).
+    _
+
+   Reports:
+
+    _
+      Self-test. This report consist of four bytes:
+    _
+
+         Byte 0: A0₁₆(first release). The contents of
+         the three most significant bits are equal to
+         101₂.
+
+         Byte 1: 0xxx00102, where:
+                0xxx = manufacturing ID and
+                0010 = mouse data
+
+         Byte 2: 0 or error code, where:
+                3E₁₆= RAM/ROM error
+                3D₁₆= switch failure
+
+         Byte 3: 0 or switch failure
+
+    _
+      Position report. This report consists of
+    _
+      three bytes. The contents of the three most
+      significant bits of byte 0 are equal to 100₂.
+
+   Mode:
+          Prompt mode is the power-up default.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     Interactive Device Parameters  A-3
+
+
+
+
+
+
+
+
+
+A.3 VSXXX-AB Tablet
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               4800
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 parity bit
+   (odd), 1 stop bit
+
+   Commands:
+
+    _
+      Self-test. This command is either of the
+    _
+      following:
+
+         T (54₁₆)
+
+         <BREAK> (minimum of two character times)
+
+   Reports:
+
+    _
+      Self-test. This report consist of four bytes:
+    _
+
+         Byte 0: A0₁₆(first release). The contents of
+         the three most significant bits are equal to
+         101₂.
+
+         Byte 1: 0xxx0100₂, where:
+                0xxx = manufacturing ID and
+                0010 = tablet data
+
+         Byte 2: 0 or one of the following error
+         codes:
+                11₁₆
+                13₁₆
+                3A₁₆
+                3D₁₆
+                3E₁₆
+
+         Byte 3: 0 or button code
+
+    _
+      Position report. This report consists of
+    _
+      five bytes. The contents of the three most
+      significant bits of byte 0 are equal to 110₂.
+
+   Mode:
+          Request point mode is the power-up default.
+
+
+
+
+
+A-4  Interactive Device Parameters
+
+
+
+
+
+
+
+
+
+A.4 GTCO Tablet
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               9600
+
+   Data Format:
+                 1 start bit, 8 data bits, 2 stop bits
+
+   Reports:
+
+    _
+      Self-test. This report consists of four bytes.
+    _
+      The contents of the three most significant bits
+      of byte 0 are equal to 101₂.
+
+    _
+      Position report. This report consists of five
+    _
+      bytes.
+
+   Initialization:
+                    Five initialization bytes are sent
+   on power up. The value of each byte is:
+
+    _
+      FF₁₆if the tablet is 15.24 x 15.24 cm (6 x 6
+    _
+      in)
+
+    _
+      FE₁₆if the tablet is 30.48 x 30.48 cm (12 x 12
+    _
+      in)
+
+   Mode:
+          Continuous output mode (62 points/second) is
+   the power-up default.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     Interactive Device Parameters  A-5
+
+
+
+
+
+
+
+
+
+A.5 VSXXX-DA Dial Array
+
+   Interface:
+               RS423
+
+   Baud Rate:
+               9600
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 stop bit
+
+   Commands:
+
+    _
+      Self-test: 13₁₆(CTRL/S)
+    _
+
+    _
+      Revision report: 05₁₆(CTRL/E)
+    _
+
+   Reports:
+
+    _
+      Self-test. This is a 1-byte report.
+    _
+
+    _
+      Revision report. This report consists of six
+    _
+      bytes:
+
+         Bytes 5:4: CD (43₁₆and 44₁₆) for Control
+         Dials unit
+
+         Bytes 3:1: the ROM revision level
+
+         Byte 0:   either of the following:
+
+                   D (44₁₆) if the unit includes dial
+
+            LEDs
+                   N (4E₁₆) if the unit does not
+            	   include dial LEDs
+
+    _
+      Position report. This report consists of four
+    _
+      bytes. Byte 0 = 16₁₆(CTRL/V).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A-6  Interactive Device Parameters
+
+
+
+
+
+
+
+
+
+A.6 Evans & Sutherland Controls Dials
+
+   Interface:
+               RS423
+
+   Baud Rate:
+               9600
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 stop bit
+
+   Commands:
+
+    _
+      Self-test: 13₁₆(CTRL/S)
+    _
+
+    _
+      Revision report: 05₁₆(CTRL/E)
+    _
+
+   Reports:
+
+    _
+      Self-test. This is a 1-byte report.
+    _
+
+    _
+      Revision report. This report consists of six
+    _
+      bytes:
+
+         Bytes 5:4: CD (43₁₆and 44₁₆) for Control
+         Dials unit.
+
+         Bytes 3:1: the ROM revision level
+
+         Byte 0:   either of the following:
+                   D (44₁₆) if the unit includes dial
+            LEDs
+                   N (4E₁₆) if the unit does not
+            include dial LEDs
+
+    _
+      Position report. This report consists of four
+    _
+      bytes. Byte 0 = 16₁₆(CTRL/V)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     Interactive Device Parameters  A-7
+
+
+
+
+
+
+
+
+
+A.7 Evans & Sutherland Button Array
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               9600
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 stop bit
+
+   Commands:
+
+    _
+      Self-test: 80₁₆.
+    _
+
+   Reports:
+
+    _
+      Self-test. This report consists of four bytes:
+    _
+
+         Byte 0: Hardware ID = 64₁₆(first release).
+
+         Byte 1: Firmware ID = 00 (first release).
+
+         Byte 2: 0 or one of the following error
+         codes:
+                3D₁₆= key down on self-test
+                3E₁₆= ROM or RAM failure
+
+         Byte 3: 0 or hexadecimal stuck key code
+
+
+A.8 Evans & Sutherland Keyboard
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               1200
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 parity
+   bit, 1 stop bit
+
+   Commands:
+
+    _
+      Reset: FF₁₆.
+    _
+
+   Reports:
+
+    _
+      Reset command responses:
+    _
+
+         AA₁₆= keyboard is operational
+
+         FC₁₆= RAM/ROM failure
+
+
+
+
+A-8  Interactive Device Parameters
+
+
+
+
+
+
+
+
+
+   Mode:
+          Default is autorepeat at 10 characters/s
+   after 500 ms initial delay.
+
+
+A.9 Spare Port
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               9600
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 parity bit
+   (odd), 1 stop bit
+
+
+A.10 Host Port
+
+   Interface:
+               RS232
+
+   Baud Rate:
+               19200
+
+   Data Format:
+                 1 start bit, 8 data bits, 1 parity bit
+   (odd), 1 stop bit
+
+   Commands:
+              See Chapter 2, Section 2.3.3.
+
+   Reports:
+             See Chapter 2, Section 2.3.3.2.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     Interactive Device Parameters  A-9
+	
