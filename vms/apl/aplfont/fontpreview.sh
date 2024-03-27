@@ -1,0 +1,1 @@
+../../../charset/softfonts/fontpreview.sh
