@@ -1,13 +1,13 @@
-# What a symbol is named, is called, and actually is.
+# What a symbol is named, is called, and actually _is_.
 
-<blockquote><SUP><SUB>
+<ul><SUP>
 
 “You are sad,” the Knight said in an anxious tone: “let me sing you a song to comfort you.”
 
 “Is it very long?” Alice asked, for she had heard a good deal of poetry that day.
 
 “It’s long,” said the Knight, “but very, very beautiful. Everybody that hears me sing
-it—either it brings the tears into their eyes, or else—”
+it — either it brings the tears into their eyes, or else —”
 
 “Or else what?” said Alice, for the Knight had made a sudden pause.
 
@@ -29,7 +29,7 @@ that’s only what it’s called, you know!”
 “I was coming to that,” the Knight said. “The song really is ‘A-sitting On A Gate’: and
 the tune’s my own invention.”
 
-</SUB></SUP></blockquote>
+</SUP></ul>
 
 ## Table of appellations from DEC APL User Guide
 
@@ -183,22 +183,22 @@ Confusables from aplwiki.com/wiki/Unicode:
 ## APL keyboard and names
 Copied from https://code.jsoftware.com/wiki/Typesetting/APL_Characters
 
-┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
-│~ ⍨││! ¡││@  ││#  ││$ ¢││%  ││^  ││&  ││* ⍂││( ⍱││) ⍲││_ ≡││+ ⌹││| ⍀│
-│` ⋄││1 ¨││2 ¯││3 <││4 ≤││5 =││6 ≥││7 >││8 ≠││9 ∨││0 ∧││- ×││= ÷││\ ⍝│
-└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
-       ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
-       │Q ¿││W ⌽││E ⍷││R  ││T ⍉││Y  ││U  ││I ⍸││O ⍥││P ⍟││{  ││}  │
-       │q ?││w ⍵││e ∊││r ⍴││t ~││y ↑││u ↓││i ⍳││o ○││p ⍣││[ ←││] →│
-       └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
-         ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
-         │A ⊖││S  ││D  ││F ⍫││G ⍒││H ⍋││J ∘││K ⌻││L ⌷││:  ││"  │
-         │a ⍺││s ⌈││d ⌊││f _││g ∇││h ∆││j ⍤││k '││l ⎕││; ⊢││' ⊣│
-         └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
-           ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
-           │Z  ││X  ││C ⍝││V  ││B ⍎││N ⍕││M ⌶││< ⍪││> ⍙││? ⌿│
-           │z ⊂││x ⊃││c ∩││v ∪││b ⊥││n ⊤││m |││, ⍞││. ⍎││/ ⍕│
-           └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+	┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
+	│~ ⍨││! ¡││@  ││#  ││$ ¢││%  ││^  ││&  ││* ⍂││( ⍱││) ⍲││_ ≡││+ ⌹││| ⍀│
+	│` ⋄││1 ¨││2 ¯││3 <││4 ≤││5 =││6 ≥││7 >││8 ≠││9 ∨││0 ∧││- ×││= ÷││\ ⍝│
+	└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+		   ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
+		   │Q ¿││W ⌽││E ⍷││R  ││T ⍉││Y  ││U  ││I ⍸││O ⍥││P ⍟││{  ││}  │
+		   │q ?││w ⍵││e ∊││r ⍴││t ~││y ↑││u ↓││i ⍳││o ○││p ⍣││[ ←││] →│
+		   └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+			 ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
+			 │A ⊖││S  ││D  ││F ⍫││G ⍒││H ⍋││J ∘││K ⌻││L ⌷││:  ││"  │
+			 │a ⍺││s ⌈││d ⌊││f _││g ∇││h ∆││j ⍤││k '││l ⎕││; ⊢││' ⊣│
+			 └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+			   ┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
+			   │Z  ││X  ││C ⍝││V  ││B ⍎││N ⍕││M ⌶││< ⍪││> ⍙││? ⌿│
+			   │z ⊂││x ⊃││c ∩││v ∪││b ⊥││n ⊤││m |││, ⍞││. ⍎││/ ⍕│
+			   └───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
 
 
 	¡   ¡               inverted shriek
@@ -206,25 +206,25 @@ Copied from https://code.jsoftware.com/wiki/Typesetting/APL_Characters
 	¨   ¨               dieresis
 	¯   ¯             	 high minus
 	¿   ¿               inverted query
-	×   ×     ×   times
-	÷   ÷     ÷  divide
-	←   ←   ←    assign
-	↑   ↑   ↑    take
-	→   →   →    goto
-	↓   ↓   ↓    drop
-	∆   ∆   Δ   delta
-	∇   ∇   ∇   del
-	∊   ∊   ∈    epsilon
-	∍   ∍             epsilon flip (has as member)
-	∗   ∗             asterisk
-	∘   ∘   °     jot
+	×   ×	×	times
+	÷   ÷	÷	divide
+	←   ←   ←	assign
+	↑   ↑   ↑	take
+	→   →   →	goto
+	↓   ↓   ↓	drop
+	∆   ∆   Δ	delta
+	∇   ∇   ∇	del
+	∊   ∊   ∈	epsilon
+	∍   ∍       epsilon flip (has as member)
+	∗   ∗        asterisk
+	∘   ∘   °   jot
 	√   √   √   root
 	∧   ∧	 	 and
 	∨   ∨	 	 or
 	∩   ∩   ∩     intersect
 	∪   ∪   ∪     union
 	≠   ≠   ≠      not equal
-	≡   ≡   ≡   match
+	≡   ≡   ≡     match
 	≢   ≢	 	 not match
 	≤   ≤   ≤      less than or equal
 	≥   ≥   ≥      greater than or equal
@@ -266,14 +266,14 @@ Copied from https://code.jsoftware.com/wiki/Typesetting/APL_Characters
 	⍲   ⍲	 	 nand
 	⍳   ⍳   ι    iota
 	⍴   ⍴   ρ     rho
-	⍵   ⍵   ω   omega
+	⍵   ⍵   ω    omega
 	⍶   ⍶	 	 alpha underscore
 	⍷   ⍷	 	 epsilon underscore
 	⍸   ⍸	 	 iota underscore
 	⍹   ⍹	 	 omega underscore
-	⍺   ⍺   α   alpha
-	⎕   ⎕             quad
-	○   ○             circle
+	⍺   ⍺   α    alpha
+	⎕   ⎕         quad
+	○   ○         circle
 
 
 
