@@ -63,7 +63,7 @@ they are automatically loaded as G1 (Graphic Set #1).
 
 [DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
 
-[Dscs]: https://github.com/hackerb9/vt340test/blob/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
+[Dscs]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
 
 ### Detailed walkthrough of LS1, LS0
 
@@ -132,7 +132,7 @@ That will once again allow access to Latin-1 characters.
 
 Some of the VT340 APL characters appear to be half-height, as if they
 had been designed for a VT220 instead of a VT340. See the commentary on
-[hackerb9's modified fonts](../aplfontb9#squished-fonts-on-vt340) for details.
+[hackerb9's modified fonts](../../../apl/aplfontb9/README.md#squished-fonts-on-vt340) for details.
 
 ### Problem 1: 8-bit control codes in font files
 
@@ -144,7 +144,7 @@ files like so:
 
     sed -i~ $'s#\x90#\eP#; s#\x9c#\e\\#' *.FNT
 
-Or, simply download a fixed version from hackerb9's [modified APL font](../aplfontb9).
+Or, simply download a fixed version from hackerb9's [modified APL font](../../../aplfontb9).
 
 
 <ol><sub>
