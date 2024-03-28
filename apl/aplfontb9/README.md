@@ -1,6 +1,6 @@
 # Hackerb9's modification to DEC's APL soft fonts
 
-These are modifications of [the VAX APL fonts](../vms/apl/aplfont) which
+These are modifications of [the VAX APL fonts](../../vms/apl/aplfont) which
 currently have only one change: they use 7-bit escape sequences so
 they do not conflict with UTF-8.
 
@@ -12,7 +12,7 @@ they do not conflict with UTF-8.
 | VT330    | [APL$VT330_FONT](APL$VT330_FONT.FNT) (same as VT340) | [APL$VT330_FONT_132](APL$VT330_FONT_132.FNT) (same as VT340) |
 | VT340    | [APL$VT340_FONT](APL$VT340_FONT.FNT)                 | [APL$VT340_FONT_132](APL$VT340_FONT_132.FNT)                |
 
-Usage is identical to the [original fonts](../vms/apl/aplfont), except that
+Usage is identical to the [original fonts](../../vms/apl/aplfont), except that
 these files should also work on modern terminals which support UTF-8
 (and VT font loading, of course).
 
@@ -162,4 +162,4 @@ justice:
 
 
 
-[montage]: ../charset/uplineload/apl-montage.png "Note how symbols such as 6B are squashed"
+[montage]: ../../charset/uplineload/apl-montage.png "Note how symbols such as 6B are squashed"
