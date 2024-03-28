@@ -2,7 +2,7 @@
 
 [ Screenshot goes here ]
 
-<img src="img/apltypeball.jpg" style="float: right;" width="50%" alt="This IBM 987 Selectric APL Element 'Typeball' was sold on eBay by Maven Lane for $77.00 on Feb 10, 2024.">
+<img src="img/apltypeball.jpg" style="float: right;" align="right" width="50%" alt="This IBM 987 Selectric APL Element 'Typeball' was sold on eBay by Maven Lane for $77.00 on Feb 10, 2024.">
 
 DEC provided an [APL softchar font](aplfontb9/README.md) for the VT340
 that allowed programmers to write in the APL language without having
@@ -23,6 +23,7 @@ See the
 for information on how those pieces were defined and worked together. 
 
 
+<br/>
 _____
 
 Historical footnote: Long before the VT340, DEC sold terminals for APL
