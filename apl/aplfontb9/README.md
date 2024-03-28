@@ -153,7 +153,7 @@ justice:
 
   | 5F                                                        | 60                                                        | 6B                                                        | 6C                                                        | 6D                                                        | 6E                                                        | 34                                                        |
   |-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|
-  | <img src="chars-orig/char-apl-10x20-5F.png" width="400%"> | <img src="chars-orig/char-apl-10x20-60.png" width="400%"> | <img src="chars-orig/char-apl-10x20-6B.png" width="400%"> | <img src="chars-orig/char-apl-10x20-6C.png" width="400%"> | <img src="chars-orig/char-apl-10x20-6D.png" width="400%"> | <img src="chars-orig/char-apl-10x20-6E.png" width="400%"> | <img src="chars-orig/char-apl-10x20-34.png" width="400%"> |
+  | <img src="chars-orig/char-apl-10x20-5F.png" width="50px"> | <img src="chars-orig/char-apl-10x20-60.png" width="50px"> | <img src="chars-orig/char-apl-10x20-6B.png" width="50px"> | <img src="chars-orig/char-apl-10x20-6C.png" width="50px"> | <img src="chars-orig/char-apl-10x20-6D.png" width="50px"> | <img src="chars-orig/char-apl-10x20-6E.png" width="50px"> | <img src="chars-orig/char-apl-10x20-34.png" width="50px"> |
 
 * Could be better: 
 
