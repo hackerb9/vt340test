@@ -1,0 +1,126 @@
+ 
+
+
+
+
+
+
+          DIGITAL
+
+          Read Before Installing or Using VAX APL Version 3.2
+
+          AV-W105H-TE
+
+          Whether you are a new or a continuing VAX APL customer,
+          please take time to read the following information
+          about your product.
+
+          Installation Information
+
+          APL Version 3.2 requires VMS Version 5.2 or higher, VMS
+          Workstation Software Version 4.1 or DECwindows Version
+          2.0 on VMS Version 5.3 or higher.
+
+          Before you install APL Version 3.2, you must register
+          the product using the Product Authorization Key (PAK)
+          provided in the kit. See the VMS License Management
+          Utility Manual for registration instructions.
+
+          Previous versions of APL do not need to be installed
+          before this version.
+
+          Release Notes Information
+
+          The release notes for APL Version 3.2 contain impor-
+          tant installation-related instructions and a summary of
+          technical changes, new features, differences, documen-
+          tation errors, restrictions, and incompatibilities.
+
+          You can read the release notes before installing APL
+          by invoking VMSINSTAL and following the instructions
+          that start the installation procedure. You can also
+          read release notes following the installation of APL by
+          typing or printing the file SYS$HELP:APL032.RELEASE_
+          NOTES.
+
+ 
+
+
+                                                           Page 2
+
+
+
+          Contents of This Kit
+
+          o  Indented Bill Report (BIL) and Bill of Materials
+             (BOM)
+
+             Please read the BIL and BOM enclosed in this kit
+             and check to see that all items listed are actually
+             in your kit. If your kit is damaged or any items
+             are missing, call your Digital customer services
+             representative.
+
+          o  Media
+
+             If you ordered media, you will find the media and
+             the VAX APL Installation Guide in this kit. Consult
+             the VAX APL Installation Guide for information about
+             installing APL on your system.
+
+          o  Documentation
+
+             Depending on your order, this kit may include copies
+             of the following APL documentation:
+
+                VAX APL Reference Manual Vol. 1
+                VAX APL Reference Manual Vol. 2
+
+             Note that the VAX APL Installation Guide is included
+             with the media.
+
+             ©Digital Equipment Corporation. 1990. All rights
+             reserved.
+
+ 
+
+
+                                                           Page 3
+
+
+
+          o  Product Authorization Key (PAK)
+
+             The PAK contains information necessary to register
+             APL before you install it.
+
+          o  Software Product Description (SPD)
+
+             The SPD provides an overview of the APL kit and its
+             features.
+
+          o  System Support Addendum (SSA)
+
+             The SSA describes the technical environment in which
+             the product is supported.
+
+          o  Software Performance Report (SPR)
+
+             Use this form to report any problems with APL,
+             provided you have purchased warranty services.
+
+          o  Software Update Survey Card
+
+             By completing this card after you install APL, you
+             provide valuable feedback to Digital on installa-
+             tion quality. Your feedback helps us to understand
+             customer needs and improve our products.
+
+          A Final Note
+
+          Digital prides itself on responding to customer needs.
+          In order to continue serving you, we need your com-
+          ments. Each manual contains preaddressed, postage-paid
+          Reader's Comments forms at the back. If you find errors
+          in a manual or want to make comments about it, please
+          fill out one of these forms and send it to us.

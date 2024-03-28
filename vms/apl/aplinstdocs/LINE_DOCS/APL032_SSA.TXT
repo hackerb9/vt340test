@@ -1,0 +1,206 @@
+PRODUCT NAME:  VAX APL,  Version 3.2                  SSA 25.31.10-A
+
+HARDWARE REQUIREMENTS
+
+Processors Supported
+
+VAX:	 VAX 6000 Model 200 Series
+	 VAX 6000 Model 300 Series
+	 VAX 6000 Model 400 Series
+
+	 VAX 8200, VAX 8250, VAX 8300, VAX 8350, VAX 8500, VAX 8530, VAX 8550, 
+         VAX 8600, VAX 8650, VAX 8700, VAX 8800, VAX 8810, VAX 8820, VAX 8830, 
+         VAX 8840, VAX 8842, VAX 8974, VAX 8978
+
+	 VAX-11/730, VAX-11/750, VAX-11/780, VAX-11/785
+
+MicroVAX:	   MicroVAX II, MicroVAX 2000, MicroVAX 3100, MicroVAX 3300, 
+                   MicroVAX 3400, MicroVAX 3500, MicroVAX 3600, MicroVAX 3800, 
+                   MicroVAX 3900
+
+VAXstation:	   VAXstation II, VAXstation 2000, VAXstation 3100 Series, 
+                   VAXstation 3200, VAXstation 3500, VAXstation 3520, 
+                   VAXstation 3540
+
+VAXserver:	   VAXserver 3100, VAXserver 3300, VAXserver 3400, VAXserver 
+                   3500, VAXserver 3600, VAXserver 3602, VAXserver 3800, 
+                   VAXserver 3900, VAXserver 6000-210, VAXserver 6000-310, 
+                   VAXserver 6000-410, VAXserver 6000-420
+
+Processors not Supported 
+
+MicroVAX I, VAXstation I, VAX-11/725, VAXstation 8000 
+
+Processor Restrictions 
+
+A TK50 Tape Drive is required for standalone MicroVAX 2000 and VAXstation 
+2000 systems.
+
+The VAX-11/782 processor is not supported by VMS Operating System V5.0 or 
+later.
+ 
+Block space Requirements (Block Cluster Size = 1):
+
+Disk space required for installation:			    7,000 blocks 
+							    (3584K bytes)
+
+Disk space required for use (permanent):
+						    5,000 - 5,300 blocks 
+						  (2,560K - 2,714K bytes)
+
+These block counts refer to the disk space required on the system disk.  
+The sizes are approximations; actual sizes may vary depending on the 
+user's system environment, configuration and software options selected.
+ 
+Memory Requirements for DECwindows Support
+
+The minimum supported memory for this application running in a standalone 
+DECwindows environment with both the client and server executing on the 
+same system is 10 MB.
+
+The minimum memory support is 10 MB.  However, the use of this software 
+in conjunction with increased memory capability improves performance 
+especially where large data arrays are being processed.  The memory size 
+suggested for most typical hardware configurations is at least 16 MB.
+
+OPTIONAL HARDWARE
+
+Floating point intensive applications should be run on configurations 
+with the appropriate hardware support for the floating point data types 
+being used. Consult the Base Operating System SPD for the Floating Point 
+Accelerator or other floating point hardware appropriate for your 
+configuration. 
+
+Terminal Support 
+
+VAX APL supports the APL character set on the following terminals:
+
+^ VT320
+
+^ VT330
+
+^ VT340
+
+^ VT220
+
+^ VT240
+
+^ VAXstation
+
+VAXCLUSTER ENVIRONMENT
+
+This layered product is fully supported when installed on any valid and 
+licensed VAXcluster* configuration without restrictions.  The HARDWARE  
+REQUIREMENTS sections of this product's Software Product Description and 
+System Support Addendum detail any special hardware required by this 
+product.
+
+* V5.x VAXcluster configurations are fully described in the VAXcluster 
+  Software Product Description (29.78.xx) and include CI, Ethernet and 
+  Mixed Interconnect configurations.
+
+SOFTWARE REQUIREMENTS 
+
+For Systems Using Terminals (No DECwindows Interface):
+
+^ VMS Operating System  V5.2
+
+For Workstations Running VWS:
+
+^ VMS Operating System  V5.2
+
+^ VMS Workstation Software  V4.1
+
+For Workstations Running DECwindows:
+
+^ VMS Operating System V5.3 (and necessary components of VMS DECwindows)
+
+This product may run in either of the following ways;
+
+Stand-alone execution - running the X11 display server and the client 
+application on the same machine.
+
+Remote execution - running the X11 display server and the client 
+application on different machines.
+
+VMS DECwindows is part of the VMS Operating System but must be installed 
+separately.  Installation of VMS DECwindows gives you the option to 
+install any or all of the following three component:
+
+VMS DECwindows Compute Server (Base kit; includes runtime support)
+
+VMS DECwindows Device Support
+
+VMS DECwindows Programming Support
+
+For stand-alone execution, the following DECwindows components must be 
+installed on the machine:
+									 
+^ VMS DECwindows Compute Server
+
+^ VMS DECwindows Device Support
+
+For remote execution, the following DECwindows components must be 
+installed on the machine:
+
+Server Machine
+
+^ VMS DECwindows Compute Server
+
+^ VMS DECwindows Device Support
+
+Client Machine
+
+^ VMS DECwindows Compute Server
+
+VMS Tailoring
+
+For VMS V5.x systems, the following VMS classes are required for full 
+functionality of this layered product:
+
+^ VMS Required Saveset
+
+^ Programming Support
+
+^ System Programming Support
+
+^ Utilities
+
+For more information on VMS classes and tailoring, refer to the VMS 
+Operating System Software Product Description (SPD 25.01.xx).
+
+OPTIONAL SOFTWARE
+
+None
+
+GROWTH CONSIDERATIONS
+
+The minimum hardware/software requirements for any future version of this 
+product may be different from the minimum hardware requirements of the 
+current version.
+
+DISTRIBUTION MEDIA 
+
+Tape:	  9-track 1600 BPI Magtape (PE), TK50 Streaming Tape
+
+This product is also available as part of the VMS Consolidated Software 
+Distribution on CDROM.
+
+ORDERING INFORMATION
+
+Software Licenses: QL-020A*-**
+Software Media: QA-020A*-**
+Software Documentation:  QA-020AA-GZ
+Software Product Services: QT-020A*-**
+
+* Denotes variant fields.  For additional information on available 
+  licenses, services and media refer to the appropriate price book.
+
+The above information is valid at the time of release.  Please contact 
+your local Digital office for the most up-to-date information.
+
+The DIGITAL Logo is a registered trademark of Digital Equipment Corporation.
+    
+VAX, VMS, MicroVAX, VAXserver, VAXstation and Ethernet are trademarks 
+of Digital Equipment Corporation.
+
