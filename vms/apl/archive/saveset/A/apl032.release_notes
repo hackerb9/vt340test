@@ -1,0 +1,1406 @@
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   Release Notes for VAX APL
+
+
+
+
+                   January, 1990
+
+                   This manual documents late technical changes,
+                   restrictions, and corrections not covered elsewhere
+                   in the VAX APL documentation.
+
+
+
+
+                   Operating System and Version: VMS Version 5.2
+                                                 VMS Workstation Software
+                                                 Version 4.1
+                                                 DECwindows Version 2.0 on
+                                                 VMS Version 5.3
+
+
+                   Software Version:             VAX APL Version 3.2
+
+
+
+
+
+
+                   Digital Equipment Corporation
+
+ 
+
+
+
+
+
+                   ________________________
+                   First Printing, January, 1990
+
+                   __________
+                   The information in this document is subject to change
+                   without notice and should not be construed as a
+                   commitment by Digital Equipment Corporation. Digital
+                   Equipment Corporation assumes no responsibility for any
+                   errors that may appear in this document.
+
+                   The software described in this document is furnished
+                   under a license and may be used or copied only in
+                   accordance with the terms of such license.
+
+                   No responsibility is assumed for the use or reliability
+                   of software on equipment that is not supplied by
+                   Digital Equipment Corporation or its affiliated
+                   companies.
+
+                   __________
+                   Copyright ©1990 by Digital Equipment Corporation
+
+                   All Rights Reserved.
+                   Printed in U.S.A.
+
+                   __________
+                   The following are trademarks of Digital Equipment
+                   Corporation:
+
+                   DEC             DIBOL         UNIBUS
+                   DEC/CMS         EduSystem     VAX
+                   DEC/MMS         IAS           VAXcluster
+                   DECnet          MASSBUS       VMS
+                   DECsystem-10    PDP           VT
+                   DECSYSTEM-20    PDT
+                   DECUS           RSTS
+                   DECwriter       RSX           DIGITAL
+
+                   This document was prepared using VAX DOCUMENT, Version
+                   1.2
+
+ 
+
+
+
+
+
+
+          ________________________________________________________________
+
+          Contents
+
+                __________________________________________________________
+                PREFACE                                                  
+
+                __________________________________________________________
+                1     FUNCTIONAL CHANGES                                 
+                1.1       VMS License Management Facility                
+                1.2       The Monadic Form of Epsilon                    
+                1.3       /NOSHARE Qualifier for .bxASS                  
+
+                __________________________________________________________
+                2     NEW DEVICES SUPPORTED                              
+                2.1       Digital VT3xx Terminals                        
+                2.2       DECterm                                        
+
+                __________________________________________________________
+                3     BUGS FIXED                                         
+
+                __________________________________________________________
+                4     PROBLEMS AND SOLUTIONS                             
+                4.1       Numerous CTRL/C Signals Can Cause Exit to
+                          VMS                                            
+                4.2       SYSTEM SERVICE FAILURE (EXCEEDED BYTE
+                          COUNT QUOTA) System Message                    
+                4.3       PCDRIVER Buffer Overflow Can Cause DECnet
+                          to Hang                                        
+                4.4       PCDRIVER Terminal not Reconnecting after
+                          Interruption                                   
+                4.5       Leading Semicolons in Output
+                          Catenations                                   
+                4.6       Simple Scalar Items Formatted Without
+                          Separating Spaces                             
+                4.7       C\R L\F in .bxSF Does Not Write Multiple
+                          Records                                       
+                4.8       .bxSF Does Not Wrap When Written to
+                          Terminal or Output File                       
+                4.9       Monadic Form of Epsilon Undefined             
+                4.10      )WIDTH Shifts Screen Mode                     
+
+                                                                       
+
+ 
+
+
+                   Contents
+
+
+
+                4.11      Cannot Insert a Single Quote Not in a
+                          Comment Using .dl Editor                      
+                4.12      Length of a 'Super-edited' Function Line
+                          is 255 Keystrokes                             
+                4.13      APL Characters 253, 254 and 255 Return as
+                          .bxAV[251] When Sent to TPU                   
+                4.14      TPU String Search Is Not Case Sensitive       
+                4.15      Typing <BACKSPACE> Moves Cursor To Left
+                          Margin                                        
+                4.16      CTRL/@ As Input On VT2xx, VT3xx or
+                          DECterm May Hang Process                      
+                4.17      DOMAIN ERROR on VT2xx, VT3xx or HDS2xx        
+                4.18      APL Characters not Displayed on VT2xx,
+                          VT3xx or VAXstation                           
+                4.19      COPY AND PASTE on DECwindows Reinterprets
+                          APL Characters                                
+                4.20      APL Font Files not Accessible on
+                          DECterm                                       
+                4.21      Font File Inaccessible On VT2xx or
+                          VT3xx                                         
+                4.22      Terminal Width and Screen Mode Not
+                          Matched                                       
+                4.23      DECwindows APL font appears in other
+                          applications                                  
+
+                __________________________________________________________
+                5     DOCUMENTATION OMISSIONS AND ERRATA                
+                5.1       REFRESH within the TPU editor                 
+                5.2      .BXENLIST                                      
+                5.3       Documentation Corrections                     
+
+
+
+
+
+
+
+
+
+                   
+
+ 
+
+
+                   Contents
+
+
+
+          ________________________________________________________________
+          TABLES
+
+                0     Document Conventions                              
+
+                1     Digital VT3xx Set-Up Selections                    
+
+                2     .bxTT Values                                       
+
+                3     DECterm Set-Up Selections                          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                         
+
+ 
+
+
+
+
+
+          ________________________________________________________________
+
+          Preface
+
+
+                   This release notes file describes product restrictions,
+                   undocumented features, and provides other essential
+                   information about VAX APL. These release notes
+                   supersede all other documents.
+
+          __________________________________________________________
+          Intended Audience
+
+                   All users of VAX APL should read this release notes
+                   file.
+
+          __________________________________________________________
+          Associated Documents
+
+                   Refer to the VAX APL Reference Manuals, Volumes 1 and 2
+                   for complete descriptions of the VAX APL interpreter,
+                   including the language and programming elements,
+                   facilities for controlling the APL environment, the
+                   interaction between APL and the VMS operating system
+                   and APL's I/O capabilities.
+
+                   The VAX APL Installation Guide contains instructions
+                   for installing VAX APL on the VMS operating system. The
+                   VAX APL Installation Guide also explains how to read
+                   the online release notes before or after installing the
+                   product.
+
+
+
+
+
+
+
+
+
+                                                                         
+
+ 
+
+
+                   Preface
+
+
+          __________________________________________________________
+          Conventions Used in This Document
+
+                   The following conventions are used in the release
+                   notes.
+
+          ________________________________________________________________
+          Table 0  Document Conventions
+
+                   _______________________________________________________
+                   Conventions_Meaning____________________________________
+
+                   VT2xx       The term VT2xx refers to the Digital VT220,
+                               Digital VT240, or Digital VT241 terminals
+
+                   VT3xx       the term VT3xx refers to the Digital VT320,
+                               Digital VT330, or Digital VT340 terminals
+
+                   DECterm     the word DECterm refers to the DECterm
+                               application on a Digital VAXstation running
+                               DECwindows
+
+                   UPPERCASE   uppercase words and letters, used in format
+                   words and   examples, indicate that you should type the
+                   letters     word or letter exactly as shown
+
+                   <xxx>       a symbol such as <xxx> indicates that you
+                               press a key on the terminal. For example,
+                               the <Return> symbol represents a single
+                               stroke of the RETURN key on a terminal.
+
+                   CTRL/x      The phase CTRL/x indicates that you must
+                               press the key labeled CTRL while you
+                               simultaneously press another key, for
+                               example, CTRL/C, CTRL/Y, CTRL/Z.
+
+
+
+
+
+                   
+
+ 
+
+
+                   Preface
+
+
+          ________________________________________________________________
+          Table 0 (Cont.)  Document Conventions
+
+                   _______________________________________________________
+                   Conventions_Meaning____________________________________
+
+                   <SHIFT/x>   The phase SHIFT/x indicates that you
+                               must press the key labeled SHIFT while
+                               you simultaneously press another key, for
+                               example, SHIFT/L, SHIFT/K, SHIFT/D.
+
+                   [option]    Brackets indicate that the enclosed item
+                               is optional. (Brackets are not optional in
+                               the syntax of a directory name in a file
+          _____________________specification.)____________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                       
+
+ 
+
+
+                   
+
+
+          __________________________________________________________
+          1  Functional Changes
+
+                   VAX APL contains the following new features.
+
+          _____________________________
+          1.1  VMS License Management Facility
+
+                   The VMS License Management Facility (LMF) is supported.
+                   VAX APL Version 3.2 installations must register the VAX
+                   APL software license.
+
+                   The VAX APL Installation Guide contains specific
+                   instructions on how to register the VAX APL license.
+                   For complete information on using LMF see the
+                   VMS License Management Utility Manual in the VMS
+                   documentation set.
+
+          _____________________________
+          1.2  The Monadic Form of Epsilon
+
+                   The Monadic Form of Epsilon is now undefined. This
+                   facility was phased out as described in section B.7 of
+                   the VAX APL Reference Manuals, Volumes 1 and 2.
+
+                   Use .bxXQ to execute expressions. The VAX APL Reference
+                   Manuals, Volumes 1 and 2 define and provide examples of
+                   this monadic system function.
+
+          _____________________________
+          1.3  /NOSHARE Qualifier for .bxASS
+
+                   A new qualifier, /NOSHARE has been added for use
+                   with .bxASS. Use the /NOSHARE qualifier to associate
+                   channels with files on tape devices. This qualifier
+                   will allow write operations to magnetic tapes.
+
+ 
+
+
+                   
+
+
+
+                   Use the action form:
+
+                   chan _ .bxASS '[chan] filespec [forg]'
+
+                   chan
+
+                   is an integer scalar whose value represents a channel
+                   number
+
+                   filespec
+
+                   is the VMS file specification associated with the
+                   specified channel
+
+                   /forg
+
+                   is the file organization of the file identified by
+                   filespec.
+
+                   For example:
+
+                 A _ .bxASS '$4$MUA1:TEST/IS/OPEN:NEW/NOSHARE'
+
+                   In the example, a new internal sequential file,
+                   TEST.AIS, is opened on device $4$MUA1. That file is
+                   associated with the channel variable A.
+
+                   The VAX APL Reference Manuals, Volumes 1 and 2 provide
+                   more detailed explanations of .bxASS, the other
+                   qualifiers for .bxASS, and how to access files from
+                   APL.
+
+          __________________________________________________________
+          2  New Devices Supported
+
+                   VAX APL now supports the APL character set on Digital
+                   VT320, Digital VT330, Digital VT340, and on Digital
+                   VAXstations running DECwindows on VMS Version 5.3.
+
+                   Digital VT3xx terminals and VAXstations using DECterm
+                   on DECwindows do not require hardware modification to
+                   support the APL character set. The VAX APL software
+                   provides the support.
+
+                   An optional North American keyboard, the LK201-EC, has
+                   the APL characters etched on the fronts of the keycaps.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          2.1  Digital VT3xx Terminals
+
+                   Terminal Setup
+
+                   The following options should be selected from the
+                   appropriate set-up display screens on your Digital
+                   VT3xx terminal.
+
+          ________________________________________________________________
+          Table 1  Digital VT3xx Set-Up Selections
+
+                   _______________________________________________________
+                   Option____________Feature_______Set-Up_Screen__________
+
+                   VT300-7bit        Terminal      General           Required
+                                     Mode
+
+                   Multinational     Character     General           Recommended
+                                     Set Mode
+
+                   8 bits[1]         Character     Communications    Required
+                                     Format
+                   _______________________________________________________
+                   [1]Select the appropriate parity setting for your host
+                   system.
+          ________________________________________________________________
+
+                   For more specific information about displaying and
+                   changing your terminal set-up, see your Installing and
+                   Using The VT320 Video Terminal or Installing and Using
+                   The VT330/VT340 Video Terminal manual.
+
+                   Multi-session Support
+
+                   The multi-session feature of the Digital VT330 and
+                   Digital VT340 terminals is fully supported with this
+                   release of VAX APL.
+
+                   Refer to your Installing and Using The VT330/VT340
+                   Video Terminal manual for information regarding the
+                   terminal set-up necessary to support the multi-session
+                   feature.
+
+ 
+
+
+                   
+
+
+
+                   Terminal Designator
+
+                   When beginning a VAX APL session, you must tell APL
+                   what type of terminal you are using. You can specify
+                   the VT3xx terminal type in either the command line or
+                   the initialization file. Use the "vt320," "vt330" or
+                   "vt340" terminal designator with the Digital VT320,
+                   VT330 and VT340 terminals.
+
+                   The terminal designators use the APL COMPOSITE
+                   character set with a key-paired keyboard. APL switches
+                   between character sets automatically when you enter and
+                   leave APL.
+
+                   Refer to the Terminal Designator section in the VAX APL
+                   Reference Manual Volume 1 for a definition of the other
+                   terminal types.
+
+                   .bxTT Terminal Type
+
+                   .bxTT (terminal type) indicates the type of terminal
+                   being used for the current VAX APL session. .bxTT
+                   allows you to change the terminal type during an APL
+                   session. Choose the appropriate terminal type from
+                   Table 2 to specify the VT3xx terminal being used.
+
+          ________________________________________________________________
+          Table 2  .bxTT Values
+
+                   _______________________________________________________
+                   Value_______Terminal_Type______________________________
+
+                   16          VT320 (key-paired)
+
+                   17          VT330 (key-paired)
+
+          _________18__________VT340_(key-paired)_________________________
+
+                   Overstruck Characters
+
+                   To create an APL overstruck character with the VT3xx
+                   series terminals, press CTRL/D, followed by the two
+
+ 
+
+
+                   
+
+
+
+                   constituent characters. For example, the following
+                   sequence of keys produces quote-quad.
+
+                CTRL/D SHIFT/L SHIFT/K
+
+                   The constituent characters may be typed in either
+                   order.
+
+                   Lowercase Characters
+
+                   When using the VT3xx terminals, the output from )DO
+                   and )HELP will not be uppercased automatically in
+                   immediate mode since these terminals are capable of
+                   displaying lower case ASCII letters in APL mode. Refer
+                   to the )DO and )HELP APL System Commands sections of
+                   the VAX APL Reference Manuals, Volumes 1 and 2 for more
+                   information.
+
+          _____________________________
+          2.2  DECterm
+
+                                             Note
+
+                      VAX APL must be installed on the VAXstation
+                      running DECwindows. If you are accessing a host
+                      VAX system to run VAX APL applications, VAX APL
+                      must be installed on both the host VAX system and
+                      the DECterm VAXstation.
+
+                   Set-up
+
+                   The following options should be selected from the
+                   General Customize Dialog Box on your DECterm. Consult
+                   your VMS DECwindows Desktop Applications Guide for
+                   information about customizing your DECterm.
+
+ 
+
+
+                   
+
+
+
+          ________________________________________________________________
+          Table 3  DECterm Set-Up Selections
+
+                   _______________________________________________________
+                   Option_____________________Dialog_Box__________________
+
+                   DECterm ID                 Recommended
+
+                   8-Bit Multinational        Required
+                   Characters
+
+                   VT300 Mode, 7-Bit          Required
+          _________Controls_______________________________________________
+
+                   Using the Customize Keyboard Dialog Box, you may chose
+                   optional definitions for the Comma Key, Tilde Key and
+                   Angle Bracket Key. VAX APL will map the corresponding
+                   characters to the settings chosen in the Customize
+                   Keyboard Dialog Box.
+
+                   Terminal Designator
+
+                   When beginning a VAX APL session, you must tell APL
+                   what type of terminal you are using. You can specify
+                   the terminal type in either the command line or the
+                   initialization file. Use the "decterm" terminal
+                   designator if you are using VAX APL on a VAXstation
+                   with DECwindows.
+
+                   The terminal designators use the APL COMPOSITE
+                   character set with a key-paired keyboard. APL switches
+                   between character sets automatically when you enter and
+                   leave APL.
+
+                   Refer to the Terminal Designator section in the VAX APL
+                   Reference Manual Volume 1 for a definition of the other
+                   terminal types.
+
+ 
+
+
+                   
+
+
+
+                   .bxTT Terminal Type
+
+                   .bxTT (terminal type) indicates the type of terminal
+                   being used for the current VAX APL session. .bxTT
+                   allows you to change the terminal type during an APL
+                   session. Assign the value of 19 to .bxTT to specify the
+                   DECterm terminal type.
+
+                   Overstruck Characters
+
+                   To create an APL overstruck character on the DECterm,
+                   press CTRL/D, followed by the two constituent
+                   characters. For example, the following sequence of
+                   keys produces quote-quad.
+
+                       CTRL/D SHIFT/L SHIFT/K
+
+                   The constituent characters may be typed in either
+                   order.
+
+                   Lowercase Characters
+
+                   When using the DECterm, the output from )DO and )HELP
+                   will not be uppercased automatically in immediate mode
+                   since DECterm is capable of displaying lower case ASCII
+                   letters in APL mode. Refer to the )DO and )HELP APL
+                   System Commands sections of the VAX APL Reference
+                   Manuals, Volumes 1 and 2 for more information.
+
+          __________________________________________________________
+          3  Bugs Fixed
+
+                   All known major bugs have been fixed in this
+                   maintenance release of VAX APL. This includes all bugs
+                   that have been reported in SPRs as of this date.
+
+                   1  Reallocation of the symbol table now correctly
+                      updates the left parsing stack.
+
+ 
+
+
+                   
+
+
+
+                   2  When calling external routines, if the data
+                      structure is too large for the calling mechanism,
+                      the error will be properly detected now and signaled
+                      by APL.
+
+                   3  The REFRESH screen in the )EDIT command now
+                      preserves the font selection.
+
+          __________________________________________________________
+          4  Problems and Solutions
+
+                   This section lists known problems with VAX APL that
+                   should be brought to the attention of the VAX APL user.
+                   A way of working around the problem may be suggested.
+                   A statement concerning the solution of the problem is
+                   included.
+
+          _____________________________
+          4.1  Numerous CTRL/C Signals Can Cause Exit to VMS
+
+                   Problem:
+
+                   It is possible that numerous CTRL/C attention signals
+                   in a short length of time can be treated as a CTRL/Y by
+                   VAX APL, causing it to exit to VMS. When this occurs,
+                   the terminal character set is not reset to ASCII if it
+                   was APL.
+
+                   Workaround:
+
+                   Type CONTINUE to VMS to reenter VAX APL. An ATTENTION
+                   SIGNAL will be generated immediately.
+
+          _____________________________
+          4.2  SYSTEM SERVICE FAILURE (EXCEEDED BYTE COUNT QUOTA) System
+               Message
+
+                   Problem:
+
+                   The system message SYSTEM SERVICE FAILURE (EXCEEDED
+                   BYTE COUNT QUOTA) sometimes occurs when using one of
+                   the system commands )DROP, )LIB, )DO, etc.
+
+ 
+
+
+                   
+
+
+
+                   Solution:
+
+                   The account's Buffered I/O byte count quota (BYTLM)
+                   is set too low. The recommended minimum value is
+                   8192. Refer to the VAX APL Installation Guide for
+                   instructions on modifying quotas using the AUTHORIZE
+                   utility.
+
+          _____________________________
+          4.3  PCDRIVER Buffer Overflow Can Cause DECnet to Hang
+
+                   Problem:
+
+                   It is possible for PCDRIVER to experience a buffer
+                   overflow during heavy system load when some repeatable
+                   key is held down. This may cause DECnet to hang.
+
+                   Solution:
+
+                   You can alleviate this problem by increasing the
+                   SYSGEN parameter MAXBUF - this is what PCDRIVER uses
+                   to determine how much typeahead it can handle. Note
+                   that as MAXBUF increases, PCDRIVER's use of non-paged
+                   pool will increase: it uses 20 times MAXBUF bytes of
+                   non-paged pool per terminal. You may have to increase
+                   NPAGEVIR also.
+
+          _____________________________
+          4.4  PCDRIVER Terminal not Reconnecting after Interruption
+
+                   Problem:
+
+                   When a terminal that is being controlled by PCDRIVER
+                   looses its connection, it is possible that the terminal
+                   will not respond once reattached to the system.
+
+ 
+
+
+                   
+
+
+
+                   Workaround:
+
+                   This is due to a system logical that has been
+                   associated with the terminal. To delete all such
+                   system logicals, use the APL procedure found in
+                   SYS$LIBRARY:REMOVE_VTA.AAS on a terminal logged into a
+                   privileged account in the following way:
+
+                $ APL/TERMINAL=TTY
+                )INPUT SYS$LIBRARY:REMOVE_VTA
+                DELETE
+                )OFF
+                $ ! the terminal should be OK
+
+          _____________________________
+          4.5  Leading Semicolons in Output Catenations
+
+                   Problem:
+
+                   Leading semicolons in output catenation are allowed.
+
+                   Possible Future Fix:
+
+                   This may be fixed in a future release of VAX APL.
+
+          _____________________________
+          4.6  Simple Scalar Items Formatted Without Separating Spaces
+
+                   Problem:
+
+                   Using a .bxDC setting which specifies boxes, and does
+                   not provide sufficient space for them will cause simple
+                   scalar items to be formatted without separating spaces,
+                   while items within boxes are formatted with separating
+                   spaces.
+
+                   Workaround:
+
+                   Use settings for .bxDC which allow space for the boxes,
+                   as well as the separating space.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.7  C\R L\F in .bxSF Does Not Write Multiple Records
+
+                   Problem:
+
+                   If .bxSF contains a <Carriage Return> <Line Feed>, the
+                   data is still written to an output file as one record,
+                   instead of being broken into multiple records ending at
+                   the <Carriage Return> <Line Feed>.
+
+                   Possible Future Fix:
+
+                   This may be fixed in a future release of VAX APL.
+
+          _____________________________
+          4.8  .bxSF Does Not Wrap When Written to Terminal or Output File
+
+                   Problem:
+
+                   If .bxSF is longer than .bxPW, it is not wrapped when
+                   written to the terminal or an output file. It is a
+                   character vector and should be wrapped accordingly.
+
+                   Possible Future Fix:
+
+                   This may be fixed in a future release of VAX APL.
+
+          _____________________________
+          4.9  Monadic Form of Epsilon Undefined
+
+                   Problem:
+
+                   The Monadic Form of Epsilon is undefined. This facility
+                   was phased out as described in section B.7 of the VAX
+                   APL Reference Manuals, Volumes 1 and 2.
+
+                   Solution:
+
+                   Use .bxXQ.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.10  )WIDTH Shifts Screen Mode
+
+                   Problem:
+
+                   APL will shift the screen between 80- and 132-column
+                   mode when you use )WIDTH to set the print width to
+                   above or below 80.
+
+                   Solution:
+
+                   Setting .bxPW does not cause this behavior.
+
+          _____________________________
+          4.11  Cannot Insert a Single Quote Not in a Comment Using .dl
+                Editor
+
+                   Problem:
+
+                   Using the .dl editor in line-edit mode, "comma"
+                   insertion cannot insert a single quote not in a
+                   comment.
+
+                   Solution:
+
+                   The text following "comma" insertion must contain
+                   balanced quotes and the function line after editing
+                   must contain a balanced number of quotes.
+
+          _____________________________
+          4.12  Length of a 'Super-edited' Function Line is 255 Keystrokes
+
+                   Problem:
+
+                   The length of a function line that can be
+                   "super-edited" is 255 keystrokes, regardless of the
+                   starting character position for insertions.
+
+                   Restriction:
+
+                   This is documented as a permanent RMS restriction.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.13  APL Characters 253, 254 and 255 Return as .bxAV[251] When
+                Sent to TPU
+
+                   Problem:
+
+                   If any of the unused APL characters 253, 254 and 255
+                   that display as squish-quad are sent to TPU via )EDIT
+                   on the VT2xx, VT3xx, DECterm, or VAXstations, they will
+                   return as .bxAV [251].
+
+                   Restriction:
+
+                   Do not use characters 253,254 and 255.
+
+          _____________________________
+          4.14  TPU String Search Is Not Case Sensitive
+
+                   Problem:
+
+                   When inside TPU via )EDIT on the VAXstation and
+                   searching for a string, certain APL single and
+                   overstrike characters will be matched with normal ASCII
+                   characters, eg, "y" or "Y" will also find the lamp
+                   character. This is because the default search technique
+                   is not case sensitive.
+
+                   Workaround:
+
+                   If you are using the EDT emulation section file, then
+                   you can enter SET SEARCH EXACT to the EDT command
+                   processor to enforce case sensitivity. If you are
+                   using the EVE section file, then refer to VAX Text
+                   Processing Utility Manual to determine how to modify
+                   case sensitivity. If using a custom section file,
+                   then modify the TPU-written search routine to use the
+                   keyword EXACT when calling the TPU SEARCH builtin (See
+                   VAX Text Processing Utility Manual).
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.15  Typing <BACKSPACE> Moves Cursor To Left Margin
+
+                   Problem:
+
+                   Typing <BACKSPACE> on a terminal moves the cursor to
+                   the left margin instead of one space back to create an
+                   overstrike.
+
+                   Workaround:
+
+                   Use the $ SET TERMINAL/NOLINE_EDITING command to DCL or
+                   set .bxTLE to 0 inside of VAX APL.
+
+          _____________________________
+          4.16  CTRL/@ As Input On VT2xx, VT3xx or DECterm May Hang
+                Process
+
+                   Problem:
+
+                   Typing a CTRL/@ (nul, ASCII 0) as input on VT2xx, VT3xx
+                   or DECterm terminals while using the APL character set
+                   may cause the process to hang.
+
+                   Workaround:
+
+                   To enter the ASCII nul character, use the composite
+                   character CTRL/D <0><\>.
+
+          _____________________________
+          4.17  DOMAIN ERROR on VT2xx, VT3xx or HDS2xx
+
+                   Problem:
+
+                   When attempting to use the APL character set on a
+                   VT2xx, VT3xx or HDS2xx terminal a DOMAIN ERROR occurs.
+                   One of several things may be wrong depending on the
+                   secondary message.
+
+                   o  FONT FILE COULD NOT BE OPENED indicates that the APL
+                      font file is not accessible or that the file can't
+                      be loaded.
+
+ 
+
+
+                   
+
+
+
+                   o  ERROR ACTIVATING IMAGE indicates that
+                      SYS$LIBRARY:APLSHR is not accessible.
+
+                   o  NO SUCH DEVICE AVAILABLE indicates that PCDRIVER is
+                      not loaded.
+
+                   Solution:
+
+                   Consult the VAX APL Installation Guide and assert that
+                   all steps outlined there have been followed.
+
+          _____________________________
+          4.18  APL Characters not Displayed on VT2xx, VT3xx or VAXstation
+
+                   Problem:
+
+                   If the terminal type is not correctly identified, no
+                   error message will be given and characters will display
+                   in ASCII as if APL support has been established.
+
+                   Workaround:
+
+                   CTRL/Z will allow you to leave APL and reset the
+                   terminal to ASCII and then re-invoke APL with the
+                   correct terminal type. Note that this will lose your
+                   current workspace. If you wish to save your workspace,
+                   you should attempt to type )SAVE  or )CONTINUE.
+
+          _____________________________
+          4.19  COPY AND PASTE on DECwindows Reinterprets APL Characters
+
+                   Problem:
+
+                   When using COPY AND PASTE on DECwindows to insert
+                   commands interactively, APL reinterprets the APL
+                   characters.
+
+                   Restriction:
+
+                   Do not use COPY AND PASTE.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.20  APL Font Files not Accessible on DECterm
+
+                   Problem:
+
+                   If the APL font files are not present or not
+                   accessible, DECterm will pop up a box which indicates
+                   that the font could not be found, and characters
+                   will display in ASCII as if APL support has been
+                   established.
+
+                   Workaround:
+
+                   CTRL/Z will allow you to exit APL. Note that this
+                   will lose your current workspace. If you wish to save
+                   your workspace, you should attempt to type )SAVE  or
+                   )CONTINUE.
+
+                   Alternatively, you can select Customize Window in
+                   the DECterm's menu bar, and try different sizes to
+                   see whether another size of the APL font files is
+                   accessible.
+
+          _____________________________
+          4.21  Font File Inaccessible On VT2xx or VT3xx
+
+                   Problem:
+
+                   When in VT2xx or VT3xx mode, if you leave APL via )DO,
+                   )PUSH or )EDIT and the terminal type is changed to
+                   other than VT2xx-type or VT3xx-type, and the font file
+                   becomes inaccessible, then when you return to APL, APL
+                   will not be able to restore the terminal setting; APL
+                   will signal an error and set .bxTT to 2 (TTY).
+
+                   Workaround:
+
+                   CTRL/Z will allow you to exit APL, reset the terminal
+                   type to ASCII and reenter APL. Note that this will
+                   lose your current workspace. If you wish to save
+                   your workspace, you should attempt to type )SAVE  or
+                   )CONTINUE.
+
+ 
+
+
+                   
+
+
+          _____________________________
+          4.22  Terminal Width and Screen Mode Not Matched
+
+                   Problem:
+
+                   The VT240 and VT3xx support requires two font files,
+                   one for 80- and the other for 132-column mode. Setting
+                   the terminal width at DCL level, eg, via )PUSH will
+                   result in the screen being in one mode and APL in the
+                   other mode.
+
+                   Solution:
+
+                   Set the appropriate value using the )WIDTH command.
+
+          _____________________________
+          4.23  DECwindows APL font appears in other applications
+
+                   Problem:
+
+                   Other DECwindows applications may incorrectly attempt
+                   to use the APL fonts after they are installed. This is
+                   a bug in the other applications themselves, which fail
+                   to completely specify the parameters of the fonts they
+                   wish to use. APL's fonts are named according to the
+                   standard naming conventions for DECwindows fonts.
+
+                   Solution:
+
+                   Submit a bug report against the other application. It
+                   may also be possible to edit the DECwindows resource
+                   file of the application to help it find the proper
+                   font, but this is application-dependant, and may be
+                   unsupported.
+
+ 
+
+
+                   
+
+
+          __________________________________________________________
+          5__Documentation_Omissions_and Errata
+
+          5.1  REFRESH within the TPU editor
+
+                   CTRL/W or REFRESH both refresh the video screen. With
+                   changes made for VAX APL V3.2, the APL font will be
+                   preserved when CTRL/W or REFRESH is used within the
+                   default EVE/TPU editor.
+
+                   If using a modified TPU editor, use APL$REFRESH instead
+                   of the TPU REFRESH procedure to restore the display of
+                   APL text.
+
+                   If for some reason VAXTPU unmaps the APL character set,
+                   to refresh the screen use the APL$REFRESH procedure
+                   which APL provides. APL$REFRESH replaces the TPU
+                   procedure APL$MAP_FONT defined in previous versions
+                   of VAX APL.
+
+ 
+
+
+          5.2  .bxENLIST
+
+
+
+          ________________________________________________________________
+
+          .bxENLIST
+
+                   Builds a simple vector with all of the simple scalars
+                   in its argument.
+
+          __________________________________________________________
+          Format
+
+                   result _ .bxENLIST  argument
+
+          __________________________________________________________
+          Argument Domain
+
+                   Type                  Any
+
+                   Shape                 Any
+
+                   Depth                 Any
+
+          __________________________________________________________
+          Result Domain
+
+                   Type                  Same as argument
+
+                   Rank                  1
+
+                   Shape                 Vector
+
+                   Depth                 1 (simple vector)
+
+          __________________________________________________________
+          Implicit Arguments
+
+                                         None
+
+ 
+
+
+                   .bxENLIST
+
+
+          __________________________________________________________
+          Examples
+
+          A _ .bxENLIST (2 (2 2.RO5 6 7 8)) 'ABC' A 2 5 6 7 8 ABC
+
+ 
+
+
+
+
+
+          _____________________________
+          5.3  Documentation Corrections
+
+                   pg 1-3 of vol 1       The keyboard illustrated is not a
+                   of the Ref Man,       LK201 as captioned, but a LA120
+                   the keyboard          keyboard.
+                   illustration
+
+                   pg 1-39 of vol 1 of   The .KO APL character is
+                   the Ref Man, the .KO  incorrectly represented; it
+                   APL character         should be an APL 0 overstruck
+                                         with \.
+
+                   pg 1-41 of vol 1      Characters 253, 254 and 255 are
+                   of the Ref Man,       incorrectly represented; they
+                   character sets 253,   should be squish quad (.sq).
+                   254 and 255
+
+                   pg 4-58 of vol 1 of   Use CTRL/W to refresh the screen,
+                   the Ref Man, CTRL/R.  not CTRL/R.
+
+                   pg 4-62 of vol 1      The last SI should be printed in
+                   of the Ref Man,       the left margin in black ink to
+                   the last )SI code     indicate that it is displayed by
+                   example               APL and is not user input.
+
+                   pg 5-9 of vol 1 of    The expression to show how APL
+                   the Ref Man, the      reshapes the right argument
+                   last expression       (RARG) to form the intermediate
+                                         matrix is incorrect. Remove the
+                                         second occurrence of RARG.
+
+                   pg 5-10 of vol 1      The third APL output should be 1
+                   of the Ref Man, the   2 3.
+                   example
+
+
+
+
+
+                                                                        
+
+ 
+
+
+
+
+
+
+
+                   pg 6-14 of vol 1      The first line of the example
+                   of the Ref Man, the   should use one double quote, not
+                   example               two single quotes.
+
+                   pg 6-36 of vol 1      The result domain depth should be
+                   of the Ref Man, the   "0 (simple scalar)".
+                   Result Domain
+
+                   pg 6-61,62 of vol     Note that .bxREWIND does not
+                   1 of the Ref Man,     release locked records on the
+                   about .bxREWIND       specified channels.
+
+                   pg 6-92 of vol 1 of   VAX APL associates the cluster
+                   the Ref Man, add the  name APL$_CHANNL_EFC using
+                   following paragraphs  $ASCEFC with the common event
+                                         flag cluster given by the /EFN=n
+                                         switch to .bxASS. It does the
+                                         $ASCEFC the first time any one
+                                         of .bxEFC, .bxEFR, or .bxEFS is
+                                         used with the event flag. Since
+                                         APL only allows the event flag
+                                         on /EFN to be in the interval
+                                         [64..95], APL only allows
+                                         access to common event flags
+                                         and only one event flag cluster.
+                                         The access is allowed inside
+                                         cooperating processes in the same
+                                         group so all processes in that
+                                         group using /EFN have to agree on
+                                         what each event flag means.
+
+
+
+
+
+
+
+
+                   
+
+ 
+
+
+
+
+
+
+
+                   pg 6-95,96 of         The group logical name table
+                   vol 1 of the Ref      is not used by default.
+                   Man, delete last      LNM$TEMPORARY_MAILBOX and
+                   paragraph on pg 95    LNM$PERMANENT_MAILBOX specify the
+                   and first paragraph   table that defines the mailbox's
+                   on pg 96              name.
+
+                   pg 6-110 of vol 1 of  The first 2 longwords of an
+                   the Ref Man, figure   internal record contain the
+                   6-1                   component number for a /DA file.
+                                         These 2 longwords are present but
+                                         should be ignored for /IS, /RF,
+                                         and /KY files.
+
+                   pg 7-10 of vol 1 of   The explanation should be: There
+                   the Ref Man, last     are characters other than spaces
+                   system message        following the function name.
+
+                   pg 7-24 of vol 1      The complex data type explanation
+                   of the Ref Man,       should be: ...a complex data type
+                   the fourth system     is being passed an odd number of
+                   message               items...
+
+                   pg 7-26,27 of vol     Use of the dollar sign($) in
+                   1 of the Ref Man,     names is reserved to DEC.
+                   the fourth and fifth
+                   step
+
+
+
+
+
+
+
+
+
+
+
+                                                                        
