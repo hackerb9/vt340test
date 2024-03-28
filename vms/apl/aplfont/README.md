@@ -1,6 +1,10 @@
 # The APL soft fonts from DEC and how to use them
 
-These files are the "soft fonts" that DEC shipped with VAX APL. 
+These files are the original "soft fonts" that DEC shipped with VAX
+APL circa 1990. If you wish to use these fonts with a modern UTF-8
+system, you will likely want
+[hackerb9's 7-bit modified versions](../../../apl/aplfontb9/README.md) 
+instead.
 
 **Table 1-10 Terminal Designator Font Files**
 
@@ -14,7 +18,7 @@ These files are the "soft fonts" that DEC shipped with VAX APL.
 
 <ul><i>
 
-<sup><sub>Duplicates: The [install file](../saveset/A/kitinstal.com) copies the
+<sup><sub>Duplicates: The [install file](../archive/saveset/A/kitinstal.com) copies the
 VT220 80-column font as "VT240" and both the 80- and 132-column VT330
 fonts as "VT340". Note that the VT240 has a 132-column font which the
 VT220 lacks.</sub></sup>
