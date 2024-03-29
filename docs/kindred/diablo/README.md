@@ -72,21 +72,21 @@ letters in English words. A quick grep of `/usr/dict/words` shows that
 
 ### Xerox Diablo part numbers.
 
-| Part No. | Description            || Part No. | Description                     |
-|----------|------------------------||----------|---------------------------------|
-| 38100-01 | Courier 10             || 38135    | Kana Gothic Elite 12 (thin Hub) |
-| 38101-01 | Pica 10                || 38136    | Kana Gothic Pica 10 (thin Hub)  |
-| 38102-01 | Elite 12               || 38137    | Kana Gothic Elite 12            |
-| 38103    | Manifold               || 38138    | Kana Gothic Pica 10             |
-| 38104    | Courier Legal 10       || 38139    | British Pica 10                 |
-| 38105    | Prestige Elite Legal 12|| 38140    | UK Courier 10                   |
-| 38106-02 | Dual Gothic Legal 12   || 38141    | General Scientific 10           |
-| 38107-01 | Courier 72             || 38145    | OCR-B Kana 10                   |
-| 38108    | Courier Legal 10A      || 38146    | OCR-B                           |
-| 38109    | Pica Legal 10A         || 38147    | Forms Gothic S10                |
-| 38131    | French Prestige Cubic  || 38150-01 | APL 10                          |
-| 38132    | German Pica 10         || 38157    | German Elite 12                 |
-| 38133    | Scandia Elite 12       || 38159    | European Elite 12               |
+| Part No. | Description             |   | Part No. | Description                     |
+|----------|-------------------------|---|----------|---------------------------------|
+| 38100-01 | Courier 10              |   | 38135    | Kana Gothic Elite 12 (thin Hub) |
+| 38101-01 | Pica 10                 |   | 38136    | Kana Gothic Pica 10 (thin Hub)  |
+| 38102-01 | Elite 12                |   | 38137    | Kana Gothic Elite 12            |
+| 38103    | Manifold                |   | 38138    | Kana Gothic Pica 10             |
+| 38104    | Courier Legal 10        |   | 38139    | British Pica 10                 |
+| 38105    | Prestige Elite Legal 12 |   | 38140    | UK Courier 10                   |
+| 38106-02 | Dual Gothic Legal 12    |   | 38141    | General Scientific 10           |
+| 38107-01 | Courier 72              |   | 38145    | OCR-B Kana 10                   |
+| 38108    | Courier Legal 10A       |   | 38146    | OCR-B                           |
+| 38109    | Pica Legal 10A          |   | 38147    | Forms Gothic S10                |
+| 38131    | French Prestige Cubic   |   | 38150-01 | APL 10                          |
+| 38132    | German Pica 10          |   | 38157    | German Elite 12                 |
+| 38133    | Scandia Elite 12        |   | 38159    | European Elite 12               |
 
 ## DEC LQP01 / Diablo HyType 1345A capabilities
 
