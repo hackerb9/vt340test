@@ -5,9 +5,8 @@ value of any pixel of text is 0111₂, which is an index into the
 colormap. No matter what color the colormap entry is changed to, all
 text will change simultaneously since it all points to the same place.
 
-But, it is possible to color pixels already on the screen, including
-text, by selectively erasing the bitplane using the ReGIS `W(F())`
-operator. 
+However, it _is_ possible to modify the value of pixels on the screen by
+selectively erasing the bitplane using the ReGIS `W(F())` operator. 
 
 
 
