@@ -44,7 +44,7 @@ echo "${ST}"
 
 ## How fast is it? 
 
-The above implementation is rather slow, taking about nearly half a
+The above implementation is rather slow, taking nearly half a
 second on a VT340+ to colorize 32 characters. There is likely some
 faster way as no optimization has been attempted, yet.
 
