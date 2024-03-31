@@ -9,18 +9,21 @@ However, it _is_ possible to modify the value of pixels on the screen by
 selectively erasing the bitplane using the ReGIS `W(F())` operator. 
 
 
+## Test program
 
-## How to do it
+* [faketextcolor.sh](faketextcolor.sh)
 
-Example code:
+<img src="faketextcolor.png" width=80%>
+
+## Example code
 
 ```bash
 DCS=$'\eP'
 ST=$'\e\\'
-# Erase screen. Set Writing Multiplier to 20 and color Index to 0000₂.
+# Erase screen. Writing Multiplier = 20, color Index = 0 (0000₂).
 echo "${DCS}1p; S(E) W(M20,I0) ${ST}"
-tput cup 10 25
-tput bold			# Bold text pixels are set to index 15 (1111₂).
+tput cup 10 25		# Cursor position
+tput bold			# Bold text pixels are set to 15 (1111₂).
 echo -n "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345"
 
 # Enable only certain fields (bitplanes) for writing.
@@ -50,28 +53,41 @@ start the next box.
 </ul>
 <br clear="all">
 
-
-## Test program
-
-* [faketextcolor.sh](faketextcolor.sh)
-
-<img src="faketextcolor.png" width=80%>
-
 ## References
 
 * https://vt100.net/docs/vt3xx-gp/chapter3.html
 
-## How fast is it? 
+## Potential problems
+
+### How fast is it? 
 
 The above implementation is rather slow, taking nearly half a
 second on a VT340+ to colorize 32 characters. There is likely some
 faster way as no optimization has been attempted, yet.
 
-## What if the screen scrolls?
+### What if the screen scrolls up?
 
-Colorized text scrolls properly with the screen.
+Colorized text scrolls up properly with the screen. Tested with
+'\n' (newline) and Esc D (index).
 
-## What if the text is shifted via inserts?
+### What if the screen scrolls down?
 
-Not tested.
+Colorized text scrolls down properly with the screen. Tested with Esc
+M (reverse index) and with Esc [ M (delete line).
 
+### What if the text is shifted left?
+
+Colors are removed from the line when text is shifted left by Esc [ P
+(delete character).
+
+### What if the text is shifted right?
+
+Colors are removed from the line when the text is shifted right by Esc
+[ 4 h (insert mode).
+
+## Portability
+
+This example code is lacking in that it ought to test for the size of
+the character cell instead of presuming it is 10x20. Due to this bug,
+it will not work on the VT340 in 132 column mode, nor does it work on
+terminal emulators that have different font sizes.
