@@ -22,25 +22,34 @@ tput cup 10 25
 tput bold			# Bold text pixels are set to 1111
 echo -n "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345"
 
-
+# Enable only certain fields (bitplanes) for writing.
 echo "${DCS}0p;"
 echo "P[250,200]"
-
-# Enable only certain fields (bitplanes) for writing.
 for ((i=0; i<16; i++)); do
+	# Filled Vector polygon with temporary Writing style of Field "i"
     echo "F(V(W(F${i})) 0642) v0 "
 done
-
 echo "${ST}"
 ```
+
+<img src="offsetdirections.svg" width=25% align="right">
+
+Side note: The mysterious number `0642` is actually offset directions
+for the `V` (vector) operator. Here is the compass rose showing what
+each number means. The global setting `W(M20)` changed the Writing
+Multiplier is 20 pixels per step, instead of one.
+
+<br/>
+
+## Test program
+
+* [faketextcolor.sh](faketextcolor.sh)
 
 <img src="faketextcolor.png" width=80%>
 
 ## References
 
 * https://vt100.net/docs/vt3xx-gp/chapter3.html
-
-* [faketextcolor.sh](faketextcolor.sh)
 
 ## How fast is it? 
 
