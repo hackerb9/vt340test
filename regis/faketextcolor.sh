@@ -94,5 +94,7 @@ tput smir			# Start Mode InseRt
 echo -n "     "			# Five spaces
 tput rmir			# Remove Mode InseRt
 
+tput rc; tput el
+
 # Put cursor on last line
 tput cup 1000 0
