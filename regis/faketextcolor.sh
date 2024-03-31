@@ -37,4 +37,23 @@ end=$(date +%s.%N)
 duration=$(echo "scale=5; ($end-$start)" |bc -q)
 
 echo
-echo "Total time: $duration seconds."
+echo "Total colorization time: $duration seconds."
+
+
+
+# Some basic tests of what happens when the colorized text is moved.
+echo
+echo "Testing delete and insert."
+tput cup 10 0			# CUrsor Position
+tput dch 5			# Delete CHaracter (five)
+
+tput cup 12 0
+tput smir			# Start Mode InseRt
+echo -n "     "			# Five spaces
+tput rmir			# Remove Mode InseRt
+
+echo
+echo "Hit ENTER to test if colors last after scrolling"
+
+# Put cursor on last line for scroll test
+tput cup 1000 0
