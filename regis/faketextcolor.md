@@ -32,14 +32,19 @@ done
 echo "${ST}"
 ```
 
+### Side note
+
+<ul>
 <img src="offsetdirections.svg" width=25% align="right">
 
-Side note: The mysterious number `0642` is actually offset directions
+The mysterious number `0642` is actually offset directions
 for the `V` (vector) operator. Here is the compass rose showing what
 each number means. The global setting `W(M20)` changed the default
 Writing Multiplier to 20 pixels per step, instead of one.
 
+</ul>
 <br clear="all">
+
 
 ## Test program
 
