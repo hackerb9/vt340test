@@ -11,10 +11,44 @@ here.
 
 ## Test files and output
 
-* Please see the [j4james](j4james) directory for test files and their output.
+Please see
 
-* See [sixeltests](sixeltests) for a few sixel test images and scripts.
+* The [j4james](j4james) directory for test files and their output.
 
+* [sixeltests](sixeltests) for a few sample sixel graphics images and
+  test scripts.
+
+* [regis](regis) for a ReGIS graphics test scripts and notes.
+
+* [docs](docs) for documentation on the VT340, usually in PDF format.
+
+* [charset](charset) examining and redefining DEC character sets via
+  soft fonts.
+
+* [colormap](colormap) how the VT340 color lookup table works and how
+  to reset it when it goes wrong.
+
+* [mediacopy](mediacopy) test scripts and output from the VT340 of
+  sixel images created using the "Hardcopy to Host" ReGIS command. Of
+  particular use may be
+  [mediacopy/mediacopy.sh](mediacopy/mediacopy.sh) which takes a
+  screenshot of the VT340 and saves it to the host computer system as
+  a file. 
+
+* [vms](vms) VT340 support files and programs that originally came
+  from VAX VMS systems.
+  
+* [compose](keyboard/compose.md) how to use the <kbd>Compose</kbd> key
+  on the VT340 to type characters beyond normal ASCII. 
+  
+* [usage](usage) how to configure a VT340 to be reasonably usable as a
+  terminal in modern times. 
+  
+* [kermitdemos](kermitdemos) Graphics demo files that came with the
+  Kermit communications program in the 1980s that exercised Kermit's
+  ability to emulate the VT340. Includes sixel and tektronix files,
+  but not ReGIS. 
+  
 ## Notes on Hardware VT340 
 
 * The VT340 feature two different ways of showing color graphics: as
@@ -37,10 +71,10 @@ here.
 
 * DECSDM (Sixel Display Mode), when enabled, DISABLES Sixel Scrolling
   in the Graphics Set-up screen and vice versa. Some of DEC's manuals
-  conflate the two.
+  get this wrong.
 
 * Showing sixel images with more then 6 colors changes the foreground
-  text color and at 16 colors, the background is changed, too. This
+  text color. After 16 colors, the background is changed, too. This
   often makes the screen unreadable. (See [colormap](colormap) for
   details). There is no obvious way to reset the colors once they have
   been changed, but there is a sequence of keys you can hit. See
@@ -80,13 +114,17 @@ here.
   * Thus there are roughly 250 different RGB values and 1000 different
     HLS values for each possible color that can actually be shown.
 
+  * ReGIS cannot use RGB to specify nuanced colors. For anything other
+    than the most basic colors, use [HLS](regis/hls.md).
+
   * When quantizing colors (reducing the color palette to 16) using
     ImageMagick, it may help to specify `-depth 4` so ImageMagick
     doesn't allocate two colors that are functionally identical.
   
-    * However, because ImageMagick has no known way of specifying that
-      certain colors (particularly, fg, bg, and bright text) are in
-      specific slots (7, 0, and 15, respectively).
+    * However, it is often not as useful as it could be because
+      ImageMagick has no known way of specifying that certain colors
+      (particularly, fg, bg, and bright text) are in specific slots
+      (7, 0, and 15, respectively).
 
 	* OPEN QUESTION: How does one convert an image to sixteen colors,
 	  but with three of the colors (fg, bg, and bright) fixed and the
