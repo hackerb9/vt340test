@@ -43,17 +43,34 @@ echo "Total colorization time: $duration seconds."
 
 # Some basic tests of what happens when the colorized text is moved.
 echo
-echo "Testing delete and insert."
+read -n1 -p "Hit a key to test shifting text left."
+echo "Testing delete."
+echo $'\e7'			# Save cursor
 tput cup 10 0			# CUrsor Position
 tput dch 5			# Delete CHaracter (five)
+echo $'\e8'			# Restore cursor
 
+echo
+read -n1 -p "Hit a key to test shifting text right"
+echo "Testing insert."
+tput sc				# Save cursor
 tput cup 12 0
 tput smir			# Start Mode InseRt
 echo -n "     "			# Five spaces
 tput rmir			# Remove Mode InseRt
+tput rc				# Restore cursor
 
 echo
-echo "Hit ENTER to test if colors last after scrolling"
+read -n1 -p "Hit a key to test shifting text down"
+echo "Testing reverse index."
+echo $'\e7'			# Save cursor
+tput cup 11 0
+tput ri				# Reverse Index
+echo $'\e8'			# Restore cursor
+tput cud1			# Down +1
+
+echo
+echo "Hit ENTER to test scrolling up"
 
 # Put cursor on last line for scroll test
 tput cup 1000 0
