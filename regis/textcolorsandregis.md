@@ -1,8 +1,10 @@
 # Regis's Effect on Text Colors
 
-Unlike sixels, which have a confusing layer of indirection, ReGIS
-makes modifying the colormap straight-forward. Just change the
-colormap index you want and you're done. 
+Unlike sixels, which have a confusing layer of indirection, to change
+the text color, ReGIS can edit the colormap directly. Just change the
+colormap index you want (usually 7) and all text on the screen will be
+shown in the new color.
+
 
 ## Colormap entries
 
@@ -64,8 +66,13 @@ using [**DECRSTS**](../colormap/resetpalette.sh), using ReGIS is clear
 and simple. See [resetpalette.regis](resetpalette.regis) for a file
 you can send to your VT340.
 
+## Multicolor text
 
+As you can see, all text shares the same colormap entry so it is
+always all the same color on the screen. 
 
-
+It *is* possible to use ReGIS to fake multicolor text on the screen,
+but it is not what the VT340 was designed for. Please see hackerb9's
+discussion on [fake text color](faketextcolor.md).
 
 
