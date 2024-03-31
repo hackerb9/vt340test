@@ -32,15 +32,18 @@ done
 echo "${ST}"
 ```
 
-### Side note
+### ...
 
 <ul>
 <img src="offsetdirections.svg" width=25% align="right">
+**Side note**
 
-The mysterious number `0642` is actually offset directions
-for the `V` (vector) operator. Here is the compass rose showing what
-each number means. The global setting `W(M20)` changed the default
-Writing Multiplier to 20 pixels per step, instead of one.
+The mysterious number `0642` is actually offset directions for the `V`
+(vector) operator. Here is the compass rose showing what each number
+means. Because the code has set `W(M20)` the Writing Multiplier is 20
+pixels per step. So, 0642 goes east, south, west, and then north,
+making a 20x20 square. The final `V0` moves the ReGIS cursor east for
+to start the next box.
 
 </ul>
 <br clear="all">
