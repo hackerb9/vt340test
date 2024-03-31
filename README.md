@@ -17,25 +17,49 @@ here.
 
 ## Notes on Hardware VT340 
 
-* DECSDM (Sixel Display Mode), when enabled, DISABLES Sixel Scrolling
-  in the Graphics Set-up screen and vice versa.
+* The VT340 feature two different ways of showing color graphics: as
+  vectors using [ReGIS](regis/) or as bitmaps using
+  [Sixels](sixeltests). (It could also do Tektronix 4014 graphics).
+  
+* Unlike its primitive ancestor, the
+  [VK100](docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf) (AKA
+  "Gigi"), the VT340 does not use "ANSI color" for text. Instead, the
+  VT340 shows _all_ text on the screen in one color. It is not yet
+  clear why DEC did not add escape sequences to change what value is
+  used for drawing pixels of text on the VT340. Likely there were
+  other concerns, such as backwards compatibility with the VT241 or
+  that the VT340's indexed color model doesn't fit well with ANSI's
+  direct color model.
+  
+* There is a way to [fake multicolor text](regis/faketextcolor.md) by
+  changing the pixel values after the fact. It is undocumented, slow,
+  and a bit of a hack. 
 
-* Showing images with 16 colors changes text foreground/background,
-  sometimes making them illegible. There is no obvious way to reset
-  the colors. See [Colormap Reset](colormap/colorreset.md) for
-  details.
+* DECSDM (Sixel Display Mode), when enabled, DISABLES Sixel Scrolling
+  in the Graphics Set-up screen and vice versa. Some of DEC's manuals
+  conflate the two.
+
+* Showing sixel images with more then 6 colors changes the foreground
+  text color and at 16 colors, the background is changed, too. This
+  often makes the screen unreadable. (See [colormap](colormap) for
+  details). There is no obvious way to reset the colors once they have
+  been changed, but there is a sequence of keys you can hit. See
+  [Colormap Reset](colormap/colorreset.md) for details.
   
   * Unlike REGIS, sixel color numbering is different from VT340's
-    setup screen numbering! No matter what number you assign a sixel
-    color, it is only the order that you did the assignment that
-    matters in terms of where it is put in the VT340 color map. Note
-    that the first sixel color defined is mapped to VT color #1, not
-    color #0. The sixth color assigned (color #7) becomes the
-    foreground color. The sixteenth assigned color wraps around and
-    modifies VT color #0, so to set the background color, one must set
-    all the other colors first. This is probably intentional: a sixel
-    file that doesn't make use of all 16 colors would not make
-    annoying changes to the background.
+    setup screen numbering! No matter what number a sixel color is
+    referred by, it is only the order of the assignment that matters
+    in terms of where it is put in the VT340 color map. Note that the
+    first sixel color defined is mapped to VT color #1, not color #0.
+    The sixth color assigned (color #7) becomes the foreground color.
+    The sixteenth assigned color wraps around and modifies VT color
+    #0. This is probably intentional: only a sixel file that uses all
+    16 colors would change the text background.
+
+  * To change the foreground and background text colors, don't use
+    Sixel. Simply set color indices 7 and 0 
+	[in ReGIS](regis/textcolorsandregis.md).
+
 
 ### Number of colors on a genuine VT340
 
@@ -59,10 +83,14 @@ here.
   * When quantizing colors (reducing the color palette to 16) using
     ImageMagick, it may help to specify `-depth 4` so ImageMagick
     doesn't allocate two colors that are functionally identical.
+  
+    * However, because ImageMagick has no known way of specifying that
+      certain colors (particularly, fg, bg, and bright text) are in
+      specific slots (7, 0, and 15, respectively).
 
-  * OPEN QUESTION: How does one convert an image to sixteen colors,
-    but with three of the colors (fg, bg, and bright) fixed and the
-    others free?
+	* OPEN QUESTION: How does one convert an image to sixteen colors,
+	  but with three of the colors (fg, bg, and bright) fixed and the
+	  others free?
 
   * Note: [lsix](https://github.com/hackerb9/lsix) splits the montage
     into rows to reduce waiting when there are more than 21 images to
@@ -95,6 +123,19 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
         echo -n $'P[150,200]W(S1)C(W(I1))[+100]C[+66]C(W(I2))[+33]' # RAF roundels
         echo -n $'\e\\'     # Exit REGIS mode
 
+* From the amount of documentation DEC dedicated to ReGIS, it appears
+  that ReGIS was meant to be the primary graphics system used with the
+  VT340. This makes sense as it is an extremely efficient protocol,
+  using very few bytes, while Sixel graphics were slow and heavy. Part
+  of the problem is that sixels were compressed only for long
+  horizontal runs of identical pixels.
+
+  * Additionally, there are certain things that can only be done with
+	ReGIS, but cannot be done using Sixels.
+
+	* Media Copy to Host (see below).
+	* Easily set palette in the color map.
+	* Modify the color existing pixels.
 
 ### MEDIA COPY TO HOST ("screenshot"):
 
