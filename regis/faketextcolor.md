@@ -17,9 +17,10 @@ Example code:
 ```bash
 DCS=$'\eP'
 ST=$'\e\\'
+# Erase screen. Set Writing Multiplier to 20 and color Index to 0000₂.
 echo "${DCS}1p; S(E) W(M20,I0) ${ST}"
 tput cup 10 25
-tput bold			# Bold text pixels are set to 1111
+tput bold			# Bold text pixels are set to index 15 (1111₂).
 echo -n "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345"
 
 # Enable only certain fields (bitplanes) for writing.
@@ -36,14 +37,15 @@ echo "${ST}"
 
 <ul>
 <img src="offsetdirections.svg" width=25% align="right">
+
 **Side note**
 
 The mysterious number `0642` is actually offset directions for the `V`
 (vector) operator. Here is the compass rose showing what each number
 means. Because the code has set `W(M20)` the Writing Multiplier is 20
 pixels per step. So, 0642 goes east, south, west, and then north,
-making a 20x20 square. The final `V0` moves the ReGIS cursor east for
-to start the next box.
+making a 20x20 square. The final `V0` moves the ReGIS cursor east to
+start the next box.
 
 </ul>
 <br clear="all">
