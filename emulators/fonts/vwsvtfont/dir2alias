@@ -1,0 +1,13 @@
+#!/bin/bash -x
+
+# Create a fonts.alias so I can use shortnames, like
+# xterm -fn vwsvt0-19
+
+mkfontdir
+
+sed -rn 's/_/-/g; s/ -/ "-/; s/$/"/; 2,$ s/(.bdf|.pcf)/\t/p' \
+    < fonts.dir | sort -V > fonts.alias
+
+xset fp default
+xset fp+ `pwd`
+xset fp rehash
