@@ -4,7 +4,14 @@ This bitmap font was included on DEC's Freeware CD for VMS v4.0. It
 includes several bitmap terminal fonts that are meant to be used
 together to make a single typeface.
 
-<img src="README.md.d/
+<img alt="An example of the double-high, double-wide DEC Technical Character Set in the VWSVT font" src="README.md.d/dectech38.png" width=80%>
+
+### Fonts in this typeface
+
+* Weight: normal or bold
+* Width: narrow, normal, wide, or double-wide
+* Height: normal or double-height
+* Encoding: Latin-1 or DEC Technical
 
 ## Usage
 
@@ -23,7 +30,6 @@ font rendering in xterm.
 xterm -fn vwsvt0-19 -xrm 'xterm*renderFont: False'
 ```
 
-
 ### Character encoding
 
 Encoding is in Latin-1 (and "DEC" for graphics) which both use 8-bit
@@ -35,17 +41,10 @@ GNU/Linux, you'll need to uncomment the line that says
 `en_US.ISO-8859-1` in the file /etc/locale.gen and then run
 `locale-gen`.
 
-## Fonts in this typeface
+Note that the "dectech" fonts include the DEC Special Graphics font in
+G0 (7-bit ASCII) and Dec Technical Character Set in G1 ("high ASCII").
 
-* Weight: normal or bold
-* Width: narrow, normal, wide, or double-wide
-* Height: normal or double-height
-* Encoding: Latin-1 or DEC Technical
-
-Note that the dectech font includes the DEC Special Graphics font in
-G0 (7-bit ASCII) and Dec Technical Character Set in G1 ("high ASCII").   
-
-
+<img alt="An example of the DEC Technical Character Set in the VWSVT font" src="README.md.d/dectech.png" width=40%>
 
 
 ## Installation
