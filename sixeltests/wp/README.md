@@ -24,7 +24,8 @@ purple double image:
 <img width=80% src="eqn-defaulttypeisxterm-thumb.jpg">
 
 The solution is to run wp with the argument `-t vt220` [sic] and set
-the graphics type to "vt340_sixelhi". That gives much better results.
+the graphics type to `vt340_sixelhi`. As you can see, that gives much
+better results:
 
 <img width=80% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
 
