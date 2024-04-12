@@ -23,12 +23,12 @@ settings and always states that its termtype is "xterm". This results
 in garbled screens, for example this equation editor which has an odd
 purple double image:
 
-<img width=80% src="eqn-defaulttypeisxterm.jpg">
+<img width=80% src="eqn-defaulttypeisxterm-thumb.jpg">
 
 The solution is to run wp with the argument `-t vt220` [sic] and set
 the graphics type to "vt340_sixelhi". That gives much better results.
 
-<img width=80% src="eqn-t=vt220-g=vt340_sixelhi.jpg">
+<img width=80% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
 
 ## Keys
 
@@ -43,10 +43,10 @@ sensitive help. Hit it a second time to get a list of the keyboard
 layout. Here are some photos of the help screens. [_Sorry, I don't have this in text format yet. --b9_]
 
 
-<img width=80% src="wp80-dectermcolor-help1.jpg">
-<img width=80% src="wp80-dectermcolor-help2.jpg">
-<img width=80% src="wp80-dectermcolor-help3.jpg">
-<img width=80% src="wp80-dectermcolor-help4.jpg">
+<img width=80% src="wp80-dectermcolor-help1-thumb.jpg">
+<img width=80% src="wp80-dectermcolor-help2-thumb.jpg">
+<img width=80% src="wp80-dectermcolor-help3-thumb.jpg">
+<img width=80% src="wp80-dectermcolor-help4-thumb.jpg">
 
 _Caveat:_ These keyboard shortcut photos are from when I mistakenly
 thought the correct terminal type was "dectermcol", which is close to
