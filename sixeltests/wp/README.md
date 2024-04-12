@@ -19,15 +19,15 @@ flavors.
 For some reason wp (WordPerfect) does not pay attention to the TERM
 settings and always states that its termtype is "xterm". This results
 in garbled screens, for example this equation editor which has an odd
-purple double image:
+purple double image. The solution is to run wp with the argument `-t
+vt220` [sic] and set the graphics type to `vt340_sixelhi`. As you can
+see, that gives much better results:
 
-<img width=80% src="eqn-defaulttypeisxterm-thumb.jpg">
 
-The solution is to run wp with the argument `-t vt220` [sic] and set
-the graphics type to `vt340_sixelhi`. As you can see, that gives much
-better results:
+<img alt="termtype xterm on a vt340" align=left width=40% src="eqn-defaulttypeisxterm-thumb.jpg">
+<img alt="termtype vt220m graphics vt340_sixelhi" align=right width=40% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
 
-<img width=80% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
+
 
 ## Keys
 
