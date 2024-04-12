@@ -26,6 +26,7 @@ see, that gives much better results:
 
 <img alt="termtype xterm on a vt340" align=left width=40% src="eqn-defaulttypeisxterm-thumb.jpg">
 <img alt="termtype vt220m graphics vt340_sixelhi" align=right width=40% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
+<br clear="all">
 
 
 
