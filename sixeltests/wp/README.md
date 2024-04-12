@@ -65,12 +65,32 @@ and create a better driver for the VT340.
 
 </uL>
 
-## **IMPORTANT**: Do not hit the F5 key. 
+### **IMPORTANT**: Do not hit the F5 key. 
 
 F5 causes WordPerfect to immediately die on my terminal. I believe it
 sends a 'break', which should be ignored. It may be misbehaving
 because of the way I am running it in a specially created account,
 using 'su'. 
+
+### Even more keys, documentation not yet found
+
+Although not listed in the online help, certain control keys work,
+such as ^P to print. [XXX: Surely there is a list somewhere?]
+
+The VT340's builtin <kbd>Compose</kbd> key works as normal to insert
+characters like æ, ü, é.
+
+### Menu key mystery
+
+When the terminal type is set to xterm, <kbd>Esc</kbd><kbd>=</kbd>
+opens the **File** menu without requiring a mouse. That menu key
+sequence is supposed to be listed in the upper right hand corner of
+the screen, but when the terminal is set to "vt220", it just shows
+empty parentheses `()`.
+
+<kbd>Esc</kbd><kbd>F</kbd> also (sometimes) works for "xterm" to open
+the File menu, but does not ever work for "vt220", instead complaining
+about some missing file.
 
 ## WordPerfect's sixel output
 
