@@ -32,9 +32,7 @@ see, that gives much better results:
 
 ## Keys
 
-WordPerfect uses all the functions keys and the application keypad
-usually, though not always, in the way the wordprocessing keyboard is
-labelled (in green on the side).
+WordPerfect uses all the functions keys and the application keypad. 
 
 It also uses PF1 (the "GOLD KEY"), PF2, and PF3 as "dead keys" which
 do a single shift to select alternate functions. One nice things about
@@ -93,6 +91,20 @@ empty parentheses `()`.
 the File menu, but does not ever work for "vt220", instead complaining
 about some missing file.
 
+## LK201 Gold Key Editing Keyboard for document processing
+
+[XXX: Add photo here]
+
+The biggest problem with WordPerfect is the difficulty remembering all
+the different key strokes. Yes, one can hit Help twice to see a list,
+but it is still cumbersome because of the weird use of PF1, PF2, and
+PF3 giving some function keys four different meanings. If you have a
+keyboard which has wordprocessing commands written in gold on the
+front of the letters and in other colors on top of the keypad, you'll
+find that WordPerfect does not correspond at all. It should be
+possible, however, to create a keyboard mapping. [XXX: has someone
+already done this?]
+
 ## WordPerfect's sixel output
 
 WordPerfect has a very peculiar output for sixel graphics, no doubt
@@ -100,15 +112,18 @@ influenced by device limitations of the day, for example the VT240
 which required each sixel image to start at the top of the screen.
 
 * Each image is made up of about twenty DCS strings. 
+* Each DCS string starts with a string of `-` (graphic newlines) to
+  skip to the place the previous string left off.
 * The DCS strings that contain image data do _not_ define the colors
-  being used.
+  they use.
 * In at least one example (for Kermit's sixel graphics) the colormap
   was sent as [a separate DCS string](../../kermitdemos/DEMO.SIX). 
+* [XXX: Check actual wp "kermit" output] 
 * Each row of sixels starts with `~$`, which would seem to do nothing.
-  I am not sure of the purpose of this, but perhaps on some devices it
-  cleared the line? 
-* The data is redundant, at least for the xterm output, with the
-  screen being sent twice. [XXX Check this for the vt340].
+  What was the purpose of this? 
+* The data sent is redundant, with the screen being sent twice. (At
+  least for the "xterm" output, but it is likely the same for vt220 as
+  they both use the "vt340_sixelhi" graphics drivers.)
 
 ## To do
 
