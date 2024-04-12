@@ -1,7 +1,6 @@
+<img align=right width=40% src="wp80-about.jpg">
+
 # WordPerfect for UNIX Character Terminals
-
-<img align=right width=50% src="wp80-about.jpg">
-
 
 Thanks to the work of Tavis Ormandy
 ([taviso](https://github.com/taviso)), one can now easily run the
@@ -11,7 +10,7 @@ outputs sixel graphics specifically for the VT340. See Tavis's
 easily installable packages for Debian and other popular GNU/Linux
 flavors.
 
-<br clear=all/>
+<br clear="all">
 
 
 ## Getting it to work on a VT340
