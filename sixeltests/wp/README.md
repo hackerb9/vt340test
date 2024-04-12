@@ -74,9 +74,10 @@ using 'su'.
 ### Even more keys, documentation not yet found
 
 Although not listed in the online help, certain control keys work,
-such as ^P to print. [XXX: Surely there is a list somewhere?]
+such as <kbd>Ctrl</kbd><kbd>P</kbd> to print. [XXX: Surely there is a
+list somewhere?]
 
-The VT340's builtin <kbd>Compose</kbd> key works as normal to insert
+The VT340's builtin <kbd>Compose</kbd> key works as usual to insert
 characters like æ, ü, é.
 
 ### Menu key mystery
@@ -126,6 +127,10 @@ which required each sixel image to start at the top of the screen.
   they both use the "vt340_sixelhi" graphics drivers.)
 
 ## To do
+
+* Add the sixel output from wordperfect for both the equation editor
+  and the print preview for the terminal types that support it (vt220,
+  xterm, kermit, perhaps more).
 
 * WordPerfect may use the VT340's "locator" (mouse) for its menus, so
   I should find one and see if it works.
