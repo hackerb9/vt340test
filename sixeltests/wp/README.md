@@ -1,6 +1,6 @@
 # WordPerfect for UNIX Character Terminals
 
-<img align=right width=30% src="wp80-about.jpg">
+<img align=right width=50% src="wp80-about.jpg">
 
 
 Thanks to the work of Tavis Ormandy
@@ -11,7 +11,7 @@ outputs sixel graphics specifically for the VT340. See Tavis's
 easily installable packages for Debian and other popular GNU/Linux
 flavors.
 
-<br clear/>
+<br clear=all/>
 
 
 ## Getting it to work on a VT340
@@ -48,7 +48,13 @@ layout. Here are some photos of the help screens. [_Sorry, I don't have this in 
 <img width=80% src="wp80-dectermcolor-help3.jpg">
 <img width=80% src="wp80-dectermcolor-help4.jpg">
 
-Caveat: These keyboard shortcut photos are from when I mistakenly
-thought the correct terminal type was "dec_term_col", which I am not
-100% positive is identical to the "vt220" keyboard map. WordPerfect's
-DECTerm support does not include sixel graphics.
+_Caveat:_ These keyboard shortcut photos are from when I mistakenly
+thought the correct terminal type was "dectermcol", which is close to
+the "vt220" keyboard map, but I am not yet 100% positive it is
+identical. 
+
+WordPerfect's DECTerm Color terminal type cannot be used with the
+VT340 because it does not include sixel graphics, although it does
+seem to have better character support which perhaps should be
+investigated. It may be possible to modify it to allow sixel graphics
+and create a better driver for the VT340. 
