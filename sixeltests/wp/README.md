@@ -46,14 +46,12 @@ layout. Here are some photos of the help screens.
 <img width=80% src="wp80-dectermcolor-help3-thumb.jpg">
 <img width=80% src="wp80-dectermcolor-help4-thumb.jpg">
 
-**IMPORTANT**: Do not hit the F5 key. It will cause WordPerfect to
-immediately exit.
-
 [XXX: Replace images with correct screenshots].
 
 [XXX: Add text version]. 
 
 <ul>
+
 _Caveat:_ These keyboard shortcut photos are from when I mistakenly
 thought the correct terminal type was "dectermcol", which is probably
 identical to the "vt220" keyboard map. 
@@ -63,7 +61,15 @@ VT340 because it does not include sixel graphics, although it does
 seem to have better character support which perhaps should be
 investigated. It may be possible to modify it to allow sixel graphics
 and create a better driver for the VT340.
+
 </uL>
+
+## **IMPORTANT**: Do not hit the F5 key. 
+
+F5 causes WordPerfect to immediately die on my terminal. I believe it
+sends a 'break', which should be ignored. It may be misbehaving
+because of the way I am running it in a specially created account,
+using 'su'. 
 
 ## WordPerfect's sixel output
 
