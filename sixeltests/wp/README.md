@@ -14,18 +14,18 @@ flavors.
 
 ## Getting it to work on a VT340
 
-	wp -t vt220 -g vt340_sixelhi
+	wp -t vt220 -g vt340hi_sixel
 
 For some reason wp (WordPerfect) does not pay attention to the TERM
 settings and always states that its termtype is "xterm". This results
 in garbled screens, for example this equation editor which has an odd
 purple double image. The solution is to run wp with the argument `-t
-vt220` [sic] and set the graphics type to `vt340_sixelhi`. As you can
+vt220` [sic] and set the graphics type to `vt340hi_sixel`. As you can
 see, that gives much better results:
 
 
 <img alt="termtype xterm on a vt340" align=left width=40% src="eqn-defaulttypeisxterm-thumb.jpg">
-<img alt="termtype vt220m graphics vt340_sixelhi" align=right width=40% src="eqn-t=vt220-g=vt340_sixelhi-thumb.jpg">
+<img alt="termtype vt220m graphics vt340hi_sixel" align=right width=40% src="eqn-t=vt220-g=vt340hi_sixel-thumb.jpg">
 <br clear="all">
 
 
@@ -34,12 +34,13 @@ see, that gives much better results:
 
 WordPerfect uses all the functions keys and the application keypad. 
 
-It also uses PF1 (the "GOLD KEY"), PF2, and PF3 as "dead keys" which
-do a single shift to select alternate functions. One nice things about
-WordPerfect is that one can hit the Help key at any time for context
-sensitive help. Hit it a second time to get a list of the keyboard
-layout. Here are some photos of the help screens. 
-[_Sorry, I don't have this in text format yet. --b9_]
+It also uses <kbd>PF1</kbd> (the "GOLD KEY"), <kbd>PF2</kbd>, and
+<kbd>PF3</kbd> as "dead keys" which do a single shift to select
+alternate functions. One nice things about WordPerfect is that one can
+hit the Help key at any time for context sensitive help. Hit it a
+second time to get a list of the keyboard layout. Here are some photos
+of the help screens. [_Sorry, I don't have this in text format yet.
+--b9_]
 
 <img width=80% src="wp80-dectermcolor-help1-thumb.jpg">
 <img width=80% src="wp80-dectermcolor-help2-thumb.jpg">
@@ -66,10 +67,10 @@ and create a better driver for the VT340.
 
 ### **IMPORTANT**: Do not hit the F5 key. 
 
-F5 causes WordPerfect to immediately die on my terminal. I believe it
-sends a 'break', which should be ignored. It may be misbehaving
-because of the way I am running it in a specially created account,
-using 'su'. 
+<kbd>F5</kbd> causes WordPerfect to immediately die on my terminal. I
+believe it sends a 'break', which should be ignored. It may be
+misbehaving because of the way I am running it in a specially created
+account, using 'su'.
 
 ### Even more keys, documentation not yet found
 
@@ -98,13 +99,14 @@ about some missing file.
 
 The biggest problem with WordPerfect is the difficulty remembering all
 the different key strokes. Yes, one can hit Help twice to see a list,
-but it is still cumbersome because of the weird use of PF1, PF2, and
-PF3 giving some function keys four different meanings. If you have a
-keyboard which has wordprocessing commands written in gold on the
-front of the letters and in other colors on top of the keypad, you'll
-find that WordPerfect does not correspond at all. It should be
-possible, however, to create a keyboard mapping. [XXX: has someone
-already done this?]
+but it is still cumbersome because of the weird use of multiple shifts
+(kbd>PF1</kbd>, <kbd>PF2</kbd>, and <kbd>PF3</kbd>) giving most
+function keys four different meanings. If you have a keyboard which
+has wordprocessing commands written in gold on the front of the
+letters and in other colors on top of the keypad, you'll find that
+WordPerfect does not correspond at all. It should be possible,
+however, to create a keyboard mapping. [XXX: has someone already done
+this?]
 
 ## WordPerfect's sixel output
 
@@ -118,13 +120,12 @@ which required each sixel image to start at the top of the screen.
 * The DCS strings that contain image data do _not_ define the colors
   they use.
 * In at least one example (for Kermit's sixel graphics) the colormap
-  was sent as [a separate DCS string](../../kermitdemos/DEMO.SIX). 
-* [XXX: Check actual wp "kermit" output] 
+  was sent as [a separate DCS string](sixeloutput/kermit.print). 
 * Each row of sixels starts with `~$`, which would seem to do nothing.
   What was the purpose of this? 
 * The data sent is redundant, with the screen being sent twice. (At
   least for the "xterm" output, but it is likely the same for vt220 as
-  they both use the "vt340_sixelhi" graphics drivers.)
+  they both use the "vt340hi_sixel" graphics drivers.)
 
 ## To do
 
@@ -140,8 +141,9 @@ which required each sixel image to start at the top of the screen.
   
 * Can one convince WordPerfect to use a VT340 soft-font with
   additional characters? It already shows mathematical symbols as
-  sixels in the equation editor (hit the LIST (F11) key and use Page
-  Down). But, when set to "dectermcol", those show up as @ signs.
+  sixels in the equation editor (hit the <kbd>LIST</kbd> (F11) key and
+  use <kbd>PgDn</kbd> (Keypad 3)). There is no reason they shouldn't
+  be usable in text editing mode, too. (Or at least 96 of them).
   
 * Why does the xterm driver have so many segmentation faults? 
 
