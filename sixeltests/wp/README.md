@@ -37,10 +37,10 @@ WordPerfect uses all the functions keys and the application keypad.
 It also uses <kbd>PF1</kbd> (the "GOLD KEY"), <kbd>PF2</kbd>, and
 <kbd>PF3</kbd> as "dead keys" which do a single shift to select
 alternate functions. One nice things about WordPerfect is that one can
-hit the Help key at any time for context sensitive help. Hit it a
-second time to get a list of the keyboard layout. Here are some photos
-of the help screens. [_Sorry, I don't have this in text format yet.
---b9_]
+hit the <kbd>Help</kbd> key at any time for context sensitive help.
+Hit it a second time to get a list of the keyboard layout. Here are
+some photos of the help screens. [_Sorry, I don't have this in text
+format yet. --b9_]
 
 <img width=80% src="wp80-dectermcolor-help1-thumb.jpg">
 <img width=80% src="wp80-dectermcolor-help2-thumb.jpg">
