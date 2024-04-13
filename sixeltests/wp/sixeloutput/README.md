@@ -27,21 +27,29 @@ Entire session including escape sequences at startup and shutdown
 * Each image is made up of about twenty DCS strings.
 * The first DCS string is the colormap, which is sent separately from
   any image data.
-* The DCS strings that contain image data do _not_ define the colors
-  they use.
-* Each DCS string starts with a string of `-` (Graphic New Lines) to
-  skip to the place the previous string left off.
-* All image data strings end with a Graphic New Line except the very
-  last. This makes sense for sixel data that was designed to be shown
-  as a single DCS string.
-* Between DCS strings is an escape sequence to move the cursor to the
-  home position (`Esc` `[` `H`). 
+* The colormap defines colors in the order 1, 2, …, 14, 15, 0. Color
+  `#0` is always black.
+* An escape sequence to move the cursor to the home position (`Esc`
+  `[` `H`) is sent before each DCS string that contains image data.
+* The image data strings do _not_ define the colors they use.
+* Each DCS string starts with a varying number of `----` (Graphic New
+  Lines) to skip to the place the previous string left off.
+* All image data strings end with a `-` (single Graphic New Line)
+  except the very last. This makes sense for sixel data that was
+  designed to be contained in one DCS string. It is unclear what the
+  purpose is here given that the cursor is always moved to the home
+  position.
 
 These stragenesses were likely due to device limitations of the day.
-For example the VT240 required each sixel image to start at the top of
-the screen. By sending the cursor to the home position, WordPerfect
-simulates the same restriction and results in less duplication of
-code.
+
+The VT240 required each sixel image to start at the top of the screen.
+By sending the cursor to the home position, WordPerfect simulates the
+same restriction and results in less duplication of code.
+
+The specific ordering of the colors in the colormap was necessary on
+the VT340 for the sixel color numbers to exactly match the terminal's
+colormap indices. The sixteenth color set is color `#0` which is
+important because that's the one that changes the VT340's background.
 
 Question: Why was the image broken into multiple strings? Was there
 some terminal which could only handle short DCS strings? [XXX: Try
