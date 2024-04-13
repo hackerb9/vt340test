@@ -1,19 +1,98 @@
 # Typescripts from running WordPerfect
 
-The purpose of this is to see what sort of output WordPerfect actually
-created for the VT340 and other sixel terminal devices. 
+These log files attempt to answer what output WordPerfect created for
+the VT340 and other sixel terminal devices. (What escape codes are
+sent before and after a print? How many DCS strings are used to
+display an image? How are colors set? Did the output differ between
+the terminals?)
 
-Questions: What escape codes are sent before and after a print? How
-are colors set? How many DCS strings are used to display an image?
+## Files
+
+Sixel output from print preview for different terminal type settings:
+
+* [vt220 print](sixeloutput/vt220.print)
+* [xterm print](sixeloutput/xterm.print)
+* [kermit print](sixeloutput/kermit.print)
+
+Entire session including escape sequences at startup and shutdown
+
+* [vt220 typescript](sixeloutput/vt220.typescript)
+* [xterm typescript](sixeloutput/xterm.typescript)
+* [kermit typescript](sixeloutput/kermit.typescript)
+
+## WordPerfect's sixel output (common to all sixel terminals)
+
+* Each image is made up of about twenty DCS strings.
+* The first DCS string is the colormap, which is sent separately from
+  any image data.
+* The DCS strings that contain image data do _not_ define the colors
+  they use.
+* Each DCS string starts with a string of `-` (Graphic New Lines) to
+  skip to the place the previous string left off.
+* All image data strings end with a Graphic New Line except the very
+  last. This makes sense for sixel data that was designed to be shown
+  as a single DCS string.
+* Between DCS strings is an escape sequence to move the cursor to the
+  home position (`Esc` `[` `H`). 
+
+These stragenesses were likely due to device limitations of the day.
+For example the VT240 required each sixel image to start at the top of
+the screen. By sending the cursor to the home position, WordPerfect
+simulates the same restriction and results in less duplication of
+code.
+
+Question: Why was the image broken into multiple strings? Was there
+some terminal which could only handle short DCS strings? [XXX: Try
+running Kermit on an IBM PC.]
+
+### Xterm Quirks
+
+* Each sixel DCS string starts with `?$` — blank sixel followed by
+  Graphic Carriage Return — which would seem to do nothing. Why?
+
+* A colormap is sent twice. 
+
+  * Before the image data the colormap looks like typical DOS EGA.
+	Each RGB channel can be either off, half, or full intensity.
+
+	<details>
+
+	P;1;;q?$#1;2;0;0;50#2;2;0;50;0#3;2;0;50;50#4;2;50;0;0#5;2;50;0;50#6;2;50;25;0#7;2;50;50;50#8;2;75;75;75#9;2;0;0;100#10;2;0;100;0#11;2;0;100;100#12;2;100;0;0#13;2;100;0;100#14;2;100;100;0#15;2;100;100;100#0;2;0;0;0\
+
+	</details>
+
+  * The second, after all the image data, looks like a typical
+    terminal colormap, using in-between shades for RGB. It is probably
+    an attempt to reset xterm to its default colors.
+	
+	<details>
+
+	P;1;;q?$#1;2;20;20;80#2;2;80;13;13#3;2;20;80;20#4;2;80;20;80#5;2;20;80;80#6;2;80;80;20#7;2;53;53;53#8;2;26;26;26#9;2;33;33;60#10;2;60;26;26#11;2;33;60;33#12;2;60;33;60#13;2;33;60;60#14;2;60;60;33#15;2;80;80;80#0;2;;;?$\
+
+	</details>
+
+  * Note that a second colormap would not work with a VT340 as it
+    would change the colors of the graphics already drawn.
+
+### Kermit Quirks
+
+* WordPerfect sends the sequence to put the terminal into Tektronix
+  graphics mode (`Esc [ ? 34 h`), which is weird as, on a genuine
+  VT340, one cannot see sixels when the terminal is showing Tek
+  graphics. Perhaps this is because Kermit displayed sixels on an
+  alternate screen, similar to how the VT340 shows Tek graphics. 
+  [XXX: Was this peculiarity a genuine requirement of Kermit?]
+
+
+## General information about the different terminals
 
 ## wp -t kermit 
 
-MSKermit 3.0, a telecommunications program and terminal emulator from
-Columbia University, included "VT340 sixel" support. However,
-WordPerfect puts it into Tektronix graphics mode (`Esc [ ? 34 h`),
-which is weird as that would not work on a genuine VT340. Kermit did
-display sixels on an alternate screen, similar to how the VT340
-displays Tek graphics, so was this a genuine requirement of Kermit?
+MSKermit, a telecommunications program and terminal emulator from
+Columbia University, included "VT340 sixel support" starting with
+version 3.0. 
+
+### Kermit Files
 
 * [kermit.typescript](kermit.typescript): Full typescript of running
   `wp -t kermit` and doing a print preview. Includes escape codes
