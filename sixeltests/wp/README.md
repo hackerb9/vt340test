@@ -11,8 +11,8 @@ flavors.
 
 <sub><ul><i>
 
-For typescripts and notes on the sixel data used by WordPerfect,
-please see [sixeloutput](sixeloutput/README.md).
+For raw data and notes on the sixel format used by WordPerfect, please
+see [sixeloutput](sixeloutput/README.md).
 
 </i></ul></sub>
 
