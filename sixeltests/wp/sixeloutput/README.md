@@ -20,7 +20,9 @@ Entire session including escape sequences at startup and shutdown
 * [xterm typescript](sixeloutput/xterm.typescript)
 * [kermit typescript](sixeloutput/kermit.typescript)
 
-## WordPerfect's sixel output (common to all sixel terminals)
+## WordPerfect's sixel output
+
+### Structure common to all sixel terminals
 
 * Each image is made up of about twenty DCS strings.
 * The first DCS string is the colormap, which is sent separately from
