@@ -9,14 +9,14 @@ outputs sixel graphics specifically for the VT340. See Tavis's
 easily installable packages for Debian and other popular GNU/Linux
 flavors.
 
-<br clear="all">
-
-<sub><ul>
+<sub><ul><i>
 
 For typescripts and notes on the sixel data used by WordPerfect,
 please see [sixeloutput](sixeloutput/README.md).
 
-</ul></sub>
+</i></ul></sub>
+
+<br clear="all">
 
 ## Getting it to work on a VT340
 
