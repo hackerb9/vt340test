@@ -65,6 +65,8 @@ running Kermit on an IBM PC.]
   * Before the image data the colormap looks like typical DOS EGA.
 	Each RGB channel can be either off, half, or full intensity.
 
+	<img src="xterm-before.png" align=left>
+	
 	<details>
 
 	P;1;;q?$#1;2;0;0;50#2;2;0;50;0#3;2;0;50;50#4;2;50;0;0#5;2;50;0;50#6;2;50;25;0#7;2;50;50;50#8;2;75;75;75#9;2;0;0;100#10;2;0;100;0#11;2;0;100;100#12;2;100;0;0#13;2;100;0;100#14;2;100;100;0#15;2;100;100;100#0;2;0;0;0\
@@ -75,6 +77,8 @@ running Kermit on an IBM PC.]
     terminal colormap, using in-between shades for RGB. It is probably
     an attempt to reset xterm to its default colors.
 	
+	<img src="xterm-after.png" align=left>
+
 	<details>
 
 	P;1;;q?$#1;2;20;20;80#2;2;80;13;13#3;2;20;80;20#4;2;80;20;80#5;2;20;80;80#6;2;80;80;20#7;2;53;53;53#8;2;26;26;26#9;2;33;33;60#10;2;60;26;26#11;2;33;60;33#12;2;60;33;60#13;2;33;60;60#14;2;60;60;33#15;2;80;80;80#0;2;;;?$\
