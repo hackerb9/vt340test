@@ -20,7 +20,7 @@ see [sixeloutput](sixeloutput/README.md).
 
 ## Getting it to work on a VT340
 
-	wp -t vt220 -g vt340hi_sixel
+	wp -t vt220 -G vt340hi_sixel
 
 For some reason wp (WordPerfect) does not pay attention to the TERM
 settings and always states that its termtype is "xterm". This results
@@ -31,7 +31,7 @@ see, that gives much better results:
 
 
 <img alt="termtype xterm on a vt340" align=left width=40% src="eqn-defaulttypeisxterm-thumb.jpg">
-<img alt="termtype vt220m graphics vt340hi_sixel" align=right width=40% src="eqn-t=vt220-g=vt340hi_sixel-thumb.jpg">
+<img alt="termtype vt220m graphics vt340hi_sixel" align=right width=40% src="eqn-t=vt220-G=vt340hi_sixel-thumb.jpg">
 <br clear="all">
 
 
