@@ -101,7 +101,8 @@ about some missing file.
 
 ## LK201 Gold Key Editing Keyboard for document processing
 
-[XXX: Add photo here]
+<img src="LK201-goldkey.jpg" alt="The LK201 'Gold Key' Editing Keyboard designed
+for document processing by Digital Equipment Corporation."> 
 
 The biggest problem with WordPerfect is the difficulty remembering all
 the different key strokes. Yes, one can hit Help twice to see a list,
@@ -118,9 +119,9 @@ this?]
 
 ## To do
 
-* Add the sixel output from wordperfect for both the equation editor
-  and the print preview for the terminal types that support it (vt220,
-  xterm, kermit, perhaps more).
+* Add the sixel output from wordperfect for the equation editor for
+  the terminal types that support it (vt220, xterm, kermit, perhaps
+  more).
 
 * WordPerfect may use the VT340's "locator" (mouse) for its menus, so
   I should find one and see if it works.
