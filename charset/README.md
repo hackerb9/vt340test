@@ -119,15 +119,20 @@ can simultaneously show characters that are beyond that range by using
 multiple bytes per character via "shifting". 
 (See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf)").
 
-<ul>
+<img src="shiftselector.svg" width="80%" alt="An diagram which makes the
+analogy between shifting and a physical rotating selector switch, like
+the knob on an old TV set.">
 
-* Quick shifting example (delta):
+### Quick shifting example (delta):
+
+<ul>
 
   ```bash
   $ echo $'\e+>'
   $ echo $'\eO\x64'
   δ
   ```
+
 </ul>
 
 ### G0, G1, G2, G3
@@ -138,6 +143,12 @@ indirection. In order to shift the character set the VT340 has four
 defines to point to specific translation tables. Once an intermediate
 set is defined, GL or GR can be set to point to it so it'll actually
 be used for the next character(s).
+
+| Escape sequence | Meaning                   |
+|-----------------|---------------------------|
+| `\e+>`          | Set G3 to TCS             |
+| `\eO`           | Single shift to G3        |
+| `\x64`          | Show codepoint 0x64 in G3 |
 
 In the example above, the first line (`\e+>`) selected "DEC Technical
 Character Set" for G3. The second line (`\eO\x64`) instructed the
@@ -150,7 +161,7 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
    The VT340 manual states that, when you turn on or reset the
    terminal, you automatically select either the DEC multinational
    character set or ISO Latin-1, depending upon what the user
-   preferred supplemental set is.</sub>
+   preferred supplemental set is.
 
    It should be noted that the logical assumption that the 8-bit set
    will be in G1, just as the 7-bit set is in G0, is **incorrect**. In
@@ -163,7 +174,7 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
    |           G0 | ASCII          |   |            G1 | ASCII          |
    |           G2 | MCS or Latin-1 |   |            G3 | MCS or Latin-1 |
 
-   The rationale behind this is not yet clear.
+   The rationale behind this is not yet clear. 
 
 </ul>
 
@@ -363,7 +374,7 @@ character following the single shift sequence.
 A locking shift (LS2, LS3, LS1R, LS2R, or LS3R) persists until another
 locking shift is invoked.
 
-Here are the escape sequences for for Single and Locking Shifts:
+Here are the escape sequences for Single and Locking Shifts:
 
 <ul>
 
@@ -379,4 +390,16 @@ Here are the escape sequences for for Single and Locking Shifts:
 | Locking Shift 2 Right | LS2R     | ESC }    | 1B 7D | The G2 character set becomes the active GR character set.         |
 | Locking Shift 3 Right | LS3R     | ESC\|    | 1B 7C | The G3 character set becomes the active GR character set.         |
 
-</ul>
+</ul></sub><i>
+
+Note: There is no SS0 (single-shift to G0) since it would be a no-op;
+G0 is already the default for 7-bit characters. Why is there no SS1
+(single-shift to G1)? The answer is unclear, but one guess would be
+that it was presumed that usually GR would be set to G1 and therefore
+one could just send a byte with the eighth-bit high (characters 128 to
+255) to display any character from G1. Unfortunately, since UNIX
+systems now universally use UTF-8 for Unicode, there is a small but
+real need for SS1.
+
+</i></sub></ul>
+
