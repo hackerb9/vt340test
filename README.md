@@ -15,15 +15,15 @@ Please see
 
 * The [j4james](j4james) directory for test files and their output.
 
-* [sixeltests](sixeltests) for a few sample sixel graphics images and
-  test scripts.
+* [sixeltests](sixeltests) for sample sixel graphics images and test
+  scripts; [WordPerfect for Character Terminal Unix](sixeltests/wp).
 
 * [regis](regis) for a ReGIS graphics test scripts and notes.
 
 * [docs](docs) for documentation on the VT340, usually in PDF format.
 
-* [charset](charset) examining and redefining DEC character sets via
-  soft fonts.
+* [charset](charset) examines the VT340's multilingual capabilities,
+  [soft fonts](charset/softfonts), and [mathematics](charset/math.md).
 
 * [colormap](colormap) how the VT340 color lookup table works and how
   to reset it when it goes wrong.
@@ -377,7 +377,7 @@ selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
 RECOGNIZED.
 
 Note that, although Smooth-2 is the factory default on the VT340, the
-most popular terminfo file for the VT340 (as of 2023) disables Smooth
+most popular terminfo file for the VT340 (as of 2024) disables Smooth
 Scroll Mode when the "reset" sequence is sent, which is often done at
 user login (e.g., `tset`). This makes having a user preference of
 Smooth-1 or Smooth-4 overly onerous as they would require repeated
