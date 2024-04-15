@@ -80,6 +80,11 @@ typical, while Graphic Right has taken on the Latin-1 character set
 | *15* | SI    | US    | /    | ?    | O    | _    | o    | DEL  | SS3   | APC   | ¯    | ¿    | Ï    | ß    | ï    | ÿ    |
 </details>
 
+### GLGR.sh
+
+The [GLGR.sh](GLGR.sh) program will display the VT340's (or any
+terminal's) current Graphic Left and Graphic Right character sets.
+
 ## 1. Latin-1 and friends
 
 The author of this page (hackerb9) prefers to use Latin-1. There are
@@ -125,6 +130,8 @@ multiple bytes per character via "shifting".
   ```
 </ul>
 
+### G0, G1, G2, G3
+
 To make things slightly confusing, there is an extra layer of
 indirection. In order to shift the character set the VT340 has four
 "intermediate sets" G0, G1, G2, and G3 which the user (or a program)
@@ -159,6 +166,9 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
    The rationale behind this is not yet clear.
 
 </ul>
+
+_Tip_: Hackerb9's [GLGR.sh](GLGR.sh) program is an easy way to see the
+characters currently loaded in G0, G1, G2, and G3.
 
 
 ### Example: APL
