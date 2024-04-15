@@ -357,7 +357,7 @@ Sequences](https://itscj.ipsj.or.jp/english/)", also known as the "IR".
 
 ### Activate Character Sets: Single and Locking Shifts
 
-A single shift (SS2 or SS3), effects only the first printable
+A single shift (SS2 or SS3), affects only the first printable
 character following the single shift sequence.
 
 A locking shift (LS2, LS3, LS1R, LS2R, or LS3R) persists until another
