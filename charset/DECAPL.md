@@ -146,9 +146,9 @@ constantly sending shifts (LS0, LS1), this technique would not work in
 a modern UTF-8 terminal.
 
 Hackerb9's guess for how to replicate the Composite APL setup: first
-load the APL font (by catting it to the screen) which names the font
-Dscs `&0` and maps it to G1 (`ESC` `)` `&` `0`). Then send these
-escape codes:
+load the [APL font](../apl/aplfontb9/APL_VT340.FNT) (by catting it to
+the screen) which names the font Dscs `&0` and maps it to G1 (`ESC`
+`)` `&` `0`). Then send these escape codes:
 
 | Set | Mapping          | Escape sequence                |
 |-----|------------------|--------------------------------|
