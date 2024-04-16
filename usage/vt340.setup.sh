@@ -42,6 +42,10 @@ stty -iutf8
 # Turn on software flow control (^S/^Q)
 stty ixon ixoff
 
+# Turn on clocal if your cable does not provide DTR/Carrier Detect).
+# You need it if open(2) on /dev/tty hangs. (E.g., mesg, less).
+stty clocal
+
 # Short prompt for MediaCopy screenshots
 export PS1='\$ '
 
@@ -74,7 +78,7 @@ export GCC_COLORS=""
 alias nano="nano -Opx"
 alias w3m="w3m -color=0"
 alias git="git -c color.ui=never"
-
+alias reset="reset; stty clocal"
 
 if [ $SHLVL -gt 1 ]; then
   echo "Error, do not run this script."
