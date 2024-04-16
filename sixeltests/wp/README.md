@@ -45,14 +45,15 @@ WPTERM=vt340.
 
 The line drawings provide the boxes for the menus and the "mosaic"
 font used for very low-resolution print preview. It makes WordPerfect
-look much better than it did with the ill-fitting VT220 font. However,
+look snazzier than it did with the ill-fitting VT220 font. However,
 this font may not be the best idea. The VT340 can have only one soft
-font and it could use the builtin line drawings characters instead. Is
-it possible to convince WordPerfect to use DEC Graphics for boxes?
+font and the menus could have simply used the builtin line drawings
+characters instead. Is it possible to convince WordPerfect to use DEC
+Graphics for boxes?
 
-If we can have our own softfont, how do we use it in wordperfect to
-define that it can show other characters in text, such as mathematical
-symbols? I presume `wpterm` has some method, but it is not obvious.
+If we can have our own softfont, how do we use it in wordperfect? We'd
+like it to show other characters in text, such as mathematical
+symbols. `wpterm` must have some solution.
 
 Note: WordPerfect already shows many mathematical symbols in the
 equation editor (hit the <kbd>LIST</kbd> (F11) key and use
