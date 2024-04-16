@@ -128,7 +128,7 @@ useful, like the <kbd>Main Screen</kbd> key.
 
 ## LK201 Gold Key Editing Keyboard for document processing
 
-<img src="LK201-goldkey.jpg" alt="The LK201 'Gold Key' Editing Keyboard designed
+<img src="LK201-goldkey.png" alt="The LK201 'Gold Key' Editing Keyboard designed
 for document processing by Digital Equipment Corporation."> 
 
 The biggest problem with WordPerfect is the difficulty remembering all
