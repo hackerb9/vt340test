@@ -25,9 +25,9 @@ see [sixeloutput](sixeloutput/README.md).
 For some reason wp (WordPerfect) does not pay attention to the TERM
 settings and always states that its termtype is "xterm". This results
 in garbled screens, for example this equation editor which has an odd
-purple double image. The solution is to run wp with the argument `-t
-vt220` [sic] and set the graphics type to `vt340hi_sixel`. As you can
-see, that gives much better results:
+purple double image. The solution is to run wp with the arguments `-t
+vt220` [sic] and `-G vt340hi_sixel`. As you can see, that gives much
+better results:
 
 
 <img alt="termtype xterm on a vt340" align=left width=40% src="eqn-defaulttypeisxterm-thumb.jpg">
@@ -57,8 +57,10 @@ symbols. `wpterm` must have some solution.
 
 Note: WordPerfect already shows many mathematical symbols in the
 equation editor (hit the <kbd>LIST</kbd> (F11) key and use
-<kbd>PgDn</kbd> (Keypad 3). It may be possible to reuse those as a
+<kbd>PgDn</kbd> (Keypad 3)). It may be possible to reuse those as a
 font by using the `wpterm` program.
+
+See also: [wpterm documentation](wpterm.man.pdf).
 
 ## Keys
 
