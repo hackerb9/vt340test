@@ -32,6 +32,8 @@
 #                  this algorithm: RGB(58, 26, 26)
 #
 
+# DEC's color code (https://github.com/hackerb9/vms/color-conversion)
+# agrees with this tool. The VT340 may have used a shortcut.
 
 import argparse
 
