@@ -49,19 +49,27 @@ void usage(char *cmd) {
 
 static void  showsixelswatch(int r, int g, int b){
   /* We use RGB since xterm-390 can't handle HLS */
-  int width=60; int height=60;
-  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height);
-  printf("#0;2;%d;%d;%d", r, g, b);
-  printf("?-");			/* Work around a bug in xterm-390 */
+  int width=60; int height6=10;
+  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height6*6);
+  printf("#0;2;%d;%d;%d#0", r, g, b);
+  printf("#1;2;%d;%d;%d#1", r, g, b);
+  while (--height6)
+    printf("!%d~-", width);
+  printf("!%d~", width);
   printf("\x1B\\\n");
 }
 
-static void  showsixelhls(int h, int l, int s){
-  /* This works on a BLUE0 but not yet on xterm-390 */
-  int width=60; int height=60;
-  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height);
-  printf("#0;1;%d;%d;%d", h, l, s);
-  printf("?-");			/* Work around a bug in xterm-390 */
+static void  showsixel(int h, int l, int s, int r, int g, int b){
+  int width=60; int height6=10;
+  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height6*6);
+  printf("#0;1;%d;%d;%d#0", h, l, s);
+  printf("#1;2;%d;%d;%d#1", r, g, b);
+  char *row;
+  asprintf(&row,"#0!%d~#1!%d~", width, width);
+  while (--height6)
+    printf("%s-", row);
+  printf(row);
+  free(row);
   printf("\x1B\\\n");
 }
 
@@ -127,12 +135,6 @@ int main(int argc, char *argv[]) {
   printf("   Blue: %6.2f%%\t", b*100);
   printf("     Value: %6.2f%%\n", v*100);
 
-  printf("\x1B" "7");		/* Save cursor */
-  printf("\x1B" "[12C");	/* cursor forward */
-  showsixelhls(h*100, l*100, s*100);
-  printf("\x1B" "8");		/* Restore cursor */
-  printf("\x1B" "[33C");	/* cursor forward */
-  showsixelswatch(r*100, g*100, b*100);
-
+  showsixel(h, l*100, s*100, r*100, g*100, b*100);
   return 0;
 }
