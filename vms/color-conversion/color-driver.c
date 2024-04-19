@@ -12,11 +12,11 @@
 
 void usage_hls() {
   fprintf(stderr, "Usage:\n"
-	  "	   hls <H> <L> <S>\n"
+	  "	   hls <Hue> <Lightness> <Saturation>\n"
 	  "\n"	  
-	  "<H>=Hue:        0 to 360° (red is 0°, green is 120°, blue is 240°)\n"
-	  "<L>=Lightness:  0 to 100%% (black 0%%, shades, pure color 50%%, tints, white 100%%)\n"
-	  "<S>=Saturation: 0 to 100%% (grayscale is 0%%, color is 100%%)\n"
+	  "  Hue:        0 to 360° (red is 0°, green is 120°, blue is 240°)\n"
+	  "  Lightness:  0 to 100%% (black 0%%, shades, pure color 50%%, tints, white 100%%)\n"
+	  "  Saturation: 0 to 100%% (grayscale is 0%%, color is 100%%)\n"
 	  );
   exit(0);
 }
