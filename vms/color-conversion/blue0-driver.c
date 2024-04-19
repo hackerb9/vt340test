@@ -5,6 +5,7 @@
  *
  */
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -47,25 +48,15 @@ void usage(char *cmd) {
   exit(0);
 }
 
-static void  showsixelswatch(int r, int g, int b){
-  /* We use RGB since xterm-390 can't handle HLS */
-  int width=60; int height6=10;
-  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height6*6);
-  printf("#0;2;%d;%d;%d#0", r, g, b);
-  printf("#1;2;%d;%d;%d#1", r, g, b);
-  while (--height6)
-    printf("!%d~-", width);
-  printf("!%d~", width);
-  printf("\x1B\\\n");
-}
-
 static void  showsixel(int h, int l, int s, int r, int g, int b){
+  /* Show both HLS and RGB, which should be exactly the same if the
+     terminal is doing the right thing. (Not all of them do.) */
   int width=60; int height6=10;
-  printf("\x1BP9;0;0q\"1;1;%d;%d", width, height6*6);
+  printf("\x1BP9;1;0q");
   printf("#0;1;%d;%d;%d#0", h, l, s);
   printf("#1;2;%d;%d;%d#1", r, g, b);
   char *row;
-  asprintf(&row,"#0!%d~#1!%d~", width, width);
+  asprintf(&row,"!120?#0!%d~!150?#1!%d~", width, width);
   while (--height6)
     printf("%s-", row);
   printf(row);
