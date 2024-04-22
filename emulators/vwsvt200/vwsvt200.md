@@ -34,7 +34,7 @@ terminal from DEC (that I know of).
 | Rainbow Med Res | 16       | 4096    | -     | Y     | 384 x 240   | 1982  |
 | Rainbow Hi Res  | 4        | 4096    | -     | Y     | 800 x 240   | 1982  |
 | VT241           | 4        | 64      | Y     | Y     | 800 x 240   | 1984  |
-| VWS VT200       | 256      | ?       | y¹    | y¹    | 1024 x 620² | 1987? |
+| VWS VT200       | 256      | ?       | y¹    | y¹    | 1000 x 600² | 1987? |
 | VT340           | 16       | 4096    | Y     | Y     | 800 x 480   | 1988  |
 | DECterm         | 16       | ?       | Y     | Y     | 800 x 480   | 1989  |
 
@@ -57,18 +57,29 @@ terminal from DEC (that I know of).
    </details> </ul>
    <br clear=all>
 
-2. VWS's vertical resolution for ReGIS seems lower than the 864 pixels
-   claimed online. 
-
-    <ul>
-	<details>
+2. The resolution is 800x480 by default when one first opens a VT200
+   ReGIS terminal. However, in my tests, it can be changed by the user
+   up to 1000x600, in my tests. Resizing the VT200 window to
+   full-screen is a necessary first step but is not sufficient.
+   ReGIS's coordinate system will still scale everything to a 800x480:
    
-   To come up with the number "620 pixels", I did some experiments
-   with remapping the coordinate system using `S(A[0,0][1024,864])`.
-   By using the 'V' (Vector) command and pressing the number keys, I
-   was able to move the graphics cursor and notice how often the
-   centerline didn't actually shift. By multiplying the ratio to the
-   previous guess, I got progressively closer estimates.
+   <ul>
+   <details>
+
+   <img src="vwsvt200-regis.png" width="40%">
+   <img src="vwsvt200-fullscreenregis.png" width="40%">
+
+	To change the resolution, use the ReGIS command
+   `S[0,0][1000][600]` which sets the coordinate system.
+
+   <img src="vwsvt200-regis1000x600.png" width="80%">
+   Varying the values for width and height in `S[0,0][`_w_`][`_h_`]`,
+   I programmatically drew a grid using ReGIS on every other line.
+   When the logical width was higher than 1000 or the height was over
+   600, two lines (at least) would be next to each other, with no gap,
+   in an obvious way.
+
+
 
    </details>
    </ul>
