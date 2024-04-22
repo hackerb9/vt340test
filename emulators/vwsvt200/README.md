@@ -76,13 +76,12 @@ terminal from DEC (that I know of).
    `S[0,0][1000][600]` which sets the coordinate system.
 
    <img src="vwsvt200-regis1000x600.png" width="80%">
+
    Varying the values for width and height in `S[0,0][`_w_`][`_h_`]`,
    I programmatically drew a grid using ReGIS on every other line.
    When the logical width was higher than 1000 or the height was over
    600, two lines (at least) would be next to each other, with no gap,
    in an obvious way.
-
-
 
    </details>
    </ul>
