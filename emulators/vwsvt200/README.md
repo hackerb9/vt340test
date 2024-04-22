@@ -5,7 +5,7 @@
 Apparently, before [DECterm](decterm.md) running on DECwindows, DEC
 released a VT200 emulator on a peculiar windowing system called _VWS_
 ("Vax Workstation Software Windowing System"). There are a few things
-interesting about this emulator, from a VT340 perspective.
+interesting about this terminal emulator, from a VT340 perspective.
 
 ## Portable Font
 
@@ -47,10 +47,13 @@ terminal from DEC (that I know of).
 
    There seem to actually have been two different programs: "VT200
    window" (with a white background) and "ReGIS VT200 window" (with a
-   black background). The normal "VT200 window" claims to support
-   sixel (when enquired with `write sys$output
-   f$getdvi(f$getjpi("","terminal"),"tt_sixel")`), but not ReGIS. This
-   = is correct. The ReGIS version claims to support both, but it
+   black background). 
+   
+   * The normal "VT200 window" claims to support sixel (when enquired
+   with `write sys$output f$getdvi( f$getjpi("","terminal"),
+   "tt_sixel")`), but not ReGIS. Testing shows that to be correct.
+
+   * The ReGIS version, however, claims to support both, but it
    doesn't actually display sixels in my tests. (I am running VWS in
    simulation using `simh`, so that may be part of the problem.)
    
@@ -103,12 +106,12 @@ perhaps bugs or perhaps just an error in my method of testing.
    not hit the <kbd>Enter</kbd> key as anything VMS prints as an error
    message will _also_ be interpreted as ReGIS commands.
 
-* ReGIS cannot seem to write to horizontal line 0. As far as I can
+* ReGIS cannot write to horizontal line 0 by default. As far as I can
   tell, the default grid actually goes from [0,1] to [799,479].
 
 * Regis vertical line 300 is weird. Sometimes it shows up just fine,
-  but other times it disappears, is solid when it should be dashed, or
-  negative. 
+  but other times it disappears, is solid when it should be dashed,
+  has the wrong dash pattern, or is shown as negative.
 
 <br/>
 <hr>
