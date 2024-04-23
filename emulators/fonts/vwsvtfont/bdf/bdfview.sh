@@ -97,13 +97,17 @@ END {
     # TODO: print out each character on left with vital stats on right
     for (fn in S) {
 	# Sort characters by encoding
-	asort(S[fn],S[fn],"sortbyencoding");
+	asort( S[fn], sorted, "sortbyencoding" );
 
 	# Print out every character
-	for (chr in S[fn]) {
-	    if (!isarray(S[fn][chr])) continue;
-	    if (!isarray(S[fn][chr]["BITMAP"])) continue;
-	    for (lineno=1; lineno <= numlines; lineno++) {
+	for (i in sorted) {
+	    if (!isarray(sorted[i])) continue;
+	    if (!isarray(sorted[i]["BITMAP"])) continue;
+
+	    chr = sorted[i]["STARTCHAR"];
+	    lineno=1;
+	    printf("%s\t\t%s (%s)\n", sorted[i]["BITMAP"][lineno++], S[fn][chr]["STARTCHAR"], sorted[i]["ENCODING"]);
+	    for (; lineno <= numlines; lineno++) {
 		print S[fn][chr]["BITMAP"][lineno];
 	    }
 	    print "\n";
@@ -127,10 +131,18 @@ function pop(  i, item) {
     return item;
 }
 
-function sortbyencoding(i1, v1, i2, v2) {
-    if ( !isarray(v1) || !isarray(v2) )
-	return 0;
-    return (v1[encoding] < v2[encoding]);
+function sortbyencoding(i1, v1, i2, v2,    t1, t2) {
+    if ( isarray(v1) ) 
+	t1 = int(v1["ENCODING"]);
+    else
+	t1 = -1;
+
+    if ( isarray(v2) ) 
+	t2 = int(v2["ENCODING"]);
+    else
+	t2 = -1;
+    
+    return (t1 - t2);
 }
 
 
