@@ -60,11 +60,11 @@ terminal from DEC (that I know of).
    </details> </ul>
    <br clear=all>
 
-2. The resolution is 800x480 by default when one first opens a VT200
-   ReGIS terminal. However, in my tests, the maximum actual resolution
+2. The resolution is 800x480 by default when a VT200 ReGIS terminal is
+   first opened. However, in my tests, the maximum actual resolution
    can be increased to 1000x600. Resizing the VT200 window to
-   full-screen is a necessary first step but is not sufficient.
-   ReGIS's coordinate system will still scale everything to a 800x480:
+   full-screen is a necessary first step, but is not sufficient.
+   ReGIS's coordinate system remains at 800x480 as seen here:
    
    <ul>
    <details>
@@ -72,16 +72,22 @@ terminal from DEC (that I know of).
    <img src="vwsvt200-regis.png" width="40%">
    <img src="vwsvt200-fullscreenregis.png" width="40%">
 
-	To change the resolution, use the ReGIS command
-   `S[0,0][1000][600]` which sets the coordinate system.
+	The second step to change the resolution is to use the ReGIS command
+   `S[0,0][999,599]` to set the coordinate system.
 
    <img src="vwsvt200-fullscreenregis-1000x600.png" width="80%">
+
+   <details> <summary>How do I know it is 1000x600?</summary>
+   
+   Ask a boring question, get a boring answer. ☺
 
    Varying the values for width and height in `S[0,0][`_w_`][`_h_`]`,
    I programmatically drew a grid using ReGIS on every other line.
    When the logical width was higher than 1000 or the height was over
    600, it was easy to see that two lines would be next to each other
    with no gap.
+
+   </details>
 
 	<br clear=all>
 
@@ -96,6 +102,8 @@ terminal from DEC (that I know of).
 These are oddities I've found about the VT200 terminal that are
 perhaps bugs or perhaps just an error in my method of testing. 
 
+<ul><details>
+
 *  Using the argument 2 or 3 in the DCS string for ReGIS opens up a
    separate command display window instead of prompting at the bottom
    of the terminal as the VT340 does. One can see the command and even
@@ -103,14 +111,14 @@ perhaps bugs or perhaps just an error in my method of testing.
    in it), but anything typed is still interpreted by VMS! That nearly
    made it useless for me, but I could work around it by typing on a
    single line and then hitting <kbd>Ctrl</kbd><kbd>U</kbd> to clear
-v   the line and return to typing in the VT200 window. The trick is to
+   the line and return to typing in the VT200 window. The trick is to
    not hit the <kbd>Enter</kbd> key as anything VMS prints as an error
    message will _also_ be interpreted as ReGIS commands.
 
 * While the VWS VT200 terminal can be resized to nearly the full
-  1024x1024 size of a VAXstation's display, ReGIS will not use nearly
-  half of the area, stopping at 600 pixels. It is not clear why this
-  was desirable. Perhaps it has to do with aspect ratio -- both
+  1024x1024 size of a VAXstation's display, ReGIS will only use the
+  top half, stopping at 600 pixels for the Y-axis. It is not clear why
+  this was desirable. Perhaps it has to do with aspect ratio -- both
   800x480 and 1000x600 are a 5:3 ratio. But I don't see a convincing
   argument for why.
 
@@ -121,7 +129,7 @@ v   the line and return to typing in the VT200 window. The trick is to
   999 is invisible. (That's in addition to horizontal line 0 having
   gone missing.) Something peculiar is going on in the margins.
 
-* Regis vertical line 300 is completely nonsensical in both 800x480
+* Regis vertical line 300 is rather nonsensical in both 800x480
   and 1000x600. Sometimes it shows up just fine, but other times it
   disappears, is solid when it should be dashed, has the wrong dash
   pattern, or is shown as negative.
@@ -134,7 +142,16 @@ v   the line and return to typing in the VT200 window. The trick is to
   increased. There is no obvious way to correct it. ReGIS has many
   tools for magnifying the fonts, but none for shrinking them.
   
-  <br/><hr> <ul><sup><i>
+  <br/><hr> 
+
+</details></ul>
+
+I was unable to test colors because the VAXstation simulator I am
+using does not yet support the color graphics card. ("Dragon", which
+just happens to be the same chips used in the VT340!)
+
+
+<ul><sup><i>
 
 “The red, green and blue data areas in the Color Map should be loaded
 with all F's to reduce any unnecessary radio frequency emissions.”
