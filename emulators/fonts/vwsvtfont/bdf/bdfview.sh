@@ -48,32 +48,53 @@ NF > 1 {
 	S[fontname][key] = ddq();
 }
 
+$1 == "ENDFONT" {
+    # Trim or expand each character to its bounding box.
+    # "BBX 8 16 0 -2 declares a bounding box that is 8 pixels wide and
+    #  16 pixels tall. The lower left-hand corner of the character is
+    #  offset by 0 pixels on the X-axis and -2 pixels on the Y-axis." -wikipedia
+    print "Processing ", fontname
+    for (chr in S[fontname]) {
+	if (!isarray(S[fontname][chr])) continue;
+	if (!isarray(S[fontname][chr]["BITMAP"])) continue;
+
+	split(S[fontname][chr]["BBX"], bbx);
+	bwidth = bbx[1]; bheight = bbx[2];
+	bxoffset = bbx[3]; byoffset = bbx[4];
+
+	S[fontname][chr]["GEOMETRY"]= \
+	    sprintf ("%sx%s%+d%d\n", bwidth, bheight, bxoffset, byoffset);
+
+	numlines = length(S[fontname][chr]["BITMAP"]);
+
+	if (bheight != numlines) {
+	    printf( "%s has %d lines and bbx height of %d\n",
+		    fontname chr, numlines, bheight) >"/dev/stderr";
+	    print "ERROR: This script does not yet handle characters which are defined with a different height than their bounding box" >"/dev/stderr";
+	}
+
+	for (lineno=1; lineno <= numlines; lineno++) {
+	    S[fontname][chr]["BITMAP"][lineno] = \
+		substr(S[fontname][chr]["BITMAP"][lineno], 1, 2*bwidth);
+	}
+
+    }
+}
 
 END {
     # Just a data dump for now
+    # TODO: print out each character on left with vital stats on right
     for (fn in S) {
-	print "fontname: " fn;
-	for (key in S[fn]) {
-	    if (!isarray(S[fn][key])) {
-		printf("%s: %s\n",  key, S[fn][key]);
+	for (chr in S[fn]) {
+	    if (!isarray(S[fn][chr])) continue;
+	    if (!isarray(S[fn][chr]["BITMAP"])) continue;
+	    for (lineno=1; lineno <= numlines; lineno++) {
+		print S[fn][chr]["BITMAP"][lineno];
 	    }
-	    else {
-		for (key2 in S[fn][key]) {
-		    if (key2 != "BITMAP") {
-			printf("    %s: %s: %s\n",  key, key2,
-			       S[fn][key][key2]);
-		    }
-		    else {
-			for (i=1; i<=length(S[fn][key]["BITMAP"]); i++) {
-			    printf("    %s: %s: %s\n",  key, key2,
-				   S[fn][key]["BITMAP"][i]);
-			}
-		    }
-
-		}
-	    }
+	    print "\n";
 	}
     }
+    exit;
 }
 
 
