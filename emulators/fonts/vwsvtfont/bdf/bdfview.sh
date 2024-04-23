@@ -70,14 +70,25 @@ $1 == "ENDFONT" {
 	if (bheight != numlines) {
 	    printf( "%s has %d lines and bbx height of %d\n",
 		    fontname chr, numlines, bheight) >"/dev/stderr";
-	    print "ERROR: This script does not yet handle characters which are defined with a different height than their bounding box" >"/dev/stderr";
+	    print "ERROR: This script does not yet handle characters which are defined with a different height than their bounding box." >"/dev/stderr";
 	}
 
+	# Each pixel is shown as two columns "@@" to correct for aspect ratio.
+	pixelwidth = length(S[fontname][chr]["BITMAP"][1]) / 2;
+	if (bwidth > pixelwidth) {
+	    printf( "%s is %d pixels wide and the bbx width is %d\n",
+		    fontname chr, pixelwidth, bwidth) >"/dev/stderr";
+	    print "ERROR: This script does not handle characters which are defined with a smaller width than their bounding box." >"/dev/stderr";
+	}
+
+	# Trim to bwidth pixels.
 	for (lineno=1; lineno <= numlines; lineno++) {
 	    S[fontname][chr]["BITMAP"][lineno] = \
 		substr(S[fontname][chr]["BITMAP"][lineno], 1, 2*bwidth);
 	}
 
+	# Draw a baseline for the y-offset.
+	gsub(/\./, "_", S[fontname][chr]["BITMAP"][numlines + byoffset]);
     }
 }
 
@@ -85,6 +96,10 @@ END {
     # Just a data dump for now
     # TODO: print out each character on left with vital stats on right
     for (fn in S) {
+	# Sort characters by encoding
+	asort(S[fn],S[fn],"sortbyencoding");
+
+	# Print out every character
 	for (chr in S[fn]) {
 	    if (!isarray(S[fn][chr])) continue;
 	    if (!isarray(S[fn][chr]["BITMAP"])) continue;
@@ -111,5 +126,13 @@ function pop(  i, item) {
     NF--;
     return item;
 }
+
+function sortbyencoding(i1, v1, i2, v2) {
+    if ( !isarray(v1) || !isarray(v2) )
+	return 0;
+    return (v1[encoding] < v2[encoding]);
+}
+
+
 
 ' "$@"
