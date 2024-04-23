@@ -63,7 +63,7 @@ $1 == "ENDFONT" {
 	bxoffset = bbx[3]; byoffset = bbx[4];
 
 	S[fontname][chr]["GEOMETRY"]= \
-	    sprintf ("%sx%s%+d%d\n", bwidth, bheight, bxoffset, byoffset);
+	    sprintf ("%sx%s%+d%d", bwidth, bheight, bxoffset, byoffset);
 
 	numlines = length(S[fontname][chr]["BITMAP"]);
 
@@ -106,9 +106,16 @@ END {
 
 	    chr = sorted[i]["STARTCHAR"];
 	    lineno=1;
-	    printf("%s\t\t%s (%s)\n", sorted[i]["BITMAP"][lineno++], S[fn][chr]["STARTCHAR"], sorted[i]["ENCODING"]);
+	    printf("%s\t%s (%s)\n", sorted[i]["BITMAP"][lineno++], chr, sorted[i]["ENCODING"]);
+#	    printf("%s\tS: %s, D: %s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["SWIDTH"], sorted[i]["DWIDTH"]);
+	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["GEOMETRY"]);
+	    printf("%s\tFoundry: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
+	    printf("%s\tFamily: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
+	    printf("%s\tWeight: %s, Slant: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
+	    printf("%s\tWidth: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
+
 	    for (; lineno <= numlines; lineno++) {
-		print S[fn][chr]["BITMAP"][lineno];
+		print sorted[i]["BITMAP"][lineno];
 	    }
 	    print "\n";
 	}
