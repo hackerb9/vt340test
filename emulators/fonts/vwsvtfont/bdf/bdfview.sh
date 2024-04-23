@@ -106,13 +106,20 @@ END {
 
 	    chr = sorted[i]["STARTCHAR"];
 	    lineno=1;
-	    printf("%s\t%s (%s)\n", sorted[i]["BITMAP"][lineno++], chr, sorted[i]["ENCODING"]);
+	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], chr);
+	    e = int(sorted[i]["ENCODING"]);
+	    printf("%s\t%s-%s #%s", sorted[i]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], sorted[i]["ENCODING"]);
+	    if (e>=32 && e<127) printf(" (%c)", e);
+	    printf("\n");
 #	    printf("%s\tS: %s, D: %s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["SWIDTH"], sorted[i]["DWIDTH"]);
 	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["GEOMETRY"]);
 	    printf("%s\tFoundry: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
 	    printf("%s\tFamily: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
 	    printf("%s\tWeight: %s, Slant: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
 	    printf("%s\tWidth: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
+	    printf("%s\tPt size and DPI: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["SIZE"]);
+	    printf("%s\tCap-height: %s, x-height: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
+	    printf("%s\tDescent: %s, Ascent: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
 
 	    for (; lineno <= numlines; lineno++) {
 		print sorted[i]["BITMAP"][lineno];
