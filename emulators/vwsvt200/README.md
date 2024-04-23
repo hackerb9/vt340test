@@ -151,6 +151,9 @@ using does not yet support the color graphics card. ("Dragon", which
 just happens to be the same chips used in the VT340!)
 
 
+<br><br>
+<hr>
+
 <ul><sup><i>
 
 “The red, green and blue data areas in the Color Map should be loaded
