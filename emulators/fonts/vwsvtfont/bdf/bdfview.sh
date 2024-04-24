@@ -43,9 +43,9 @@ $1 == "STARTCHAR" { chr = $2; }
 NF > 1 {
     key = pop();				# $1, all fields shift left
     if (chr)
-	S[fontname][chr][key] = ddq(); 		# $0, without double-quotes
+	S[fontname][chr][key] = ddq($0); 	# $0, without double-quotes
     else
-	S[fontname][key] = ddq();
+	S[fontname][key] = ddq($0);
 }
 
 
@@ -99,33 +99,35 @@ $1 == "ENDFONT" {
 END {
     for (fn in S) {
 	# Sort characters by encoding number
-	asort( S[fn], sorted, "sortbyencoding" );
+	print "sorting ", fn >"/dev/stderr";
+	asort( S[fn], S[fn], "sortbyencoding" );
+	print "done sorting ", fn >"/dev/stderr";
 
 	# Print out every character
-	for (i in sorted) {
-	    if (!isarray(sorted[i])) continue;
-	    if (!isarray(sorted[i]["BITMAP"])) continue;
-	    chr = sorted[i]["STARTCHAR"];
+	for (i in S[fn]) {
+	    if (!isarray(S[fn][i])) continue;
+	    if (!isarray(S[fn][i]["BITMAP"])) continue;
+	    chr = S[fn][i]["STARTCHAR"];
 
 	    /* Print first n lines with data on the right */
 	    lineno=1;
-	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], chr);
-	    e = int(sorted[i]["ENCODING"]);
-	    printf("%s\t%s-%s #%s", sorted[i]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], sorted[i]["ENCODING"]);
+	    printf("%s\t%s\n", S[fn][i]["BITMAP"][lineno++], chr);
+	    e = int(S[fn][i]["ENCODING"]);
+	    printf("%s\t%s-%s #%s", S[fn][i]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], S[fn][i]["ENCODING"]);
 	    if (e>32 && e<127) printf(" (%c)", e);
 	    printf("\n");
-	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["GEOMETRY"]);
-	    printf("%s\tFoundry: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
-	    printf("%s\tFamily: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
-	    printf("%s\tWeight: %s, Slant: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
-	    printf("%s\tWidth: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
-	    printf("%s\tPt size and DPI: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["SIZE"]);
-	    printf("%s\tCap-height: %s, x-height: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
-	    printf("%s\tDescent: %s, Ascent: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
+	    printf("%s\t%s\n", S[fn][i]["BITMAP"][lineno++], S[fn][i]["GEOMETRY"]);
+	    printf("%s\tFoundry: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
+	    printf("%s\tFamily: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
+	    printf("%s\tWeight: %s, Slant: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
+	    printf("%s\tWidth: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
+	    printf("%s\tPt size and DPI: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["SIZE"]);
+	    printf("%s\tCap-height: %s, x-height: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
+	    printf("%s\tDescent: %s, Ascent: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
 
 	    /* Print the rest of the lines, if any */
 	    for (; lineno <= numlines; lineno++) {
-		print sorted[i]["BITMAP"][lineno];
+		print S[fn][i]["BITMAP"][lineno];
 	    }
 	    print "\n";
 	}
@@ -134,12 +136,12 @@ END {
 }
 
 
-function ddq() {
-    # Return $0, but without double-quote at beginning or end.
-    return gensub(/^"|"$/, "", "g");
+function ddq(s) {
+    # Remove double-quote at beginning or end.
+    return gensub(/^"|"$/, "", "g", s);
 }
 
-function pop(  i, item) {
+function pop(     item, i) {
     # Return $1 and remove it from $0 (all fields shift left).
     item=$1
     for (i=1; i<NF; i++)
@@ -149,6 +151,7 @@ function pop(  i, item) {
 }
 
 function sortbyencoding(i1, v1, i2, v2,    t1, t2) {
+    print i1, isarray(v1), i2, isarray(v2) >"/dev/stderr";
     if ( isarray(v1) ) 
 	t1 = int(v1["ENCODING"]);
     else
@@ -157,6 +160,9 @@ function sortbyencoding(i1, v1, i2, v2,    t1, t2) {
     if ( isarray(v2) ) 
 	t2 = int(v2["ENCODING"]);
     else
+	t2 = -1;
+
+    if ( i2 == "WEIGHT")	# Not sure how this is slipping through!
 	t2 = -1;
     
     return (t1 - t2);
