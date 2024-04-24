@@ -48,6 +48,8 @@ NF > 1 {
 	S[fontname][key] = ddq();
 }
 
+
+
 $1 == "ENDFONT" {
     # Trim or expand each character to its bounding box.
     # "BBX 8 16 0 -2 declares a bounding box that is 8 pixels wide and
@@ -87,31 +89,31 @@ $1 == "ENDFONT" {
 		substr(S[fontname][chr]["BITMAP"][lineno], 1, 2*bwidth);
 	}
 
-	# Draw a baseline for the y-offset.
-	gsub(/\./, "_", S[fontname][chr]["BITMAP"][numlines + byoffset]);
+	# Draw a baseline for the glyphs to rest on.
+	yoff = S[fontname]["FONT_ASCENT"];
+	yoff = (yoff == "")? numlines + byoffset : yoff = int(yoff);
+	gsub(/\./, "_", S[fontname][chr]["BITMAP"][yoff]);
     }
 }
 
 END {
-    # Just a data dump for now
-    # TODO: print out each character on left with vital stats on right
     for (fn in S) {
-	# Sort characters by encoding
+	# Sort characters by encoding number
 	asort( S[fn], sorted, "sortbyencoding" );
 
 	# Print out every character
 	for (i in sorted) {
 	    if (!isarray(sorted[i])) continue;
 	    if (!isarray(sorted[i]["BITMAP"])) continue;
-
 	    chr = sorted[i]["STARTCHAR"];
+
+	    /* Print first n lines with data on the right */
 	    lineno=1;
 	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], chr);
 	    e = int(sorted[i]["ENCODING"]);
 	    printf("%s\t%s-%s #%s", sorted[i]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], sorted[i]["ENCODING"]);
-	    if (e>=32 && e<127) printf(" (%c)", e);
+	    if (e>32 && e<127) printf(" (%c)", e);
 	    printf("\n");
-#	    printf("%s\tS: %s, D: %s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["SWIDTH"], sorted[i]["DWIDTH"]);
 	    printf("%s\t%s\n", sorted[i]["BITMAP"][lineno++], sorted[i]["GEOMETRY"]);
 	    printf("%s\tFoundry: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
 	    printf("%s\tFamily: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
@@ -121,6 +123,7 @@ END {
 	    printf("%s\tCap-height: %s, x-height: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
 	    printf("%s\tDescent: %s, Ascent: %s\n", sorted[i]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
 
+	    /* Print the rest of the lines, if any */
 	    for (; lineno <= numlines; lineno++) {
 		print sorted[i]["BITMAP"][lineno];
 	    }
