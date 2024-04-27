@@ -14,6 +14,11 @@ together to make a single typeface.
 * Height: normal or double-height
 * Encoding: Latin-1 or DEC Technical
 
+The files are in [PCF](pcf) bitmap format with a [BDF](bdf) version
+added for convenience. If you want a quick peek at the fonts without
+installing them, you can preview them in glorious ASCII art in the
+[txt](txt) directory.
+
 ## Usage
 
 You can run the `dir2alias` script in this directory to create the
@@ -50,9 +55,9 @@ G0 (7-bit ASCII) and Dec Technical Character Set in G1 ("high ASCII").
 
 ## Installation
 
-You can copy this directory to /usr/local/share/fonts/vwsvtfont then
-add the directory to your system's font search path. For example, for
-X11, you can use:
+You can copy the [pcf](pcf) directory to
+/usr/local/share/fonts/vwsvtfont then add the directory to your
+system's font search path. For example, for X11, you can use:
 
 ```bash
 xset fp+ /usr/local/share/fonts/vwsvtfont
