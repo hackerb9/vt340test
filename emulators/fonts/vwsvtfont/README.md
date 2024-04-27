@@ -8,6 +8,8 @@ together to make a single typeface.
 
 ### Fonts in this typeface
 
+<img alt="The DEC Technical Character Set in the VWSVT font, enlarged into ASCII art and animated as a video" src="README.md.d/dectech38.webp" align="right">
+
 * Weight: normal or bold
 * Width: narrow, normal, wide, or double-wide
 * Height: normal or double-height
