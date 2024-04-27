@@ -1,14 +1,13 @@
 # VWSVT font
 
+
+<img alt="The DEC Technical Character Set in the VWSVT font, enlarged into ASCII art and animated as a video" src="README.md.d/dectech38.webp" align="right">
+
 This bitmap font was included on DEC's Freeware CD for VMS v4.0. It
 includes several bitmap terminal fonts that are meant to be used
 together to make a single typeface.
 
-<img alt="An example of the double-high, double-wide DEC Technical Character Set in the VWSVT font" src="README.md.d/dectech38.png" width=80%>
-
 ### Fonts in this typeface
-
-<img alt="The DEC Technical Character Set in the VWSVT font, enlarged into ASCII art and animated as a video" src="README.md.d/dectech38.webp" align="right">
 
 * Weight: normal or bold
 * Width: narrow, normal, wide, or double-wide
@@ -46,7 +45,7 @@ GNU/Linux, you'll need to uncomment the line that says
 Note that the "dectech" fonts include the DEC Special Graphics font in
 G0 (7-bit ASCII) and Dec Technical Character Set in G1 ("high ASCII").
 
-<img alt="An example of the DEC Technical Character Set in the VWSVT font" src="README.md.d/dectech.png" width=40%>
+<img alt="An example of the double-high, double-wide DEC Technical Character Set in the VWSVT font" src="README.md.d/dectech38.png" width=80%>
 
 
 ## Installation
