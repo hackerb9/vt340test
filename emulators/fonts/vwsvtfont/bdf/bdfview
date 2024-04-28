@@ -42,10 +42,12 @@ $1 == "STARTCHAR" { chr = $2; }
 
 NF > 1 {
     key = pop();				# $1, all fields shift left
-    if (chr)
+    if (chr) {
 	S[fontname][chr][key] = ddq($0); 	# $0, without double-quotes
-    else
+    }
+    else {
 	S[fontname][key] = ddq($0);
+    }
 }
 
 
@@ -99,35 +101,34 @@ $1 == "ENDFONT" {
 END {
     for (fn in S) {
 	# Sort characters by encoding number
-	print "sorting ", fn >"/dev/stderr";
-	asort( S[fn], S[fn], "sortbyencoding" );
-	print "done sorting ", fn >"/dev/stderr";
+	asort( S[fn], sorted, "sortbyencoding" );
 
 	# Print out every character
-	for (i in S[fn]) {
-	    if (!isarray(S[fn][i])) continue;
-	    if (!isarray(S[fn][i]["BITMAP"])) continue;
-	    chr = S[fn][i]["STARTCHAR"];
+	for (i in sorted) {
+	    if (!isarray(sorted[i])) continue;
+	    if (!isarray(sorted[i]["BITMAP"])) continue;
+
+	    chr = sorted[i]["STARTCHAR"]; 	# index into S[fn][chr]
 
 	    /* Print first n lines with data on the right */
 	    lineno=1;
-	    printf("%s\t%s\n", S[fn][i]["BITMAP"][lineno++], chr);
-	    e = int(S[fn][i]["ENCODING"]);
-	    printf("%s\t%s-%s #%s", S[fn][i]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], S[fn][i]["ENCODING"]);
+	    printf("%s\t%s\n", S[fn][chr]["BITMAP"][lineno++], chr);
+	    e = int(S[fn][chr]["ENCODING"]);
+	    printf("%s\t%s-%s #%s", S[fn][chr]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], S[fn][chr]["ENCODING"]);
 	    if (e>32 && e<127) printf(" (%c)", e);
 	    printf("\n");
-	    printf("%s\t%s\n", S[fn][i]["BITMAP"][lineno++], S[fn][i]["GEOMETRY"]);
-	    printf("%s\tFoundry: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
-	    printf("%s\tFamily: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
-	    printf("%s\tWeight: %s, Slant: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
-	    printf("%s\tWidth: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
-	    printf("%s\tPt size and DPI: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["SIZE"]);
-	    printf("%s\tCap-height: %s, x-height: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
-	    printf("%s\tDescent: %s, Ascent: %s\n", S[fn][i]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
+	    printf("%s\t%s\n", S[fn][chr]["BITMAP"][lineno++], S[fn][chr]["GEOMETRY"]);
+	    printf("%s\tFoundry: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
+	    printf("%s\tFamily: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
+	    printf("%s\tWeight: %s, Slant: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
+	    printf("%s\tWidth: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
+	    printf("%s\tPt size and DPI: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["SIZE"]);
+	    printf("%s\tCap-height: %s, x-height: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
+	    printf("%s\tDescent: %s, Ascent: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
 
 	    /* Print the rest of the lines, if any */
 	    for (; lineno <= numlines; lineno++) {
-		print S[fn][i]["BITMAP"][lineno];
+		print S[fn][chr]["BITMAP"][lineno];
 	    }
 	    print "\n";
 	}
@@ -151,7 +152,6 @@ function pop(     item, i) {
 }
 
 function sortbyencoding(i1, v1, i2, v2,    t1, t2) {
-    print i1, isarray(v1), i2, isarray(v2) >"/dev/stderr";
     if ( isarray(v1) ) 
 	t1 = int(v1["ENCODING"]);
     else
