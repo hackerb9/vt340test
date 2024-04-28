@@ -7,6 +7,11 @@ This bitmap font was included on DEC's Freeware CD for VMS v4.0. It
 includes several bitmap terminal fonts that are meant to be used
 together to make a single typeface.
 
+The files are in [PCF](pcf) bitmap format with a [BDF](bdf) version
+added for convenience. If you want a quick peek at the fonts without
+installing them, you can preview them in glorious ASCII art in the
+[txt](txt) directory.
+
 ### Fonts in this typeface
 
 * Weight: normal or bold
@@ -14,10 +19,42 @@ together to make a single typeface.
 * Height: normal or double-height
 * Encoding: Latin-1 or DEC Technical
 
-The files are in [PCF](pcf) bitmap format with a [BDF](bdf) version
-added for convenience. If you want a quick peek at the fonts without
-installing them, you can preview them in glorious ASCII art in the
-[txt](txt) directory.
+### Filenames
+
+Note that vwsvt0-38.pcf and vwsvt0-bold38.pcf had been switched in the
+original distribution from DEC and have been corrected by hackerb9.
+
+| Filename<BR>vwsvt0-\_\_.pcf | Weight<br>(Default: Regular) | DECDHL, DECDWL Size<br>(Default: Single) | Columns<br>(Default: 80) | Character Set<br>(Default: Latin-1) | Cell Size |
+|-----------------------------|------------------------------|------------------------------------------|--------------------------|---------------------------------------|-----------|
+| 19                          |                              |                                          |                          |                                       | 10x20     |
+| narrow19                    |                              |                                          | 132                      |                                       | 6x20      |
+| wide19                      |                              | Single-height, double-width?             | 132?                     |                                       | 12x20     |
+| dblwide19                   |                              | Single-height, double-width              |                          |                                       | 20x20     |
+| bold19                      | Bold                         |                                          |                          |                                       | 10x20     |
+| bold-narrow19               | Bold                         |                                          | 132                      |                                       | 6x20      |
+| bold-wide19                 | Bold                         | Single-height, double-width?             | 132?                     |                                       | 12x20     |
+| bold-dblwide19              | Bold                         | Single-height, double-width              |                          |                                       | 20x20     |
+|                             |                              |                                          |                          |                                       |           |
+| dectech19                   |                              |                                          |                          | DEC Graphics, Tech                    | 10x20     |
+| narrow-dectech19            |                              |                                          | 132                      | DEC Graphics, Tech                    | 6x20      |
+| wide-dectech19              |                              | Single-height, double-width?             | 132?                     | DEC Graphics, Tech                    | 12x20     |
+| dblwide-dectech19           |                              | Single-height, double-width              |                          | DEC Graphics, Tech                    | 20x20     |
+| bold-dectech19              | Bold                         |                                          |                          | DEC Graphics, Tech                    | 10x20     |
+| bold-narrow-dectech19       | Bold                         |                                          | 132                      | DEC Graphics, Tech                    | 6x20      |
+| bold-wide-dectech19         | Bold                         | Single-height, double-width?             | 132?                     | DEC Graphics, Tech                    | 12x20     |
+| bold-dblwide-dectech19      | Bold                         | Single-height, double-width              |                          | DEC Graphics, Tech                    | 20x20     |
+|                             |                              |                                          |                          |                                       |           |
+| 38                          |                              | Double-height, double-width              |                          |                                       | 20x40     |
+| narrow38                    |                              |                                          | 132                      |                                       | 12x40     |
+| bold38                      | Bold                         | Double-height, double-width              |                          |                                       | 20x40     |
+| bold-narrow38               | Bold                         | Double-height, double-width              | 132                      |                                       | 12x40     |
+|                             |                              |                                          |                          |                                       |           |
+| dectech38                   |                              | Double-height, double-width              |                          | DEC Graphics, Tech                    | 20x40     |
+| narrow-dectech38            |                              | Double-height, double-width              | 132                      | DEC Graphics, Tech                    | 12x40     |
+| bold-dectech38              | Bold                         | Double-height, double-width              |                          | DEC Graphics, Tech                    | 20x40     |
+| bold-narrow-dectech38       | Bold                         | Double-height, double-width              | 132                      | DEC Graphics, Tech                    | 12x40     |
+
+
 
 ## Usage
 
@@ -66,9 +103,9 @@ xset fp rehash
 
 ## History
 
-This font was created by DEC and recommended as the font to use on
-their VT340 emulator, DECTerm, in order to have the correct
-proportions for ReGIS graphics.
+This font was created by DEC and given away as "freeware". DEC
+recommended it for use on their VT340 emulator, DECTerm, in order to
+have the correct proportions for ReGIS graphics.
 
 These .pcf files were extracted from dxfont_axp_vwsvt0_pcf010.a, which
 was downloaded from: https://www.digiater.nl/openvms/freeware/v40/vwsvt/
