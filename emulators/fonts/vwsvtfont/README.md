@@ -22,42 +22,42 @@ installing them, you can preview them in glorious ASCII art in the
 
 <br clear=all>
 
-### Filenames
+### Mapping filenames to terminal attributes
 
 The filenames map to various states of the terminal: 80 or
-132-columns, single or double width, Latin-1 or DEC Special Graphics
-and Technical Character Set, and so on. This table will help you to
-decode which is which. Click on the name to see an ASCII art preview. 
+132-columns, single or double width, Latin-1 or DEC Special Graphic
+&amp; Technical Character Set, and so on. This table will help you to
+decode which is which. Click on the name to see an ASCII art preview.
 
-| Filename<BR>vwsvt0-\_\_.txt                                     | Weight<br>(Default: Medium) | DECDHL, DECDWL Size<br>(Default: Single) | DECCOLM<br>(Default: 80 cols) | Character Set<br>(Default: Latin-1) | Cell Size |
-|-----------------------------------------------------------------|:---------------------------:|------------------------------------------|:-----------------------------:|-------------------------------------|:---------:|
-| [19](txt/vwsvt0_19.txt)                                         |                             |                                          |                               |                                     | 10x20     |
-| [narrow19](txt/vwsvt0_narrow19.txt)                             |                             |                                          | 132                           |                                     | 6x20      |
-| [wide19](txt/vwsvt0_wide19.txt)                                 |                             | Single-height, double-width              | 132<sup>†</sup>               |                                     | 12x20     |
-| [dblwide19](txt/vwsvt0_dblwide19.txt)                           |                             | Single-height, double-width              |                               |                                     | 20x20     |
-| [bold19](txt/vwsvt0_bold19.txt)                                 | Bold                        |                                          |                               |                                     | 10x20     |
-| [bold_narrow19](txt/vwsvt0_bold_narrow19.txt)                   | Bold                        |                                          | 132                           |                                     | 6x20      |
-| [bold_wide19](txt/vwsvt0_bold_wide19.txt)                       | Bold                        | Single-height, double-width              | 132<sup>†</sup>               |                                     | 12x20     |
-| [bold_dblwide19](txt/vwsvt0_bold_dblwide19.txt)                 | Bold                        | Single-height, double-width              |                               |                                     | 20x20     |
-|                                                                 |                             |                                          |                               |                                     |           |
-| [dectech19](txt/vwsvt0_dectech19.txt)                           |                             |                                          |                               | DEC Gfx, Tech                       | 10x20     |
-| [narrow_dectech19](txt/vwsvt0_narrow_dectech19.txt)             |                             |                                          | 132                           | DEC Gfx, Tech                       | 6x20      |
-| [wide_dectech19](txt/vwsvt0_wide_dectech19.txt)                 |                             | Single-height, double-width              | 132<sup>†</sup>               | DEC Gfx, Tech                       | 12x20     |
-| [dblwide_dectech19](txt/vwsvt0_dblwide_dectech19.txt)           |                             | Single-height, double-width              |                               | DEC Gfx, Tech                       | 20x20     |
-| [bold_dectech19](txt/vwsvt0_bold_dectech19.txt)                 | Bold                        |                                          |                               | DEC Gfx, Tech                       | 10x20     |
-| [bold_narrow_dectech19](txt/vwsvt0_bold_narrow_dectech19.txt)   | Bold                        |                                          | 132                           | DEC Gfx, Tech                       | 6x20      |
-| [bold_wide_dectech19](txt/vwsvt0_bold_wide_dectech19.txt)       | Bold                        | Single-height, double-width              | 132<sup>†</sup>               | DEC Gfx, Tech                       | 12x20     |
-| [bold_dblwide_dectech19](txt/vwsvt0_bold_dblwide_dectech19.txt) | Bold                        | Single-height, double-width              |                               | DEC Gfx, Tech                       | 20x20     |
-|                                                                 |                             |                                          |                               |                                     |           |
-| [38](txt/vwsvt0_38.txt)<sup>‡</sup>                             |                             | Double-height, double-width              |                               |                                     | 20x40     |
-| [narrow38](txt/vwsvt0_narrow38.txt)                             |                             | Double-height, double-width              | 132<sup>†</sup>               |                                     | 12x40     |
-| [bold38](txt/vwsvt0_bold38.txt)<sup>‡</sup>                     | Bold                        | Double-height, double-width              |                               |                                     | 20x40     |
-| [bold_narrow38](txt/vwsvt0_bold_narrow38.txt)                   | Bold                        | Double-height, double-width              | 132<sup>†</sup>               |                                     | 12x40     |
-|                                                                 |                             |                                          |                               |                                     |           |
-| [dectech38](txt/vwsvt0_dectech38.txt)                           |                             | Double-height, double-width              |                               | DEC Gfx, Tech                       | 20x40     |
-| [narrow_dectech38](txt/vwsvt0_narrow_dectech38.txt)             |                             | Double-height, double-width              | 132<sup>†</sup>               | DEC Gfx, Tech                       | 12x40     |
-| [bold_dectech38](txt/vwsvt0_bold_dectech38.txt)                 | Bold                        | Double-height, double-width              |                               | DEC Gfx, Tech                       | 20x40     |
-| [bold_narrow_dectech38](txt/vwsvt0_bold_narrow_dectech38.txt)   | Bold                        | Double-height, double-width              | 132<sup>†</sup>               | DEC Gfx, Tech                       | 12x40     |
+| Filename<BR>vwsvt0-\_\_.txt                                     | SGR1<br>(Blank: Medium) | DECDHL, DECDWL Size<br>(Blank: Single) | DECCOLM<br>(Blank: 80 columns) | Character Set<br>(Blank: Latin-1) | Cell Size |
+|-----------------------------------------------------------------|:-----------------------:|----------------------------------------|:------------------------------:|-----------------------------------|:---------:|
+| [19](txt/vwsvt0_19.txt)                                         |                         |                                        |                                |                                   | 10x20     |
+| [narrow19](txt/vwsvt0_narrow19.txt)                             |                         |                                        | 132                            |                                   | 6x20      |
+| [wide19](txt/vwsvt0_wide19.txt)                                 |                         | Single-height, double-width            | 132<sup>†</sup>                |                                   | 12x20     |
+| [dblwide19](txt/vwsvt0_dblwide19.txt)                           |                         | Single-height, double-width            |                                |                                   | 20x20     |
+| [bold19](txt/vwsvt0_bold19.txt)                                 | Bold                    |                                        |                                |                                   | 10x20     |
+| [bold_narrow19](txt/vwsvt0_bold_narrow19.txt)                   | Bold                    |                                        | 132                            |                                   | 6x20      |
+| [bold_wide19](txt/vwsvt0_bold_wide19.txt)                       | Bold                    | Single-height, double-width            | 132<sup>†</sup>                |                                   | 12x20     |
+| [bold_dblwide19](txt/vwsvt0_bold_dblwide19.txt)                 | Bold                    | Single-height, double-width            |                                |                                   | 20x20     |
+|                                                                 |                         |                                        |                                |                                   |           |
+| [dectech19](txt/vwsvt0_dectech19.txt)                           |                         |                                        |                                | DEC Gfx, Tech                     | 10x20     |
+| [narrow_dectech19](txt/vwsvt0_narrow_dectech19.txt)             |                         |                                        | 132                            | DEC Gfx, Tech                     | 6x20      |
+| [wide_dectech19](txt/vwsvt0_wide_dectech19.txt)                 |                         | Single-height, double-width            | 132<sup>†</sup>                | DEC Gfx, Tech                     | 12x20     |
+| [dblwide_dectech19](txt/vwsvt0_dblwide_dectech19.txt)           |                         | Single-height, double-width            |                                | DEC Gfx, Tech                     | 20x20     |
+| [bold_dectech19](txt/vwsvt0_bold_dectech19.txt)                 | Bold                    |                                        |                                | DEC Gfx, Tech                     | 10x20     |
+| [bold_narrow_dectech19](txt/vwsvt0_bold_narrow_dectech19.txt)   | Bold                    |                                        | 132                            | DEC Gfx, Tech                     | 6x20      |
+| [bold_wide_dectech19](txt/vwsvt0_bold_wide_dectech19.txt)       | Bold                    | Single-height, double-width            | 132<sup>†</sup>                | DEC Gfx, Tech                     | 12x20     |
+| [bold_dblwide_dectech19](txt/vwsvt0_bold_dblwide_dectech19.txt) | Bold                    | Single-height, double-width            |                                | DEC Gfx, Tech                     | 20x20     |
+|                                                                 |                         |                                        |                                |                                   |           |
+| [38](txt/vwsvt0_38.txt)<sup>‡</sup>                             |                         | Double-height, double-width            |                                |                                   | 20x40     |
+| [narrow38](txt/vwsvt0_narrow38.txt)                             |                         | Double-height, double-width            | 132<sup>†</sup>                |                                   | 12x40     |
+| [bold38](txt/vwsvt0_bold38.txt)<sup>‡</sup>                     | Bold                    | Double-height, double-width            |                                |                                   | 20x40     |
+| [bold_narrow38](txt/vwsvt0_bold_narrow38.txt)                   | Bold                    | Double-height, double-width            | 132<sup>†</sup>                |                                   | 12x40     |
+|                                                                 |                         |                                        |                                |                                   |           |
+| [dectech38](txt/vwsvt0_dectech38.txt)                           |                         | Double-height, double-width            |                                | DEC Gfx, Tech                     | 20x40     |
+| [narrow_dectech38](txt/vwsvt0_narrow_dectech38.txt)             |                         | Double-height, double-width            | 132<sup>†</sup>                | DEC Gfx, Tech                     | 12x40     |
+| [bold_dectech38](txt/vwsvt0_bold_dectech38.txt)                 | Bold                    | Double-height, double-width            |                                | DEC Gfx, Tech                     | 20x40     |
+| [bold_narrow_dectech38](txt/vwsvt0_bold_narrow_dectech38.txt)   | Bold                    | Double-height, double-width            | 132<sup>†</sup>                | DEC Gfx, Tech                     | 12x40     |
 
 
 <ul><p>
@@ -69,6 +69,35 @@ characters are being shown, the actual number of columns available is 66.
 vwsvt0-bold38.pcf had been switched in the original distribution from
 DEC. They have been corrected by hackerb9 in the files available here.
 </i></p></ul>
+
+### VT340 Control functions
+
+**SGR1**: Select Graphic Rendition 1 enables bold text on a
+terminal: `Esc [ 1 m`. To turn off bold text on the VT340, one uses
+SGR22, `Esc [ 22 m`. (Older terminals may require SGR0 to disable all
+attributes).
+
+**DECDWL**: Double-Width, Single-Height Line, `Esc # 6`, makes the
+line with the cursor display characters at twice their normal width.
+Use `Esc # 5` to return to Single-Width, Single Height. 
+
+**DECDHL**: Double-Width, Double-Height Line sets a pair of lines to
+display characters at twice their size in both width and height. The
+line which holds the top half of the characters is set with `Esc # 3`,
+the bottom half, `Esc # 4`. Both lines must hold the same characters.
+
+**DECCOLM**: DEC Private Mode 3 sets the column mode. When set low
+with `Esc [ ? 3 l`, the terminal is set to 80-column mode. When set
+high with `Esc [ ? 3 h`, 132-column mode.
+
+DEC Special Graphic: To display VT100 Line Drawing characters on the
+VT340, one can usually use `Esc ( 0`. To return to showing ASCII, use
+`ESC ( B`. However, that depends on Shift In, `Ctrl/O`, having been
+sent more recently than Shift Out, `Ctrl/N`. .
+
+DEC Technical Character Set: To display technical characters for
+mathematics when displaying "high ASCII" characters, use `Esc ~`. To
+return to showing Latin-1, use `ESC .... fooo `
 
 ## Usage
 
