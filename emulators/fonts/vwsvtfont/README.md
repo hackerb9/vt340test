@@ -10,7 +10,8 @@ together to make a single typeface.
 The files are in [PCF](pcf) bitmap format with a [BDF](bdf) version
 added for convenience. If you want a quick peek at the fonts without
 installing them, you can preview them in glorious ASCII art in the
-[txt](txt) directory.
+[txt](txt) directory. All of the above are also archived in a single
+[ZIP](dxfont_axp_vwsvt0_pcf010.zip) file.
 
 ### Fonts in this typeface
 
