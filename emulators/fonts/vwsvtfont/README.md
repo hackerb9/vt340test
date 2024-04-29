@@ -14,7 +14,7 @@ installing them, you can preview them in glorious ASCII art in the
 
 ### Fonts in this typeface
 
-* Weight: normal or bold
+* Weight: medium or bold
 * Width: narrow, normal, wide, or double-wide
 * Height: normal or double-height
 * Encoding: Latin-1 or DEC Technical
@@ -24,35 +24,35 @@ installing them, you can preview them in glorious ASCII art in the
 Note that vwsvt0-38.pcf and vwsvt0-bold38.pcf had been switched in the
 original distribution from DEC and have been corrected by hackerb9.
 
-| Filename<BR>vwsvt0-\_\_.pcf | Weight<br>(Default: Regular) | DECDHL, DECDWL Size<br>(Default: Single) | Columns<br>(Default: 80) | Character Set<br>(Default: Latin-1) | Cell Size |
-|-----------------------------|------------------------------|------------------------------------------|--------------------------|---------------------------------------|-----------|
-| 19                          |                              |                                          |                          |                                       | 10x20     |
-| narrow19                    |                              |                                          | 132                      |                                       | 6x20      |
-| wide19                      |                              | Single-height, double-width?             | 132?                     |                                       | 12x20     |
-| dblwide19                   |                              | Single-height, double-width              |                          |                                       | 20x20     |
-| bold19                      | Bold                         |                                          |                          |                                       | 10x20     |
-| bold-narrow19               | Bold                         |                                          | 132                      |                                       | 6x20      |
-| bold-wide19                 | Bold                         | Single-height, double-width?             | 132?                     |                                       | 12x20     |
-| bold-dblwide19              | Bold                         | Single-height, double-width              |                          |                                       | 20x20     |
-|                             |                              |                                          |                          |                                       |           |
-| dectech19                   |                              |                                          |                          | DEC Graphics, Tech                    | 10x20     |
-| narrow-dectech19            |                              |                                          | 132                      | DEC Graphics, Tech                    | 6x20      |
-| wide-dectech19              |                              | Single-height, double-width?             | 132?                     | DEC Graphics, Tech                    | 12x20     |
-| dblwide-dectech19           |                              | Single-height, double-width              |                          | DEC Graphics, Tech                    | 20x20     |
-| bold-dectech19              | Bold                         |                                          |                          | DEC Graphics, Tech                    | 10x20     |
-| bold-narrow-dectech19       | Bold                         |                                          | 132                      | DEC Graphics, Tech                    | 6x20      |
-| bold-wide-dectech19         | Bold                         | Single-height, double-width?             | 132?                     | DEC Graphics, Tech                    | 12x20     |
-| bold-dblwide-dectech19      | Bold                         | Single-height, double-width              |                          | DEC Graphics, Tech                    | 20x20     |
-|                             |                              |                                          |                          |                                       |           |
-| 38                          |                              | Double-height, double-width              |                          |                                       | 20x40     |
-| narrow38                    |                              |                                          | 132                      |                                       | 12x40     |
-| bold38                      | Bold                         | Double-height, double-width              |                          |                                       | 20x40     |
-| bold-narrow38               | Bold                         | Double-height, double-width              | 132                      |                                       | 12x40     |
-|                             |                              |                                          |                          |                                       |           |
-| dectech38                   |                              | Double-height, double-width              |                          | DEC Graphics, Tech                    | 20x40     |
-| narrow-dectech38            |                              | Double-height, double-width              | 132                      | DEC Graphics, Tech                    | 12x40     |
-| bold-dectech38              | Bold                         | Double-height, double-width              |                          | DEC Graphics, Tech                    | 20x40     |
-| bold-narrow-dectech38       | Bold                         | Double-height, double-width              | 132                      | DEC Graphics, Tech                    | 12x40     |
+| Filename<BR>vwsvt0-\_\_.pcf                                     | Weight<br>(Default: Medium) | DECDHL, DECDWL Size<br>(Default: Single) | Columns<br>(Default: 80) | Character Set<br>(Default: Latin-1) | Cell Size |
+|-----------------------------------------------------------------|-----------------------------|------------------------------------------|--------------------------|-------------------------------------|-----------|
+| [19](pcf/vwsvt0_19.pcf)                                         |                             |                                          |                          |                                     | 10x20     |
+| [narrow19](pcf/vwsvt0_narrow19.pcf)                             |                             |                                          | 132                      |                                     | 6x20      |
+| [wide19](pcf/vwsvt0_wide19.pcf)                                 |                             | ?Single-height, double-width?            | ?132?                    |                                     | 12x20     |
+| [dblwide19](pcf/vwsvt0_dblwide19.pcf)                           |                             | Single-height, double-width              |                          |                                     | 20x20     |
+| [bold19](pcf/vwsvt0_bold19.pcf)                                 | Bold                        |                                          |                          |                                     | 10x20     |
+| [bold_narrow19](pcf/vwsvt0_bold_narrow19.pcf)                   | Bold                        |                                          | 132                      |                                     | 6x20      |
+| [bold_wide19](pcf/vwsvt0_bold_wide19.pcf)                       | Bold                        | ?Single-height, double-width?            | ?132?                    |                                     | 12x20     |
+| [bold_dblwide19](pcf/vwsvt0_bold_dblwide19.pcf)                 | Bold                        | Single-height, double-width              |                          |                                     | 20x20     |
+|                                                                 |                             |                                          |                          |                                     |           |
+| [dectech19](pcf/vwsvt0_dectech19.pcf)                           |                             |                                          |                          | DEC Graphics, Tech                  | 10x20     |
+| [narrow_dectech19](pcf/vwsvt0_narrow_dectech19.pcf)             |                             |                                          | 132                      | DEC Graphics, Tech                  | 6x20      |
+| [wide_dectech19](pcf/vwsvt0_wide_dectech19.pcf)                 |                             | ?Single-height, double-width?            | ?132?                    | DEC Graphics, Tech                  | 12x20     |
+| [dblwide_dectech19](pcf/vwsvt0_dblwide_dectech19.pcf)           |                             | Single-height, double-width              |                          | DEC Graphics, Tech                  | 20x20     |
+| [bold_dectech19](pcf/vwsvt0_bold_dectech19.pcf)                 | Bold                        |                                          |                          | DEC Graphics, Tech                  | 10x20     |
+| [bold_narrow_dectech19](pcf/vwsvt0_bold_narrow_dectech19.pcf)   | Bold                        |                                          | 132                      | DEC Graphics, Tech                  | 6x20      |
+| [bold_wide_dectech19](pcf/vwsvt0_bold_wide_dectech19.pcf)       | Bold                        | Single-height, double-width?             | 132?                     | DEC Graphics, Tech                  | 12x20     |
+| [bold_dblwide_dectech19](pcf/vwsvt0_bold_dblwide_dectech19.pcf) | Bold                        | Single-height, double-width              |                          | DEC Graphics, Tech                  | 20x20     |
+|                                                                 |                             |                                          |                          |                                     |           |
+| [38](pcf/vwsvt0_38.pcf)                                         |                             | Double-height, double-width              |                          |                                     | 20x40     |
+| [narrow38](pcf/vwsvt0_narrow38.pcf)                             |                             |                                          | 132                      |                                     | 12x40     |
+| [bold38](pcf/vwsvt0_bold38.pcf)                                 | Bold                        | Double-height, double-width              |                          |                                     | 20x40     |
+| [bold_narrow38](pcf/vwsvt0_bold_narrow38.pcf)                   | Bold                        | Double-height, double-width              | 132                      |                                     | 12x40     |
+|                                                                 |                             |                                          |                          |                                     |           |
+| [dectech38](pcf/vwsvt0_dectech38.pcf)                           |                             | Double-height, double-width              |                          | DEC Graphics, Tech                  | 20x40     |
+| [narrow_dectech38](pcf/vwsvt0_narrow_dectech38.pcf)             |                             | Double-height, double-width              | 132                      | DEC Graphics, Tech                  | 12x40     |
+| [bold_dectech38](pcf/vwsvt0_bold_dectech38.pcf)                 | Bold                        | Double-height, double-width              |                          | DEC Graphics, Tech                  | 20x40     |
+| [bold_narrow_dectech38](pcf/vwsvt0_bold_narrow_dectech38.pcf)   | Bold                        | Double-height, double-width              | 132                      | DEC Graphics, Tech                  | 12x40     |
 
 
 
