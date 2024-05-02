@@ -151,8 +151,8 @@ be used for the next character(s).
 | `\x64`          | Show codepoint 0x64 in G3 |
 
 In the example above, the first line (`\e+>`) selected "DEC Technical
-Character Set" for G3. The second line (`\eO\x64`) instructed the
-VT340 to temporarily shift in G3 and show codepoint 0x64, which
+Character Set" (TCS) for G3. The second line (`\eO\x64`) instructed
+the VT340 to temporarily shift in G3 and show codepoint 0x64, which
 happens to be "∂" in DEC Tech (and "d" in ASCII).
 
 
@@ -180,7 +180,6 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 
 _Tip_: Hackerb9's [GLGR.sh](GLGR.sh) program is an easy way to see the
 characters currently loaded in G0, G1, G2, and G3.
-
 
 ### Example: APL
 
@@ -384,10 +383,12 @@ Here are the escape sequences for Single and Locking Shifts:
 |-----------------------|----------|----------|-------|-------------------------------------------------------------------|
 | Single Shift 2        | SS2      | ESC N    | 1B 4E | The character that follows SS2 selects from the G2 character set. |
 | Single Shift 3        | SS3      | ESC O    | 1B 4F | The character that follows SS3 selects from the G3 character set. |
+|                       |          |          |       |                                                                   |
 | Locking Shift 0       | LS0      | \<SI\>   | 0F    | The G0 character set becomes the active GL character set.         |
 | Locking Shift 1       | LS1      | \<SO\>   | 0E    | The G1 character set becomes the active GL character set.         |
 | Locking Shift 2       | LS2      | ESC n    | 1B 6E | The G2 character set becomes the active GL character set.         |
 | Locking Shift 3       | LS3      | ESC o    | 1B 6F | The G3 character set becomes the active GL character set.         |
+|                       |          |          |       |                                                                   |
 | Locking Shift 1 Right | LS1R     | ESC ~    | 1B 7E | The G1 character set becomes the active GR character set.         |
 | Locking Shift 2 Right | LS2R     | ESC }    | 1B 7D | The G2 character set becomes the active GR character set.         |
 | Locking Shift 3 Right | LS3R     | ESC\|    | 1B 7C | The G3 character set becomes the active GR character set.         |
@@ -395,13 +396,13 @@ Here are the escape sequences for Single and Locking Shifts:
 </ul></sub><i>
 
 Note: There is no SS0 (single-shift to G0) since it would be a no-op;
-G0 is already the default for 7-bit characters. Why is there no SS1
-(single-shift to G1)? The answer is unclear, but one guess would be
-that it was presumed that usually GR would be set to G1 and therefore
-one could just send a byte with the eighth-bit high (characters 128 to
-255) to display any character from G1. Unfortunately, since UNIX
-systems now universally use UTF-8 for Unicode, there is a small but
-real need for SS1.
+G0 is already the default for 7-bit characters. But, why is there no
+SS1 (single-shift to G1)? The answer is unclear, but one guess would
+be that it was presumed that usually GR would be set to G1 and
+therefore one could just send a byte with the eighth-bit high
+(characters 128 to 255) to display any character from G1.
+Unfortunately, since UNIX systems now universally use UTF-8 for
+Unicode, there is a small but real need for SS1.
 
 </i></sub></ul>
 
