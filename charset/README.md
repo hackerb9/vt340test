@@ -263,9 +263,11 @@ If one allows for a thinner, less legible, 132 column font, then
 **3300** (=132×25) characters can be shown at once. Or, consider what
 can be written to the VT340's screen _memory_: although only 24 lines
 can be shown at a time, 144 lines can be written on and scrolled
-through using Page Memory commands. That gives **19,140** characters!
-(145×132, one status line for all pages). Trying to actually do this
-would be an extremely silly, but interesting, challenge.
+through using Page Memory commands (<kbd>Shift</kbd> +
+<kbd>Prev<br/>Screen</kbd> / <kbd>Next<br/>Screen</kbd>). That gives
+**19,140** characters! (145×132, one status line for all pages).
+Trying to actually do this would be an extremely silly, but
+interesting, challenge.
 
 </details>
 
