@@ -106,8 +106,8 @@ SGR22, `Esc [ 22 m`. (Older terminals may require SGR0 to disable all
 attributes).
 
 **DECDWL**: Double-Width, Single-Height Line, `Esc # 6`, makes the
-line with the cursor display characters at twice their normal width.
-Use `Esc # 5` to return to Single-Width, Single Height. 
+entire line the cursor is on display characters at twice their normal
+width. Use `Esc # 5` to return to Single-Width, Single Height.
 
 **DECDHL**: Double-Width, Double-Height Line sets a pair of lines to
 display characters at twice their size in both width and height. The
@@ -121,13 +121,12 @@ high with `Esc [ ? 3 h`, 132-column mode.
 ### Character encoding
 
 Encoding is in Latin-1 or "dectech" (for graphics), both of which use
-8-bit characters (128 to 255) and are thus incompatible with Unicode.
-You'll need to set your shell's encoding to Latin-1 to have them
-display correctly — e.g., `export LANG=en_US.iso8859-1`. Not all
-systems include Latin-1 support by default. For example, on Debian
-GNU/Linux, you'll need to uncomment the line that says
-`en_US.ISO-8859-1` in the file /etc/locale.gen and then run
-`locale-gen`.
+8-bit characters (>128) and are thus incompatible with Unicode. You'll
+need to set your shell's encoding to Latin-1 to have them display
+correctly — e.g., `export LANG=en_US.iso8859-1`. Not all systems
+include Latin-1 support by default. For example, on Debian GNU/Linux,
+you'll need to uncomment the line that says `en_US.ISO-8859-1` in the
+file /etc/locale.gen and then run `locale-gen`.
 
 Note that the "dectech" fonts include the DEC Special Graphics font in
 GL (7-bit ASCII) and the DEC Technical Character Set in GR ("high ASCII").
@@ -180,4 +179,4 @@ is available from: ftp://ftp.process.com/vms-freeware/free-vms/ .
 
 Hackerb9 unswapped the filenames for 38 and 38-bold, added a .bdf
 conversion of the pcf files, and included the fonts.dir and font.alias
-X11 needs to use these fonts.
+files which X11 needs to use these fonts.
