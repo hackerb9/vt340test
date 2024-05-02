@@ -180,3 +180,23 @@ is available from: ftp://ftp.process.com/vms-freeware/free-vms/ .
 Hackerb9 unswapped the filenames for 38 and 38-bold, added a .bdf
 conversion of the pcf files, and included the fonts.dir and font.alias
 files which X11 needs to use these fonts.
+
+## Questions
+
+* Why does the vwsvt font look so different from the actual hardware
+  fonts even though it is the correct size to match a VT340?
+  
+* Is it possible to use its double-width / double-height / 132 column
+  fonts with xterm?
+  
+* Why does it include characters that are not in Latin-1? I'm guessing
+  they are from some National Replacement Character-sets, but on the
+  VT340, all [NRC](../../../charset/nrc.md) characters are accounted
+  for in Latin-1.
+  
+	| Codepoint | Glyph | Name        |
+	|-----------|-------|-------------|
+	| 0x80      | Œ     | OE          |
+	| 0x81      | œ     | oe          |
+	| 0x82      | Ÿ     | Y diaeresis |
+
