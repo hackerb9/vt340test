@@ -43,26 +43,28 @@ trap cleanup EXIT
 
 main() {
     setpsr
-    local gl=${PSR[GL]} gr=${PSR[GR]}
+    local gl=${PSR[GL]}
     if [[ $gl == G? ]]; then 
-	printf "     GL->%2s "  	"$gl"
+	printf "   GL>%2s "  	"$gl"
     else
-	printf "     GL     "
+	printf "   GL     "
     fi
-    printf "%24s"  			"${PSR[$gl]}"
+    printf "%27s"  		"${PSR[$gl]}"
+
+    local gr=${PSR[GR]}
     if [[ $gr == G? ]]; then 
-	printf "     GR->%2s "		"$gr" 
+	printf "   GR>%2s "	"$gr" 
     else
-	printf "     GR     "
+	printf "   GR     "
     fi
-    printf "%24s\n"	 		"${PSR[$gr]}"
+    printf "%27s\n"	 		"${PSR[$gr]}"
 
     printtable
     printf "\n"
-    printf "     G0 %28s     G1 %28s\n"  "${PSR[G0]}" "${PSR[G1]}"
+    printf "   G0 %30s   G1 %30s\n"  "${PSR[G0]}" "${PSR[G1]}"
     printtable "${LS0}" "${LS1}"
     printf "\n"
-    printf "     G2 %28s     G3 %28s\n"  "${PSR[G2]}" "${PSR[G3]}"
+    printf "   G2 %30s   G3 %30s\n"  "${PSR[G2]}" "${PSR[G3]}"
     printtable "${LS2}" "${LS3}"
 }
 
@@ -106,13 +108,13 @@ declare -gA Dscs94=(
 
 # Dscs 	Default 96-Character Set
 declare -gA Dscs96=( 
-    [A]="ISO Latin-1 Supplemental"
-    [B]="ISO Latin-2 Supplemental"
-    [F]="ISO Greek Supplemental"
-    [H]="ISO Hebrew Supplemental"
-    [M]="ISO Latin-5 Supplemental"
-    [L]="ISO Latin-Cyrillic"
-    [<]="User-preferred Supplemental")
+     [A]="ISO Latin-1 Supplemental"
+     [B]="ISO Latin-2 Supplemental"
+     [F]="ISO Greek Supplemental"
+     [H]="ISO Hebrew Supplemental"
+     [M]="ISO Latin-5 Supplemental"
+     [L]="ISO Latin-Cyrillic"
+     [<]="User-preferred Supplemental")
 
 setpsr() {
     # Set PSR[] to the names for G0 G1 G2 G3 using DECRQPSR
@@ -131,14 +133,16 @@ setpsr() {
     # $Sdesig is now "BB%5%5" or similar.
     local -i i; local g; local x;
     for g in G0 G1 G2 G3; do
-	x=${Sdesig: i : 1}
-	while isintermediate "$x"; do
+	local c=${Sdesig: i : 1}
+	x=$c
+	while isintermediate "$c"; do
 	    i=i+1
 	    if (( i >= ${#Sdesig} )); then
-		echo "Error: Ran out of chars when reading Sdesig: $Sdesig">&2
+		echo "Error: Ran out of chars for $g in Sdesig[$i]: $Sdesig">&2
 		exit 1
 	    fi
-	    x+=${Sdesig: i : 1}
+	    local c=${Sdesig: i : 1}
+	    x+=$c
 	done
 	if (( ${size[$g]} )); then
 	    PSR[$g]="${Dscs96[$x]}"
@@ -162,7 +166,8 @@ isparameter() {
 isintermediate() {
     # ECMA-48 defines intermediate characters as 0x20..0x2F
     # That's SPACE ! " # $ % & ' ( ) * + , - . /
-    if [[ $1 < " " || $1 > "/" ]]; then return 1; fi
+    local x=$(ord "$1")
+    if (( x < 0x20 || x > 0x2F )); then return 1; fi
     return 0
 }
 
@@ -208,7 +213,7 @@ printtable() {
 	printf "\t"
 	printf "${LSE}"		# Locking shift GL to east charset
 	for b in {0..9} {A..F}; do
-	    printf " ${SSR}\x${p8[$a]}$b"
+	    printf " \x${p8[$a]}$b"
 	done
 	printf "${LS0}"		# Reset GL to ASCII
 	printf "\n"
