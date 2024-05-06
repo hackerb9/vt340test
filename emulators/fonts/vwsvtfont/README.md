@@ -170,16 +170,21 @@ This font was created by DEC and given away as "freeware". DEC
 recommended it for use on their VT340 emulator, DECTerm, in order to
 have the correct proportions for ReGIS graphics.
 
-These .pcf files were extracted from dxfont_axp_vwsvt0_pcf010.a, which
-was downloaded from: https://www.digiater.nl/openvms/freeware/v40/vwsvt/ .
+These .pcf files were extracted from
+[dxfont_axp_vwsvt0_pcf010.a](dxfont_axp_vwsvt0_pcf010.a), which was
+downloaded from: https://www.digiater.nl/openvms/freeware/v40/vwsvt/
 
-The .a extension indicates the file is an OpenVMS Backup Saveset
-archive. To extract it, hackerb9 used a program called vmsbackup which
-is available from: ftp://ftp.process.com/vms-freeware/free-vms/ .
+The .a extension indicates the file is a VMS Backup Saveset archive.
+To extract it, hackerb9 used a program called vmsbackup which is
+available from: ftp://ftp.process.com/vms-freeware/free-vms/ .
 
-Hackerb9 unswapped the filenames for 38 and 38-bold, added a .bdf
-conversion of the pcf files, and included the fonts.dir and font.alias
-files which X11 needs to use these fonts.
+Notable differences of Hackerb9's version from the original: 
+
+* Filenames for 38 and 38-bold are no longer swapped
+* Conversion to bdf and txt from the pcf font format
+* Includes files fonts.dir and font.alias files for easily using these
+  fonts with X11.
+* Repackaged as a zip file, [dxfont_axp_vwsvt0_pcf010.zip](dxfont_axp_vwsvt0_pcf010.zip).
 
 ## Questions
 
@@ -187,8 +192,8 @@ files which X11 needs to use these fonts.
   fonts even though it is the correct size to match a VT340?
   
 * Is it possible to use its double-width / double-height / 132 column
-  fonts with xterm?
-  
+  fonts with xterm +u8?
+
 * Why does it include characters that are not in Latin-1? I'm guessing
   they are from some National Replacement Character-sets, but on the
   VT340, all [NRC](../../../charset/nrc.md) characters are accounted
