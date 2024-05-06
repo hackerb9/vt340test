@@ -182,7 +182,7 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 _Tip_: Hackerb9's [GLGR.sh](GLGR.sh) program is an easy way to see the
 characters currently loaded in G0, G1, G2, and G3.
 
-<img src="daisywheel.webp" width="25%" alt="A picture of a Diablo
+<img src="img/daisywheel.webp" width="25%" alt="A picture of a Diablo
 Daisywheel, similar to what was used in the DEC LQP01 printer .">
 
 ### Physical Analogy: Four daisywheels 
