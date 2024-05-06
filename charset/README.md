@@ -366,7 +366,7 @@ of the ones that require a soft font to use.
 | DEC Technical          | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
 
 
-<details><summary>Not builtin to the VT340</summary></details>
+<details><summary>Not builtin to the VT340</summary>
 
 | Character Set          | G0              | G1              | G2                | G3              |
 |------------------------|-----------------|-----------------|-------------------|-----------------|
@@ -401,7 +401,7 @@ However, one can load a soft font into G1, G2, or G3.
 |----------------------------|----|-------|-------|-------|
 | ISO Latin 1                | -  | ESC-A | ESC.A | ESC/A |
 
-<details><summary>Not builtin to the VT340</summary></details>
+<details><summary>Not builtin to the VT340</summary>
 
 | Character Set          | G0 | G1    | G2    | G3    |
 |------------------------|----|-------|-------|-------|
