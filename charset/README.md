@@ -39,7 +39,7 @@ ASCII character set:
 
 ### GL & GR
 
-DEC uses the terms "GL" and "GR" to refer to currently active
+DEC uses the terms "GL" and "GR" to refer to currently _active_
 character sets for the "graphic" characters on the "left" and "right"
 of an 8-bit character table. The left contains the usual 7-bit ASCII
 and the right contains the bytes with the high-bit set.
@@ -138,11 +138,12 @@ the knob on an old TV set.">
 ### G0, G1, G2, G3
 
 To make things slightly confusing, there is an extra layer of
-indirection. In order to shift the character set the VT340 has four
-"intermediate sets" G0, G1, G2, and G3 which the user (or a program)
-defines to point to specific translation tables. Once an intermediate
-set is defined, GL or GR can be set to point to it so it'll actually
-be used for the next character(s).
+indirection. Before a character set can be activated (see shifting
+below), first it must be loaded into an "intermediate set". the VT340
+has four "G-sets", G0, G1, G2, and G3, which can be set to point to
+specific translation tables. Once an intermediate set is defined, GL
+or GR can be "shifted" to point to it so it'll actually be used for
+the next character(s).
 
 | Escape sequence | Meaning                   |
 |-----------------|---------------------------|
@@ -180,6 +181,22 @@ happens to be "∂" in DEC Tech (and "d" in ASCII).
 
 _Tip_: Hackerb9's [GLGR.sh](GLGR.sh) program is an easy way to see the
 characters currently loaded in G0, G1, G2, and G3.
+
+<img src="daisywheel.webp" width="25%" alt="A picture of a Diablo
+Daisywheel, similar to what was used in the DEC LQP01 printer .">
+
+### Physical Analogy: Four daisywheels 
+
+Back in the olden days, typewriters had interchangeable "daisywheels",
+each of which could hold a different typeface (character set).
+
+The VT340 is like a mythical typewriter with slots for four
+daisywheels, labeled **G0** through **G3**. It can use any two slots
+at the same time, which can be thought of as two slider controls,
+**GL** and **GR**, with arrows that can point to any of the four
+slots.
+
+<br clear=all>
 
 ### Example: APL
 
@@ -301,16 +318,42 @@ with the high bit set: 128 <= x <= 255.)
 
 ### Select Character Set Sequences (SCS)
 
+The Select Character Set sequence (SCS) assigns a character set to G0,
+G1, G2, or G3.
 
-The Select Character Set sequence (SCS) assigns a character set to the
-G0, G1, G2, or G3 character set designators. This table gives the
-sequences that select the available 94-Character Sets. The next table
-gives the sequences that select the available 96-Character Sets.
+* `ESC` _`I`_ _`Dscs`_ <br>
+   Example: `Esc ( B` loads the ASCII character set into G0. 
 
+_I_ is an Intermediate character from the table below and _Dscs_ is a
+one or two character sequence designating a specific character set.
+(See tables even further below).
+
+<ul>
+
+  | G-set | 94-character<br>Intermediate | 96-character<br>Intermediate |
+  |-------|:----------------------------:|:----------------------------:|
+  | G0    | (                            | None                         |
+  | G1    | )                            | -                            |
+  | G2    | \*                           | .                            |
+  | G3    | +                            | /                            |
+
+</ul>
+
+<sub>
+_Note: 94- and 96-character sets are different even if they have the same Dscs code.
+For example, `Esc ) A` loads the UK charset, while `Esc - A` loads Latin-1._
+</sub>
 
 #### Selecting 94-Character Sets
 
-94-character sets range from 0x21 to 0x7E (in GL) or 0xA1 to 0xFE (in GR).
+94-character sets range from 0x21 to 0x7E (in GL) or 0xA1 to 0xFE (in
+GR). It is exactly the ASCII range of 
+"[graphic](http://www.bitsavers.org/pdf/att/unix/System_III/UNIX_Users_Manual_Release_3_Jun80.pdf#page=496)" 
+(visible) characters from `!` to `~`.
+
+This table gives the sequences that select all the available
+94-Character Sets on the VT340 — for 96, see next section — plus some
+of the ones that require a soft font to use.
 
 <ul>
 
@@ -320,8 +363,12 @@ gives the sequences that select the available 96-Character Sets.
 | VT100 Graphics         | ESC(0           | ESC)0           | ESC\*0            | ESC+0           |
 | DEC Supplemental       | ESC(< or ESC(%5 | ESC)< or ESC)%5 | ESC\*< or ESC\*%5 | ESC+< or ESC+%5 |
 | DEC Technical          | ESC(>           | ESC)>           | ESC\*>            | ESC+>           |
-|                        |                 |                 |                   |                 |
-| _Not builtin to VT340_ | ____            | ____            | ____              | ____            |
+
+
+<details><summary>Not builtin to the VT340</summary></details>
+
+| Character Set          | G0              | G1              | G2                | G3              |
+|------------------------|-----------------|-----------------|-------------------|-----------------|
 | ISO Norwegian/Danish   | ESC(\‘          | ESC)\`          | ESC\*\`           | ESC+\`          |
 | JIS Roman              | ESC(J           | ESC)J           | ESC\*J            | ESC+J           |
 | ISO Katakana           | ESC(I           | ESC)I           | ESC\*I            | ESC+I           |
@@ -332,27 +379,39 @@ gives the sequences that select the available 96-Character Sets.
 | Greek Supplemental     | ESC(“?          | ESC)”?          | ESC\*”?           | ESC+”?          |
 | APL Key Paired         | ESC(8           | ESC)8           | ESC\*8            | ESC+8           |
 | APL Composite          | ESC(&0          | ESC)&0          | ESC\*&0           | ESC+&0          |
+
+</details>
 </ul>
 
 
 #### Selecting 96-Character Sets
 
-96-character sets range from 0x20 to 0x7F (in GL) or 0xA0 to 0xFF (in GR).
+96-character sets range from 0x20 to 0x7F (in GL) or 0xA0 to 0xFF (in
+GR). They are the same as 94, but with the addition of being able to
+have glyphs in 0x20 ("space") and 0x7F ("delete").
+
+The VT340 comes with only one 96-character set built-in, Latin-1.
+However, one can load a soft font into G1, G2, or G3.
+
 
 <ul>
 
-| Character Set            | G0 | G1    | G2    | G3    |
-|--------------------------|----|-------|-------|-------|
-| ISO Latin 1              |    | ESC-A | ESC.A | ESC/A |
-|                          |    |       |       |       |
-| _Not available on VT340_ |    | ____  | ____  | ____  |
-| ISO Latin 2              |    | ESC-B | ESC.B | ESC/B |
-| ISO Latin 5              |    | ESC-M | ESC.M | ESC/M |
-| ISO Latin 9              |    | ESC-b | ESC.b | ESC/b |
-| ISO Cyrillic             |    | ESC-L | ESC.L | ESC/L |
-| ISO Greek                |    | ESC-F | ESC.F | ESC/F |
-| ISO Hebrew               |    | ESC-H | ESC.H | ESC/H |
+| Character Set              | G0 | G1    | G2    | G3    |
+|----------------------------|----|-------|-------|-------|
+| ISO Latin 1                | -  | ESC-A | ESC.A | ESC/A |
 
+<details><summary>Not builtin to the VT340</summary></details>
+
+| Character Set          | G0 | G1    | G2    | G3    |
+|------------------------|----|-------|-------|-------|
+| ISO Latin 2            | -  | ESC-B | ESC.B | ESC/B |
+| ISO Latin 5            | -  | ESC-M | ESC.M | ESC/M |
+| ISO Latin 9            | -  | ESC-b | ESC.b | ESC/b |
+| ISO Cyrillic           | -  | ESC-L | ESC.L | ESC/L |
+| ISO Greek              | -  | ESC-F | ESC.F | ESC/F |
+| ISO Hebrew             | -  | ESC-H | ESC.H | ESC/H |
+
+</details>
 </ul>
 
 _Note: G0 can only hold 94-Character Sets, and thus cannot be used for
