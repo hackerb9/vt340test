@@ -27,10 +27,10 @@ $1 == "ENDCHAR" {
 
 inchar == 1 {
     split($1, a, //);
-    lineno = length( S[fontname][chr]["BITMAP"] ) + 1;
+    lineno = length( S[fontname][startchar]["BITMAP"] ) + 1;
     for (c in a) {
-	S[fontname][chr]["BITMAP"][lineno] = \
-	    S[fontname][chr]["BITMAP"][lineno] binhex[a[c]];
+	S[fontname][startchar]["BITMAP"][lineno] = \
+	    S[fontname][startchar]["BITMAP"][lineno] binhex[a[c]];
     }	   
     next;
 }
@@ -38,12 +38,12 @@ inchar == 1 {
 $1 == "STARTFONT" { next; }
 $1 == "FONT" { pop(); fontname = $0; }
 $1 == "BITMAP" { inchar = 1; }
-$1 == "STARTCHAR" { chr = $2; }
+$1 == "STARTCHAR" { startchar = $2; }
 
 NF > 1 {
     key = pop();				# $1, all fields shift left
-    if (chr) {
-	S[fontname][chr][key] = ddq($0); 	# $0, without double-quotes
+    if (startchar) {
+	S[fontname][startchar][key] = ddq($0); 	# $0, without double-quotes
     }
     else {
 	S[fontname][key] = ddq($0);
@@ -57,7 +57,7 @@ $1 == "ENDFONT" {
     # "BBX 8 16 0 -2 declares a bounding box that is 8 pixels wide and
     #  16 pixels tall. The lower left-hand corner of the character is
     #  offset by 0 pixels on the X-axis and -2 pixels on the Y-axis." -wikipedia
-    print "Processing ", fontname
+#    print "Processing ", fontname
     for (chr in S[fontname]) {
 	if (!isarray(S[fontname][chr])) continue;
 	if (!isarray(S[fontname][chr]["BITMAP"])) continue;
@@ -73,7 +73,7 @@ $1 == "ENDFONT" {
 
 	if (bheight != numlines) {
 	    printf( "%s has %d lines and bbx height of %d\n",
-		    fontname chr, numlines, bheight) >"/dev/stderr";
+		    fontname " " chr, numlines, bheight) >"/dev/stderr";
 	    print "ERROR: This script does not yet handle characters which are defined with a different height than their bounding box." >"/dev/stderr";
 	}
 
@@ -101,7 +101,10 @@ $1 == "ENDFONT" {
 END {
     for (fn in S) {
 	# Sort characters by encoding number
-	asort( S[fn], sorted, "sortbyencoding" );
+	asort( S[fn], sorted, "sort_by_encoding" );
+	#asort( S[fn], sorted);	# Even this coredumps. What the heck?
+
+	numlines = length(S[fn][chr]["BITMAP"]);
 
 	# Print out every character
 	for (i in sorted) {
@@ -112,19 +115,19 @@ END {
 
 	    /* Print first n lines with data on the right */
 	    lineno=1;
-	    printf("%s\t%s\n", S[fn][chr]["BITMAP"][lineno++], chr);
+	    printf("%s\t%s\n", 				S[fn][chr]["BITMAP"][lineno++], chr);
+	    printf("%s\t%s-%s #%s", 			S[fn][chr]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], S[fn][chr]["ENCODING"]);
 	    e = int(S[fn][chr]["ENCODING"]);
-	    printf("%s\t%s-%s #%s", S[fn][chr]["BITMAP"][lineno++], S[fn]["CHARSET_REGISTRY"], S[fn]["CHARSET_ENCODING"], S[fn][chr]["ENCODING"]);
 	    if (e>32 && e<127) printf(" (%c)", e);
 	    printf("\n");
-	    printf("%s\t%s\n", S[fn][chr]["BITMAP"][lineno++], S[fn][chr]["GEOMETRY"]);
-	    printf("%s\tFoundry: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
-	    printf("%s\tFamily: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
-	    printf("%s\tWeight: %s, Slant: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
-	    printf("%s\tWidth: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
-	    printf("%s\tPt size and DPI: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["SIZE"]);
-	    printf("%s\tCap-height: %s, x-height: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
-	    printf("%s\tDescent: %s, Ascent: %s\n", S[fn][chr]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
+	    printf("%s\t%s\n", 				S[fn][chr]["BITMAP"][lineno++], S[fn][chr]["GEOMETRY"]);
+	    printf("%s\tFoundry: %s\n", 		S[fn][chr]["BITMAP"][lineno++], S[fn]["FOUNDRY_NAME"]);
+	    printf("%s\tFamily: %s\n", 			S[fn][chr]["BITMAP"][lineno++], S[fn]["FAMILY_NAME"]);
+	    printf("%s\tWeight: %s, Slant: %s\n", 	S[fn][chr]["BITMAP"][lineno++], S[fn]["WEIGHT_NAME"], S[fn]["SLANT"]);
+	    printf("%s\tWidth: %s\n", 			S[fn][chr]["BITMAP"][lineno++], S[fn]["SETWIDTH_NAME"]);
+	    printf("%s\tPt size and DPI: %s\n", 	S[fn][chr]["BITMAP"][lineno++], S[fn]["SIZE"]);
+	    printf("%s\tCap-height: %s, x-height: %s\n",S[fn][chr]["BITMAP"][lineno++], S[fn]["CAP_HEIGHT"], S[fn]["X_HEIGHT"]);
+	    printf("%s\tDescent: %s, Ascent: %s\n", 	S[fn][chr]["BITMAP"][lineno++], S[fn]["FONT_DESCENT"], S[fn]["FONT_ASCENT"]);
 
 	    /* Print the rest of the lines, if any */
 	    for (; lineno <= numlines; lineno++) {
@@ -151,23 +154,28 @@ function pop(     item, i) {
     return item;
 }
 
-function sortbyencoding(i1, v1, i2, v2,    t1, t2) {
-    if ( isarray(v1) ) 
-	t1 = int(v1["ENCODING"]);
-    else
-	t1 = -1;
+function sort_by_encoding(i1, v1, i2, v2) {
 
-    if ( isarray(v2) ) 
-	t2 = int(v2["ENCODING"]);
-    else
-	t2 = -1;
-
-    if ( i2 == "WEIGHT")	# Not sure how this is slipping through!
-	t2 = -1;
+    if ( !isarray(v1) && !isarray(v2) )
+	return 0;
     
-    return (t1 - t2);
+    if ( !isarray(v1) ) 
+	return -1;
+
+    if (!isarray(v2) )
+	return 1;
+
+    return int(v1["ENCODING"]) - int(v2["ENCODING"]);
 }
 
-
+function walk_array(arr, name,      i)
+{
+    for (i in arr) {
+        if (isarray(arr[i]))
+            walk_array(arr[i], (name "[\"" i "\"]"))
+        else
+            printf("%s[\"%s\"] = \"%s\"\n", name, i, arr[i]) 
+    }
+}
 
 ' "$@"
