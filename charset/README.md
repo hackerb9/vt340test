@@ -368,18 +368,89 @@ of the ones that require a soft font to use.
 
 <details><summary>Not builtin to the VT340</summary></details>
 
-| Character Set          | G0              | G1              | G2                | G3              |
-|------------------------|-----------------|-----------------|-------------------|-----------------|
-| ISO Norwegian/Danish   | ESC(\‘          | ESC)\`          | ESC\*\`           | ESC+\`          |
-| JIS Roman              | ESC(J           | ESC)J           | ESC\*J            | ESC+J           |
-| ISO Katakana           | ESC(I           | ESC)I           | ESC\*I            | ESC+I           |
-| 7-Bit Hebrew           | ESC(%=          | ESC)%=          | ESC\*%=           | ESC+%           |
-| Hebrew Supplemental    | ESC(“4          | ESC)”4          | ESC\*”4           | ESC+”4          |
-| 7-Bit Turkish          | ESC(%2          | ESC)%2          | ESC\*%2           | ESC+%2          |
-| Turkish Supplemental   | ESC(%0          | ESC)%0          | ESC\*%0           | ESC+%0          |
-| Greek Supplemental     | ESC(“?          | ESC)”?          | ESC\*”?           | ESC+”?          |
-| APL Key Paired         | ESC(8           | ESC)8           | ESC\*8            | ESC+8           |
-| APL Composite          | ESC(&0          | ESC)&0          | ESC\*&0           | ESC+&0          |
+<table>
+<thead>
+<tr>
+<th> Character Set          </th>
+<th> G0              </th>
+<th> G1              </th>
+<th> G2                </th>
+<th> G3              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> ISO Norwegian/Danish   </td>
+<td> ESC(\‘          </td>
+<td> ESC)`          </td>
+<td> ESC*`           </td>
+<td> ESC+`          </td>
+</tr>
+<tr>
+<td> JIS Roman              </td>
+<td> ESC(J           </td>
+<td> ESC)J           </td>
+<td> ESC*J            </td>
+<td> ESC+J           </td>
+</tr>
+<tr>
+<td> ISO Katakana           </td>
+<td> ESC(I           </td>
+<td> ESC)I           </td>
+<td> ESC*I            </td>
+<td> ESC+I           </td>
+</tr>
+<tr>
+<td> 7-Bit Hebrew           </td>
+<td> ESC(%=          </td>
+<td> ESC)%=          </td>
+<td> ESC*%=           </td>
+<td> ESC+%           </td>
+</tr>
+<tr>
+<td> Hebrew Supplemental    </td>
+<td> ESC(“4          </td>
+<td> ESC)”4          </td>
+<td> ESC*”4           </td>
+<td> ESC+”4          </td>
+</tr>
+<tr>
+<td> 7-Bit Turkish          </td>
+<td> ESC(%2          </td>
+<td> ESC)%2          </td>
+<td> ESC*%2           </td>
+<td> ESC+%2          </td>
+</tr>
+<tr>
+<td> Turkish Supplemental   </td>
+<td> ESC(%0          </td>
+<td> ESC)%0          </td>
+<td> ESC*%0           </td>
+<td> ESC+%0          </td>
+</tr>
+<tr>
+<td> Greek Supplemental     </td>
+<td> ESC(“?          </td>
+<td> ESC)”?          </td>
+<td> ESC*”?           </td>
+<td> ESC+”?          </td>
+</tr>
+<tr>
+<td> APL Key Paired         </td>
+<td> ESC(8           </td>
+<td> ESC)8           </td>
+<td> ESC*8            </td>
+<td> ESC+8           </td>
+</tr>
+<tr>
+<td> APL Composite          </td>
+<td> ESC(&amp;0          </td>
+<td> ESC)&amp;0          </td>
+<td> ESC*&amp;0           </td>
+<td> ESC+&amp;0          </td>
+</tr>
+</tbody>
+</table>
 
 </details>
 </ul>
