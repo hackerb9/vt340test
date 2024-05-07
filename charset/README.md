@@ -255,18 +255,17 @@ both in g3: ±γ
 [Insert mode (smir) used to show that the glyphs are still characters,
 not just bitmap detritus].
 
-Even more importantly, User Defined "soft" character sets (via
-[Down-Line-Loading](softchars.md)) can be altered without affecting
-the appearance of characters already shown. The VT340 Text Programming
-manual states:
+Even more importantly, unlike the VT220, the VT340's User Defined
+"soft" character sets (via [Down-Line-Loading](softchars.md)) can be
+altered _without_ affecting the appearance of characters already shown.
+The VT340 Text Programming manual states:
 
 <blockquote><i>
 <b>PROGRAMMING TIP:</b>
 
 When you use the DECDLD device control string to load a soft character
 set, the control string does not affect the characters currently on
-the screen. You can refresh the screen to show the new character sets.
-See Chapter 2 for general information about device control strings.
+the screen. 
 </i></blockquote>
 
 [Todo: The following has not yet been proven.] Theoretically, a VT340
