@@ -119,9 +119,12 @@ Note 1: The left/right tack convention changed around the turn of the
 century. See "London Convention" versus "Bosworth Convention".
 
 Note 2: The "OUT" character is not present in Unicode nor is it
-mentioned in the VAX APL manual. However it is in the font and
-mentioned online. The representation is actually of the letters `O`,
-`U`, `T` overstruck atop each other.
+mentioned in the VAX APL manual. However it _is_ in the font and
+discussed online in the APL forums. Normally, the representation is
+actually of the letters `O`, `U`, `T` overstruck atop each other, and
+that is the case for the VT220 version of the font, however the VT340
+version has the letters written in small, non-overlapping, letters at
+a diagonal, similar to the graphic ␛ for Escape. 
 
 
 ## Composite APL Character Set
@@ -139,11 +142,11 @@ The setup is:
 
 ### Escape codes to set up Composite APL
 
-The VMS APL User's Guide says that the VT340 used the "APL Composite
-Character Set". Table 1-16 shows that bytes with the high-bit set
-display the APL glyphs. While this would be more convenient instead of
-constantly sending shifts (LS0, LS1), this technique would not work in
-a modern UTF-8 terminal.
+The [VMS APL User's Guide][APLUG] describes Composite Character Set in
+Table 1-16, which shows that bytes with the high-bit set display the
+APL glyphs. While this would be more convenient compared to constantly
+sending shifts (LS0, LS1), this technique would not work in a modern
+UTF-8 terminal.
 
 Hackerb9's guess for how to replicate the Composite APL setup: first
 load the [APL font](../apl/aplfontb9/APL_VT340.FNT) (by catting it to
