@@ -201,7 +201,7 @@ slots.
 
 ### Example: APL
 
-The [VAX/VMS APL User's Guide][APUG] shows that all four intermediate sets
+The [VAX/VMS APL User's Guide][APLUG] shows that all four intermediate sets
 were mapped to create a "composite" character set:
 
 | Set | Mapping          | Escape sequence                |
@@ -392,8 +392,7 @@ GR). They are the same as 94, but with the addition of being able to
 have glyphs in 0x20 ("space") and 0x7F ("delete").
 
 The VT340 comes with only one 96-character set built-in, Latin-1.
-However, one can load a soft font into G1, G2, or G3.
-
+Beneath are listed are some example 96-character soft fonts.
 
 <ul>
 
