@@ -289,13 +289,16 @@ being overrun with data.
 The VT340 can store several "pages" of text in memory. 
 
 The VT340 has 144 lines of memory, divided by default into 6 pages of
-24 lines. One can use <kbd>Set-Up</kbd> or **DECSLPP** to set the
-VT340 to have more "lines per page" and concomittantly fewer "pages",
-or vice versa. Actual number of lines shown on the screen is fixed at
-24.
+24 lines. One can use <kbd>Set-Up</kbd> or **DECSLPP** to set more
+"lines per page" and fewer "pages", or vice versa. Actual number of
+lines shown on a VT340 screen is always fixed at 24. 
+
+| Keys                                                                                                                     | Description                    |
+| <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
+| <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
 What is Page Memory good for? I am not completely sure. It can be kind
-of used as a scrollback buffer, but it's not great. It can be kind of
+of used as a scrollback buffer, but it's not great. It can be sort of
 used for double-buffering, but I doubt that was its original purpose.
 I have written a little more info on [Page Memory](pagememory.md).
   
