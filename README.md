@@ -197,11 +197,12 @@ connection?)~~ _[Bug was in hackerb9's script]_
 
 ### Keyboard
 
-* The ESC key on the LK-201 keyboard only functions in VT100 mode. 
-  Instead, you must use ^[ or ^3.
+* The ESC key on the LK-201 keyboard only functions in VT100 mode.
+  Instead, you must use <kbd>Ctrl</kbd><kbd>[</kbd> or
+  <kbd>Ctrl</kbd><kbd>3</kbd>.
 
-* Despite what the manual says, you cannot use "Return" to select
-  elements in Setup. You must use the "Do" key.
+* Despite what the manual says, you cannot use <kbd>Return</kbd> to
+  select elements in Setup. You must use the <kbd>Do</kbd> key.
   
 * The LK-201's <kbd>Shift</kbd> does not affect `,` and `.`. Instead
   the `<` and `>` symbols are on their own key next to the left shift.
@@ -247,8 +248,8 @@ SSU protocol, it is easier to just use the VT340's two communication
 ports. (See [MMJ](mmj.md) for how to build a DEC423 cable for
 Comm2).
 
-Press `F4` to switch which session is active. Use `Ctrl+F4` to split
-the screen vertically or horizontally.
+Press <kbd>F4</kbd> to switch which session is active. Use
+<kbd>Ctrl+F4</kbd> to split the screen vertically or horizontally.
 
 Sixel images persist on completely separate framebuffers. While each
 session can have a separate color palette, the VT340 hardware can only
@@ -292,6 +293,14 @@ terminal emulators? It does not seem so.
 Pages appears to be intended for application use, perhaps for some
 sort of task switching where you'd want to get back to a previous
 screen without having to resend all the data.
+
+* The user can pan within the current page by using <kbd>Ctrl</kbd>
+  plus the arrow keys. This only works if the page size is larger than
+  24 lines or if columns is set to 132 with an 80-column font.
+
+* To switch to a different page, use
+  <kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>,
+  <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd>.
 
 * There are sequences, NP (`Esc``[``U`) and PP (`Esc``[``V`), which
   can scroll forward and back in "pages", but it appears the pages are
