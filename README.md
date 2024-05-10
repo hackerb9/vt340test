@@ -294,6 +294,7 @@ The VT340 has 144 lines of memory, divided by default into 6 pages of
 lines shown on a VT340 screen is always fixed at 24. 
 
 | Keys                                                                                                                     | Description                    |
+|--------------------------------------------------------------------------------------------------------------------------|--------------------------------|
 | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
