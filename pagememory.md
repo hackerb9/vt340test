@@ -12,6 +12,11 @@ The VT340 can store several "pages" of text in memory.
 * The same setting can be a controlled via <kbd>Set-Up</kbd> Display →
   Page Arrangement. 
 
+* The VT340 keyboard has special keystrokes for navigating Page Memory.
+  | Keys                                                                                                                     | Description                    |
+  | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
+  | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
+
 What is Page Memory good for? I am not yet sure.
 
 ## Pseudo scrollback buffer
@@ -26,7 +31,7 @@ screen of 72 lines.
   
   * The VT340's monitor shows only 24 lines as a "window" into the
     current page. To see text that has previously scrolled off, pan
-    the window by pressing <kbd>Ctrl</kbd><kbd>↑</kbd> . To reset the
+    the window by pressing  <kbd>Ctrl</kbd><kbd>↑</kbd> . To reset the
     view back to the cursor location, just type any key.
 	
   * Note: Programs that rely on cursor positioning techniques may
@@ -54,8 +59,8 @@ I was able to [fake sixel animation](sixeltests/animation.sh) with it.
 ## Multiple Pages
 
 * To switch to a different page, use
-  <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd>.
-  <kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>,
+  <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd>,
+  <kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>.
 
 * There are sequences, **NP** (`Esc``[``U`) and **PP** (`Esc``[``V`), which
   can scroll forward and back in "pages", but it appears the pages are
