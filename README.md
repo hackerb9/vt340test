@@ -225,7 +225,7 @@ connection?)~~ _[Bug was in hackerb9's script]_
   (column mode) to switch between 80 and 132 column mode, they do not
   appear to be equivalent.
 
-  * DECSCPP: `Esc` `[` `8``0` `$` `|`   or  `Esc` `[` `1``3``2` `$` `|`
+  * **DECSCPP**: `Esc` `[` `8``0` `$` `|`   or  `Esc` `[` `1``3``2` `$` `|`
 
     Terminal now thinks it has that many columns, but the screen font
     doesn't actually change. Has the benefit of not clearing data in
@@ -234,7 +234,7 @@ connection?)~~ _[Bug was in hackerb9's script]_
     off the screen simply isn't shown. It is unclear how this is
     beneficial.
  
-  * DECCOLM: `Esc` `[` `?` `3` `l`  or  `Esc` `[` `?` `3` `h`
+  * **DECCOLM**: `Esc` `[` `?` `3` `l`  or  `Esc` `[` `?` `3` `h`
       
     Terminal switch to 80- or 132-column mode, the same as if it had
     been changed in the Set-Up -> Display screen. Both the logical
@@ -286,59 +286,18 @@ being overrun with data.
 
 ### Pages and Lines per page
 
-The VT340 can store several "pages" of text in memory. Is "Page
-Memory" like the scrollback buffer we are familiar with on modern
-terminal emulators? It does not seem so.
+The VT340 can store several "pages" of text in memory. 
 
-Pages appears to be intended for application use, perhaps for some
-sort of task switching where you'd want to get back to a previous
-screen without having to resend all the data.
+The VT340 has 144 lines of memory, divided by default into 6 pages of
+24 lines. One can use <kbd>Set-Up</kbd> or **DECSLPP** to set the
+VT340 to have more "lines per page" and concomittantly fewer "pages",
+or vice versa. Actual number of lines shown on the screen is fixed at
+24.
 
-* The user can pan within the current page by using <kbd>Ctrl</kbd>
-  plus the arrow keys. This only works if the page size is larger than
-  24 lines or if columns is set to 132 with an 80-column font.
-
-* To switch to a different page, use
-  <kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>,
-  <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd>.
-
-* There are sequences, NP (`Esc``[``U`) and PP (`Esc``[``V`), which
-  can scroll forward and back in "pages", but it appears the pages are
-  only written to when an application specifically addresses them.
-  When data scrolls off the top, it doesn't get put into a page.
-
-* Page Memory can be used like double-buffering, where text is written
-  to the next page while the user is viewing the current one. (See
-  [EK-VT3XX-TP.pdf#Ch10](docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#Ch10)).
-
-* Manual mentions that there are *two* sixel graphics pages (unless
-  you are logged in to two sessions at once). It appears they are
-  addressed the same way as standard page memory, but only the first
-  two pages actually work. This means graphics double-buffering is
-  possible!
-
-* Future questions
-
-  * Did/do any programs actually use Page Memory?
-
-  * Is there an example of using the graphics pages for double buffering?
-    (For example, for decoding animated GIF images.)
-
-  * Is there a quick way to have the VT340 copy one graphics page in
-    memory to another? For example, in an animated GIF, only the first
-    frame should have to be sent, after that the differences for
-    subsequent frames take up much less bandwidth. Without a quick way
-    to copy pages, double-buffering would mean the first two frames
-    would have to be sent and deltas would have to be applied twice.
-
-  * If the VT340 had more RAM, could it have held sixel bitmaps
-    associated with each of the text pages? If so, how hard would it
-    be nowadays to upgrade the hardware/firmware to do this?
-
-  * DECSLPP lets one set the VT340 to have more "lines per page" and
-    concomittantly fewer "pages", or vice versa, but what good is that
-    if the pages are too big to display on the screen? Is it fast to pan pages?
-
+What is Page Memory good for? I am not completely sure. It can be kind
+of used as a scrollback buffer, but it's not great. It can be kind of
+used for double-buffering, but I doubt that was its original purpose.
+I have written a little more info on [Page Memory](pagememory.md).
   
 ### XON/XOFF Flow Control is Required
 
@@ -376,13 +335,13 @@ Results:
 
 While the VT340 allows the scrolling speed to be changed in the Set-Up
 menu, it does not appear to be programmatically changeable (as it is
-on the VT5x0 using DECSSCLS, Set Smooth Scroll Speed). Instead, DEC
-Private Mode #4, DECSCLM, Smooth Scroll Mode, is used as a binary
-switch. When a program sets DECSCLM, Smooth-2 is selected (even if one
-of the other Smooth speeds was already enabled). When DECSCLM is
-RESET, Jump scroll is used. Querying the private mode via DECRQM
+on the VT5x0 using **DECSSCLS**, Set Smooth Scroll Speed). Instead, DEC
+Private Mode #4, **DECSCLM**, Smooth Scroll Mode, is used as a binary
+switch. When a program sets **DECSCLM**, Smooth-2 is selected (even if one
+of the other Smooth speeds was already enabled). When **DECSCLM** is
+RESET, Jump scroll is used. Querying the private mode via **DECRQM**
 returns SET when any of the Smooth speeds are selected. If the user
-selects "No scroll" in the Set-Up menu, then DECRQM returns NOT
+selects "No scroll" in the Set-Up menu, then **DECRQM** returns NOT
 RECOGNIZED.
 
 Note that, although Smooth-2 is the factory default on the VT340, the
