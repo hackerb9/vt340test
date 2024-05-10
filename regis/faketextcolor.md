@@ -59,31 +59,31 @@ start the next box.
 
 ## Potential problems
 
-How fast is it? 
+* **How fast is it?**  
 
-: The above implementation is rather slow, taking nearly half a second
-: on a VT340+ to colorize 32 characters. There is likely some faster way
-: as no optimization has been attempted, yet.
+  The above implementation is rather slow, taking nearly half a second
+  on a VT340+ to colorize 32 characters. There is likely some faster way
+  as no optimization has been attempted, yet.
 
-What if the screen scrolls up?
+* **What if the screen scrolls up?**  
 
-: Colorized text scrolls up properly with the screen. Tested with
-: '\n' (newline) and Esc D (index).
+  Colorized text scrolls up properly with the screen. Tested with
+  '\n' (newline) and Esc D (index).
 
-What if the screen scrolls down?
+* **What if the screen scrolls down?**
 
-: Colorized text scrolls down properly with the screen. Tested with Esc
-: M (reverse index) and with Esc [ M (delete line).
+  Colorized text scrolls down properly with the screen. Tested with Esc
+  M (reverse index) and with Esc [ M (delete line).
 
-: What if the text is shifted left?
+* **What if the text is shifted left?**
 
-: Colors are removed from the line when text is shifted left by Esc [ P
-: (delete character).
+  Colors are removed from the line when text is shifted left by Esc [ P
+  (delete character).
 
-What if the text is shifted right?
+* **What if the text is shifted right?**
 
-: Colors are removed from the line when the text is shifted right by Esc
-: [ 4 h (insert mode).
+  Colors are removed from the line when the text is shifted right by Esc
+  [ 4 h (insert mode).
 
 ## Portability
 
