@@ -237,8 +237,6 @@ A.10        Host Port  ............................ A-9
 
                                                       [4mv[24m
 
-
-
 
 
 
@@ -500,8 +498,6 @@ Associated Documents
 
 
 [4mx[24m
-
-
 
 
 
@@ -4754,10 +4750,10 @@ _______________________________________________________
       A device is marked as not present or unknown
       if:
 
-       __[4mIt's[24m_[4mdevice[24m_[4mpresent[24m_[4msignal[24m_[4mis[24m_[4minactive.[24m
-       _
-       __[4mIt[24m_[4mfails[24m_[4mto[24m_[4mrespond[24m_[4mto[24m_[4ma[24m_[4mself-test[24m_[4mrequest[24m
-       __[4mfrom[24m_[4mthe[24m_[4mKA800.[24m
+    • It's device present signal is inactive.
+
+    • It fails to respond to a self-test request
+         from the KA800.
 
 2.3.2 Communications Overview
 
