@@ -53,7 +53,10 @@ BEGIN {
 # Bullet point: previous line should have a bullet point
 /^ *_$/ && BP == NR-2 {
     lines[NR-1]=substr(lines[NR-1], length()+1);
-    lines[NR-2]="    \xe2\x80\xa2" lines[NR-1];
+    lines[NR-2]="";
+    for (i=0; i<length()-1; i++)
+	lines[NR-2]=lines[NR-2]" "; 
+    lines[NR-2]=lines[NR-2]"\xe2\x80\xa2" lines[NR-1];
     NR=NR-2;
     BP=0;
     next;
