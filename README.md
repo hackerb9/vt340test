@@ -84,7 +84,7 @@ Please see
   text color. After 16 colors, the background is changed, too. This
   often makes the screen unreadable. (See [colormap](colormap) for
   details). There is no obvious way to reset the colors once they have
-  been changed, but there is a sequence of keys you can hit. See
+  been changed, but there is a sequence of keys one can hit. See
   [Colormap Reset](colormap/colorreset.md) for details.
   
   * Unlike REGIS, sixel color numbering is different from VT340's
@@ -205,7 +205,7 @@ connection?)~~ _[Bug was in hackerb9's script]_
 ### Keyboard
 
 * The ESC key on the LK-201 keyboard only functions in VT100 mode.
-  Instead, you must press <kbd>Ctrl</kbd><kbd>[</kbd> or
+  Instead, one must press <kbd>Ctrl</kbd><kbd>[</kbd> or
   <kbd>Ctrl</kbd><kbd>3</kbd>.
 
 * Despite what the manual says, you cannot use <kbd>Return</kbd> to
@@ -214,6 +214,13 @@ connection?)~~ _[Bug was in hackerb9's script]_
 * The LK-201's <kbd>Shift</kbd> does not affect `,` and `.`. Instead
   the `<` and `>` symbols are on their own key next to the left shift.
   This is not changeable from the VT340 Set-Up menu.
+
+### Locator Devices
+
+The VT340 could be attached to a mouse, a tablet with a stylus, or a
+special "digitizer" which was like a mouse with a very precise
+reticule for clicking on locations on maps. There may also have been a
+barcode attachment and possibly a lightpen.
 
 ### Tek 4010/4014 mode
 
@@ -305,12 +312,17 @@ lines shown on a VT340 screen is always fixed at 24.
 | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
-What is Page Memory good for? I can be kind of used as a scrollback
+What is Page Memory good for? It can be kind of used as a scrollback
 buffer, but it's not great. It can be sort of used for
-double-buffering, but I doubt that was its original purpose. But,
-other than kinda-sorta, I have no idea. I have written a little more
-of the little I know on [Page Memory](pagememory.md).
-  
+double-buffering, but that seems unlikely to have been its original
+purpose. But, other than kinda-sorta guessing, documentation of any
+intended or actual use has not yet been unearthed. Hackerb9 has
+written a little more of the little known on [Page
+Memory](pagememory.md). [As always, anyone who has knowledge that can
+fill in the gaps in the Archaeological Computation record is
+encouraged to [file an
+issue](https://github.com/hackerb9/vt340test/issues/new/choose).
+
 ### XON/XOFF Flow Control is Required
 
 It does not appear that the VT340 firmware can perform RTS/CTS
