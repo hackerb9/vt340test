@@ -53,7 +53,7 @@ Please see
   * [ode](regis/ode) ReGIS graphics demo files for an ordinary
     differential equation solver. Emulators and screenshots don't do
     this justice as they only show the end result, while on the VT340
-    it appears animated as it slowly draws the solution to a world
+    it appears animated as it lazily draws the solution to a world
     with two suns.
   
 ## Notes on Hardware VT340 
