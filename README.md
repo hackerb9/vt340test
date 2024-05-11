@@ -198,11 +198,11 @@ connection?)~~ _[Bug was in hackerb9's script]_
 ### Keyboard
 
 * The ESC key on the LK-201 keyboard only functions in VT100 mode.
-  Instead, you must use <kbd>Ctrl</kbd><kbd>[</kbd> or
+  Instead, you must press <kbd>Ctrl</kbd><kbd>[</kbd> or
   <kbd>Ctrl</kbd><kbd>3</kbd>.
 
 * Despite what the manual says, you cannot use <kbd>Return</kbd> to
-  select elements in Setup. You must use the <kbd>Do</kbd> key.
+  select elements in Setup. You must press the <kbd>Do</kbd> key.
   
 * The LK-201's <kbd>Shift</kbd> does not affect `,` and `.`. Instead
   the `<` and `>` symbols are on their own key next to the left shift.
@@ -298,10 +298,11 @@ lines shown on a VT340 screen is always fixed at 24.
 | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
-What is Page Memory good for? I am not completely sure. It can be kind
-of used as a scrollback buffer, but it's not great. It can be sort of
-used for double-buffering, but I doubt that was its original purpose.
-I have written a little more info on [Page Memory](pagememory.md).
+What is Page Memory good for? I can be kind of used as a scrollback
+buffer, but it's not great. It can be sort of used for
+double-buffering, but I doubt that was its original purpose. But,
+other than kinda-sorta, I have no idea. I have written a little more
+of the little I know on [Page Memory](pagememory.md).
   
 ### XON/XOFF Flow Control is Required
 
