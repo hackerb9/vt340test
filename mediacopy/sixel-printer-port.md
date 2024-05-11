@@ -64,11 +64,11 @@ printer port (or host port) when  transmitting a sixel dump of the
 screen.
 
 
-    ESC   \     <CR>   ESC	 P    1    q    <sixel-data>  ESC   \
-    1/11  5/12	0/13   1/11  5/0  3/1  7/1				  1/11	5/12
+    ESC   \     <CR>   ESC   P    1    q    <sixel-data>  ESC   \
+    1/11  5/12  0/13   1/11  5/0  3/1  7/1                1/11  5/12
 
-    \________/         \_______/	                      \________/
-       ST			      DCS     						      ST
+    \________/         \_______/                          \________/
+       ST                 DCS                                 ST
 
 ### 7.8.2.1 Color And Monochrome Sixels
 
@@ -145,12 +145,12 @@ LOGICAL OR of the values of the individual pixels.
 
         1:1 Aspect Ratio       Level 1 Printer
 
-		+---+                     +---+
-		| a |					  |   |
-		+---+    LOGICAL OR ->	  |a+b|
-		+---+					  |   |
-		| b |					  |   |
-		+---+					  +---+
+        +---+                     +---+
+        | a |                     |   |
+        +---+    LOGICAL OR ->    |a+b|
+        +---+                     |   |
+        | b |                     |   |
+        +---+                     +---+
 
 
 This will produce images of the same size and aspect ratio
@@ -192,13 +192,13 @@ from top to bottom, and right to left.
 
                display              paper
             +--------------+     +-----------+
-			|          2 1 |     | 1-------> |
-			|		   | | |     | 2-------> |
-			|		   | | |     |			 |
-			|		   V V |     |			 |
-			+--------------+     |			 |
-                                 |			 |
-                                 |			 |
+            |          2 1 |     | 1-------> |
+            |          | | |     | 2-------> |
+            |          | | |     |           |
+            |          V V |     |           |
+            +--------------+     |           |
+                                 |           |
+                                 |           |
                                  +-----------+
 
 
