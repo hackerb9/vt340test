@@ -5,9 +5,11 @@ The VT340 can store several "pages" of text in memory.
 * The VT340 has 144 lines of memory, divided by default into 6 pages
   of 24 lines. Each line can hold 132 characters.
 
-* **DECSLPP** lets one set the VT340 to have more "lines per page" and
-    concomittantly fewer "pages", or vice versa. Actual number of
-    lines shown on the screen is fixed at 24.
+* **DECSLPP** (`Esc` `[` _n_ `t`, lets one set the number of "lines
+    per page". Values of _n_ can be `24`, `36`, `72`, or `144`. More
+    lines per page means fewer pages available. Note that the "pages"
+    are virtual: The actual number of lines shown on a VT340 screen is
+    always 24.
 	
 * The same setting can be a controlled via <kbd>Set-Up</kbd> Display →
   Page Arrangement. 
@@ -15,7 +17,7 @@ The VT340 can store several "pages" of text in memory.
 * The VT340 keyboard has special keystrokes for navigating Page Memory.
   | Keys                                                                                                                     | Description                    |
   |--------------------------------------------------------------------------------------------------------------------------|--------------------------------|
-  | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
+  | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                 | Change which page is displayed |
   | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
 What is Page Memory good for? I am not yet sure.
@@ -59,19 +61,24 @@ I was able to [fake sixel animation](sixeltests/animation.sh) with it.
 
 ## Multiple Pages
 
-* To switch to a different page, use
+* To switch to a different page, press
   <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd>,
   <kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>.
 
-* There are sequences, **NP** (`Esc``[``U`) and **PP** (`Esc``[``V`), which
-  can scroll forward and back in "pages", but it appears the pages are
-  only written to when an application specifically addresses them.
+* There are sequences, **NP** (`Esc``[``U`) and **PP** (`Esc``[``V`),
+  which can scroll forward and back in "pages". New data from the host
+  is sent to the current page by default. Switching to a page that had
+  been previously written on will show the data still there. 
 
 * I do not yet know what the purpose of having multiple pages was as
-  I've seen no actual or even intended application use mentioned.
+  I've seen no mention of even intended application in the manual.
   Perhaps some sort of task switching which could restore a previous
   screen without having to resend all the data? But if so, why is the
-  user able to switch pages using the keyboard?
+  user able to switch pages using the keyboard? 
+  
+* Application don't get any signal when a user switches pages
+  manually, but it is possible to query the current page. 
+
 
 * Page Memory can be used like double-buffering, where text is written
   to the next page while the user is viewing the current one. (See
