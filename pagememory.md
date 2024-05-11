@@ -17,7 +17,7 @@ The VT340 can store several "pages" of text in memory.
 * The VT340 keyboard has special keystrokes for navigating Page Memory.
   | Keys                                                                                                                     | Description                    |
   |--------------------------------------------------------------------------------------------------------------------------|--------------------------------|
-  | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                 | Change which page is displayed |
+  | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><br style="line-height: 0.5em" /><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                 | Change which page is displayed |
   | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
 What is Page Memory good for? I am not yet sure.
