@@ -2281,9 +2281,9 @@ Note
       ADDR 07 is deasserted to write the writable
     _
       DC349 registers. Therefore, addresses in the
-      range E0BD₁₆through E080₁₆are read addresses,
-      and addresses in the range E03B₁₆through
-      E000₁₆are write addresses. Read/modify/write
+      range E0BD_₁₆through E080_₁₆are read addresses,
+      and addresses in the range E03B_₁₆through
+      E000_₁₆are write addresses. Read/modify/write
       instructions should not be used to access these
       registers.
 
@@ -5400,7 +5400,7 @@ Note
                                   6) if the packet was
                                   received correctly,
                                   or a NAK (byte value
-                                  = 15₁₆) indicating
+                                  = 15_₁₆) indicating
                                   that something was
                                   wrong with the
                                   reception and the
@@ -5755,7 +5755,7 @@ Note
    than 10 seconds. The command packet format is shown
    in Figure 2-23, where bytes 1, 2, 3, and 5 are
    as described in Table 2-20. Byte 4 has the value
-   84 (54₁₆), the ASCII value for the letter T. The
+   84 (54_₁₆), the ASCII value for the letter T. The
    self-test report is described in Section 2.3.3.2.
 
    Figure 2-23: T Command Packet Format
@@ -5780,7 +5780,7 @@ Note
     _
       Byte 2 is the device ID byte and has a value of
     _
-      23 (17₁₆). This value indicates that the device
+      23 (17_₁₆). This value indicates that the device
       ID (bits <03:00>) is 7 and the Reply bit (bit
       04) is set.
 
@@ -5849,7 +5849,7 @@ Note
    (described in Section 2.3.3.2). The command packet
    format is shown in Figure 2-25, where bytes 1, 2,
    3, and 5 are as described in Table 2-20. Byte 4 has
-   the value 82 (52₁₆), the ASCII value for the letter
+   the value 82 (52_₁₆), the ASCII value for the letter
    R.
 
 
@@ -5893,7 +5893,7 @@ Note
    through 7 contain the following:
 
     _
-      Byte 4 has the value 67 (43₁₆), the ASCII value
+      Byte 4 has the value 67 (43_₁₆), the ASCII value
     _
       for the letter C.
 
@@ -5926,7 +5926,7 @@ Note
    the following:
 
     _
-      Byte 4 has the value 67 (43₁₆), the ASCII value
+      Byte 4 has the value 67 (43_₁₆), the ASCII value
     _
       for the letter C.
                            Functional Description  2-71
@@ -6128,7 +6128,7 @@ Note
    and 5 are coded as follows.
 
     _
-      Byte 4 has the value 76 (4C₁₆), the ASCII value
+      Byte 4 has the value 76 (4C_₁₆), the ASCII value
     _
       for the letter L.
 
@@ -7014,11 +7014,11 @@ A.1 LK201 Keyboard
    Commands:
 
     _
-      Reinitialize keyboard (FD₁₆)
+      Reinitialize keyboard (FD_₁₆)
     _
 
     _
-      Jump to self-test (CB₁₆)
+      Jump to self-test (CB_₁₆)
     _
 
    Reports:
@@ -7078,7 +7078,7 @@ A.2 VSXXX-AA Mouse
    Commands:
 
     _
-      Self-test. This command is T (54₁₆).
+      Self-test. This command is T (54_₁₆).
     _
 
    Reports:
@@ -7087,17 +7087,17 @@ A.2 VSXXX-AA Mouse
       Self-test. This report consist of four bytes:
     _
 
-         Byte 0: A0₁₆(first release). The contents of
+         Byte 0: A0_₁₆(first release). The contents of
          the three most significant bits are equal to
-         101₂.
+         101_₂.
 
-         Byte 1: 0xxx00102, where:
+         Byte 1: 0xxx0010_₂, where:
                 0xxx = manufacturing ID and
                 0010 = mouse data
 
          Byte 2: 0 or error code, where:
-                3E₁₆= RAM/ROM error
-                3D₁₆= switch failure
+                3E_₁₆= RAM/ROM error
+                3D_₁₆= switch failure
 
          Byte 3: 0 or switch failure
 
@@ -7105,7 +7105,7 @@ A.2 VSXXX-AA Mouse
       Position report. This report consists of
     _
       three bytes. The contents of the three most
-      significant bits of byte 0 are equal to 100₂.
+      significant bits of byte 0 are equal to 100_₂.
 
    Mode:
           Prompt mode is the power-up default.
@@ -7151,7 +7151,7 @@ A.3 VSXXX-AB Tablet
     _
       following:
 
-         T (54₁₆)
+         T (54_₁₆)
 
          <BREAK> (minimum of two character times)
 
@@ -7161,21 +7161,21 @@ A.3 VSXXX-AB Tablet
       Self-test. This report consist of four bytes:
     _
 
-         Byte 0: A0₁₆(first release). The contents of
+         Byte 0: A0_₁₆(first release). The contents of
          the three most significant bits are equal to
-         101₂.
+         101_₂.
 
-         Byte 1: 0xxx0100₂, where:
+         Byte 1: 0xxx0100_₂, where:
                 0xxx = manufacturing ID and
                 0010 = tablet data
 
          Byte 2: 0 or one of the following error
          codes:
-                11₁₆
-                13₁₆
-                3A₁₆
-                3D₁₆
-                3E₁₆
+                11_₁₆
+                13_₁₆
+                3A_₁₆
+                3D_₁₆
+                3E_₁₆
 
          Byte 3: 0 or button code
 
@@ -7183,7 +7183,7 @@ A.3 VSXXX-AB Tablet
       Position report. This report consists of
     _
       five bytes. The contents of the three most
-      significant bits of byte 0 are equal to 110₂.
+      significant bits of byte 0 are equal to 110_₂.
 
    Mode:
           Request point mode is the power-up default.
@@ -7219,7 +7219,7 @@ A.4 GTCO Tablet
       Self-test. This report consists of four bytes.
     _
       The contents of the three most significant bits
-      of byte 0 are equal to 101₂.
+      of byte 0 are equal to 101_₂.
 
     _
       Position report. This report consists of five
@@ -7231,12 +7231,12 @@ A.4 GTCO Tablet
    on power up. The value of each byte is:
 
     _
-      FF₁₆if the tablet is 15.24 x 15.24 cm (6 x 6
+      FF_₁₆if the tablet is 15.24 x 15.24 cm (6 x 6
     _
       in)
 
     _
-      FE₁₆if the tablet is 30.48 x 30.48 cm (12 x 12
+      FE_₁₆if the tablet is 30.48 x 30.48 cm (12 x 12
     _
       in)
 
@@ -7287,11 +7287,11 @@ A.5 VSXXX-DA Dial Array
    Commands:
 
     _
-      Self-test: 13₁₆(CTRL/S)
+      Self-test: 13_₁₆(CTRL/S)
     _
 
     _
-      Revision report: 05₁₆(CTRL/E)
+      Revision report: 05_₁₆(CTRL/E)
     _
 
    Reports:
@@ -7305,23 +7305,23 @@ A.5 VSXXX-DA Dial Array
     _
       bytes:
 
-         Bytes 5:4: CD (43₁₆and 44₁₆) for Control
+         Bytes 5:4: CD (43_₁₆and 44_₁₆) for Control
          Dials unit
 
          Bytes 3:1: the ROM revision level
 
          Byte 0:   either of the following:
 
-                   D (44₁₆) if the unit includes dial
+                   D (44_₁₆) if the unit includes dial
 
             LEDs
-                   N (4E₁₆) if the unit does not
+                   N (4E_₁₆) if the unit does not
             	   include dial LEDs
 
     _
       Position report. This report consists of four
     _
-      bytes. Byte 0 = 16₁₆(CTRL/V).
+      bytes. Byte 0 = 16_₁₆(CTRL/V).
 
 
 
@@ -7361,11 +7361,11 @@ A.6 Evans & Sutherland Controls Dials
    Commands:
 
     _
-      Self-test: 13₁₆(CTRL/S)
+      Self-test: 13_₁₆(CTRL/S)
     _
 
     _
-      Revision report: 05₁₆(CTRL/E)
+      Revision report: 05_₁₆(CTRL/E)
     _
 
    Reports:
@@ -7379,21 +7379,21 @@ A.6 Evans & Sutherland Controls Dials
     _
       bytes:
 
-         Bytes 5:4: CD (43₁₆and 44₁₆) for Control
+         Bytes 5:4: CD (43_₁₆and 44_₁₆) for Control
          Dials unit.
 
          Bytes 3:1: the ROM revision level
 
          Byte 0:   either of the following:
-                   D (44₁₆) if the unit includes dial
+                   D (44_₁₆) if the unit includes dial
             LEDs
-                   N (4E₁₆) if the unit does not
+                   N (4E_₁₆) if the unit does not
             include dial LEDs
 
     _
       Position report. This report consists of four
     _
-      bytes. Byte 0 = 16₁₆(CTRL/V)
+      bytes. Byte 0 = 16_₁₆(CTRL/V)
 
 
 
@@ -7433,7 +7433,7 @@ A.7 Evans & Sutherland Button Array
    Commands:
 
     _
-      Self-test: 80₁₆.
+      Self-test: 80_₁₆.
     _
 
    Reports:
@@ -7442,14 +7442,14 @@ A.7 Evans & Sutherland Button Array
       Self-test. This report consists of four bytes:
     _
 
-         Byte 0: Hardware ID = 64₁₆(first release).
+         Byte 0: Hardware ID = 64_₁₆(first release).
 
          Byte 1: Firmware ID = 00 (first release).
 
          Byte 2: 0 or one of the following error
          codes:
-                3D₁₆= key down on self-test
-                3E₁₆= ROM or RAM failure
+                3D_₁₆= key down on self-test
+                3E_₁₆= ROM or RAM failure
 
          Byte 3: 0 or hexadecimal stuck key code
 
@@ -7469,7 +7469,7 @@ A.8 Evans & Sutherland Keyboard
    Commands:
 
     _
-      Reset: FF₁₆.
+      Reset: FF_₁₆.
     _
 
    Reports:
@@ -7478,9 +7478,9 @@ A.8 Evans & Sutherland Keyboard
       Reset command responses:
     _
 
-         AA₁₆= keyboard is operational
+         AA_₁₆= keyboard is operational
 
-         FC₁₆= RAM/ROM failure
+         FC_₁₆= RAM/ROM failure
 
 
 
