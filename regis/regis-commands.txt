@@ -1,7 +1,7 @@
 For full documentation, see https://vt100.net/docs/vt3xx-gp/chapter1.html
 		       Table 1-1 ReGIS Command Summary
 
-S  Screen     Set screen options. S(A[0,0][4095][4095]) - coordinate axes
+S  Screen     Set screen options. S(A[0,0][4095,4095]) - coordinate axes
    	      S(M1(R)) or S(M1(H120L50S100)) - Set color 1 to red
 W  Write      Provides writing controls. W(I<n>) - choose color index n.
    	      W(S1)W(S0) - start/stop shading,  W(N1)W(N0) - negation.
