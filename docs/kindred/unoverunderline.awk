@@ -50,18 +50,28 @@ BEGIN {
 }
 
 
-# Bullet point: previous line should have a bullet point at column 5.
-/^    _$/ && BP == NR-2 {
-    lines[NR-1]=substr(lines[NR-1], 6);
+# Bullet point: previous line should have a bullet point
+/^ *_$/ && BP == NR-2 {
+    lines[NR-1]=substr(lines[NR-1], length()+1);
     lines[NR-2]="    \xe2\x80\xa2" lines[NR-1];
     NR=NR-2;
     BP=0;
     next;
 }
 
+NR>2 && BP == NR-2 {
+    # Whoops, that previous character was not a bullet point!
+    lines[NR-2] = underline(lines[NR-1], lines[NR-2]);
+    NR=NR-2;
+    BP=0;
+    und=-1;
+    # Fall through to continue processing lines[NR]
+}
+
+
 # Bullet point detection: Following line will have a bullet point at
 # column 5 iff the line after it also looks like "    _$", see above.
-/^    _$/ {
+/^ *_$/ {
     BP=NR;
     next;
 }
