@@ -4750,9 +4750,9 @@ _______________________________________________________
       A device is marked as not present or unknown
       if:
 
-    • It's device present signal is inactive.
+       • It's device present signal is inactive.
 
-    • It fails to respond to a self-test request
+       • It fails to respond to a self-test request
          from the KA800.
 
 2.3.2 Communications Overview
