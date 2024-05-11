@@ -44,10 +44,17 @@ Please see
 * [usage](usage) how to configure a VT340 to be reasonably usable as a
   terminal in modern times. 
   
-* [kermitdemos](kermitdemos) Graphics demo files that came with the
-  Kermit communications program in the 1980s that exercised Kermit's
-  ability to emulate the VT340. Includes sixel and tektronix files,
-  but not ReGIS. 
+* Demos
+
+  * [kermitdemos](kermitdemos) Graphics demo files that came with the
+	Kermit communications program in the 1980s that exercised Kermit's
+	ability to emulate the VT340. Includes sixel and tektronix files,
+	but not ReGIS.
+  * [ode](regis/ode) ReGIS graphics demo files for an ordinary
+    differential equation solver. Emulators and screenshots don't do
+    this justice as they only show the end result, while on the VT340
+    it appears animated as it slowly draws the solution to a world
+    with two suns.
   
 ## Notes on Hardware VT340 
 
@@ -264,7 +271,7 @@ but is also updating a status line at the bottom that shows the
 current column and row would jitter up and down rapidly on each
 keystroke.
 
-### Printer port
+### Printer port == another keyboard!
 
 The printer port is actually a third serial port, with the same DEC423
 wiring as Comm1 and 2. As you'd expect, a print command, such as `Esc
