@@ -95,7 +95,6 @@ und == NR-1 && !/^ *\[[0-9 ]+ *\]/ && !/^ *[⁰¹²³⁴⁵⁶⁷⁸⁹]+/ {
     lines[NR-1] = underline(lines[NR], lines[NR-1]);
     NR=NR-1;
     und=-1;
-    # Fall through bolding
 }
 
 # Underline detection: next line will get underlined and moved up.
