@@ -95,7 +95,7 @@ und == NR-1 && !/^ *\[[0-9 ]+ *\]/ && !/^ *[⁰¹²³⁴⁵⁶⁷⁸⁹]+/ {
     lines[NR-1] = underline(lines[NR], lines[NR-1]);
     NR=NR-1;
     und=-1;
-    next;
+    # Fall through bolding
 }
 
 # Underline detection: next line will get underlined and moved up.
@@ -132,10 +132,10 @@ function mergeable(s1, s2,      i, j, c1, c2, seen1, seen2) {
     for (i=1; i<=length(s1); ) {
 	c1=substr(s1, i, 1);
 	c2=substr(s2, j, 1);
-	# while ( substr(s1, i+1, 1) == "\b" ) {
-	#     c1 = substr(s1, i+2, 1);
-	#     i=i+2;
-	# }
+	while ( substr(s1, i+1, 1) == "\b" ) {
+	    c1 = substr(s1, i+2, 1);
+	    i=i+2;
+	}
 	while ( substr(s2, j+1, 1) == "\b" ) {
 	    c2 = substr(s2, j+2, 1);
 	    j=j+2;
