@@ -217,10 +217,23 @@ connection?)~~ _[Bug was in hackerb9's script]_
 
 ### Locator Devices
 
-The VT340 could be attached to a mouse, a tablet with a stylus, or a
-special "digitizer" which was like a mouse with a very precise
-reticule for clicking on locations on maps. There may also have been a
-barcode attachment and possibly a lightpen.
+The VT340 could be attached to a mouse (VSXXX-AA) or a graphics tablet
+(VSXXX-AB). The tablet could use either a stylus or a special "puck"
+which was like a mouse with a very precise reticule for clicking on
+locations on maps. There may also have been a barcode attachment and
+possibly a lightpen. (See also, [VSXXXX-CA/CB peripheral
+repeater][VSXPR]).
+ 
+There will be more information about peripherals here once hackerb9
+has some to test. In the meantime, there is good information about the
+common protocol they spoke in the [VCB02 manual][vcb], particularly
+the appendices on the ([keyboard][]), mouse[mouse][], and [tablet][].
+
+  [vcb]: [docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"]
+  [keyboard]: [docs/hardware/AppdxB-kbdprotocol.pdf "DEC keyboard protocol details (extracted from VCB02 techref)"]
+  [mouse]: [docs/hardware/AppdxC-mouseprotocol.pdf "DEC mouse protocol details (extracted from VCB02 techref)"]
+  [tablet]: [docs/hardware/AppdxD-tabletprotocol.pdf "DEC tablet protocol details (extracted from VCB02 techref)"]
+  [VSXPR]: [docs/kindred/EK-VSXPR-TM-001-mod.cat] "DEC VSXXX-CA/CB Protocol Repeater Technical Manual"]
 
 ### Tek 4010/4014 mode
 
