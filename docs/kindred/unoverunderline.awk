@@ -65,7 +65,8 @@ BEGIN {
 NR>2 && BP == NR-2 {
     # Whoops, that previous character was not a bullet point!
     lines[NR-2] = underline(lines[NR-1], lines[NR-2]);
-    NR=NR-2;
+    lines[NR-1] = lines[NR]
+    NR=NR-1;
     BP=0;
     und=-1;
     # Fall through to continue processing lines[NR]
@@ -95,6 +96,7 @@ und == NR-1 && !/^ *\[[0-9 ]+ *\]/ && !/^ *[⁰¹²³⁴⁵⁶⁷⁸⁹]+/ {
     lines[NR-1] = underline(lines[NR], lines[NR-1]);
     NR=NR-1;
     und=-1;
+    next;
 }
 
 # Underline detection: next line will get underlined and moved up.
@@ -109,6 +111,7 @@ NR>1 && BP != NR-1 {
     if (mergeable(lines[NR-1], lines[NR])) {
 	lines[NR-1] = boldmerge(lines[NR-1], lines[NR] );	NR=NR-1;
     }
+    next;
 }
 
 
