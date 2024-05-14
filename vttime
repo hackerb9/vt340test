@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# vttime. 
+# Measure run time of any command on a VT terminal.
+
+# Stops timing when the terminal responds to
+# Device Status Request 5 (howyadoin?).
+
+# Note, accuracy is far less than the precision indicated.
+# It is probably closer to milliseconds, not nanoseconds.
+
+# hackerb9 2024
+
+if [[ -z "$0" ]]; then
+    echo "Usage: vttime <command> [args...]" >&2
+    exit 1
+fi
+
+declare -i ns=0 s=0 m=0 h=0
+declare -i latency=0 i=0 start=0 end=0
+
+# Attempt to subtract the latency of using Device Status Request 5.
+# On a VT340 at 19200bps, the latency is under 30ms. (30,000,000 ns).
+read -s -d "n" -p $'\e[5n'
+start=$(date +%s%N)
+read -s -d "n" -p $'\e[5n'
+end=$(date +%s%N)
+latency=end-start
+
+printf "%12s: %'12d ns\n" "Latency" $latency
+
+printf "%12s: " "Executing"
+echo "$*"
+read -s -d "n" -p $'\e[5n'	# Make sure terminal is ready.
+start=$(date +%s%N)
+"$@"				# Run the command
+read -s -d "n" -p $'\e[5n'	# Wait for terminal to finish.
+end=$(date +%s%N)
+ns=end-start
+
+ns=ns-latency			# Attempt correction
+if (( ns < 0 )); then ns=0; fi
+
+if (( ns > 1000000000 )); then
+    s=ns/1000000000
+    ns=ns%1000000000
+fi
+if (( s > 60 )); then
+    m=s/60
+    s=s%60
+fi
+
+exec >&2
+printf "%12s: " "Run time"
+
+if ((m>0)); then
+    printf "%'12d m " $m 
+fi
+
+if ((s>0)); then
+    printf "%'12d s " $s 
+fi
+
+printf "%'12d ns\n" $ns 
