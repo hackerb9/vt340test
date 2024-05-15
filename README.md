@@ -325,16 +325,10 @@ lines shown on a VT340 screen is always fixed at 24.
 | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
-What is Page Memory good for? It can be kind of used as a scrollback
-buffer, but it's not great. It can be sort of used for
-double-buffering, but that seems unlikely to have been its original
-purpose. But, other than kinda-sorta guessing, documentation of any
-intended or actual use has not yet been unearthed. Hackerb9 has
-written a little more of the little known on [Page
-Memory](pagememory.md). [As always, anyone who has knowledge that can
-fill in the gaps in the Archaeological Computation record is
-encouraged to [file an
-issue](https://github.com/hackerb9/vt340test/issues/new/choose).
+@hackerb9 idly muses and @j4james speaks from experience on [the uses
+of Page Memory](pagememory.md). [As always, anyone who has knowledge
+that can fill in the gaps in the Archaeological Computation record is
+encouraged to [file an issue](https://github.com/hackerb9/vt340test/issues/new/choose).]
 
 ### XON/XOFF Flow Control is Required
 
