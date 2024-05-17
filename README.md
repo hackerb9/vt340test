@@ -116,7 +116,7 @@ Please see
   * Hue varies from 0 to 360 degrees, Lightness and Saturation vary
     from 0 to 100%. (Hue 0 and 360 are identical).
 
-    HLS can specify 360×101×101 different colors (over 2^21).
+    HLS can specify 359×101×101 different colors (over 2^21).
 
   * Thus there are roughly 250 different RGB values and 1000 different
     HLS values for each possible color that can actually be shown.
@@ -170,17 +170,19 @@ Graphics screen resolution is 800x480, but sometimes is quoted as
 
 * From the amount of documentation DEC dedicated to ReGIS, it appears
   that ReGIS was meant to be the primary graphics system used with the
-  VT340. This makes sense as it is an extremely efficient protocol,
-  using very few bytes, while Sixel graphics were slow and heavy. Part
-  of the problem is that sixels were compressed only for long
-  horizontal runs of identical pixels.
+  VT340. This makes sense as it is an extremely efficient vector
+  graphics protocol, using very few bytes and allow great savings
+  using "macros", whereas Sixel graphics are poorly compressed
+  bitmaps that are quite slow at 19,200 bps.
 
   * Additionally, there are certain things that can only be done with
 	ReGIS, but cannot be done using Sixels.
 
 	* Media Copy to Host (see below).
-	* Easily set palette in the color map.
-	* Modify the color existing pixels.
+	* Easily set the system color map.
+	* Modify the color of existing pixels (using bitplanes).
+    * Read the value of a pixel or a region of pixels.
+	* Use the mouse for interactive input.
 
 ### MEDIA COPY TO HOST ("screenshot"):
 
@@ -291,12 +293,12 @@ correct for the session that is currently active.
 
 Note that when split horizontally, the VT340 attempts to scroll the
 view up or down to where the cursor is. This works well most of the
-time, but full-screen applications can have problems. For example, a
-text editor that has the text cursor typing at the top of the screen,
-but is also updating a status line at the bottom that shows the
-current column would jitter up and down rapidly on each keystroke. One
-workaround is to use `stty` to tell host programs to use a small
-screen area, e.g., `stty rows 12`. 
+time, but full-screen applications can have problems. Consider a text
+editor in which one types at the top of the screen while a status line
+at the bottom shows the cursor's current location. On each keystroke,
+the cursor would zip from top to bottom, causing the entire screen to
+jitter up and down rapidly . One workaround is to use `stty` to tell
+host programs to use a smaller screen area, e.g., `stty rows 12`.
 
 ### Printer port == another keyboard!
 
