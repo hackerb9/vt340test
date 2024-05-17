@@ -316,7 +316,7 @@ by connecting the printer port to a host computer. [Hackerb9 currently
 has Comm1 and 2 on /dev/ttyS0 and S1 and the printer on /dev/ttyUSB0.]
 
 Note that DEC's printer port is necessarily bidirectional because the
-VT340 needs to listen for XON/XOFF so it can pause when the printer is
+VT340 needs to listen for XOFF so it can pause when the printer is
 being overrun with data.
 
 
@@ -334,10 +334,12 @@ lines shown on a VT340 screen is always fixed at 24.
 | <kbd>Ctrl</kbd><kbd>Next<br>Screen</kbd><br><kbd>Ctrl</kbd><kbd>Prev<br>Screen</kbd>                                     | Change which page is displayed |
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
-@hackerb9 idly muses and @j4james speaks from experience on [the uses
-of Page Memory](pagememory.md). [As always, anyone who has knowledge
-that can fill in the gaps in the Archaeological Computation record is
-encouraged to [file an issue](https://github.com/hackerb9/vt340test/issues/new/choose).]
+@hackerb9 does not fully understand the purpose of Page Memory, but
+@j4james has suggested it is for form filling applications. Please
+read [the uses of Page Memory](pagememory.md). [As always, anyone who
+has knowledge that can fill in the gaps in the Archaeological
+Computation record is encouraged to 
+[file an issue](https://github.com/hackerb9/vt340test/issues/new/choose).]
 
 ### XON/XOFF Flow Control is Required
 
