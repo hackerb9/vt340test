@@ -275,8 +275,14 @@ SSU protocol, it is easier to just use the VT340's two communication
 ports. (See [MMJ](mmj.md) for how to build a DEC423 cable for
 Comm2).
 
-Press <kbd>F4</kbd> to switch which session is active. Use
-<kbd>Ctrl+F4</kbd> to split the screen vertically or horizontally.
+| Key                          | Meaning                                   |
+|------------------------------|-------------------------------------------|
+| <kbd>F4</kbd>                | Switch which session is active            |
+| <kbd>Ctrl</kbd><kbd>F4</kbd> | Split the screen vertically, horizontally |
+| <kbd>Ctrl</kbd><kbd>↑</kbd>  | Pan view up                               |
+| <kbd>Ctrl</kbd><kbd>↓</kbd>  | Pan view down                             |
+| <kbd>Ctrl</kbd><kbd>←</kbd>  | Pan view left                             |
+| <kbd>Ctrl</kbd><kbd>→</kbd>  | Pan view right                            |
 
 Sixel images persist on completely separate framebuffers. While each
 session can have a separate color palette, the VT340 hardware can only
@@ -288,8 +294,9 @@ view up or down to where the cursor is. This works well most of the
 time, but full-screen applications can have problems. For example, a
 text editor that has the text cursor typing at the top of the screen,
 but is also updating a status line at the bottom that shows the
-current column and row would jitter up and down rapidly on each
-keystroke.
+current column would jitter up and down rapidly on each keystroke. One
+workaround is to use `stty` to tell host programs to use a small
+screen area, e.g., `stty rows 12`. 
 
 ### Printer port == another keyboard!
 
