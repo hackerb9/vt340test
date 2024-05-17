@@ -8,6 +8,9 @@ VT340+ and is running tests, many of which were submitted by
 [j4james](https://github.com/j4james), and documenting the results
 here.
 
+Anyone who has questions or knowledge that can fill in the gaps in the
+Archaeological Computation record is encouraged to [file an
+issue](https://github.com/hackerb9/vt340test/issues/new).
 
 ## Test files and output
 
@@ -80,12 +83,13 @@ Please see
   in the Graphics Set-up screen and vice versa. Some of DEC's manuals
   get this wrong.
 
-* Showing sixel images with more then 6 colors changes the foreground
-  text color. After 16 colors, the background is changed, too. This
-  often makes the screen unreadable. (See [colormap](colormap) for
-  details). There is no obvious way to reset the colors once they have
-  been changed, but there is a sequence of keys one can hit. See
-  [Colormap Reset](colormap/colorreset.md) for details.
+* While not documented anywhere, showing sixel images with more then 6
+  colors changes the foreground text color. After 16 colors, the
+  background is changed, too. This often makes the screen unreadable.
+  (See [colormap](colormap) for details). There is no obvious way to
+  reset the colors once they have been changed, but there is a
+  sequence of keys one can hit. See [Colormap
+  Reset](colormap/colorreset.md) for details.
   
   * Unlike REGIS, sixel color numbering is different from VT340's
     setup screen numbering! No matter what number a sixel color is
@@ -335,11 +339,8 @@ lines shown on a VT340 screen is always fixed at 24.
 | <kbd>Ctrl</kbd><kbd>↑</kbd><br><kbd>Ctrl</kbd><kbd>↓</kbd><br><kbd>Ctrl</kbd><kbd>←</kbd><br><kbd>Ctrl</kbd><kbd>→</kbd> | Pan the current virtual page   |
 
 @hackerb9 does not fully understand the purpose of Page Memory, but
-@j4james has suggested it is for form filling applications. Please
-read [the uses of Page Memory](pagememory.md). [As always, anyone who
-has knowledge that can fill in the gaps in the Archaeological
-Computation record is encouraged to 
-[file an issue](https://github.com/hackerb9/vt340test/issues/new/choose).]
+@j4james has suggested it is mainly for form filling applications, see
+[Page Memory](pagememory.md).
 
 ### XON/XOFF Flow Control is Required
 
