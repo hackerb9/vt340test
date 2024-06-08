@@ -92,7 +92,7 @@ parseargs() {
 	    --background|--46h) decgpbm_flag=high; shift ;;
  	    --printer) hostcomm=0; shift ;;
  	    --host)    hostcomm=2; shift ;;
-	    --output-file|-o)
+	    --out*|-o)
 		outputfile="${2}"
 		shift 2
 		if [[ $outputfile =~ png$ ]]; then
