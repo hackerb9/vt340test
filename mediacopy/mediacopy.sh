@@ -89,7 +89,7 @@ parseargs() {
     while [[ "$1" ]]; do
 	case "$1" in
 	    --transparent|--46l) decgpbm_flag=low; shift ;;
-	    --background|--46h) decgpbm_flag=high; shift ;;
+	    --opaque|--46h) decgpbm_flag=high; shift ;;
  	    --printer) hostcomm=0; shift ;;
  	    --host)    hostcomm=2; shift ;;
 	    --out*|-o)
