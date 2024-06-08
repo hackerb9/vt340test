@@ -7,16 +7,14 @@ the Raster Attributes ('"') of 80:1. That is, it is 80 times taller
 than it is wide. The VT340 shows this replicating each pixel in the
 image vertically, causing each sixel to be 480 screen pixels high.
 
-Technically, a Level 2 Sixel compliant file should not expect a sixel
-device to be able to handle an aspect ratio where the numerator
-(vertical) or denominator (horizontal) exceed 10. But this one goes to
-eleven...
-
 Note: Timing tests indicate that the VT340 takes about the same amount
 of time to render no matter if the aspect ratio is 1:1 to 100000:1.
 
 \P//~CREATOR=hackerb9\\P//~URL=https://github.com/hackerb9/vt340test/
 \P9;0;0q
-#0;2; 73;8;24  #1;2; 0;13;28  #2;2; 75;75;75
-"80;1;800;6  #1!800~
-\This should be at the top line of the screen.
+#0;2; 73;8;24  #1;2; 0;13;28  #2;1; 190; 15; 75
+"80;1;800;6
+#0 !80? !80T!80i!80T!80i!80T!80i!80T!80i !80? $
+#1 !80? !80i!80T!80i!80T!80i!80T!80i!80T !80? $
+#2 !80~ !640? !80~
+\This text should be at the top line of the screen.
