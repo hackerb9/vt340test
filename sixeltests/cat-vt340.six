@@ -9,7 +9,7 @@ color index # is ignored. Sixth color defined is foreground, 16th
 color defined is background.)
 
 \P//~CREATOR=Brian Guinn\\P//~URL=https://github.com/hackerb9/vt340test/
-\P0;1q"2;1;800;200
+\P0;1q"2;1;800;400
 #1;1;0;0;0
 #2;1;120;50;100
 
@@ -17,7 +17,9 @@ color defined is background.)
 #5 ;1;300; 49;59
 #6 ;1;180; 49;59
 #7 ;1;  0; 46; 0
+
 #3;1;0;99;0
+
 #8 ;1;  0; 26; 0
 #9 ;1;  0; 46;28
 #10;1;120; 42;38
