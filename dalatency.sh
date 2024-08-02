@@ -1,5 +1,6 @@
 # Measure latency of Primary DA read.
 # VT340+ is very slow printing attribute responses. A fifth of a second!
+# Result: Use DSR5 instead which takes 0.02 seconds.
 
 # Output from VT340+
 #
