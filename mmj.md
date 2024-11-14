@@ -40,14 +40,14 @@ MMJ device using just a single cable. Since both the VT340 and a
 typical PC serial port are "DTE", some of the wires need to crossover
 as a null modem would do.
 
-| MMJ RS-232 name     | MMJ Pin | DE-9 pin | DE-9 RS-232 name                 |        |
-|---------------------|---------|----------|----------------------------------|--------|
-| Data Terminal Ready | 1 →     | 8<br/>1  | Clear To Send<br/>Carrier Detect | White  |
-| Transmit Data       | 2 →     | 2<br/>   | Receive Data                     | Black  |
-| Ground              | 3 —     | — 5<br/> | Ground                           | Red    |
-| Ground              | 4 —     | — 5<br/> | Ground                           | Green  |
-| Receive Data        | 5       | ← 3<br/> | Transmit Data                    | Yellow |
-| Data Set Ready      | 6       | ← 7<br/> | Request To Send                  | Blue   |
+|     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |        |
+|--------------------:|--------:|:-:|:---------|----------------------------------|--------|
+| Data Terminal Ready |       1 | → | 8<br/>1  | Clear To Send<br/>Carrier Detect | White  |
+|       Transmit Data |       2 | → | 2<br/>   | Receive Data                     | Black  |
+|              Ground |       3 | — | 5<br/>   | Ground                           | Red    |
+|              Ground |       4 | — | 5<br/>   | Ground                           | Green  |
+|        Receive Data |       5 | ← | 3<br/>   | Transmit Data                    | Yellow |
+|      Data Set Ready |       6 | ← | 7<br/>   | Request To Send                  | Blue   |
 
 <sub><i>
 
@@ -168,13 +168,13 @@ While externally this looks the same as hackerb9's suggested dongle
 above, this does not include the necessary "null modem" crossover for
 connecting a terminal to a PC. 
 
-| MMJ RS-232 name | MMJ Pin | DE-9 pin           | DE-9 RS-232 name                                    |
-|-----------------|---------|--------------------|-----------------------------------------------------|
-| DTR             | 1       | 4                  | Data Terminal Ready                                 |
-| Tx+             | 2       | 3                  | Transmit Data                                       |
-| Tx-</br>Rx-     | 3<br/>4 | 5                  | Ground                                              |
-| Rx+             | 5       | 3                  | Receive Data                                        |
-| DSR             | 6       | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
+| MMJ<br/>RS-232 name | MMJ<br/>Pin | DE-9<br/>pin       | DE-9<br/>RS-232 name                                |
+|--------------------:|:-----------:|:------------------:|-----------------------------------------------------|
+|                 DTR | 1           | 4                  | Data Terminal Ready                                 |
+|                 Tx+ | 2           | 3                  | Transmit Data                                       |
+|         Tx-</br>Rx- | 3<br/>4     | 5                  | Ground                                              |
+|                 Rx+ | 5           | 3                  | Receive Data                                        |
+|                 DSR | 6           | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
 
 
 
