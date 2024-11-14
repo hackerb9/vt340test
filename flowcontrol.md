@@ -1,7 +1,7 @@
 # Flow control on the VT340
 
 Summary: VT340 can only do XON/XOFF flow control. Some USB serial
-devices cannot do that.
+devices cannot do that. Purchasing an FTDI UART is recommended.
 
 ## Flow control overview
 
@@ -43,26 +43,30 @@ from a burst of only 0.84 seconds!
 ### The two flavors: hardware and software flow control
 
 There are two kinds of flow control. Hardware flow control (sometimes
-known as "RTS/CTS") and software flowcontrol (more commonly referred
-to as "XON/XOFF"). 
+known as "RTS/CTS") and software flow control (more commonly referred
+to as "XON/XOFF").
 
-Hardware flow control uses physical hardware wires to signal whether a
-machine is ready to receive data or not. Is better supported by modern
-computers, is more reliable, faster, and unsupported by the VT340.
+* **Hardware flow control** uses physical hardware wires to signal
+  whether a machine is ready to receive data or not. It is better
+  supported by modern computers, more reliable, faster, and
+  unfortunately unsupported by the VT340.
 
-Software flow control is less reliable, uses up a couple of the keys
-(Ctrl+S, Ctrl+Q), slower and is the only method the VT340 has to
-prevent buffer overruns.
+* **Software flow control** is generally less reliable, runs slower,
+  and uses up a couple of the keys (Ctrl+S, Ctrl+Q). It is the only
+  method the VT340 has to prevent buffer overruns. Fortunately (?) the
+  VT340's maximum speed is 19,200 bits per second, which is slow
+  enough that software flow control will work, presuming the host
+  computer's serial port has the right hardware. (See below.)
 
-|                                                 | Hardware Flow Control<br/>(RTS/CTS) | Software Flow Control<br/>(XON/XOFF)  |
-|-------------------------------------------------|-------------------------------------|---------------------------------------|
-| VT340 support                                   | No                                  | Yes                                   |
-| Modern computer hardware support                | Yes                                 | Not on some USB serial adapters       |
-| Signal VT340 uses to ask host to stop sending   | Deasserts RTS pin                   | Sends XOFF character, aka DC3, aka ^S |
-| Signal VT340 uses to ask host to resume sending | Asserts RTS pin                     | Sends XON character, aka DC1, aka ^Q  |
-| Transparent to data?                            | Yes                                 | No, consumes ^S and ^Q                |
-| Works over ssh                                  | Yes                                 | Not by default                        |
-| Speed                                           | Fast                                | Slow                                  |
+|                                                    | Hardware Flow Control<br/>(RTS/CTS) | Software Flow Control<br/>(XON/XOFF)  |
+|----------------------------------------------------|-------------------------------------|---------------------------------------|
+| VT340 terminal support                             | No                                  | Yes                                   |
+| Modern computer hardware support                   | Yes                                 | Requires "on chip" XON/XOFF in UART   |
+| Signal terminal uses to ask host to stop sending   | Deasserts RTS pin                   | Sends XOFF character, aka DC3, aka ^S |
+| Signal terminal uses to ask host to resume sending | Asserts RTS pin                     | Sends XON character, aka DC1, aka ^Q  |
+| Transparent to data?                               | Yes                                 | No, consumes ^S and ^Q                |
+| Works over ssh                                     | Yes                                 | Not by default                        |
+| Speed                                              | Fast                                | Slow, but fast enough for the VT340   |
 
 ## XON/XOFF ALL THE TIME
 
@@ -70,13 +74,14 @@ Normally the VT340 is in XON/XOFF mode (software flow control) and it
 is not possible to type ^S or ^Q (Ctrl+S or Ctrl+Q) from the keyboard
 as they simply toggle the Hold Screen. However, XON/XOFF can be
 disabled from the Communication Set-Up menu by changing the "Receive
-XOFF Point" to "Never". However, since the VT340 appears to lack
-hardware flow control, this will almost assuredly lead to garbled
-screens.
+XOFF Point" to "Never". However, since the VT340 lacks hardware flow
+control, this is not a good idea and will almost assuredly lead to
+garbled screens.
 
 Even with XON/XOFF enabled on the VT340, garbling can still occur if
-the other end (the PC's serial port) does not support hardware
-XON/XOFF or if the system takes longer than 50ms to respond to XOFF.
+the other end (your PC's serial port) does not support hardware
+XON/XOFF or if the system takes longer than 50ms to respond to XOFF
+(unlikely with modern computers).
 
 <details><summary>Sidenote about propagation delay</summary>
 
@@ -92,9 +97,9 @@ surprisingly low for a buffer of 1024 bytes.
 </details>
 
 
-## Hardware for "Software" Flowcontrol
+## Hardware XON/XOFF for "Software" Flowcontrol
 
-TL;DR: USB Serial Ports are not all equal.
+TL;DR: USB Serial Ports are not all equal. FTDI usually works.
 
 When hackerb9 first got a VT340, it was a puzzle why it could only
 connect at 9600 baud. At 19200, even with XON/XOFF flow control
@@ -103,35 +108,38 @@ question marks indicating that characters were getting dropped.
 
 What was going on? Propagation delay? Termios buffer flushing? Many
 esoteric topics were researched and W. Richard Stevens' weighty tome
-digested and disected. Teeth were gnashed. Hair was pulled.
+disected and digested. Teeth were gnashed, hair pulled, kernels
+recompiled.
 
 Turns out, some USB serial adapters _do not support xon/xoff flow
-control_ in hardware (the UART chip). Hackerb9 tested four brands of
-USB serial ports, two of which failed and two which worked:
+control_ in hardware (the UART chip). Hackerb9 tested five brands
+of USB serial ports, three of which failed and two which worked:
 
-| Brand      | Model  | Kernel Driver | Works |
-|------------|--------|---------------|-------|
-| Belkin     | F5U109 | mct\_u232     | no    |
-| Targus     | ACP50  | mct\_u232     | no    |
-| Kensington | K33232 | pl2303        | YES   |
-| FTDI       | FT232R | ftdi_sio      | YES   |
+| Brand      | Model  | Kernel Driver | Works at 19200 |
+|------------|--------|---------------|----------------|
+| Belkin     | F5U109 | mct\_u232     | no             |
+| Targus     | ACP50  | mct\_u232     | no             |
+| Kensington | K33232 | pl2303        | YES            |
+| Generic    | None   | pl2303?       | no             |
+| FTDI       | FT232R | ftdi_sio      | YES            |
 
-Serial adapters which contain FTDI branded UARTs, such as the FT232R
-and FT232BM, are more likely to work as they are advertised as
-supporting "on chip" ("automatic") XON/XOFF. Prolific branded chips,
-such as the PL2303, may or may not work. It is not recommended to buy
-the exact Kensington device listed here since it is an extremely old
-and large port replicator. However, the chip which is inside of it is
-Prolific Technology Inc's pl2303 (USB Vendor=067b, Product=2303). You
-can search for 067b:2303 and see what devices have that chip in it.
+Serial adapters which contain FTDI branded UARTs, such as the
+**FT232R** and **FT232BM**, are more likely to work as they are
+advertised as supporting "on chip" ("automatic") XON/XOFF.
+
+Prolific branded chips may or may not work but tend to be cheaper. The
+chip which is inside the Kensington device is Prolific Technology
+Inc's **pl2303** (USB Vendor=067b, Product=2303). The generic USB
+serial cable also claims to have a pl2303 ("067b:2303"), but is likely
+a knock-off as it locks up when `stty ixon` is run.
 
 ## Hardware flow control
 
-Hardware flow control is apparently not possible with the VT340
-firmware, although it does have the hardware lines necessary. Even on
-the 6 wire DEC423 connectors, DTR/DSR are available and could
-theoretically be wired to RTS/CTS on the host's serial port, presuming
-the VT340 firmware was updated.
+Hardware flow control is possible with the VT340's firmware, although
+the schematic shows it does have the hardware lines necessary. Even on
+the DEC423 connectors, with only 6 wires, DTR/DSR are available and
+could theoretically be wired to RTS/CTS on the host's serial port,
+presuming the VT340 firmware was updated.
 
 See also: [DEC423 Wiring](mmj.md).
 
@@ -160,3 +168,7 @@ Although not as important, it is not even clear that it pays any
 attention to CTS, or if it just transmits bytes willy-nilly.
 
 
+## See also
+
+The VT340's DEC423 MMJ connector pinout and cable wiring is discussed
+more fully at [mmj.md](mmj.md).
