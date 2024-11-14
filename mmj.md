@@ -40,14 +40,13 @@ MMJ device using just a single cable. Since both the VT340 and a
 typical PC serial port are "DTE", some of the wires need to crossover
 as a null modem would do.
 
-|     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |        |
-|--------------------:|--------:|:-:|:---------|----------------------------------|--------|
-| Data Terminal Ready |       1 | → | 8<br/>1  | Clear To Send<br/>Carrier Detect | White  |
-|       Transmit Data |       2 | → | 2<br/>   | Receive Data                     | Black  |
-|              Ground |       3 | — | 5<br/>   | Ground                           | Red    |
-|              Ground |       4 | — | 5<br/>   | Ground                           | Green  |
-|        Receive Data |       5 | ← | 3<br/>   | Transmit Data                    | Yellow |
-|      Data Set Ready |       6 | ← | 7<br/>   | Request To Send                  | Blue   |
+|     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
+|--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
+| Data Terminal Ready |       1 | → | 8<br/>1  | Clear To Send<br/>Carrier Detect | White         |
+|       Transmit Data |       2 | → | 2        | Receive Data                     | Black         |
+|              Ground | 3<br/>4 | — | 5        | Ground                           | Red<br/>Green |
+|        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
+|      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
 
 <sub><i>
 
@@ -60,8 +59,8 @@ programs like `less` and `mesg` would hang forever on open of
 </i></sub>
 
 Even without hardware flow control, this wiring works well for
-communication. The words you are reading are flowing from the VT340
-over a standard DECconnect "BC16E" cable, through such a connector, to
+communication. The words you are reading are flowing from a VT340
+over a standard DECconnect "BC16E" cable, through this connector, to a
 UNIX host's serial port. _Caveat: Some USB to RS232 serial adapters
 lack "on-chip XON/XOFF" and will cause dropped characters. See below
 for details._
