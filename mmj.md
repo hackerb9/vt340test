@@ -49,7 +49,7 @@ as a null modem would do.
 | Receive Data        | 5       | ← 3<br/> | Transmit Data                    | Yellow |
 | Data Set Ready      | 6       | ← 7<br/> | Request To Send                  | Blue   |
 
-<ul><sub><i>
+<sub><i>
 
 Note: This connects pins 8 and 1 on the DE-9 so that the host computer
 always sees the VT340 as present (carrier detect). Without this,
@@ -57,7 +57,7 @@ programs like `less` and `mesg` would hang forever on open of
 /dev/tty. A software fix, if you have such a cable, is to run
 `stty clocal`.
 
-</i></sub></ul>
+</i></sub>
 
 Even without hardware flow control, this wiring works well for
 communication. The words you are reading are flowing from the VT340
@@ -180,7 +180,7 @@ connecting a terminal to a PC.
 
 ----------------------------------------------------------------------
 
-# Question H4 From the Digital Unix FAQ
+## Question H4 From the Digital Unix FAQ
 
 <blockquote>
 
