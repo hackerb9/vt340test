@@ -3,14 +3,15 @@
 The VT340 has a standard RS-232 DB-25 connector only for its first
 communication port. The second communication port and printer port
 require a DEC-423 connection — colloquially known as "MMJ", Modified
-Modular Jack. 
+Modular Jack and referred to by marketing as "DECconnect". 
 
-<!-- XXX TODO: Put image of back panel here with arrow to MMJ]. -->
+<!-- XXX TODO: Put image of back panel here with arrow to MMJ and -->
+<!-- showing synonyms: MMJ, DEC-423, DECconnect. -->
 
-(The first communication port can be used with either DB-25 or
-DEC-423.)
+(The first communication port also has a DEC-423 port which can be
+used instead of DB-25.)
 
-## Why DEC 423 is nifty
+## Why DECconnect is nifty
 
 * Simple "telephone" line cable
 * Connect any two devices with that one cable (no more messing with
@@ -19,7 +20,7 @@ DEC-423.)
 * Based on EIA-423-D, so cables can be much longer than RS-232
 * Backwards compatible with RS-232 signals
 
-## MMJ to DB9F Adapter
+## MMJ to DE-9F Adapter
 
 Since modern computers don't use MMJ, you'll need a female DE-9 RS-232
 to MMJ socket adapter. According to [Lammert Bies][lammert] the DEC
@@ -29,8 +30,8 @@ model number for this adapter is **H8571-J**.
 
 <!-- XXX TODO: Insert picture of adapter here. -->
 
-However, DEC's wiring requires an additional null modem to work
-properly which is slightly annoying.
+However, that adapter's wiring requires an additional null modem to
+work properly, losing one of the advantages of DECconnect.
 
 ## Hackerb9's Suggestion for DE-9 to DEC423 Wiring
 
@@ -59,11 +60,11 @@ programs like `less` and `mesg` would hang forever on open of
 </i></sub>
 
 Even without hardware flow control, this wiring works well for
-communication. The words you are reading are flowing from a VT340
-over a standard DECconnect "BC16E" cable, through this connector, to a
-UNIX host's serial port. _Caveat: Some USB to RS232 serial adapters
-lack "on-chip XON/XOFF" and will cause dropped characters. See below
-for details._
+communication. The words you are reading are flowing from a VT340,
+over a standard DECconnect "BC16E" cable, through this wiring of MMJ
+to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB to
+RS232 serial adapters lack "on-chip XON/XOFF" and will cause dropped
+characters. See below for details._
 
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
@@ -98,6 +99,9 @@ the same thing from other suppliers, but I cannot vouch for them.
   [connectzone]: https://www.connectzone.com/ma-09fd.html
 
 
+<!-- Note that when assembling, if you follow hackerb9's schematic, you'll
+need to cut and splice one of the female D-Sub pins. See the [assembly
+instructions](mmj-db9f-assembly.md) for details. -->
 
 
 ## More pinouts
