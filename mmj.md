@@ -38,43 +38,53 @@ work properly, losing one of the advantages of DECconnect.
 Here's how hackerb9 wired up a 9-pin female to DEC-423 connector so
 that, like original DEC equipment, the PC can now be plugged into any
 MMJ device using just a single cable. Since both the VT340 and a
-typical PC serial port are "DTE", some of the wires need to crossover
-as a null modem would do.
+typical PC serial port are "DTE", some of the wires crossover, similar
+to how a null modem would do it.
 
 |     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
 |--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
-| Data Terminal Ready |       1 | → | 8<br/>1  | Clear To Send<br/>Carrier Detect | White         |
+| Data Terminal Ready |       1 | → | 1<br/>6<br/>8  | Carrier Detect</br/>Data Set Ready<br/>Clear To Send | White         |
 |       Transmit Data |       2 | → | 2        | Receive Data                     | Black         |
 |              Ground | 3<br/>4 | — | 5        | Ground                           | Red<br/>Green |
 |        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
 |      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
 
-<sub><i>
-
-Note: This connects pins 8 and 1 on the DE-9 so that the host computer
-always sees the VT340 as present (carrier detect). Without this,
+<sub><i> j Note: On the DE-9 end of the adapter there is a small
+problem since unassembled kits come with only six DSub female pins.
+That means only two of pins 1, 6, and 8 can be connected. Perhaps the
+most important of those is pin 1 (Carrier Detect) as without it,
 programs like `less` and `mesg` would hang forever on open of
-/dev/tty. A software fix, if you have such a cable, is to run
-`stty clocal`.
+/dev/tty. A software fix, if you have such a cable, is to run `stty
+clocal`. 
+
+Pin 8 (Clear To Send) is also useful as it is common for modern
+systems to presume hardware flow control (even though the VT340 does
+not have it). Pin 6 (Data Set Ready) is least important as [UNIX
+systems have ignored it for eons][UWR870] in favor of Carrier Detect
+(Pin 1). For more considerations, see the [Linux Text Terminal
+Howto][TLDPTTH].
 
 </i></sub>
 
-Even without hardware flow control, this wiring works well for
-communication. The words you are reading are flowing from a VT340,
-over a standard DECconnect "BC16E" cable, through this wiring of MMJ
-to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB to
-RS232 serial adapters lack "on-chip XON/XOFF" and will cause dropped
+  UWR870: https://www.washington.edu/R870/TerminalsModems.html
+  TLDPTTH: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
+
+Despite the VT340 lacking hardware flow control, this wiring works
+well for communication. The words you are reading are flowing from a
+VT340, over a standard DECconnect "BC16E" cable, through this MMJ to
+DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB to RS232
+serial adapters lack "on-chip XON/XOFF" and will cause dropped
 characters. See [flowcontrol.md](flowcontrol.md) for details._
 
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
 
-Most of the MMJ-DB9F adapters I've seen for sale online come with the
-pins disconnected so you can choose how you wish to wire it.
+Most of the MMJ-DB9F adapters sale online come with the pins
+disconnected so you can choose how you wish to wire it.
 
-I purchased mine from Pacific Cable (part no. AD-9FT6-G1D), but [their
+Hackerb9 ordered from Pacific Cable (part no. AD-9FT6-G1D), but [their
 website](https://pacificcable.com) is down. It looks like you can get
-the same thing from other suppliers, but I cannot vouch for them.
+the same thing from other suppliers, but no promises.
 
 * [L-Com Item # REC096FD][lcom].<br/>
   _($14 each + $10 shipping in the US as of 2024)._
@@ -88,8 +98,12 @@ the same thing from other suppliers, but I cannot vouch for them.
 * [Connect Zone SKU MA-09FD][connectzone].<br/>
   _($5 each + $10 shipping in the US as of 2024)_
   
-  I'm not sure Connect Zone still exists as their website is suffering
-  badly from bitrot. 
+  <sub>
+  
+  Connect Zone may no longer be in business as their website is
+  suffering badly from bitrot.
+  
+  </sub>
   
   
   [lcom]: https://www.l-com.com/ethernet-modular-adapter-db9-female-mmj-6x6-jack-50%C2%B5-gold
@@ -163,6 +177,35 @@ purchased an MMJ crimper and a bag of MMJ plugs to make BC16E cables
 out of ordinary 6-wire telephone cable.
 
 <!-- XXX TODO: Insert picture of crimper and MMJ plugs. -->
+
+----------------------------------------------------------------------
+
+
+### Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control
+
+The Linux Documentation Project has a pinout very similar to the one
+hackerb9 suggests. It connects more pins which may be useful for a
+persnickety (non-Linux) server. It also loops back the Request to Send
+(RTS) signal from the PC back into the Carrier Detect (CD) and Data
+Terminal Ready (DTR) pins. This seems like a mistake as RTS and DTR
+are both _outputs_ pins and one could fry the serial port if they
+disagree about what voltage to set the line.
+
+His schematic is:
+
+	  DEC MMJ                            Linux PC DB9
+	Pin  Signal                           Signal  Pin
+	===  ======                           ======  ===
+	 1    DTR -----------------------|---> DSR     6
+									 |---> CTS     8
+	 2    TxD ---------------------------> RxD     2
+	 3    SG (TxD)--------------------|--- SG      5
+	 4    SG (RxD)--------------------|
+	 5    RxD <--------------------------- TxD     3
+	 6    DSR <-----------------------|--- RTS     7
+									  |--> DTR !?  4
+									  |--> CD      1
+						   (no connection) RI      9
 
 
 ### DEC H8571-J adapter: PC RS232 serial port to MMJ, straight
