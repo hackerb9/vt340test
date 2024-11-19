@@ -44,7 +44,7 @@ serial port are "DTE", some wires crossover as with a null modem.
 
 |     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
 |--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
-| Data Terminal Ready |       1 | → | 1<br/>6<br/>8  | Carrier Detect</br/>Data Set Ready<br/>Clear To Send | White         |
+| Data Terminal Ready |       1 | → | 1<br/>6<br/>8  | Carrier Detect<br/>Data Set Ready<br/>Clear To Send | White         |
 |       Transmit Data |       2 | → | 2        | Receive Data                     | Black         |
 |              Ground | 3<br/>4 | — | 5        | Ground                           | Red<br/>Green |
 |        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
