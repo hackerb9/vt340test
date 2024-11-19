@@ -1,17 +1,20 @@
-# DEC 423 (MMJ) Serial Port Pinout and Wiring
+# MMJ (DEC 423) Serial Port Pinout and Wiring
 
-The VT340 has a standard RS-232 DB-25 connector only for its first
-communication port. The second communication port and printer port
-require a DEC-423 connection — colloquially known as "MMJ", Modified
-Modular Jack and referred to by marketing as "DECconnect". 
+The VT340 has three MMJ ("Modified Modular Jack") ports: the first and
+second communication port and the printer port. Officially it is
+called "DEC-423" or "DECconnect", but colloquially and most commonly
+it is MMJ.
 
 <!-- XXX TODO: Put image of back panel here with arrow to MMJ and -->
 <!-- showing synonyms: MMJ, DEC-423, DECconnect. -->
 
-(The first communication port also has a DEC-423 port which can be
-used instead of DB-25.)
+Note that MMJ is not required as the VT340 also has a standard RS-232
+DB-25 connector which can be configured in the VT340 Setup menu to map
+to the first communication port. However, to get the most of your
+VT340, including dual sessions and printing graphics, you'll need MMJ
+cables.
 
-## Why DECconnect is nifty
+## Why MMJ is nifty
 
 * Simple "telephone" line cable
 * Connect any two devices with that one cable (no more messing with
@@ -30,16 +33,15 @@ model number for this adapter is **H8571-J**.
 
 <!-- XXX TODO: Insert picture of adapter here. -->
 
-However, that adapter's wiring requires an additional null modem to
-work properly, losing one of the advantages of DECconnect.
+However, that adapter's wiring (see below) requires an additional null
+modem to work properly, losing one of the advantages of using MMJ.
 
-## Hackerb9's Suggestion for DE-9 to DEC423 Wiring
+## Hackerb9's Suggestion for DE-9 to MMJ Wiring
 
-Here's how hackerb9 wired up a 9-pin female to DEC-423 connector so
-that, like original DEC equipment, the PC can now be plugged into any
-MMJ device using just a single cable. Since both the VT340 and a
-typical PC serial port are "DTE", some of the wires crossover, similar
-to how a null modem would do it.
+Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
+like original DEC equipment, a PC can be plugged into any MMJ device
+using just a single cable. Since both the VT340 and a typical PC
+serial port are "DTE", some wires crossover as with a null modem.
 
 |     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
 |--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
@@ -71,10 +73,10 @@ Howto][TLDPTTH].
 
 Despite the VT340 lacking hardware flow control, this wiring works
 well for communication. The words you are reading are flowing from a
-VT340, over a standard DECconnect "BC16E" cable, through this MMJ to
-DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB to RS232
-serial adapters lack "on-chip XON/XOFF" and will cause dropped
-characters. See [flowcontrol.md](flowcontrol.md) for details._
+VT340, over a standard "DEC-423 BC16E" cable, through this homemade
+MMJ to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB
+to RS232 serial adapters lack "on-chip XON/XOFF" and will cause
+dropped characters. See [flowcontrol.md](flowcontrol.md) for details._
 
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
@@ -153,12 +155,12 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
 | 5       | Rx+          | RxD       | Yellow             | 3     |
 | 6       | Rdy In       | DSR & DCD | Blue               | 6 & 8 |
 
-Note: wire color gets flipped on one plug since DEC 423 uses
+Note: wire color gets flipped on one plug since DEC-423 always uses
 crossover cables.
 
-### BC16E DEC 423 Cable
+### BC16E DEC-423 Cable
 
-This is the standard MMJ connection cable. 
+This is DEC's official MMJ cable. 
 
 <!-- XXX TODO: Insert picture of BC16E cable. -->
 
@@ -184,35 +186,37 @@ out of ordinary 6-wire telephone cable.
 ### Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control
 
 The Linux Documentation Project has a pinout very similar to the one
-hackerb9 suggests. It connects more pins which may be useful for a
-persnickety (non-Linux) server. It also loops back the Request to Send
-(RTS) signal from the PC back into the Carrier Detect (CD) and Data
-Terminal Ready (DTR) pins. This seems like a mistake as RTS and DTR
-are both _outputs_ pins and one could fry the serial port if they
+hackerb9 suggests above. It additionally loops back the Request to
+Send (RTS) signal from the PC back into the Carrier Detect (CD) and
+Data Terminal Ready (DTR) pins. This seems like a mistake as RTS and
+DTR are both _outputs_ pins and one could fry the serial port if they
 disagree about what voltage to set the line.
 
 His schematic is:
 
-	  DEC MMJ                            Linux PC DB9
-	Pin  Signal                           Signal  Pin
-	===  ======                           ======  ===
-	 1    DTR -----------------------|---> DSR     6
-									 |---> CTS     8
-	 2    TxD ---------------------------> RxD     2
-	 3    SG (TxD)--------------------|--- SG      5
-	 4    SG (RxD)--------------------|
-	 5    RxD <--------------------------- TxD     3
-	 6    DSR <-----------------------|--- RTS     7
-									  |--> DTR !?  4
-									  |--> CD      1
-						   (no connection) RI      9
+      DEC MMJ                            Linux PC DB9
+    Pin  Signal                           Signal  Pin
+    ===  ======                           ======  ===
+     1    DTR -----------------------|---> DSR     6
+                                     |---> CTS     8
+     2    TxD ---------------------------> RxD     2
+     3    SG (TxD)--------------------|--- SG      5
+     4    SG (RxD)--------------------|
+     5    RxD <--------------------------- TxD     3
+     6    DSR <-----------------------|--- RTS     7
+                                      |--> DTR !?  4
+                                      |--> CD      1
+                           (no connection) RI      9
+
+Hackerb9 does NOT RECOMMENDED this cable due to the possibility of
+hardware damage.
 
 
 ### DEC H8571-J adapter: PC RS232 serial port to MMJ, straight
 
-While externally this looks the same as hackerb9's suggested dongle
-above, this does not include the necessary "null modem" crossover for
-connecting a terminal to a PC. 
+DEC's official MMJ to DE-9 adapter. While physically this looks the
+same as hackerb9's suggested dongle above, the wiring does not include
+the necessary "null modem" crossover for connecting a VT340 to a PC.
 
 | MMJ<br/>RS-232 name | MMJ<br/>Pin | DE-9<br/>pin       | DE-9<br/>RS-232 name                                |
 |--------------------:|:-----------:|:------------------:|-----------------------------------------------------|
@@ -221,7 +225,6 @@ connecting a terminal to a PC.
 |         Tx-</br>Rx- | 3<br/>4     | 5                  | Ground                                              |
 |                 Rx+ | 5           | 3                  | Receive Data                                        |
 |                 DSR | 6           | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
-
 
 
 ----------------------------------------------------------------------
