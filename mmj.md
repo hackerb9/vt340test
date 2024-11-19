@@ -1,18 +1,17 @@
-# MMJ (DEC 423) Serial Port Pinout and Wiring
+# MMJ: DEC's Modified Modular Jack
 
-The VT340 has three MMJ ("Modified Modular Jack") ports: the first and
-second communication port and the printer port. Officially it is
-called "DEC-423" or "DECconnect", but colloquially and most commonly
-it is MMJ.
+The VT340 has three MMJ ports: the first and second communication
+ports and the printer port. Officially it is called "DEC-423" or
+"DECconnect", but colloquially and most commonly it is "MMJ".
 
 <!-- XXX TODO: Put image of back panel here with arrow to MMJ and -->
 <!-- showing synonyms: MMJ, DEC-423, DECconnect. -->
 
-Note that MMJ is not required as the VT340 also has a standard RS-232
-DB-25 connector which can be configured in the VT340 Setup menu to map
-to the first communication port. However, to get the most of your
-VT340, including dual sessions and printing graphics, you'll need MMJ
-cables.
+Note that using MMJ is not strictly required as the VT340 also has a
+standard RS-232 DB-25 connector which can be configured in the VT340
+Setup menu to map to the first communication port. However, to get the
+most of your VT340, including dual sessions, serial input of
+keystrokes, and printing graphics, you'll want MMJ cables.
 
 ## Why MMJ is nifty
 
