@@ -50,25 +50,24 @@ serial port are "DTE", some wires crossover as with a null modem.
 |        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
 |      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
 
-<sub><i> j Note: On the DE-9 end of the adapter there is a small
-problem since unassembled kits come with only six DSub female pins.
-That means only two of pins 1, 6, and 8 can be connected. Perhaps the
-most important of those is pin 1 (Carrier Detect) as without it,
-programs like `less` and `mesg` would hang forever on open of
-/dev/tty. A software fix, if you have such a cable, is to run `stty
-clocal`. 
+<sub><i> 
 
-Pin 8 (Clear To Send) is also useful as it is common for modern
-systems to presume hardware flow control (even though the VT340 does
-not have it). Pin 6 (Data Set Ready) is least important as [UNIX
-systems have ignored it for eons][UWR870] in favor of Carrier Detect
-(Pin 1). For more considerations, see the [Linux Text Terminal
-Howto][TLDPTTH].
+Note: On the DE-9 end of the adapter there is a small problem since
+unassembled kits come with only six DSub female pins. That means only
+two of pins 1, 6, and 8 can be connected. Perhaps the most important
+of those is pin 1 (Carrier Detect) as without it programs like `less`
+and `mesg` would hang forever on open of /dev/tty. A software fix, if
+you have such a cable, is to run `stty clocal`. Pin 8 (Clear To Send)
+is also useful as it is common for modern systems to presume hardware
+flow control (even though the VT340 does not have it). Pin 6 (Data Set
+Ready) is least important as [UNIX systems have ignored it for
+eons][UWR870] in favor of Carrier Detect (Pin 1). For more
+considerations, see the [Linux Text Terminal Howto][TLDPTTH].
 
 </i></sub>
 
-  UWR870: https://www.washington.edu/R870/TerminalsModems.html
-  TLDPTTH: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
+  [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
+  [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
 
 Despite the VT340 lacking hardware flow control, this wiring works
 well for communication. The words you are reading are flowing from a
