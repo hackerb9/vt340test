@@ -64,7 +64,7 @@ communication. The words you are reading are flowing from a VT340,
 over a standard DECconnect "BC16E" cable, through this wiring of MMJ
 to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB to
 RS232 serial adapters lack "on-chip XON/XOFF" and will cause dropped
-characters. See below for details._
+characters. See [flowcontrol.md](flowcontrol.md) for details._
 
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
