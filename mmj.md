@@ -50,7 +50,7 @@ serial port are "DTE", some wires crossover as with a null modem.
 |        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
 |      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
 
-<ul><sub><i> 
+<sub><i> 
 
 Note: On the DE-9 end of the adapter there is a small problem since
 unassembled kits come with only six DSub female pins. That means only
@@ -64,7 +64,7 @@ Ready) is least important as [UNIX systems have ignored it for
 eons][UWR870] in favor of Carrier Detect (Pin 1). For more
 considerations, see the [Linux Text Terminal Howto][TLDPTTH].
 
-</i></sub></ul>
+</i></sub>
 
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
   [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
