@@ -35,15 +35,20 @@ Output from [showcolortable.sh](showcolortable.sh)
 
 </sup></i></ul>
 
+The colors for each index are _not_ fixed and can be selected from a
+palette of 4096 by sending a ReGIS escape sequence. E.g., to change
+the foreground text color to "dark orchid" (Hue 40°, Lightness 50%,
+Saturation 60%), set color index 7: `␛P0pS(M7(AH40L50s60))␛\` .
+
 ## Documentation differs
 
-<details><summary>Click to see minor differences with the VT340 documentation</summary>
+<details><summary>Click to see minor differences with the VT340 documentation</summary><ul>
 
-Note that the above table contains the _actual_ values retrieved from a
-VT340+ after doing a factory reset of the settings. Almost all values
-have slightly lower lightness or saturation than what is printed in
-the manual. Most significantly, the foreground color (7) in the manual
-is listed as 53% (#878787) in the manual, but in reality it is 46%
+Note that the above table contains the _actual_ values retrieved from
+a VT340+ after doing a factory reset of the settings. Almost all
+values have slightly lower lightness or saturation than what is
+printed in the manual. Most significantly, the foreground color (7) is
+listed as 53% (#878787) in the manual, but in reality it is 46%
 (#757575). Perhaps in an earlier firmware revision it did match the
 manual. At some point, it seems it was decided, for every color except
 the foreground, to subtract 1 from the percent saturation and subtract
@@ -73,7 +78,7 @@ Index	 H   	  L	    S
 15     	 0   	 80 -1      0
 ```
 
-</details>
+</ul></details>
 
 
 ## Connection between text attributes and colormap
@@ -87,21 +92,52 @@ colors in the colormap: 0, 7, 8, and 15.
 | Background | 0           | Background screen  | Black         |
 | Foreground | 7           | Normal text        | Medium gray   |
 | Bright     | 15          | Bold text          | Light gray    |
-| Blink      | 8           | Bold+Blinking text | Dark gray     |
+| Dim        | 8           | Bold+Blinking text | Dark gray     |
 
 For example, sending the ANSI escape sequence for **bold** text,
-`␛[1m`, uses color number 15 as the foreground instead of 7.
-Conversely, to change the bold text color on a VT340, set color
-index 15 using ReGIS: `␛P0pS(M15(AH60L80s60))␛\`
+`␛[1m`, uses color number 15 as the foreground instead of 7. 
+
+|               Attributes | Foreground | Background | Escape Sequence |
+|-------------------------:|------------|------------|-----------------|
+|                   Normal | 7          | 0          | `␛[0m`          |
+|                     Bold | 15         | 0          | `␛[1m`          |
+|                  Reverse | 0          | 7          | `␛[7m`          |
+|             Reverse Bold | 0          | 15         | `␛[1;7m`        |
+|              Blink (off) | 7          | 0          | `␛[5m`          |
+|                   " (on) | 0          | 7          | "               |
+
+<ul><i><sup>Note that the _Underline_ character attribute (`␛[5m`) is not
+mentioned in this table because the VT340 renders it as an actual
+underline, not via color.</sup></i></ul>
+
+Since character attributes are just indices in the colormap, any of
+the text attributes can be set to any desired color, but doing so will
+change _all_ text on the screen that has that attribute. (But,
+compare: [faketextcolor.md](../regis/faketextcolor.md).)
+
+To change all bold text to "goldenrod" (Hue 180°, Lightness 65%,
+Saturation 60%), set color index 15: `␛P0pS(M15(AH180L65S60))␛\` .
 
 Note that this color map is shared with sixel and ReGIS graphics,
-which means displaying images can mess up text legibility. Although
-DEC has mitigated that somewhat by making sixel's access to the
-colormap indirect and by starting at index 1: The first six bitmap
-colors used do not affect the text. The seventh color in the image
-changes the foreground (index 7) and only an image which needs all 16
-colors will wrap all the way back to index 0 and modify the
-background.
+which means displaying images can mess up text legibility. (See
+[Resetting the colormap](Resetting-the-colormap). 
+
+<details><summary>Click to see DEC's undocumented sixel colormap kludge</summary><ul>
+
+Although not documented anywhere, DEC appears to have attempted to
+mitigate the problem of illegible text by making sixel's access to the
+colormap indirect: the specific color index numbers used in a sixel
+bitmap are ignored and instead only the order they are defined
+matters. The first sixel color is assigned to index 1, not 0, thus a
+bitmap can have up to six colors and not affect the text. The seventh
+color in the image changes the foreground (index 7) and only an image
+which needs all 16 colors will wrap all the way back to index 0 and
+modify the background.
+
+This is, of course, a hideous kludge, but it almost never matters
+since one typically uses ReGIS for direct access to the colormap.
+
+</ul></details>
 
 The VT340's Bold+Blink rendering is peculiar (15/0 alternating with 8/7). 
 (See [Character attributes in combination](#Character-attributes-in-combination) below.)
@@ -120,7 +156,7 @@ the builtin Color Set-up by pressing these keys on a VT340 keyboard:
 <kbd>Set-Up</kbd>
 </ul>
 
-Also see: [colorreset.md](colorreset.md).
+For more details, please see: [colorreset.md](colorreset.md).
 
 
 ## Character attributes in combination
@@ -137,6 +173,8 @@ shows Bold text (15 on 0) alternating with Blink+Bold text (8 on 7).
 This is the only time that hackerb9 has found the VT340 using color
 number 8 for text attributes.
 
+Extending the table from above, we get:
+
 |               Attributes | Foreground | Background | Escape Sequence |
 |-------------------------:|------------|------------|-----------------|
 |                   Normal | 7          | 0          | `␛[0m`          |
@@ -149,10 +187,6 @@ number 8 for text attributes.
 |                   " (on) | 8          | 7          | "               |
 | Reverse Bold Blink (off) | 0          | 15         | `␛[1;5;7m`      |
 |                   " (on) | 7          | 8          | "               |
-
-Note that the _Underline_ character attribute (`␛[5m`) is not
-mentioned in this table because the VT340 renders it as an actual
-underline, not through color.
 
 ## Inverse colors
 
