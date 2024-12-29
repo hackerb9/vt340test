@@ -76,4 +76,4 @@ echo -n ${ST}			# String Terminator
 #   on defaults" for the color map?
 #
 # * I use the terms "palette", "color table", and "color map" interchangeably.
-#   DEC documentation does that same. Variety is the spice of life.
+#   DEC documentation does the same. Variety is the spice of life.
