@@ -71,12 +71,12 @@ Although the VT340 supports text colors, it is not "ANSI color".
 Instead, it represents some text attributes by using four specific
 colors in the colormap: 0, 7, 8, and 15.
 
-| Style      | Color Index | Used as color for | VT340 Default |
-|------------|-------------|-------------------|---------------|
-| Background | 0           | Background screen | Black         |
-| Foreground | 7           | Normal text       | Medium gray   |
-| Bright     | 15          | Bold text         | Light gray    |
-| Blink      | 8           | Blink+Bold text   | Dark gray     |
+| Style      | Color Index | Used as color for  | VT340 Default |
+|------------|-------------|--------------------|---------------|
+| Background | 0           | Background screen  | Black         |
+| Foreground | 7           | Normal text        | Medium gray   |
+| Bright     | 15          | Bold text          | Light gray    |
+| Blink      | 8           | Bold+Blinking text | Dark gray     |
 
 For example, sending the ANSI escape sequence for **bold** text,
 `␛[1m`, uses color number 15 as the foreground instead of 7.
@@ -86,16 +86,21 @@ index 15 using ReGIS: `␛P0pS(M15(AH60L80s60))␛\`
 Note that this color map is shared with sixel and ReGIS graphics,
 which means displaying images can mess up text legibility. Although
 DEC has mitigated that somewhat by making sixel's access to the
-colormap indirect and by starting at index 1: the first six colors
-used do not affect the text. The seventh color in the image changes
-the foreground (index 7) and only an image which needs all 16 colors
-will wrap all the way back to index 0 and modify the background.
+colormap indirect and by starting at index 1: The first six bitmap
+colors used do not affect the text. The seventh color in the image
+changes the foreground (index 7) and only an image which needs all 16
+colors will wrap all the way back to index 0 and modify the
+background.
+
+The VT340's Bold+Blink rendering is peculiar (15/0 alternating with
+8/7). (See [Character attributes in combination](#Character attributes
+in combination) below.)
 
 ### Resetting the colormap
 
 Since displaying sixel images with 7 or more colors can make text
 unreadable, it would be good if one could reset the colormap without
-being able to see what i on the screen. The easiest way is to use
+being able to see what is on the screen. The simplest way is to use
 the builtin Color Set-up by pressing these keys on a VT340 keyboard:
 
 <ul>
@@ -104,6 +109,8 @@ the builtin Color Set-up by pressing these keys on a VT340 keyboard:
 <kbd>Do</kbd>
 <kbd>Set-Up</kbd>
 </ul>
+
+Also see: [colorreset.md](colorreset.md).
 
 
 ## Character attributes in combination
