@@ -23,17 +23,17 @@
 * These colors are less saturated than colors 1 through 6.
 </sup></i></ul>
 
-<img src="showcolortable.png"/>
+Unlike modern systems, on the VT340, the RGB values range from 0 to
+100 percent in decimal. Another difference is that a Hue angle of 0
+degrees is blue on the VT340, not red.
+
+<img src="showcolortable+trim.png"/>
 
 <ul><i><sup>
 
 Output from [showcolortable.sh](showcolortable.sh)
 
 </sup></i></ul>
-
-Unlike modern systems, on the VT340, the R, G, B values range from 0
-to 100 percent in decimal. Another difference is that a Hue angle of 0
-degrees is blue on the VT340, not red.
 
 ## Documentation differs
 
