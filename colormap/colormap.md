@@ -92,10 +92,8 @@ changes the foreground (index 7) and only an image which needs all 16
 colors will wrap all the way back to index 0 and modify the
 background.
 
-The VT340's Bold+Blink rendering is peculiar (15/0 alternating with
-8/7). (See 
-[Character attributes in combination](#Character attributes in combination)
-below.)
+The VT340's Bold+Blink rendering is peculiar (15/0 alternating with 8/7). 
+(See [Character attributes in combination](#Character-attributes-in-combination) below.)
 
 ### Resetting the colormap
 
