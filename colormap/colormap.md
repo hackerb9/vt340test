@@ -25,11 +25,17 @@
 
 <img src="showcolortable.png"/>
 
-Unlike modern systems, on the VT340, R, G, B range from 0 to 100
-percent in decimal. Another difference is that a Hue angle of 0
+<ul><i><sup>
+Output from [showcolortable.sh](showcolortable.sh)
+</sup></i></ul>
+
+Unlike modern systems, on the VT340, the R, G, B values range from 0
+to 100 percent in decimal. Another difference is that a Hue angle of 0
 degrees is blue on the VT340, not red.
 
 ## Documentation differs
+
+<details><summary>Click to see minor differences with the VT340 documentation</summary>
 
 Note that the above table contains the _actual_ values retrieved from a
 VT340+ after doing a factory reset of the settings. Almost all values
@@ -64,6 +70,9 @@ Index	 H   	  L	    S
 14     	180  	 46        29 -1
 15     	 0   	 80 -1      0
 ```
+
+</details>
+
 
 ## Connection between text attributes and colormap
 
