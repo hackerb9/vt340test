@@ -26,7 +26,9 @@
 <img src="showcolortable.png"/>
 
 <ul><i><sup>
+
 Output from [showcolortable.sh](showcolortable.sh)
+
 </sup></i></ul>
 
 Unlike modern systems, on the VT340, the R, G, B values range from 0
