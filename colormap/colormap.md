@@ -1,5 +1,8 @@
 # VT340 Default Color Map
 
+The pixels on the screen are kept in memory as color indices which map
+to the actual color to display. By default, the colormap looks like this:
+
 | Index |   H |  L |  S |   |  R |  G |  B | Text attribute    | DEC name |
 |-------|----:|---:|---:|---|---:|---:|---:|-------------------|----------|
 | 0     |   0 |  0 |  0 |   |  0 |  0 |  0 | Screen Background | Black    |
@@ -24,8 +27,8 @@
 </sup></i></ul>
 
 Unlike modern systems, on the VT340, the RGB values range from 0 to
-100 percent in decimal. Another difference is that a Hue angle of 0
-degrees is blue on the VT340, not red.
+100 percent in decimal, not 00 to FF in hex. Another difference is
+that a Hue angle of 0 degrees is blue on the VT340, not red.
 
 <img src="showcolortable+trim.png"/>
 
@@ -39,6 +42,10 @@ The colors for each index are _not_ fixed and can be selected from a
 palette of 4096 by sending a ReGIS escape sequence. E.g., to change
 the foreground text color to "dark orchid" (Hue 40°, Lightness 50%,
 Saturation 60%), set color index 7: `␛P0pS(M7(AH40L50s60))␛\` .
+
+Displaying images also changes the color map which can mess up text
+legibility. (See [Resetting the colormap](Resetting-the-colormap).
+
 
 ## Documentation differs
 
@@ -94,6 +101,11 @@ colors in the colormap: 0, 7, 8, and 15.
 | Bright     | 15          | Bold text          | Light gray    |
 | Dim        | 8           | Bold+Blinking text | Dark gray     |
 
+<ul><i><sup>Although color number 8 appears to be for "dim" text, the
+      VT340 does not actually handle Graphic Rendition 2 (ANSI dim).
+	  Perhaps the feature was removed to make room for blinking?
+</sup></i></ul>
+
 For example, sending the ANSI escape sequence for **bold** text,
 `␛[1m`, uses color number 15 as the foreground instead of 7. 
 
@@ -106,21 +118,17 @@ For example, sending the ANSI escape sequence for **bold** text,
 |              Blink (off) | 7          | 0          | `␛[5m`          |
 |                   " (on) | 0          | 7          | "               |
 
-<ul><i><sup>Note that the _Underline_ character attribute (`␛[5m`) is not
+<ul><i><sup>Note that the Underline character attribute (`␛[5m`) is not
 mentioned in this table because the VT340 renders it as an actual
 underline, not via color.</sup></i></ul>
 
-Since character attributes are just indices in the colormap, any of
-the text attributes can be set to any desired color, but doing so will
-change _all_ text on the screen that has that attribute. (But,
-compare: [faketextcolor.md](../regis/faketextcolor.md).)
+Character attributes that are defined as indices in the colormap can
+be set to any desired color by changing the color the index refers to,
+but doing so will change _all_ text on the screen with that attribute.
+(But, compare: [faketextcolor.md](../regis/faketextcolor.md).)
 
 To change all bold text to "goldenrod" (Hue 180°, Lightness 65%,
 Saturation 60%), set color index 15: `␛P0pS(M15(AH180L65S60))␛\` .
-
-Note that this color map is shared with sixel and ReGIS graphics,
-which means displaying images can mess up text legibility. (See
-[Resetting the colormap](Resetting-the-colormap). 
 
 <details><summary>Click to see DEC's undocumented sixel colormap kludge</summary><ul>
 
