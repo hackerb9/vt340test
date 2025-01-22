@@ -44,27 +44,42 @@ serial port are "DTE", some wires crossover as with a null modem.
 
 |     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
 |--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
-| Data Terminal Ready |       1 | → | 1<br/>6<br/>8  | Carrier Detect<br/>Data Set Ready<br/>Clear To Send | White         |
+| Data Terminal Ready |       1 | → | 1<br/>8  | Carrier Detect<br/>Clear To Send | White         |
 |       Transmit Data |       2 | → | 2        | Receive Data                     | Black         |
 |              Ground | 3<br/>4 | — | 5        | Ground                           | Red<br/>Green |
 |        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
 |      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
 
-<sub><i> 
+<ul><i><sub> 
 
-Note: On the DE-9 end of the adapter there is a small problem since
-unassembled kits come with only six DSub female pins. That means only
-two of pins 1, 6, and 8 can be connected. Perhaps the most important
-of those is pin 1 (Carrier Detect) as without it programs like `less`
-and `mesg` would hang forever on open of /dev/tty. A software fix, if
-you have such a cable, is to run `stty clocal`. Pin 8 (Clear To Send)
-is also useful as it is common for modern systems to presume hardware
-flow control (even though the VT340 does not have it). Pin 6 (Data Set
-Ready) is least important as [UNIX systems have ignored it for
-eons][UWR870] in favor of Carrier Detect (Pin 1). For more
-considerations, see the [Linux Text Terminal Howto][TLDPTTH].
+Note: Unassembled adapter kits come with only six DSub female pins.
+Take the spare from joining MMJ 3 and 4 and use it so that MMJ 1 can
+go to both DE-9 pins 1 and 8. 
 
-</i></sub>
+<details><summary>Sub-note</summary>
+
+If there was a seventh DSub female pin it could be used for DE-9 pin 6
+(Data Set Ready), connected to MMJ pin 1 (Data Terminal Ready). It has
+been omitted here in favor of DE-9 pins 1 and 8 (Carrier Detect and
+Clear to Send). 
+
+<details><summary>Sub-sub-note</summary>
+
+Perhaps the most important of those is pin 1 (Carrier Detect) as
+without it programs like `less` and `mesg` would hang forever on open
+of /dev/tty. (A software fix if your cable lacks Carrier Detect is to
+jrun `stty clocal`.) Pin 8 (Clear To Send) is also useful as it is
+common for modern systems to presume hardware flow control (even
+though the VT340 does not have it). Pin 6 (Data Set Ready) is least
+important as [UNIX systems have ignored it for eons][UWR870] in favor
+of Carrier Detect (Pin 1). For more considerations, see the [Linux
+Text Terminal Howto][TLDPTTH].
+
+</details>
+
+</details>
+
+</sub></i></ul>
 
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
   [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
@@ -79,7 +94,7 @@ dropped characters. See [flowcontrol.md](flowcontrol.md) for details._
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
 
-Most of the MMJ-DB9F adapters sale online come with the pins
+Most of the MMJ-DB9F adapters for sale online come with the pins
 disconnected so you can choose how you wish to wire it.
 
 Hackerb9 ordered from Pacific Cable (part no. AD-9FT6-G1D), but [their
