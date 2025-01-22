@@ -180,8 +180,11 @@ out of ordinary 6-wire telephone cable.
 
 ----------------------------------------------------------------------
 
+<details><summary>
 
 ### Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control
+
+</summary>
 
 The Linux Documentation Project has a pinout very similar to the one
 hackerb9 suggests above. It additionally loops back the Request to
@@ -209,8 +212,14 @@ His schematic is:
 Hackerb9 does NOT RECOMMENDED this cable due to the possibility of
 hardware damage.
 
+</details>
+
+
+<details><summary>
 
 ### DEC H8571-J adapter: PC RS232 serial port to MMJ, straight
+
+</summary>
 
 DEC's official MMJ to DE-9 adapter. While physically this looks the
 same as hackerb9's suggested dongle above, the wiring does not include
@@ -226,6 +235,9 @@ the necessary "null modem" crossover for connecting a VT340 to a PC.
 
 
 ----------------------------------------------------------------------
+
+</details>
+
 
 ## Question H4 From the Digital Unix FAQ
 
