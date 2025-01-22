@@ -239,7 +239,11 @@ the necessary "null modem" crossover for connecting a VT340 to a PC.
 </details>
 
 
+<details><summary>
+
 ## Question H4 From the Digital Unix FAQ
+
+</summary>
 
 <blockquote>
 
@@ -260,10 +264,16 @@ Digital carries four DB-to-MMJ adaptors.  They are internally wired as follows
 
 </blockquote>
 
-
 ----------------------------------------------------------------------
 
+</details>
+
+
+<details><summary>
+
 ## Pinout of 9-pin and 25-pin serial connectors
+
+</summary>
 
 Adapted from the Linux Serial HOWTO chapter 19.
 
@@ -300,3 +310,5 @@ full-duplex "RTS/CTS hardware handshaking". Some have suggested
 renaming it "Ready To Receive".
 
 </blockquote>
+
+</details>
