@@ -117,7 +117,7 @@ use a VT340 in modern times.</sub>
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
 multiple bytes per character via "shifting". 
-(See: "[ISO 2022:1986](../docs/standards/ECMA-35_1985.pdf)").
+(See: "[ISO 2022:1986](hackerb9.github.io/vt340test/docs/standards/ECMA-35_1985.pdf)").
 
 <img src="shiftselector.svg" width="80%" alt="An diagram which makes the
 analogy between shifting and a physical rotating selector switch, like
