@@ -54,7 +54,7 @@ echo -n ${ST}			# Exit REGIS mode
 
 I will describe the output informally. For the precisely specified output, see
 [sixel-printer-port](sixel-printer-port.md) which is an extract from
-[DEC STD 070](../docs/kindred/EL-SM070-00-DEC_STD_070_Video_Systems_Reference_Manual_Dec91.pdf#page=737).
+[DEC STD 070](hackerb9.github.io/vt340test/docs/kindred/EL-SM070-00-DEC_STD_070_Video_Systems_Reference_Manual_Dec91.pdf#page=737).
 
 Here is what a typical Level 2 Graphics response from a VT340 might
 look like:
