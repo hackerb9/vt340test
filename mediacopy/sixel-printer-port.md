@@ -6,7 +6,7 @@
 
 The following was extracted and converted to Markdown for
 [vt340test](https://github.com/hackerb9/vt340test) from section 7.8 (Graphics Printing) of 
-[DEC STD 070](../docs/kindred/EL-SM070-00-DEC_STD_070_Video_Systems_Reference_Manual_Dec91.pdf#page=737).
+[DEC STD 070](hackerb9.github.io/vt340test/docs/kindred/EL-SM070-00-DEC_STD_070_Video_Systems_Reference_Manual_Dec91.pdf#page=737).
 It describes the sixel graphics format from the point of view of
 printing from a terminal to an attached printer. 
 
