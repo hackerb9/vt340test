@@ -63,65 +63,46 @@ iffy. In particular, the Linux kernel still has no support as of 2025.
 ### MMJ Pin 1 is furthest from "thumb" of MMJ latch
 
 In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
-(a 6-pin MMJ DEC-423 port, similar to EIA-423-D):
+(a 6-pin MMJ DEC-423 port):
 
 ```
           _______________                 1 - DTR
-          |             |                 2 - TXD+
-          | 1 2 3 4 5 6 |                 3 - TXD-
-          |________    _|                 4 - RXD-
-                  |___|                   5 - RXD+
+          |             |                 2 - TxD+
+          | 1 2 3 4 5 6 |                 3 - TxD-
+          |________    _|                 4 - RxD-
+                  |___|                   5 - RxD+
                                           6 - DSR
 ```
 
 <details><ul>
+<summary><h3>On the naming and numbering of MMJ pins</h3></summary>
 
-### MMJ official pin numbering
-
-This only valid when looking at a socket, not at a plug. 
-
-| Pin | DEC-423 name | Signal                  | Wire Color | DE-9  | DB-25 |
-|-----|--------------|-------------------------|------------|-------|-------|
-| 1   | Rdy Out      | [DTR][DTR]              | White      | 4     | 20    |
-| 2   | [Rx+][Rx+]   | [TxD][TxD]              | Black      | 3     | 2     |
-| 3   | [Rx-][Rx-]   | [GND][GND]              | Red        | 5     | 7     |
-| 4   | [Tx-][Tx-]   | [GND][GND]              | Green      | 5     | 7     |
-| 5   | [Tx+][Tx+]   | [RxD][RxD]              | Yellow     | 2     | 3     |
-| 6   | Rdy In       | [DSR][DSR] & [DCD][DCD] | Blue       | 6 & 1 | 6 & 8 |
-
-</ul></details>
+| Pin | DEC-423 name    | RS-232 name | Wire Color | DE-9 | DB-25 |
+|-----|-----------------|-------------|------------|------|-------|
+| 1   | Ready Out       | [DTR][DTR]  | White      | 4    | 20    |
+| 2   | Receive Data +  | [TxD][TxD]  | Black      | 3    | 2     |
+| 3   | Receive Data -  | [GND][GND]  | Red        | 5    | 7     |
+| 4   | Transmit Data - | [GND][GND]  | Green      | 5    | 7     |
+| 5   | Transmit Data + | [RxD][RxD]  | Yellow     | 2    | 3     |
+| 6   | Ready In        | [DSR][DSR]  | Blue       | 6    | 6     |
+:Only valid when looking at a port ("jack"), not the plug on a cable.
 
 #### Flip it and reverse it
 
-Note that because every DEC-423 MMJ cable is a crossover cable, the
-functions associated with the pins swap position, as do the wire
-colors. <!-- Swing your partner, Dosey-do! -->
+Because every DEC-423 cable is a crossover cable, the functions
+associated with the pins swap position, as do the wire colors. 
+<!-- Swing your partner, Dosey-do! -->
 
-| MMJ pin | Function at VT340 | Function after BC16E cable |
-|:-------:|-------------------|----------------------------|
-| 1       | [DSR][DSR]        | [DTR][DTR]                 |
-| 2       | [RxD][RxD]        | [TxD][TxD]                 |
-| 3       | [GND][GND]        | [GND][GND]                 |
-| 4       | [GND][GND]        | [GND][GND]                 |
-| 5       | [TxD][TxD]        | [RxD][RxD]                 |
-| 6       | [DTR][DTR]        | [DSR][DSR]                 |
+| MMJ pin | Function at MMJ port | Function at cable plug |
+|:-------:|----------------------|------------------------|
+| 1       | [DSR][DSR]           | [DTR][DTR]             |
+| 2       | [RxD][RxD]           | [TxD][TxD]             |
+| 3       | [GND][GND]           | [GND][GND]             |
+| 4       | [GND][GND]           | [GND][GND]             |
+| 5       | [TxD][TxD]           | [RxD][RxD]             |
+| 6       | [DTR][DTR]           | [DSR][DSR]             |
 
-<!-- Abbreviations for mouse hover -->
-[GND]: ## "Ground"
-[SG]:  ## "Signal Ground"
-[DSR]: ## "Data Set Ready"
-[DTR]: ## "Data Terminal Ready"
-[TxD]: ## "Transmit Data"
-[RxD]: ## "Receive Data"
-[CD]:  ## "Carrier Detect"
-[RTS]: ## "Request to Send (Ready to Receive)"
-[CTS]: ## "Clear to Send"
-[Tx+]: ## "Transmit Data positive"
-[Tx-]: ## "Transmit Data negative"
-[Rx+]: ## "Receive Data positive"
-[Rx-]: ## "Receive Data negative"
-[RI]:  ## "Ring Indicator"
-
+</ul></details>
 
 ## Hackerb9's Suggestion for DE-9 to MMJ Wiring
 
@@ -361,3 +342,22 @@ renaming it "Ready To Receive".
 </blockquote>
 
 </details>
+
+
+
+<!-- Abbreviations for mouse hover -->
+[GND]: ## "Ground"
+[SG]:  ## "Signal Ground"
+[DSR]: ## "Data Set Ready"
+[DTR]: ## "Data Terminal Ready"
+[TxD]: ## "Transmit Data"
+[RxD]: ## "Receive Data"
+[CD]:  ## "Carrier Detect"
+[RTS]: ## "Request to Send (Ready to Receive)"
+[CTS]: ## "Clear to Send"
+[Tx+]: ## "Transmit Data positive"
+[Tx-]: ## "Transmit Data negative"
+[Rx+]: ## "Receive Data positive"
+[Rx-]: ## "Receive Data negative"
+[RI]:  ## "Ring Indicator"
+
