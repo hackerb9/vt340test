@@ -32,39 +32,54 @@ model number for this adapter is **H8571-J**.
 
 <!-- XXX TODO: Insert picture of adapter here. -->
 
-However, that adapter's wiring (see below) requires an additional null
-modem to work properly, losing one of the advantages of using MMJ.
+Note that the because every MMJ cable is a crossover cable, the
+functions associated with the pins swap position (dosey-do). 
+
+| MMJ pins | Function at VT340   | Function after BC16E cable |
+|:--------:|---------------------|----------------------------|
+| 1        | Data Set Ready      | Data Terminal Ready        |
+| 2        | Receive Data+       | Transmit Data+             |
+| 3        | Receive Data-       | Transmit Data-             |
+| 4        | Transmit Data-      | Receive Data-              |
+| 5        | Transmit Data+      | Receive Data+              |
+| 6        | Data Terminal Ready | Data Set Ready             |
+
 
 ## Hackerb9's Suggestion for DE-9 to MMJ Wiring
 
 Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
 like original DEC equipment, a PC can be plugged into any MMJ device
-using just a single cable. Since both the VT340 and a typical PC
-serial port are "DTE", some wires crossover as with a null modem.
+using just a single cable. In RS232-speak, all devices (VT340, PC,
+printer, etc) are "DTE" and all cables are "crossover" (AKA "null modems").
 
-|     MMJ RS-232 name | MMJ Pin |   | DE-9 pin | DE-9 RS-232 name                 |               |
-|--------------------:|--------:|:-:|:---------|----------------------------------|---------------|
-| Data Terminal Ready |       1 | → | 1<br/>6<br/>8  | Carrier Detect<br/>Data Set Ready<br/>Clear To Send | White         |
-|       Transmit Data |       2 | → | 2        | Receive Data                     | Black         |
-|              Ground | 3<br/>4 | — | 5        | Ground                           | Red<br/>Green |
-|        Receive Data |       5 | ← | 3        | Transmit Data                    | Yellow        |
-|      Data Set Ready |       6 | ← | 7        | Request To Send                  | Blue          |
+This is very similar to DEC's H8571-J adapter with one minor
+difference: instead of using DTR (DB9 pin 4) on the PC, this connector
+uses RTS (DB9 pin 7). Why? Because all modern UNIX systems can handle
+RTS/CTS flow control but DTR/DSR support is iffy. In particular, the
+Linux kernel still has no support as of 2025.
 
-<sub><i> 
+| MMJ function (after cable) | MMJ Female | DE-9 Female | DE-9 RS-232 name                 |               |
+|---------------------------:|-----------:|:------------|:---------------------------------|---------------|
+|        Data Terminal Ready |          1 | 7           | Request To Send                  | Blue          |
+|              Transmit Data |          2 | 3           | Transmit Data                    | Yellow        |
+|                     Ground |    3<br/>4 | 5           | Ground                           | Green<br/>Red |
+|               Receive Data |          5 | 2           | Receive Data                     | Black         |
+|             Data Set Ready |          6 | 1<br/>8     | Carrier Detect<br/>Clear To Send | White         |
 
-Note: On the DE-9 end of the adapter there is a small problem since
-unassembled kits come with only six DSub female pins. That means only
-two of pins 1, 6, and 8 can be connected. Perhaps the most important
-of those is pin 1 (Carrier Detect) as without it programs like `less`
-and `mesg` would hang forever on open of /dev/tty. A software fix, if
-you have such a cable, is to run `stty clocal`. Pin 8 (Clear To Send)
-is also useful as it is common for modern systems to presume hardware
-flow control (even though the VT340 does not have it). Pin 6 (Data Set
-Ready) is least important as [UNIX systems have ignored it for
-eons][UWR870] in favor of Carrier Detect (Pin 1). For more
-considerations, see the [Linux Text Terminal Howto][TLDPTTH].
-
-</i></sub>
+<ul><i><sub> 
+Note: On the DE-9 end of the adapter there is a small question since
+unassembled kits come with only six DSub female pins. That means MMJ
+pin 6 (DSR) can only connect to two of pins 1, 6, and 8. Hackerb9
+suggests using pins 1 and 8. Pin 1 (Carrier Detect) is most important
+as without it programs like `less` and `mesg` would hang forever on
+open of /dev/tty. A software fix, if you have such a cable, is to run
+`stty clocal`. Pin 8 (Clear To Send) is also useful as it is common
+for modern systems to presume RTS/CTS hardware flow control (even
+though the VT340 does not have it). Pin 6 (Data Set Ready) is least
+important as [UNIX systems have ignored it for eons][UWR870] in favor
+of Carrier Detect (Pin 1). For more considerations, see the 
+[Linux Text Terminal Howto][TLDPTTH].
+</sub></i></ul>
 
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
   [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
@@ -74,7 +89,7 @@ well for communication. The words you are reading are flowing from a
 VT340, over a standard "DEC-423 BC16E" cable, through this homemade
 MMJ to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB
 to RS232 serial adapters lack "on-chip XON/XOFF" and will cause
-dropped characters. See [flowcontrol.md](flowcontrol.md) for details._
+dropped characters ("⸮"). See [flowcontrol.md](flowcontrol.md) for details._
 
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
