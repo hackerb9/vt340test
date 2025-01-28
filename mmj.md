@@ -34,17 +34,14 @@ hackerb9 has found it easier and more elegant to put an MMJ adapter on
 the RS-232 port of the PC. Of course, this requires using MMJ cable
 (see "BC16E" below).
 
-The ideal solution is a female DE-9 RS-232 to MMJ port adapter.
-[Lammert Bies][lammert] says the DEC model number for the official
-adapter is **H8571-J**.
+The ideal solution would have a female DE-9 RS-232 port to plug into
+modern PCs. [Lammert Bies][lammert] says the DEC model number for that
+adapter is **H8571-J**. However, if you are going to make your own,
+consider hackerb9's variation, below.
 
   [lammert]: https://www.lammertbies.nl/comm/cable/dec-mmj
 
-<details><summary>
-
-### Details on the DEC H8571-J adapter
-
-</summary>
+<details><summary><h4>Details on the DEC H8571-J adapter</h4></summary>
 <ul>
 
 Pinout for DEC's official MMJ to DE-9 adapter for connecting a VT340
@@ -68,7 +65,9 @@ iffy. In particular, the Linux kernel still lacks support as of 2025.
 
 </uL></details>
 
-### Hackerb9's Suggestion for DE-9 to MMJ Wiring
+<details>
+<summary><h3>Hackerb9's suggestion for DE-9 to MMJ wiring</h3></summary>
+<ul>
 
 Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
 like original DEC equipment, a PC can be plugged into any MMJ device
@@ -124,6 +123,7 @@ _Caveat: Some USB to RS232 serial adapters lack "on-chip XON/XOFF" and
 will cause dropped characters ("⸮"). See
 [flowcontrol.md](flowcontrol.md) for details._
 
+</ul></details>
 
 ## MMJ Pin outs
 
