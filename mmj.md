@@ -74,8 +74,8 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
                                           6 - DSR
 ```
 
-<details><ul>
-<summary><h3>On the naming and numbering of MMJ pins</h3></summary>
+<details><summary><h3>On the naming and numbering of MMJ pins</h3></summary>
+<ul>
 
 | Pin | DEC-423 name    | RS-232 name | Wire Color | DE-9 | DB-25 |
 |-----|-----------------|-------------|------------|------|-------|
@@ -85,7 +85,8 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
 | 4   | Transmit Data - | [GND][GND]  | Green      | 5    | 7     |
 | 5   | Transmit Data + | [RxD][RxD]  | Yellow     | 2    | 3     |
 | 6   | Ready In        | [DSR][DSR]  | Blue       | 6    | 6     |
-:Only valid when looking at a port ("jack"), not the plug on a cable.
+
+> Only valid when looking at a port ("jack"), not the plug on a cable.
 
 #### Flip it and reverse it
 
