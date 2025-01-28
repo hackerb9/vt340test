@@ -66,7 +66,7 @@ iffy. In particular, the Linux kernel still lacks support as of 2025.
 </uL></details>
 
 <details>
-<summary><h3>Hackerb9's suggestion for DE-9 to MMJ wiring</h3></summary>
+<summary><h4>Hackerb9's suggestion for DE-9 to MMJ wiring</h4></summary>
 <ul>
 
 Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
@@ -141,7 +141,7 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
 
 > TIP: MMJ Pin 1 is furthest from "thumb" of the MMJ latch
 
-<details><summary><h3>On the naming and numbering of MMJ pins</h3></summary>
+<details><summary><h4>On the naming and numbering of MMJ pins</h4></summary>
 <ul>
 
 | Pin | DEC-423 name    | RS-232 name | Wire Color | DE-9 | DB-25 |
@@ -245,10 +245,9 @@ says we were all wrong.]
         ------- 	Connector
 
 
-<details><summary>
-
-### Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control
-
+<details>
+<summary>
+<h4>Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control</h4>
 </summary>
 
 The Linux Documentation Project has a pinout for a cable functionally
@@ -282,7 +281,7 @@ hardware damage.
 
 <details><summary>
 
-## Other DEC pinouts from the Digital Unix FAQ
+#### Other DEC pinouts from the Digital Unix FAQ
 
 </summary>
 
@@ -315,7 +314,7 @@ missing H8571-J and perhaps others.]_
 
 
 <details>
-<summary><h3>Pinout of 9-pin and 25-pin serial connectors</h3></summary>
+<summary><h4>Pinout of 9-pin and 25-pin serial connectors</h4></summary>
 
 Adapted from the Linux Serial HOWTO chapter 19.
 
