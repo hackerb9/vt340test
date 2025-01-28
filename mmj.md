@@ -74,30 +74,53 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
                                           6 - DSR
 ```
 
-| MMJ Pin | DEC-423 name | Signal    | Wire Color at Jack | DB-25 |
-|---------|--------------|-----------|--------------------|-------|
-| 1       | Rdy Out      | DTR       | White              | 20    |
-| 2       | Tx+          | TxD       | Black              | 2     |
-| 3       | Tx-          | GND       | Red                | 7     |
-| 4       | Rx-          | GND       | Green              | 7     |
-| 5       | Rx+          | RxD       | Yellow             | 3     |
-| 6       | Rdy In       | DSR & DCD | Blue               | 6 & 8 |
+<details><ul>
 
+### MMJ official pin numbering
 
-### Flip it and reverse it
+This only valid when looking at a socket, not at a plug. 
+
+| Pin | DEC-423 name | Signal                  | Wire Color | DE-9  | DB-25 |
+|-----|--------------|-------------------------|------------|-------|-------|
+| 1   | Rdy Out      | [DTR][DTR]              | White      | 4     | 20    |
+| 2   | [Rx+][Rx+]   | [TxD][TxD]              | Black      | 3     | 2     |
+| 3   | [Rx-][Rx-]   | [GND][GND]              | Red        | 5     | 7     |
+| 4   | [Tx-][Tx-]   | [GND][GND]              | Green      | 5     | 7     |
+| 5   | [Tx+][Tx+]   | [RxD][RxD]              | Yellow     | 2     | 3     |
+| 6   | Rdy In       | [DSR][DSR] & [DCD][DCD] | Blue       | 6 & 1 | 6 & 8 |
+
+</ul></details>
+
+#### Flip it and reverse it
 
 Note that because every DEC-423 MMJ cable is a crossover cable, the
 functions associated with the pins swap position, as do the wire
 colors. <!-- Swing your partner, Dosey-do! -->
 
-| MMJ pins | Function at VT340   | Function after BC16E cable |
-|:--------:|---------------------|----------------------------|
-| 1        | Data Set Ready      | Data Terminal Ready        |
-| 2        | Receive Data+       | Transmit Data+             |
-| 3        | Receive Data-       | Transmit Data-             |
-| 4        | Transmit Data-      | Receive Data-              |
-| 5        | Transmit Data+      | Receive Data+              |
-| 6        | Data Terminal Ready | Data Set Ready             |
+| MMJ pin | Function at VT340 | Function after BC16E cable |
+|:-------:|-------------------|----------------------------|
+| 1       | [DSR][DSR]        | [DTR][DTR]                 |
+| 2       | [RxD][RxD]        | [TxD][TxD]                 |
+| 3       | [GND][GND]        | [GND][GND]                 |
+| 4       | [GND][GND]        | [GND][GND]                 |
+| 5       | [TxD][TxD]        | [RxD][RxD]                 |
+| 6       | [DTR][DTR]        | [DSR][DSR]                 |
+
+<!-- Abbreviations for mouse hover -->
+[GND]: ## "Ground"
+[SG]:  ## "Signal Ground"
+[DSR]: ## "Data Set Ready"
+[DTR]: ## "Data Terminal Ready"
+[TxD]: ## "Transmit Data"
+[RxD]: ## "Receive Data"
+[CD]:  ## "Carrier Detect"
+[RTS]: ## "Request to Send (Ready to Receive)"
+[CTS]: ## "Clear to Send"
+[Tx+]: ## "Transmit Data positive"
+[Tx-]: ## "Transmit Data negative"
+[Rx+]: ## "Receive Data positive"
+[Rx-]: ## "Receive Data negative"
+[RI]:  ## "Ring Indicator"
 
 
 ## Hackerb9's Suggestion for DE-9 to MMJ Wiring
