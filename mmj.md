@@ -1,8 +1,10 @@
 # MMJ: DEC's Modified Modular Jack
 
-The VT340 has three MMJ ports: the first and second communication
-ports and the printer port. Officially it is called "DEC-423" or
-"DECconnect", but colloquially and most commonly it is "MMJ".
+The VT340 has three [MMJ][MMJ] ports: the first and second
+communication ports and the printer port. They are backwards
+compatible with RS-232 but do not use the same connector. Officially
+Digital called it **DEC-423** or **DECconnect**, but colloquially and
+most commonly it is simply **MMJ**.
 
 <!-- XXX TODO: Put image of back panel here with arrow to MMJ and -->
 <!-- showing synonyms: MMJ, DEC-423, DECconnect. -->
@@ -10,8 +12,8 @@ ports and the printer port. Officially it is called "DEC-423" or
 Note that using MMJ is not strictly required as the VT340 also has a
 standard RS-232 DB-25 connector which can be configured in the VT340
 Setup menu to map to the first communication port. However, to get the
-most of your VT340, including dual sessions, serial input of
-keystrokes, and printing graphics, you'll want MMJ cables.
+most of your VT340 — dual sessions, serial input of
+keystrokes, and printing graphics — you'll want MMJ cables.
 
 ## Why MMJ is nifty
 
@@ -22,90 +24,51 @@ keystrokes, and printing graphics, you'll want MMJ cables.
 * Based on EIA-423-D, so cables can be much longer than RS-232
 * Backwards compatible with RS-232 signals
 
-## MMJ to DE-9F Adapter
+## MMJ to RS-232 Adapter
 
-Since modern computers don't use MMJ, you'll need a female DE-9 RS-232
-to MMJ socket adapter. According to [Lammert Bies][lammert] the DEC
-model number for this adapter is **H8571-J**.
+<!-- XXX TODO: Insert picture of adapter here. -->
+
+Connecting to a modern PC requires an adapter. While one can add
+RS-232 adapters to the the MMJ ports on the back of the VT340,
+hackerb9 has found it easier and more elegant to put an MMJ adapter on
+the RS-232 port of the PC. Of course, this requires using MMJ cable
+(see "BC16E" below).
+
+The ideal solution is a female DE-9 RS-232 to MMJ port adapter.
+[Lammert Bies][lammert] says the DEC model number for the official
+adapter is **H8571-J**.
 
   [lammert]: https://www.lammertbies.nl/comm/cable/dec-mmj
 
 <details><summary>
 
-#### DEC H8571-J adapter: PC RS232 serial port to MMJ
+### Details on the DEC H8571-J adapter
 
 </summary>
+<ul>
 
-DEC's official MMJ to DE-9 adapter for connecting a VT340 to a PC.
+Pinout for DEC's official MMJ to DE-9 adapter for connecting a VT340
+to a PC, printer, or other RS-232 device.
 
-| MMJ<br/>RS-232 name | MMJ<br/>Pin | DE-9<br/>pin       | DE-9<br/>RS-232 name                                |
-|--------------------:|:-----------:|:------------------:|-----------------------------------------------------|
-|                 DTR | 1           | 4                  | Data Terminal Ready                                 |
-|                 Tx+ | 2           | 3                  | Transmit Data                                       |
-|         Tx-</br>Rx- | 3<br/>4     | 5                  | Ground                                              |
-|                 Rx+ | 5           | 3                  | Receive Data                                        |
-|                 DSR | 6           | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
+|                  MMJ name | MMJ Pin | DE-9 pin           | DE-9 name                                           |
+|--------------------------:|--------:|:------------------:|-----------------------------------------------------|
+|                [DTR][DTR] |       1 | 4                  | Data Terminal Ready                                 |
+|                [Tx+][Tx+] |       2 | 3                  | Transmit Data                                       |
+| [Tx-][Tx-]</br>[Rx-][Rx-] | 3<br/>4 | 5                  | Ground                                              |
+|                [Rx+][Rx+] |       5 | 3                  | Receive Data                                        |
+|                [DSR][DSR] |       6 | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
 
 
 The H8571-J is nearly identical to the hackerb9's wiring, below, with
 one minor difference: instead of using DTR (DB9 pin 4) on the PC,
 hackerb9's connector uses RTS (DB9 pin 7). Why? Because all modern
 UNIX systems can handle RTS/CTS flow control but DTR/DSR support is
-iffy. In particular, the Linux kernel still has no support as of 2025.
-
-----------------------------------------------------------------------
-
-</details>
+iffy. In particular, the Linux kernel still lacks support as of 2025.
 
 
-<!-- XXX TODO: Insert picture of adapter here. -->
+</uL></details>
 
-### MMJ Pin 1 is furthest from "thumb" of MMJ latch
-
-In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
-(a 6-pin MMJ DEC-423 port):
-
-```
-          _______________                 1 - DTR
-          |             |                 2 - TxD+
-          | 1 2 3 4 5 6 |                 3 - TxD-
-          |________    _|                 4 - RxD-
-                  |___|                   5 - RxD+
-                                          6 - DSR
-```
-
-<details><summary><h3>On the naming and numbering of MMJ pins</h3></summary>
-<ul>
-
-| Pin | DEC-423 name    | RS-232 name | Wire Color | DE-9 | DB-25 |
-|-----|-----------------|-------------|------------|------|-------|
-| 1   | Ready Out       | [DTR][DTR]  | White      | 4    | 20    |
-| 2   | Receive Data +  | [TxD][TxD]  | Black      | 3    | 2     |
-| 3   | Receive Data -  | [GND][GND]  | Red        | 5    | 7     |
-| 4   | Transmit Data - | [GND][GND]  | Green      | 5    | 7     |
-| 5   | Transmit Data + | [RxD][RxD]  | Yellow     | 2    | 3     |
-| 6   | Ready In        | [DSR][DSR]  | Blue       | 6    | 6     |
-
-> Only valid when looking at a port ("jack"), not the plug on a cable.
-
-#### Flip it and reverse it
-
-Because every DEC-423 cable is a crossover cable, the functions
-associated with the pins swap position, as do the wire colors. 
-<!-- Swing your partner, Dosey-do! -->
-
-| MMJ pin | Function at MMJ port | Function at cable plug |
-|:-------:|----------------------|------------------------|
-| 1       | [DSR][DSR]           | [DTR][DTR]             |
-| 2       | [RxD][RxD]           | [TxD][TxD]             |
-| 3       | [GND][GND]           | [GND][GND]             |
-| 4       | [GND][GND]           | [GND][GND]             |
-| 5       | [TxD][TxD]           | [RxD][RxD]             |
-| 6       | [DTR][DTR]           | [DSR][DSR]             |
-
-</ul></details>
-
-## Hackerb9's Suggestion for DE-9 to MMJ Wiring
+### Hackerb9's Suggestion for DE-9 to MMJ Wiring
 
 Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
 like original DEC equipment, a PC can be plugged into any MMJ device
@@ -148,22 +111,77 @@ Text Terminal Howto][TLDPTTH].</sub>
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
   [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
 
+
+<!-- Note that when assembling, if you follow hackerb9's schematic, you'll
+need to cut and splice one of the female D-Sub pins. See the [assembly
+instructions](mmj-db9f-assembly.md) for details. -->
+
 Despite the VT340 lacking hardware flow control, this wiring works
-well for communication. The words you are reading are flowing from a
-VT340, over a standard "DEC-423 BC16E" cable, through this homemade
-MMJ to DE-9 adapter, to a UNIX host's serial port. _Caveat: Some USB
-to RS232 serial adapters lack "on-chip XON/XOFF" and will cause
-dropped characters ("⸮"). See [flowcontrol.md](flowcontrol.md) for details._
+well for communication. These words are being typed on a VT340,
+flowing over a standard "DEC-423 BC16E" cable, through this homemade
+MMJ to DE-9 adapter, and arriving on a UNIX host's serial port.
+_Caveat: Some USB to RS232 serial adapters lack "on-chip XON/XOFF" and
+will cause dropped characters ("⸮"). See
+[flowcontrol.md](flowcontrol.md) for details._
 
 
-### Purchasing Unassembled MMJ-DB9F Adapters
+## MMJ Pin outs
+
+In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
+(a 6-pin MMJ DEC-423 port):
+
+```
+          _______________                 1 - DTR
+          |             |                 2 - TxD+
+          | 1 2 3 4 5 6 |                 3 - TxD-
+          |________    _|                 4 - RxD-
+                  |___|                   5 - RxD+
+                                          6 - DSR
+```
+
+> TIP: MMJ Pin 1 is furthest from "thumb" of the MMJ latch
+
+<details><summary><h3>On the naming and numbering of MMJ pins</h3></summary>
+<ul>
+
+| Pin | DEC-423 name    | RS-232 name | Wire Color | DE-9 | DB-25 |
+|-----|-----------------|-------------|------------|------|-------|
+| 1   | Ready Out       | [DTR][DTR]  | White      | 4    | 20    |
+| 2   | Receive Data +  | [TxD][TxD]  | Black      | 3    | 2     |
+| 3   | Receive Data -  | [GND][GND]  | Red        | 5    | 7     |
+| 4   | Transmit Data - | [GND][GND]  | Green      | 5    | 7     |
+| 5   | Transmit Data + | [RxD][RxD]  | Yellow     | 2    | 3     |
+| 6   | Ready In        | [DSR][DSR]  | Blue       | 6    | 6     |
+
+> Only valid when looking at a port ("jack"), not the plug on a cable.
+
+### Flip it and reverse it
+
+Because every DEC-423 cable is a crossover cable, the functions
+associated with the pins swap position, as do the wire colors. 
+<!-- Swing your partner, Dosey-do! -->
+
+| MMJ pin | Function at MMJ port | Function at cable plug |
+|:-------:|----------------------|------------------------|
+| 1       | [DSR][DSR]           | [DTR][DTR]             |
+| 2       | [RxD][RxD]           | [TxD][TxD]             |
+| 3       | [GND][GND]           | [GND][GND]             |
+| 4       | [GND][GND]           | [GND][GND]             |
+| 5       | [TxD][TxD]           | [RxD][RxD]             |
+| 6       | [DTR][DTR]           | [DSR][DSR]             |
+
+</ul></details>
+
+
+## Purchasing Unassembled MMJ-DB9F Adapters
 
 Most of the MMJ-DB9F adapters for sale online come with the pins
 disconnected so you can choose how you wish to wire it.
 
 Hackerb9 ordered from Pacific Cable (part no. AD-9FT6-G1D), but [their
 website](https://pacificcable.com) is down. It looks like you can get
-the same thing from other suppliers, but no promises.
+the same thing from other suppliers, but no promises. eBay can be
+cheaper but the quality is certainly lower.
 
 * [L-Com Item # REC096FD][lcom].<br/>
   _($14 each + $10 shipping in the US as of 2024)._
@@ -192,24 +210,7 @@ the same thing from other suppliers, but no promises.
   [connectzone]: https://www.connectzone.com/ma-09fd.html
 
 
-<!-- Note that when assembling, if you follow hackerb9's schematic, you'll
-need to cut and splice one of the female D-Sub pins. See the [assembly
-instructions](mmj-db9f-assembly.md) for details. -->
-
-
-## More pinouts
-
-### DE-9 Pinout (Female)
-
-[Note: a "DE-9" port is what we used to call a "DB-9" port. Wikipedia
-says we were all wrong.]
-
-      ___________
-      \5 4 3 2 1/	DE-9
-       \9 8 7 6/ 	Female
-        ------- 	Connector
-
-### BC16E DEC-423 Cable
+## BC16E DEC-423 Cable
 
 This is DEC's official MMJ cable. 
 
@@ -231,7 +232,18 @@ out of ordinary 6-wire telephone cable.
 
 <!-- XXX TODO: Insert picture of crimper and MMJ plugs. -->
 
-----------------------------------------------------------------------
+## More pinouts
+
+### DE-9 Pinout (Female)
+
+[Note: a "DE-9" port is what we used to call a "DB-9" port. Wikipedia
+says we were all wrong.]
+
+      ___________
+      \5 4 3 2 1/	DE-9
+       \9 8 7 6/ 	Female
+        ------- 	Connector
+
 
 <details><summary>
 
@@ -243,7 +255,7 @@ The Linux Documentation Project has a pinout for a cable functionally
 similar to the one hackerb9 suggests above. It additionally loops back
 the Request to Send (RTS) signal from the PC back into the Carrier
 Detect (CD) and Data Terminal Ready (DTR) pins. This seems like a
-mistake as RTS and DTR are both _outputs_ pins and one could fry the
+mistake as RTS and DTR are both _output_ pins and one could fry the
 serial port if they disagree about what voltage to set the line.
 
 His schematic is:
@@ -266,8 +278,6 @@ Hackerb9 does NOT RECOMMENDED this cable due to the possibility of
 hardware damage.
 
 </details>
-
-
 
 
 <details><summary>
@@ -295,16 +305,17 @@ Digital carries four DB-to-MMJ adaptors.  They are internally wired as follows
 
 </blockquote>
 
+_[Note from hackerb9: Clearly the DEC FAQ needs to be updated as it is
+missing H8571-J and perhaps others.]_
+
 ----------------------------------------------------------------------
 
 </details>
 
 
-<details><summary>
 
-## Pinout of 9-pin and 25-pin serial connectors
-
-</summary>
+<details>
+<summary><h3>Pinout of 9-pin and 25-pin serial connectors</h3></summary>
 
 Adapted from the Linux Serial HOWTO chapter 19.
 
@@ -361,4 +372,4 @@ renaming it "Ready To Receive".
 [Rx+]: ## "Receive Data positive"
 [Rx-]: ## "Receive Data negative"
 [RI]:  ## "Ring Indicator"
-
+[MMJ]: ## "Modified Modular Jack"
