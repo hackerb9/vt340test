@@ -60,8 +60,35 @@ iffy. In particular, the Linux kernel still has no support as of 2025.
 
 <!-- XXX TODO: Insert picture of adapter here. -->
 
-Note that the because every MMJ cable is a crossover cable, the
-functions associated with the pins swap position (dosey-do). 
+### MMJ Pin 1 is furthest from "thumb" of MMJ latch
+
+In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
+(a 6-pin MMJ DEC-423 port, similar to EIA-423-D):
+
+```
+          _______________                 1 - DTR
+          |             |                 2 - TXD+
+          | 1 2 3 4 5 6 |                 3 - TXD-
+          |________    _|                 4 - RXD-
+                  |___|                   5 - RXD+
+                                          6 - DSR
+```
+
+| MMJ Pin | DEC-423 name | Signal    | Wire Color at Jack | DB-25 |
+|---------|--------------|-----------|--------------------|-------|
+| 1       | Rdy Out      | DTR       | White              | 20    |
+| 2       | Tx+          | TxD       | Black              | 2     |
+| 3       | Tx-          | GND       | Red                | 7     |
+| 4       | Rx-          | GND       | Green              | 7     |
+| 5       | Rx+          | RxD       | Yellow             | 3     |
+| 6       | Rdy In       | DSR & DCD | Blue               | 6 & 8 |
+
+
+### Flip it and reverse it
+
+Note that because every DEC-423 MMJ cable is a crossover cable, the
+functions associated with the pins swap position, as do the wire
+colors. <!-- Swing your partner, Dosey-do! -->
 
 | MMJ pins | Function at VT340   | Function after BC16E cable |
 |:--------:|---------------------|----------------------------|
@@ -80,7 +107,7 @@ like original DEC equipment, a PC can be plugged into any MMJ device
 using just a single cable. In RS232-speak, all devices (VT340, PC,
 printer, etc) are "DTE" and all cables are "crossover" (AKA "null modems").
 
-| MMJ function (after cable) | MMJ Female | Usual color   | DE-9 Female | DE-9 RS-232 name                 |
+| MMJ function (after cable) | MMJ Socket | Usual color   | DE-9 Female | DE-9 RS-232 name                 |
 |---------------------------:|-----------:|---------------|:------------|:---------------------------------|
 |        Data Terminal Ready |          1 | White         | 7           | Request To Send                  |
 |              Transmit Data |          2 | Black         | 3           | Transmit Data                    |
@@ -176,32 +203,6 @@ says we were all wrong.]
       \5 4 3 2 1/	DE-9
        \9 8 7 6/ 	Female
         ------- 	Connector
-
-### MMJ Pin 1 is furthest from "thumb" of MMJ latch
-
-In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
-(a 6-pin MMJ DEC-423 port, similar to EIA-423-D):
-
-```
-          _______________                 1 - DTR
-          |             |                 2 - TXD+
-          | 1 2 3 4 5 6 |                 3 - TXD-
-          |________    _|                 4 - RXD-
-                  |___|                   5 - RXD+
-                                          6 - DSR
-```
-
-| MMJ Pin | DEC-423 name | Signal    | Wire Color at Jack | DB-25 |
-|---------|--------------|-----------|--------------------|-------|
-| 1       | Rdy Out      | DTR       | White              | 20    |
-| 2       | Tx+          | TxD       | Black              | 2     |
-| 3       | Tx-          | GND       | Red                | 7     |
-| 4       | Rx-          | GND       | Green              | 7     |
-| 5       | Rx+          | RxD       | Yellow             | 3     |
-| 6       | Rdy In       | DSR & DCD | Blue               | 6 & 8 |
-
-Note: wire color gets flipped on one plug since DEC-423 always uses
-crossover cables.
 
 ### BC16E DEC-423 Cable
 
