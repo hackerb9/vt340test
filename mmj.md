@@ -212,12 +212,12 @@ This is DEC's official MMJ cable.
 
 | MMJ Plug 1 | Wire Color | DEC-423 | DEC-423 | Wire Color | MMJ Plug 2 |
 |------------|------------|---------|---------|------------|------------|
-| 1          | White      | Rdy Out | Rdy In  | Blue       | 6          |
-| 2          | Black      | Tx+     | Rx+     | Yellow     | 5          |
-| 3          | Red        | Tx-     | Rx-     | Green      | 4          |
-| 4          | Green      | Rx-     | Tx-     | Red        | 3          |
-| 5          | Yellow     | Rx+     | Tx+     | Black      | 2          |
-| 6          | Blue       | Rdy In  | Rdy Out | White      | 1          |
+| 1          | White      | Rdy Out | Rdy In  | Blue       | 1          |
+| 2          | Black      | Tx+     | Rx+     | Yellow     | 2          |
+| 3          | Red        | Tx-     | Rx-     | Green      | 3          |
+| 4          | Green      | Rx-     | Tx-     | Red        | 4          |
+| 5          | Yellow     | Rx+     | Tx+     | Black      | 5          |
+| 6          | Blue       | Rdy In  | Rdy Out | White      | 6          |
 
 
 Instead of using vintage cables which cost a premium, hackerb9
@@ -267,7 +267,7 @@ hardware damage.
 
 <details><summary>
 
-## Question H4 From the Digital Unix FAQ
+## Other DEC pinouts from the Digital Unix FAQ
 
 </summary>
 
