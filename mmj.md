@@ -76,15 +76,17 @@ If there was a seventh DSub female pin it could be used for DE-9 pin 6
 It has been omitted here in favor of DE-9 pins 1 and 8 (Carrier Detect and
 Clear to Send).</sub>
 <details><summary>Sub-sub-note</summary><sub>
+
 Perhaps the most important of those is pin 1 (Carrier Detect) as
 without it programs like `less` and `mesg` would hang forever on open
 of /dev/tty.</sub> <sub>(A software fix if your cable lacks Carrier Detect is to
-jrun `stty clocal`.)</sub> <sub> Pin 8 (Clear To Send) is also useful as it is
+run `stty clocal`.)</sub> <sub> Pin 8 (Clear To Send) is also useful as it is
 common for modern systems to presume hardware flow control (even
 though the VT340 does not have it).</sub> <sub>Pin 6 (Data Set Ready) is least
 important as [UNIX systems have ignored it for eons][UWR870] in favor
 of Carrier Detect (Pin 1). For more considerations, see the [Linux
 Text Terminal Howto][TLDPTTH].</sub>
+
 </details>
 </details>
 </i></ul>
