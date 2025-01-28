@@ -69,28 +69,25 @@ Linux kernel still has no support as of 2025.
 <ul><i><sub> 
 Note: Unassembled adapter kits come with only six DSub female pins.</sub><sub>
 Take the spare from joining MMJ 3 and 4 and use it so that MMJ 1 can
-go to both DE-9 pins 1 and 8. </sub><sub>
-<details><summary>Sub-note</summary>
+go to both DE-9 pins 1 and 8.</sub>
+<details><summary>Sub-note</summary><sub>
 If there was a seventh DSub female pin it could be used for DE-9 pin 6
 (Data Set Ready), connected to MMJ pin 1 (Data Terminal Ready). </sub><sub>
 It has been omitted here in favor of DE-9 pins 1 and 8 (Carrier Detect and
-Clear to Send).</sub><sub> 
-<details><summary>Sub-sub-note</summary>
-
+Clear to Send).</sub>
+<details><summary>Sub-sub-note</summary><sub>
 Perhaps the most important of those is pin 1 (Carrier Detect) as
 without it programs like `less` and `mesg` would hang forever on open
-of /dev/tty. </sub><sub>(A software fix if your cable lacks Carrier Detect is to
-jrun `stty clocal`.)</sub><sub> Pin 8 (Clear To Send) is also useful as it is
+of /dev/tty.</sub> <sub>(A software fix if your cable lacks Carrier Detect is to
+jrun `stty clocal`.)</sub> <sub> Pin 8 (Clear To Send) is also useful as it is
 common for modern systems to presume hardware flow control (even
-though the VT340 does not have it). </sub><sub>Pin 6 (Data Set Ready) is least
+though the VT340 does not have it).</sub> <sub>Pin 6 (Data Set Ready) is least
 important as [UNIX systems have ignored it for eons][UWR870] in favor
 of Carrier Detect (Pin 1). For more considerations, see the [Linux
-Text Terminal Howto][TLDPTTH].
-
+Text Terminal Howto][TLDPTTH].</sub>
 </details>
-
 </details>
-</sub></i></ul>
+</i></ul>
 
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
   [TLDPTTH]: https://tldp.org/HOWTO/Text-Terminal-HOWTO-12.html
