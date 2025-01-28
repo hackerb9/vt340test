@@ -58,27 +58,38 @@ uses RTS (DB9 pin 7). Why? Because all modern UNIX systems can handle
 RTS/CTS flow control but DTR/DSR support is iffy. In particular, the
 Linux kernel still has no support as of 2025.
 
-| MMJ function (after cable) | MMJ Female | DE-9 Female | DE-9 RS-232 name                 |               |
-|---------------------------:|-----------:|:------------|:---------------------------------|---------------|
-|        Data Terminal Ready |          1 | 7           | Request To Send                  | Blue          |
-|              Transmit Data |          2 | 3           | Transmit Data                    | Yellow        |
-|                     Ground |    3<br/>4 | 5           | Ground                           | Green<br/>Red |
-|               Receive Data |          5 | 2           | Receive Data                     | Black         |
-|             Data Set Ready |          6 | 1<br/>8     | Carrier Detect<br/>Clear To Send | White         |
+| MMJ function (after cable) | MMJ Female | Usual color   | DE-9 Female | DE-9 RS-232 name                 |
+|---------------------------:|-----------:|---------------|:------------|:---------------------------------|
+|        Data Terminal Ready |          1 | White         | 7           | Request To Send                  |
+|              Transmit Data |          2 | Black         | 3           | Transmit Data                    |
+|                     Ground |    3<br/>4 | Red<br/>Green | 5           | Ground                           |
+|               Receive Data |          5 | Yellow        | 2           | Receive Data                     |
+|             Data Set Ready |          6 | Blue          | 1<br/>8     | Carrier Detect<br/>Clear To Send |
 
 <ul><i><sub> 
-Note: On the DE-9 end of the adapter there is a small question since
-unassembled kits come with only six DSub female pins. That means MMJ
-pin 6 (DSR) can only connect to two of pins 1, 6, and 8. Hackerb9
-suggests using pins 1 and 8. Pin 1 (Carrier Detect) is most important
-as without it programs like `less` and `mesg` would hang forever on
-open of /dev/tty. A software fix, if you have such a cable, is to run
-`stty clocal`. Pin 8 (Clear To Send) is also useful as it is common
-for modern systems to presume RTS/CTS hardware flow control (even
-though the VT340 does not have it). Pin 6 (Data Set Ready) is least
+Note: Unassembled adapter kits come with only six DSub female pins.</sub><sub>
+Take the spare from joining MMJ 3 and 4 and use it so that MMJ 1 can
+go to both DE-9 pins 1 and 8. </sub><sub>
+<details><summary>Sub-note</summary>
+If there was a seventh DSub female pin it could be used for DE-9 pin 6
+(Data Set Ready), connected to MMJ pin 1 (Data Terminal Ready). </sub><sub>
+It has been omitted here in favor of DE-9 pins 1 and 8 (Carrier Detect and
+Clear to Send).</sub><sub> 
+<details><summary>Sub-sub-note</summary>
+
+Perhaps the most important of those is pin 1 (Carrier Detect) as
+without it programs like `less` and `mesg` would hang forever on open
+of /dev/tty. </sub><sub>(A software fix if your cable lacks Carrier Detect is to
+jrun `stty clocal`.)</sub><sub> Pin 8 (Clear To Send) is also useful as it is
+common for modern systems to presume hardware flow control (even
+though the VT340 does not have it). </sub><sub>Pin 6 (Data Set Ready) is least
 important as [UNIX systems have ignored it for eons][UWR870] in favor
-of Carrier Detect (Pin 1). For more considerations, see the 
-[Linux Text Terminal Howto][TLDPTTH].
+of Carrier Detect (Pin 1). For more considerations, see the [Linux
+Text Terminal Howto][TLDPTTH].
+
+</details>
+
+</details>
 </sub></i></ul>
 
   [UWR870]: https://www.washington.edu/R870/TerminalsModems.html
@@ -94,7 +105,7 @@ dropped characters ("⸮"). See [flowcontrol.md](flowcontrol.md) for details._
 
 ### Purchasing Unassembled MMJ-DB9F Adapters
 
-Most of the MMJ-DB9F adapters sale online come with the pins
+Most of the MMJ-DB9F adapters for sale online come with the pins
 disconnected so you can choose how you wish to wire it.
 
 Hackerb9 ordered from Pacific Cable (part no. AD-9FT6-G1D), but [their
@@ -195,15 +206,18 @@ out of ordinary 6-wire telephone cable.
 
 ----------------------------------------------------------------------
 
+<details><summary>
 
 ### Mark Gleaves MMJ to 9-pin serial with fake RTS/CTS flow control
 
-The Linux Documentation Project has a pinout very similar to the one
-hackerb9 suggests above. It additionally loops back the Request to
-Send (RTS) signal from the PC back into the Carrier Detect (CD) and
-Data Terminal Ready (DTR) pins. This seems like a mistake as RTS and
-DTR are both _outputs_ pins and one could fry the serial port if they
-disagree about what voltage to set the line.
+</summary>
+
+The Linux Documentation Project has a pinout for a cable functionally
+similar to the one hackerb9 suggests above. It additionally loops back
+the Request to Send (RTS) signal from the PC back into the Carrier
+Detect (CD) and Data Terminal Ready (DTR) pins. This seems like a
+mistake as RTS and DTR are both _outputs_ pins and one could fry the
+serial port if they disagree about what voltage to set the line.
 
 His schematic is:
 
@@ -224,8 +238,14 @@ His schematic is:
 Hackerb9 does NOT RECOMMENDED this cable due to the possibility of
 hardware damage.
 
+</details>
+
+
+<details><summary>
 
 ### DEC H8571-J adapter: PC RS232 serial port to MMJ, straight
+
+</summary>
 
 DEC's official MMJ to DE-9 adapter. While physically this looks the
 same as hackerb9's suggested dongle above, the wiring does not include
@@ -242,7 +262,14 @@ the necessary "null modem" crossover for connecting a VT340 to a PC.
 
 ----------------------------------------------------------------------
 
+</details>
+
+
+<details><summary>
+
 ## Question H4 From the Digital Unix FAQ
+
+</summary>
 
 <blockquote>
 
@@ -263,10 +290,16 @@ Digital carries four DB-to-MMJ adaptors.  They are internally wired as follows
 
 </blockquote>
 
-
 ----------------------------------------------------------------------
 
+</details>
+
+
+<details><summary>
+
 ## Pinout of 9-pin and 25-pin serial connectors
+
+</summary>
 
 Adapted from the Linux Serial HOWTO chapter 19.
 
@@ -303,3 +336,5 @@ full-duplex "RTS/CTS hardware handshaking". Some have suggested
 renaming it "Ready To Receive".
 
 </blockquote>
+
+</details>
