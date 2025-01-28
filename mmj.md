@@ -68,7 +68,7 @@ Linux kernel still has no support as of 2025.
 
 <ul><i><sub> 
 Note: Unassembled adapter kits come with only six DSub female pins.</sub><sub>
-Take the spare from joining MMJ 3 and 4 and use it so that MMJ 1 can
+Take the spare from joining MMJ 3 and 4 and use it so that MMJ 6 can
 go to both DE-9 pins 1 and 8.</sub>
 <details><summary>Sub-note</summary><sub>
 If there was a seventh DSub female pin it could be used for DE-9 pin 6
