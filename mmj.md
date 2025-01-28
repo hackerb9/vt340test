@@ -72,7 +72,7 @@ Take the spare from joining MMJ 3 and 4 and use it so that MMJ 6 can
 go to both DE-9 pins 1 and 8.</sub>
 <details><summary>Sub-note</summary><sub>
 If there was a seventh DSub female pin it could be used for DE-9 pin 6
-(Data Set Ready), connected to MMJ pin 1 (Data Terminal Ready). </sub><sub>
+(Data Set Ready), connected to MMJ pin 6 (Data Set Ready). </sub><sub>
 It has been omitted here in favor of DE-9 pins 1 and 8 (Carrier Detect and
 Clear to Send).</sub>
 <details><summary>Sub-sub-note</summary>
