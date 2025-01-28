@@ -30,6 +30,34 @@ model number for this adapter is **H8571-J**.
 
   [lammert]: https://www.lammertbies.nl/comm/cable/dec-mmj
 
+<details><summary>
+
+#### DEC H8571-J adapter: PC RS232 serial port to MMJ
+
+</summary>
+
+DEC's official MMJ to DE-9 adapter for connecting a VT340 to a PC.
+
+| MMJ<br/>RS-232 name | MMJ<br/>Pin | DE-9<br/>pin       | DE-9<br/>RS-232 name                                |
+|--------------------:|:-----------:|:------------------:|-----------------------------------------------------|
+|                 DTR | 1           | 4                  | Data Terminal Ready                                 |
+|                 Tx+ | 2           | 3                  | Transmit Data                                       |
+|         Tx-</br>Rx- | 3<br/>4     | 5                  | Ground                                              |
+|                 Rx+ | 5           | 3                  | Receive Data                                        |
+|                 DSR | 6           | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
+
+
+The H8571-J is nearly identical to the hackerb9's wiring, below, with
+one minor difference: instead of using DTR (DB9 pin 4) on the PC,
+hackerb9's connector uses RTS (DB9 pin 7). Why? Because all modern
+UNIX systems can handle RTS/CTS flow control but DTR/DSR support is
+iffy. In particular, the Linux kernel still has no support as of 2025.
+
+----------------------------------------------------------------------
+
+</details>
+
+
 <!-- XXX TODO: Insert picture of adapter here. -->
 
 Note that the because every MMJ cable is a crossover cable, the
@@ -51,12 +79,6 @@ Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
 like original DEC equipment, a PC can be plugged into any MMJ device
 using just a single cable. In RS232-speak, all devices (VT340, PC,
 printer, etc) are "DTE" and all cables are "crossover" (AKA "null modems").
-
-This is very similar to DEC's H8571-J adapter with one minor
-difference: instead of using DTR (DB9 pin 4) on the PC, this connector
-uses RTS (DB9 pin 7). Why? Because all modern UNIX systems can handle
-RTS/CTS flow control but DTR/DSR support is iffy. In particular, the
-Linux kernel still has no support as of 2025.
 
 | MMJ function (after cable) | MMJ Female | Usual color   | DE-9 Female | DE-9 RS-232 name                 |
 |---------------------------:|-----------:|---------------|:------------|:---------------------------------|
@@ -240,28 +262,6 @@ hardware damage.
 </details>
 
 
-<details><summary>
-
-### DEC H8571-J adapter: PC RS232 serial port to MMJ, straight
-
-</summary>
-
-DEC's official MMJ to DE-9 adapter. While physically this looks the
-same as hackerb9's suggested dongle above, the wiring does not include
-the necessary "null modem" crossover for connecting a VT340 to a PC.
-
-| MMJ<br/>RS-232 name | MMJ<br/>Pin | DE-9<br/>pin       | DE-9<br/>RS-232 name                                |
-|--------------------:|:-----------:|:------------------:|-----------------------------------------------------|
-|                 DTR | 1           | 4                  | Data Terminal Ready                                 |
-|                 Tx+ | 2           | 3                  | Transmit Data                                       |
-|         Tx-</br>Rx- | 3<br/>4     | 5                  | Ground                                              |
-|                 Rx+ | 5           | 3                  | Receive Data                                        |
-|                 DSR | 6           | 1<br/>6<br/>8<br/> | Data Set Ready<br/>Clear To Send<br/>Carrier Detect |
-
-
-----------------------------------------------------------------------
-
-</details>
 
 
 <details><summary>
