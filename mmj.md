@@ -44,6 +44,8 @@ consider hackerb9's variation, below.
 <details><summary><b>Details on the DEC H8571-J adapter</b></summary>
 <ul>
 
+### DEC H8571-J adapter
+
 Pinout for DEC's official MMJ to DE-9 adapter for connecting a VT340
 to a PC, printer, or other RS-232 device.
 
@@ -68,6 +70,8 @@ iffy. In particular, the Linux kernel still lacks support as of 2025.
 <details>
 <summary><b>Hackerb9's suggestion for DE-9 to MMJ wiring</b></summary>
 <ul>
+
+### Hackerb9's wiring
 
 Here's how hackerb9 wired up a 9-pin female to MMJ connector so that,
 like original DEC equipment, a PC can be plugged into any MMJ device
@@ -139,7 +143,7 @@ In the VT340, DEC assigns the 2nd and 3rd serial-port pins like this
                                           6 - DSR
 ```
 
-> TIP: MMJ Pin 1 is furthest from "thumb" of the MMJ latch
+> **TIP: MMJ Pin 1 is furthest from the "thumb" of the MMJ latch**
 
 <details><summary><b>On the naming and numbering of MMJ pins</b></summary>
 <ul>
