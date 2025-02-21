@@ -8,7 +8,8 @@ trap 'exit' INT			# ^C to cancel script
 # Remove empty files on exit
 trap 'cd ..; find spool -size 0 -delete' EXIT
 
-FAKEPRINTER=/dev/ttyUSB0
+# First argument is serial port to use, or default to /dev/ttyUSB0
+FAKEPRINTER=${1:-/dev/ttyUSB0}
 
 stty -F $FAKEPRINTER 19200 \
      time 5 \
