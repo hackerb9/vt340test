@@ -1,8 +1,9 @@
 ## Media Copy details & investigations
 
-Media Copy is how one can take a screenshot from a VT340. It can be of
-the entire screen or a region. Depending upon complexity of the
-graphics, it can take a long time (~5m) to transmit. 
+The Media Copy escape sequence is how one can take a screenshot from a
+VT340 and save it directly on the host computer. It can be of the
+entire screen or a region. Depending upon complexity of the graphics,
+it can take a long time (~5m) to transmit.
 
 A script for making screenshots can be found in [mediacopy.sh](../mediacopy/mediacopy.sh).
 
@@ -99,12 +100,12 @@ Terminator, `Esc \`.
 While sixel images can theoretically be made up of multiple sixel
 sequences — for example, setting palette colors in one and using them
 in another — the VT340 never sends data like that during a Media Copy
-command. After `Esc P...q`, the first backslash found will be the end
+command. After `Esc P...q`, the first `Esc \` found will be the end
 of the data.
 
 A timeout is not reliable for guessing when the data is done. Due to
-the 8-bit glitch mentioned below, the VT340 pauses for a long time in
-the middle of transmission. 
+the 8-bit glitch mentioned below, the VT340 may pause for a long time
+in the middle of transmission.
 
 # Scattered notes as I figure things out
 
@@ -168,6 +169,8 @@ sixel data, is defined in
 as setting the unit of measurement for all numeric parameters to the
 "Computer Decipoint" = 1/720th of an inch.
 
+<details>
+
 > **8.3.139 SSU - SELECT SIZE UNIT** <br/>
 > Notation: (Ps) <br/>
 > Representation: CSI Ps 02/00 04/09 <br/>
@@ -210,6 +213,8 @@ paper.
   simply the ASCII letter "I". ("04/09" == hexadecimal 0x49 == 'I'.
   Likewise, "02/00" == Space).
 
+</details>
+
 
 ### Eight-bit glitch
 
@@ -218,6 +223,8 @@ byte with the eighth bit high (which should never happen) and then
 pause for several minutes. ^Q does not wake it up. If I let it sit, it
 eventually finishes sending the entire image, but there will be a
 small glitch in the picture for every time the 8-bit bug happened.
+
+<details>
 
 * The eighth-bit glitch is most apparent with large complex images,
   but that may simply because they take longer to send. 
@@ -245,6 +252,8 @@ small glitch in the picture for every time the 8-bit bug happened.
 
 * [ ] Did this glitch happen with Level 1 printing? I don't recall
       noticing it.
+
+</details>
 
 ### Level 1 printing does not work well and should be avoided
 
