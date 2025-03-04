@@ -121,8 +121,9 @@ although it's a bit sluggish, it was actually playable on a VT525.
   
 * Page Memory can be used like double-buffering, where text is written
   to the next page while the user is viewing the current one. (See
-  [EK-VT3XX-TP.pdf#Ch10](docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#Ch10)
-  for cursor coupling).
+  _cursor coupling_ in [Chapter 10 of the Text Programming Manual][TPch10]).
+  [TP]: [https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf "VT-340 Text Programming Manual"]
+  [TPch10]: [https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#Ch10 "VT-340 Text Programming; Chapter 10: Text Movement and Panning"]
 
 * The manual mentions that there are *two* sixel graphics pages (unless
   you are logged in to two sessions at once). It appears they are

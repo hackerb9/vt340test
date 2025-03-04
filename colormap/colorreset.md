@@ -104,7 +104,7 @@ Upon entering Sixel Graphics mode, the device selects color 0.
 
 </i></blockquote>
 
-[PPL2]:	../docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf
+[PPL2]:	https://hackerb9.github.io/vt340test/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf "Level 2 Sixel Programming Reference"
 
 (For printers the initial palette is all black because the paper is
 implicitly white, but of course that default doesn't make sense for a
@@ -140,7 +140,8 @@ whole power-on self-test again.
 VT340. [The VT340 manual][VT340TP] says **DECSCL** calls **DECSTR**
 but does not otherwise mention resetting anything.
 
-[VT340TP]: ../docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf
+  [VT340TP]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf "VT340 Text Programming Manual"
+
 
 The [DEC PPL2 documentation][PPL2] does explicitly state that
 **DECSCL** will reset the color palette, the same as **DECSTR**.

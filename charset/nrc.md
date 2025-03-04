@@ -105,8 +105,8 @@ them.
 | DEC French Canadian  | ESC(9  | ESC)9  | ESC\*9  | ESC+9  | None                   |
 | DEC Swiss            | ESC(=  | ESC)=  | ESC\*=  | ESC+=  | None                   |
 
-  [IR004]: ../docs/standards/IR004-British.pdf
-  [IR021]: ../docs/standards/IR021-German.pdf 
-  [IR025]: ../docs/standards/IR025-French.pdf 
-  [IR015]: ../docs/standards/IR015-Italian.pdf
-  [IR017]: ../docs/standards/IR017-Spanish.pdf
+  [IR004]: https://hackerb9.github.io/vt340test/docs/standards/IR004-British.pdf
+  [IR021]: https://hackerb9.github.io/vt340test/docs/standards/IR021-German.pdf 
+  [IR025]: https://hackerb9.github.io/vt340test/docs/standards/IR025-French.pdf 
+  [IR015]: https://hackerb9.github.io/vt340test/docs/standards/IR015-Italian.pdf
+  [IR017]: https://hackerb9.github.io/vt340test/docs/standards/IR017-Spanish.pdf

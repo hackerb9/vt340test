@@ -117,10 +117,12 @@ use a VT340 in modern times.</sub>
 While an 8-bit code works for single-byte character sets, the VT340
 can simultaneously show characters that are beyond that range by using
 multiple bytes per character via "shifting". 
-(See: "[ISO 2022:1986](hackerb9.github.io/vt340test/docs/standards/ECMA-35_1985.pdf)").
+(See: "[ISO 2022:1986][ISO2022:1986]").
 
-<img src="shiftselector.svg" width="80%" alt="An diagram which makes the
-analogy between shifting and a physical rotating selector switch, like
+  [ISO2022:1986]: https://hackerb9.github.io/vt340test/docs/standards/ECMA-35_1985.pdf "ISO 2022: Code Extension Techniques"
+
+<img src="shiftselector.svg" width="80%" alt="A diagram which makes the
+analogy between 'shifting' and a physical rotating selector switch, like
 the knob on an old TV set.">
 
 ### Quick shifting example (delta):
@@ -215,7 +217,7 @@ were mapped to create a "composite" character set:
 
 (See [APL Composite font](DECAPL.md).)
 
-[APLUG]: ../vms/apl/PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
+[APLUG]: https://hackerb9.github.io/vt340test/vms/apl/PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
 
 
 ### How many characters can the VT340 show using ISO-2022?
@@ -224,7 +226,9 @@ While setting G0 through G3 could be done one at a time, some
 character sets requires setting more than one. For example, a terminal
 like the VT382-J or MS Kermit could use Japanese EUC , which is a
 mixture of single-byte JIS X 0201 (two character sets) and double-byte
-[JIS X 0208](../docs/standards/IR168-Japanese.pdf), like so:
+[JIS X 0208][IR168], like so:
+
+  [IR168]: https://hackerb9.github.io/vt340test/docs/standards/IR168-Japanese.pdf "JIS X 0208"
 
 * Japanese Roman in G0,
 * Japanese Kanji in G1,

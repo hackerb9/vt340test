@@ -252,11 +252,12 @@ the appendices on the ([keyboard][]), mouse[mouse][], and [tablet][].
 
 ### 80/132 column mode
 
-* Despite the
-  [documentation](https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf) 
-  recommending DECSCPP (set columns per page) and deprecating DECCOLM
-  (column mode) to switch between 80 and 132 column mode, they do not
-  appear to be equivalent.
+* Despite the [documentation][VT340TP] recommending DECSCPP (set
+  columns per page) and deprecating DECCOLM (column mode) to switch
+  between 80 and 132 column mode, they do not appear to be equivalent.
+
+  [VT340TP]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf "VT340 Text Programming Manual"
+
 
   * **DECSCPP**: `Esc` `[` `8``0` `$` `|`   or  `Esc` `[` `1``3``2` `$` `|`
 

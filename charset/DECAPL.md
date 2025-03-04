@@ -17,7 +17,7 @@ Note that this differs from both the character set APL uses internally
 and from the older chart in DEC STD 107 (1980). It can be used as an
 8-bit charset by setting GR to G1 (see [Composite APL Character Set] below).
 
-[APLUG]: ../PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
+[APLUG]: https://hackerb9.github.io/vt340test/vms/apl/PDF_DOCS/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf "APL Users' Guide (1991)"
 
 To display an APL character, send its GL/ASCII character after **LS1**
 (0x0E) and before **LS0** (0x0F). 
