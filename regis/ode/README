@@ -1,0 +1,15 @@
+This directory contains sample input files for `ode', originally written by
+Nicholas B. Tufillaro 1982-1994 <nbt@reed.edu>.  GNU enhancements by 
+Robert S. Maier <rsm@math.arizona.edu>, copyright (C) 1996-2008
+Free Software Foundation, Inc.
+
+Documentation, and instructions on how to run `ode' and display the
+resulting output, appears at the head of each file.
+
+The documentation in each of the files refers to `graph -T X', the command
+that will display a graph in a window on an X Window System display.  You
+may substitute `graph -T ps' to obtain Postscript output, `graph -T tek' to
+draw the plot in a Tektronix emulator window, and so forth.
+
+The file lunar.sh is an executable shell script that calls `ode', rather
+than an `ode' input file.

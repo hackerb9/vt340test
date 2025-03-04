@@ -1,0 +1,32 @@
+# You may run this example by doing:
+#
+#    ode < ddho.ode | graph -T X -C
+# 
+# or alternatively, to get a real-time plot,
+#
+#    ode < ddho.ode | graph -T X -C -x 0 25 -y -0.5 1 0.5
+# 
+# This example simulates a dam-driven harmonic oscillator (DDHO) with
+# damping, the equation for which is
+# 
+# y'' = -k/m * y - R/m * y' + cos(w*t)
+# 
+# If R^2 > 4km, motion is overdamped
+# If R^2 = 4km, motion is critically damped
+# If R^2 < 4km, motion is damped
+# 
+# With the choice of parameters below, motion is damped but not
+# overdamped.
+
+y'	= vy
+vy'	= -k/m * y - R/m * vy + cos(w*t)
+
+y	= 1
+vy	= 0
+k	= 1
+m	= 1
+R	= 0.5
+w	= 2*PI
+
+print t, y
+step 0,25

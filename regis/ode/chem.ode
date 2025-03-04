@@ -1,0 +1,42 @@
+# This example does a chemical kinetics simulation, for the reaction:
+#
+# 	A + 2B <==> C --> D
+#
+# The output displays the concentration of the species `C'
+# as a function of time.
+#
+# You may run this example by doing:
+#
+#    ode < chem.ode | graph -T X -C
+#
+# or alternatively, to get a real-time plot,
+#
+#    ode < chem.ode | graph -T X -C -x 0 10 -y 0 0.03
+#
+# To improve the shape of the plotted curve, you may
+# wish to spline it, by doing e.g.
+#
+#    ode < chem.ode | spline | graph -T X -C
+#
+# Alternatively, you could remove the `every 10' clause below.
+
+# The three rate constants are:
+#	kf : A + 2B --> C
+#	kb : C --> A + 2B
+#	kd : C --> D
+
+a' = kb*c - kf*a*b^2
+b' = kb*c - kf*a*b^2
+c' = kf*a*b^2 - kb*c - kd*c
+d' = kd*c
+
+c = 0
+d = 0
+a = 0.1
+b = 1
+
+kf = 1
+kb = 1
+kd = 1
+print t,c every 10
+step 0,10

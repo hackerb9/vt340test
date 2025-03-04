@@ -1,0 +1,40 @@
+# This is a disk dynamo simulation of the earth's magnetic field.
+# It attempts to simulate the dramatic switch in the polarity
+# of the field that takes place every eon or so.
+#
+# Source: Michael Steele, B.A. thesis, Reed College, 1981 (Physics)
+
+# You may run this example by doing:
+#
+#    ode < dynamo.ode | graph -T X -C
+#
+# or alternatively, to get a real-time plot,
+#
+#    ode < dynamo.ode | graph -T X -C -x 0 10 -y -10 10
+#
+
+# The equations are: 
+#
+# w' = Q -zy - Vw
+# y' = S( Az - y)
+# z' = wy - z
+# S = 5
+# V = 1
+# Q = 14.625
+# A = 1
+
+A = 1
+V = 1
+Q = 14.625
+S = 5
+
+w' = Q - z * y - V * w
+y' = S * ( A * z - y)
+z' = w * y - z
+
+w = 1
+y = 1
+z = 1
+
+print t, z
+step 0, 10, .01

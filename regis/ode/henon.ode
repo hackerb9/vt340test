@@ -1,0 +1,29 @@
+# You may run this example by doing:
+#
+#    ode < henon.ode | graph -T X -C
+# 
+# or alternatively, to get a real-time plot,
+#
+#    ode < henon.ode | graph -T X -C -x -0.6 0.6 -y -0.6 0.6
+#
+
+# This example shows a simple center with complicated orbits:
+# the system investigated by Henon and Heiles.
+# The Poincare plot is a graph of p1(t) vs. q1(t).
+
+# Initial condations:
+# stable:    p1 = 1/3, q1 = 1/4, p2 = 0.1293144, q2 = 1/5
+# unstable:  p1 = 0.1, q1 = 0.1, p2 = 0.467618,  q2 = 0.1
+
+qone' = pone
+qtwo' = ptwo
+pone' = -qone - 2*qone*qtwo
+ptwo' = -qtwo - qone*qone + qtwo*qtwo
+
+pone = 1/3
+qone = 1/4
+ptwo = 0.1293144
+qtwo = 1/5
+
+print pone, qone
+step 0,250

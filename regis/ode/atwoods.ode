@@ -1,0 +1,43 @@
+# This example simulates a `swinging Atwood's machine'.  An Atwood's
+# machine consists of two masses joined by a taut length of cord.  The cord
+# is suspended from a pulley.  The heavier mass (M) would normally win
+# against the lighter mass (m), and pull it upward.  A `swinging' Atwood's
+# machine is an Atwood's machine with an additional degree of freedom: it
+# allows the lighter mass to swing back and forth in a plane, at the same
+# time as it is being drawn upward.
+
+# Let `a' denote the angle by which the cord extending to the lighter mass
+# deviates from the vertical.  Let `l' denote the distance along the cord
+# between the pulley and the lighter mass.  Then the system of differential
+# equations below will describe the evolution of the system.
+
+# You may run this example, with output to an X window in real time, by doing
+#
+#	ode < atwoods.ode | graph -T X -x 9 11 -y -1 1 -m 0 -S 1
+# 
+# The plot will trace out `l' and `ldot' (its time derivative).  The `-m 0
+# -S 1' option requests that successive datapoints not be joined by line
+# segments, but rather that marker symbol #1 (a point) be plotted at the
+# location of each datapoint.
+
+# You may have some difficulty believing the results of this simulation.
+# Allowing the lighter mass to swing, it turns out, may prevent the heavier
+# mass from winning against it.  The system may oscillate,
+# non-periodically.
+
+m = 1		# lighter mass
+M = 1.0625	# heavier mass
+
+a = 0.5		# initial angle of cord from vertical, in radians
+adot = 0
+l = 10		# initial distance along cord from pulley to mass m
+ldot = 0
+g = 9.8		# acceleration due to gravity
+
+ldot' = ( m * l * adot * adot - M * g + m * g * cos(a) ) / (m + M)
+l'    = ldot
+adot' = (-1/l) * (g * sin(a) +  2 * adot * ldot)
+a'    = adot
+
+print l, ldot
+step 0, 400

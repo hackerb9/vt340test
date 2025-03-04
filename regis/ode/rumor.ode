@@ -1,0 +1,43 @@
+# This example simulates the spread of a rumor through a closed
+# population.  The percentage of people who have not heard the
+# rumor, as a function of time, is plotted.
+# 
+# You may run this example by doing:
+#
+#    ode < rumor.ode | graph -T X -C
+# 
+# or alternatively, to get a real-time plot,
+#
+#    ode < rumor.ode | graph -T X -C -x 0 .25 -y 0 100
+
+# The theoretical background for this model is as follows.
+# 
+# Suppose a rumor spreads through a closed population of constant size
+# N+1. At time t the total population can be classified into three categories:
+#	x persons who are ignorant of the rumor;
+#	y persons who are actively spreading the rumor;
+#	z persons who have heard the rumor but have stopped spreading it;
+# 
+# Suppose that if two persons who are spreading the rumor meet then they stop
+# spreading it.
+# Suppose also that the contact rate between any two categories is constant, u.
+# 
+# The equations 
+#		x' = -u * x * y,
+#		y' =  u * (x*y - y*(y - 1) - y*z)
+# give a deterministic model of the problem.
+#
+# When initially y = 1 and x = N, the number of people
+# who ultimately never hear the rumor is s, where s satisfies
+#	2N + 1 - 2s + N log(s/N) = 0.
+
+x' = -u * x * y
+y' = u * (x*y - y*(y-1) - y*( 100 + 1 - y - x))
+
+x = 100
+y = 1
+
+u = 1
+
+print t, x
+step 0, 0.25
