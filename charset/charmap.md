@@ -132,12 +132,17 @@ something visible on modern machines.
 
 ## "Compiling" charmap using localedef
 
-Note: One _could_ compile this into the system locale definitions
-and set LANG=en_US.DECAPL, but there is no point until the matching
-gconv module exists. Many programs would abort, with errors like,
-"iconv: conversion to APL//TRANSLIT is not supported". Some versions
-of Python will even dump core.
+The benefit of compiling with localedef is that (theoretically) the
+charmap can be used interactively (by setting LANG) instead of having
+to run `iconv`.
 
+Note: Whie one _could_ compile this into the system locale definitions
+and set LANG=en_US.DECAPL, there is no point until the matching gconv
+module exists. Many programs would abort, with errors like, "iconv:
+conversion to APL//TRANSLIT is not supported". Some versions of Python
+will even dump core. 
+
+This page does not document how to create a gconv module.
 Nevertheless, for future reference, here is how it is done:
 
 <details>
