@@ -236,11 +236,11 @@ has some to test. In the meantime, there is good information about the
 common protocol they spoke in the [VCB02 manual][vcb], particularly
 the appendices on the ([keyboard][]), mouse[mouse][], and [tablet][].
 
-  [vcb]: [https://hackerb9.github.io/vt340test/docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"]
-  [keyboard]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxB-kbdprotocol.pdf "DEC keyboard protocol details (extracted from VCB02 techref)"]
-  [mouse]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxC-mouseprotocol.pdf "DEC mouse protocol details (extracted from VCB02 techref)"]
-  [tablet]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxD-tabletprotocol.pdf "DEC tablet protocol details (extracted from VCB02 techref)"]
-  [VSXPR]: [https://hackerb9.github.io/vt340test/docs/kindred/EK-VSXPR-TM-001-mod.cat] "DEC VSXXX-CA/CB Protocol Repeater Technical Manual"]
+  [vcb]: https://hackerb9.github.io/vt340test/docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"
+  [keyboard]: https://hackerb9.github.io/vt340test/docs/hardware/AppdxB-kbdprotocol.pdf "DEC keyboard protocol details (extracted from VCB02 techref)"
+  [mouse]: https://hackerb9.github.io/vt340test/docs/hardware/AppdxC-mouseprotocol.pdf "DEC mouse protocol details (extracted from VCB02 techref)"
+  [tablet]: https://hackerb9.github.io/vt340test/docs/hardware/AppdxD-tabletprotocol.pdf "DEC tablet protocol details (extracted from VCB02 techref)"
+  [VSXPR]: https://hackerb9.github.io/vt340test/docs/kindred/EK-VSXPR-TM-001-mod.cat] "DEC VSXXX-CA/CB Protocol Repeater Technical Manual"
 
 ### Tek 4010/4014 mode
 
