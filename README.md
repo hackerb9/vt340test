@@ -66,7 +66,7 @@ Please see
   [Sixels](sixeltests). (It could also do Tektronix 4014 graphics).
   
 * Unlike its primitive ancestor, the
-  [VK100](docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf) (AKA
+  [VK100](https://hackerb9.github.io/vt340test/docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf) (AKA
   "Gigi"), the VT340 does not use "ANSI color" for text. Instead, the
   VT340 shows _all_ text on the screen in one color. It is not yet
   clear why DEC did not add escape sequences to change what value is
@@ -235,11 +235,11 @@ has some to test. In the meantime, there is good information about the
 common protocol they spoke in the [VCB02 manual][vcb], particularly
 the appendices on the ([keyboard][]), mouse[mouse][], and [tablet][].
 
-  [vcb]: [docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"]
-  [keyboard]: [docs/hardware/AppdxB-kbdprotocol.pdf "DEC keyboard protocol details (extracted from VCB02 techref)"]
-  [mouse]: [docs/hardware/AppdxC-mouseprotocol.pdf "DEC mouse protocol details (extracted from VCB02 techref)"]
-  [tablet]: [docs/hardware/AppdxD-tabletprotocol.pdf "DEC tablet protocol details (extracted from VCB02 techref)"]
-  [VSXPR]: [docs/kindred/EK-VSXPR-TM-001-mod.cat] "DEC VSXXX-CA/CB Protocol Repeater Technical Manual"]
+  [vcb]: [https://hackerb9.github.io/vt340test/docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"]
+  [keyboard]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxB-kbdprotocol.pdf "DEC keyboard protocol details (extracted from VCB02 techref)"]
+  [mouse]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxC-mouseprotocol.pdf "DEC mouse protocol details (extracted from VCB02 techref)"]
+  [tablet]: [https://hackerb9.github.io/vt340test/docs/hardware/AppdxD-tabletprotocol.pdf "DEC tablet protocol details (extracted from VCB02 techref)"]
+  [VSXPR]: [https://hackerb9.github.io/vt340test/docs/kindred/EK-VSXPR-TM-001-mod.cat] "DEC VSXXX-CA/CB Protocol Repeater Technical Manual"]
 
 ### Tek 4010/4014 mode
 
@@ -253,7 +253,7 @@ the appendices on the ([keyboard][]), mouse[mouse][], and [tablet][].
 ### 80/132 column mode
 
 * Despite the
-  [documentation](docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf) 
+  [documentation](https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf) 
   recommending DECSCPP (set columns per page) and deprecating DECCOLM
   (column mode) to switch between 80 and 132 column mode, they do not
   appear to be equivalent.

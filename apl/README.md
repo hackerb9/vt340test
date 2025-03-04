@@ -19,7 +19,7 @@ similar to a foreign natural language. APL uses,
 * a [different keyboard](img/LK201-APL-kbd.png) for input.
 
 See the
-[VAX APL User's Guide](../docs/kindred/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf) 
+[VAX APL User's Guide](https://hackerb9.github.io/vt340test/docs/kindred/AA-P142E-TE_VAX_APL_Users_Guide_Jun91_text.pdf) 
 for information on how those pieces were defined and worked together. 
 
 

@@ -2,9 +2,9 @@
 
 <img src="vwsvt200.png" width=80% >
 
-Apparently, before [DECterm](decterm.md) running on DECwindows, DEC
-released a VT200 emulator on a peculiar windowing system called _VWS_
-("Vax Workstation Software Windowing System"). There are a few things
+Before [DECterm](decterm.md) running on DECwindows, DEC released a
+VT200 emulator on a peculiar windowing system called _VWS_ ("Vax
+Workstation Software Windowing System"). There are a few things
 interesting about this terminal emulator, from a VT340 perspective.
 
 ## Portable Font
@@ -113,7 +113,7 @@ perhaps bugs or perhaps just an error in my method of testing.
    single line and then hitting <kbd>Ctrl</kbd><kbd>U</kbd> to clear
    the line and return to typing in the VT200 window. The trick is to
    not hit the <kbd>Enter</kbd> key as anything VMS prints as an error
-   message will _also_ be interpreted as ReGIS commands.
+   message will _also_ (!) be interpreted as ReGIS commands.
 
 * While the VWS VT200 terminal can be resized to nearly the full
   1024x1024 size of a VAXstation's display, ReGIS will only use the
@@ -122,8 +122,9 @@ perhaps bugs or perhaps just an error in my method of testing.
   800x480 and 1000x600 are a 5:3 ratio. But I don't see a convincing
   argument for why.
 
-* ReGIS cannot display data on horizontal line 0 by default. As far as
-  I can tell, the default grid actually goes from [0,1] to [799,479].
+* VT200's ReGIS cannot display data on horizontal line 0 by default.
+  As far as I can tell, the default grid actually goes from [0,1] to
+  [799,479].
 
 * When the ReGIS screen coordinates are set to 1000x600, vertical line
   999 is invisible. (That's in addition to horizontal line 0 having
@@ -146,9 +147,11 @@ perhaps bugs or perhaps just an error in my method of testing.
 
 </details></ul>
 
-I was unable to test colors because the VAXstation simulator I am
-using does not yet support the color graphics card. ("Dragon", which
-just happens to be the same chips used in the VT340!)
+I was unable to test colors because the [VAXstation simulator][osimh]
+I am using does not yet support the color graphics card. ("Dragon",
+which just happens to be the same chips used in the VT340!)
+
+[osimh]: https://opensimh.org/
 
 
 <br><br>

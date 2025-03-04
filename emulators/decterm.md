@@ -5,7 +5,9 @@ VMS/DECwindows. It does sixel and ReGIS graphics, but with
 limitations.
 
 * Not to be confused with **dtterm**, which was a later terminal
-  emulator that lacked VT340 emulation.
+  emulator that lacked VT340 emulation. Nor should it be confused with
+  [**VWS VT200**](vwsvt200/README.md) which had VT340 like features
+  but used DEC's proprietary windowing system for VAXstations.
 
 * DECterm can emulate Japanese features (in VT382-J mode) that were
   not present in the VT340. 
@@ -20,9 +22,9 @@ limitations.
 
 	    CSI ? 63 ; 1 ; 2 ; 4 ; 5 ; 6 ; 7 ; 8 ; 10 ; 15 ; 43 c
 
-  This is almost exactly the same as the [VT382](../docs/kindred/EK-VT382-RM-001_Kanji_Display_Terminal_Programmer_Reference_Manual.pdf) DA report, with the
-  addition of extension number "43" (ruled lines), which the VT382-J
-  does support despite not advertising it.
+  This is almost exactly the same as the [VT382][vt382] DA report,
+  with the addition of extension number "43" (ruled lines), which the
+  VT382-J _does_ support despite not advertising it.
 
 * On paper, a DECterm compares moderately well with an actual VT340,
   which reports the following Device Attributes:
@@ -31,32 +33,39 @@ limitations.
 	
 * Comparison of features
 	
-   | Psn | Extension           | VT340 only | DECterm/VT382 only |
-   |-----|---------------------|------------|--------------------|
-   | 1   | 132 columns         |            |                    |
-   | 2   | printer port        |            |                    |
-   | 3   | ReGIS graphics      | X          |                    |
-   | 4   | sixel graphics      |            |                    |
-   | 5   | Katakana            |            | X                  |
-   | 6   | selective erase     |            |                    |
-   | 7   | soft character set  |            |                    |
-   | 8   | user-defined keys   |            |                    |
-   | 9   | NRC sets            | X          |                    |
-   | 10  | two-byte Kanji      |            | X                  |
-   | 13  | local editing mode  | X          |                    |
-   | 15  | DEC technical set   |            |                    |
-   | 16  | locator device port | X          |                    |
-   | 18  | user windows        | X          |                    |
-   | 19  | dual sessions       | X          |                    |
-   | 43  | ruled line drawing  |            | X                  |
+Comparison of features unique to the VT340 or DECterm. (Blank in both
+columns means both support that feature.)
+
+   | Psn | Extension           | Unique to VT340 | Unique to DECterm/VT382 |
+   |-----|---------------------|-----------------|-------------------------|
+   | 1   | 132 columns         |                 |                         |
+   | 2   | printer port        |                 |                         |
+   | 3   | ReGIS graphics      | X               | (partial, see below)    |
+   | 4   | sixel graphics      |                 |                         |
+   | 5   | Katakana            |                 | X                       |
+   | 6   | selective erase     |                 |                         |
+   | 7   | soft character set  |                 |                         |
+   | 8   | user-defined keys   |                 |                         |
+   | 9   | NRC sets            | X               |                         |
+   | 10  | two-byte Kanji      |                 | X                       |
+   | 13  | local editing mode  | X               |                         |
+   | 15  | DEC technical set   |                 |                         |
+   | 16  | locator device port | X               |                         |
+   | 18  | user windows        | X               |                         |
+   | 19  | dual sessions       | X               |                         |
+   | 43  | ruled line drawing  |                 | X                       |
+
+[vt382]: https://hackerb9.github.io/vt340test/docs/kindred/EK-VT382-RM-001_Kanji_Display_Terminal_Programmer_Reference_Manual.pdf "VT382 Programming Manual"
+
 
 ## Graphics differences
 
 * Unlike a VT340, DECterm supports the Japanese VT382 extension for
-  ruled lines. (Primary device attribute extension #43). See section
-	  4.2 of [Writing Software for the International Market](https://www.cs.auckland.ac.nz/references/unix/digital/AQ0R4CTE/DOCU_006.HTM),
+  ruled lines. (Primary device attribute extension #43). 
+  See Appendix D of [Writing Software for the International Market][WSIM].
+  (https://www.cs.auckland.ac.nz/references/unix/digital/AQ0R4CTE/DOCU_006.HTM).
 
-* Despite the attributes shown above, DECterm does suppport ReGIS
+* Despite the attributes shown above, DECterm _does_ suppport ReGIS
   graphics, somewhat.
   
   * DECterm lacks the VT340's ReGIS Command Display mode, Scrolling,
@@ -64,11 +73,11 @@ limitations.
   
   * DECterm's ReGIS addresses the entire window, not just 24 rows and
   80 columns. The DECterm documentation mentions that this will throw
-  the aspect ratio off between text and graphics. Presumably, this
+  the aspect ratio off between text and graphics. It's possible this
   refers to ReGIS's graphical text, not the more ordinary character
-  cell text, which could never be safely mixed with ReGIS graphics.
-  (To mix graphics and character cell text, one should use sixel, not
-  ReGIS).
+  cell text, which one would not expect to portably mix with ReGIS
+  graphics. [Note: To mix graphics and character cell text, it's
+  usually easier to use sixel, not ReGIS.]
 
 * The extant documentation for DECterm does not detail the sixel
   behavior. Hackerb9 suspects that it differs from a VT340's
@@ -119,10 +128,13 @@ limitations.
 
 		`ESC` `(` `SP` <\x*XX*> <\x*YY*> `ESC` `(` `B`
 
-* See also, [hackerb9's extracts](decterm.intl.txt) from 
-  [Writing Software for the International Market](../docs/kindred/VT382/Writing%20International.pdf) from the Digital UNIX documentation Library, March 1996.
+* See also, [hackerb9's extracts](decterm.intl.txt) from [Writing
+  Software for the International Market][WSIM] from the Digital UNIX
+  documentation Library, March 1996.
 
 * http://vt100.net/dec/vt320/soft_characters
+
+[WSIM]: https://hackerb9.github.io/vt340test/docs/kindred/VT382/Writing%20International.pdf
 
 ## Fonts and ReGIS
 

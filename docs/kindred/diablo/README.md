@@ -17,11 +17,12 @@ characters per inch. Another option is PS, meaning "proportional
 spacing". (Courier 72 is a 10-pitch font.)
 
 The extra large bullet point which DEC is extremely fond of in their
-documentation is referred to by the [Diablo Printer Supplies
-Guide](Diablo_Printer_Supplies_Feb1981.pdf) as a "Burger Dot".
-Internet lore has it that it was named after "Mr. Berger" at DuPont
-who had taken to filling in the "o" by hand to make his points stand
-out better.
+documentation is referred to by the [Diablo Printer Supplies Guide][supplies]
+as a "Burger Dot". Internet lore has it that it was named after "Mr.
+Berger" at DuPont who had taken to filling in the "o" by hand to make
+his points stand out better.
+
+[supplies]: https://hackerb9.github.io/vt340test/docs/kindred/diablo/Diablo_Printer_Supplies_Feb1981.pdf "Diablo Printer Supplies 1981"
 
 ## Print wheels, 96-petaled daisies, and solenoid hammers
 
@@ -108,8 +109,10 @@ Xerox/Diablo seem to have had many names for Courier.
   * Plastic, Part Number 38107-01
 	<img src="courier72.png" width=80%>
   * This is the default wheel for the HyType 1345 (according to the
-    [maintenance manual](82403-03D_Series_1300_HyTYPE_II_Printers_Maint_Jul80.pdf), 
-	so it is likely what DEC used in their documentation.
+    [maintenance manual][maintenance] so it is likely what DEC used 
+	in their documentation.
+
+[maintenance]: https://hackerb9.github.io/vt340test/docs/kindred/diablo/82403-03D_Series_1300_HyTYPE_II_Printers_Maint_Jul80.pdf "HyTYPE II Maintenance Manual"
 
 * Courier 10
   * Plastic, Part Number 38100-01
