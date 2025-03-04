@@ -65,9 +65,9 @@ Dynamically Redefinable Character Set ("DRCS") with [SCS designator][Dscs]
 `&0`. Because the files end with the byte sequence `ESC` `)` `&` `0`, 
 they are automatically loaded as G1 (Graphic Set #1).
 
-[DECDLD]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114
+[DECDLD]: https://hackerb9.github.io/vt340test/docs/EK-PPLV2-PM.B01_Level_2_Sixel_Programming_Reference.pdf#page=114 "DECDLD - Download Font"
 
-[Dscs]: https://github.com/hackerb9/vt340test/raw/main/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105
+[Dscs]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf#page=105 "Down-Line-Loading Soft Characters"
 
 ### Detailed walkthrough of LS1, LS0
 

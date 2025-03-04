@@ -65,16 +65,17 @@ Please see
   vectors using [ReGIS](regis/) or as bitmaps using
   [Sixels](sixeltests). (It could also do Tektronix 4014 graphics).
   
-* Unlike its primitive ancestor, the
-  [VK100](https://hackerb9.github.io/vt340test/docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf) (AKA
-  "Gigi"), the VT340 does not use "ANSI color" for text. Instead, the
-  VT340 shows _all_ text on the screen in one color. It is not yet
-  clear why DEC did not add escape sequences to change what value is
-  used for drawing pixels of text on the VT340. Likely there were
-  other concerns, such as backwards compatibility with the VT241 or
-  that the VT340's indexed color model doesn't fit well with ANSI's
-  direct color model.
+* Unlike its primitive ancestor, the [VK100][VK100] (AKA "Gigi"), the
+  VT340 does not use "ANSI color" for text. Instead, the VT340 shows
+  _all_ text on the screen in one color. It is not yet clear why DEC
+  did not add escape sequences to change what value is used for
+  drawing pixels of text on the VT340. Likely there were other
+  concerns, such as backwards compatibility with the VT241 or that the
+  VT340's indexed color model doesn't fit well with ANSI's direct
+  color model.
   
+  [VK100]: https://hackerb9.github.io/vt340test/docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf "GIGI ReGIS Handbook"
+
 * There is a way to [fake multicolor text](regis/faketextcolor.md) by
   changing the pixel values after the fact. It is undocumented, slow,
   and a bit of a hack. 
