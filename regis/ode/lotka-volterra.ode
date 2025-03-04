@@ -1,0 +1,36 @@
+# This ode file draws a phase portrait for the Lotka-Volterra
+# predator-prey model from population biology. Suppose that in a lake
+# there are two species of fish: A (the prey) who live by eating a
+# plentiful supply of plants, and B (the predator) who eat A. Let x(t)
+# be the population of A and y(t) the population of B at time t. A
+# crude model for the interaction of A and B is given by the equations
+
+#      x' = x(A-By)
+#      y' = y(Cx-D)
+
+# where A, B, C, D are positive constants. 
+
+# To graph:      ode < lotka-volterra | graph -T regis -C -x 0 5 -y 0 5
+
+# The plot shows the population of the prey as a function of time.
+# The curve oscillates, because as the prey die out, the predators
+# starve.
+
+x' = (A - B*y) * x
+y' = (C*x - D) * y
+
+A = 1
+B = 1
+C = 1
+D = 1
+
+print x, y
+x = 1; y = 2
+step 0, 10
+x = 1; y = 3
+step 0, 10
+x = 1; y = 4
+step 0, 10
+x = 1; y = 5
+step 0, 10
+.
