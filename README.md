@@ -260,7 +260,7 @@ the appendices on the [keyboard][], [mouse][], and [tablet][].
   [VT340TP]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf "VT340 Text Programming Manual"
 
 
-  * **DECSCPP**: `Esc` `[` `8``0` `$` `|`   or  `Esc` `[` `1``3``2` `$` `|`
+  * **DECSCPP**: `Esc` `[` `80` `$` `|`   or  `Esc` `[` `132` `$` `|`
 
     Terminal now thinks it has that many columns, but the screen font
     doesn't actually change. Has the benefit of not clearing data in
