@@ -54,8 +54,8 @@ DECDWL=$'\e#6'
 clear
 tput cup 1
 cat <<EOF
-		The interaction of ReGIS graphics with
-		  line attributes (double-size text)
+	      The effect of ordering upon ReGIS graphics
+	       with line attributes (double-size text)
 EOF
 
 tput cup 5 10
@@ -97,9 +97,10 @@ tput cup 12 0
 cat <<EOF
 Note:
 
-Even numbered lines set the line attributes after drawing ReGIS graphics.
+Even numbered line attributes are changed after drawing ReGIS graphics.
 On a genuine VT340, the graphics on those lines are erased, regardless of
-whether there was text on the line or not.
+whether there was text on the line or not. Setting a line attribute to be
+the same as before the graphic was drawn has no effect.
 
 EOF
 
