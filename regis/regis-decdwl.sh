@@ -95,12 +95,10 @@ echo ${DECDWL}
 
 tput cup 12 0
 cat <<EOF
-Note:
-
-Even numbered line attributes are changed after drawing ReGIS graphics.
-On a genuine VT340, the graphics on those lines are erased, regardless of
-whether there was text on the line or not. Setting a line attribute to be
-the same as before the graphic was drawn has no effect.
+Line attributes were changed after drawing ReGIS graphics for 2, 4, & 6.
+On a genuine VT340, the graphics on those lines are erased, regardless
+of whether there was text on the line or not. Note that setting a line
+attribute to be the same as before the graphic was drawn has no effect.
 
 EOF
 
