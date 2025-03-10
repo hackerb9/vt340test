@@ -31,9 +31,6 @@
 # 5. AGT
 # 6. TGA
 
-# Although peculiar, #5 is useful because it means it is possible to
-# update the text on a double-width line without erasing the graphics.
-
 
 
 # Define a sixel image to draw a 120x120 flag
@@ -52,7 +49,7 @@ DECDWL=$'\e#6'
 clear
 tput cup 1
 cat <<EOF
-	      The effect of ordering upon ReGIS graphics
+	      The effect of ordering upon sixel graphics
 	       with line attributes (double-size text)
 EOF
 
@@ -72,6 +69,7 @@ echo "6. Text, Graphics, Attributes"
 sleep .5
 
 # Draw the flag using macro starting at line 6
+echo $'\ePq\e\\'
 tput cup 5 5
 echo -n "$Y"
 
@@ -89,11 +87,15 @@ echo "5. Attributes, Graphics, Text"
 tput cup 10			# Line 6. TGA
 echo ${DECDWL}
 
-
 tput cup 12 0
 cat <<EOF
-Line attributes were changed after drawing sixel graphics for 2, 4, & 6.
-Sixel images reset the VT340's line attributes to single-width and
-clears the text buffer.
+The VT340 resets all line attributes to single-width and clears the
+underlying text buffer when a sixel image is received. Existing text
+is retained only in the bitmap buffer and cannot be edited.
+
+Lines 2 and 4 of the graphic are erased when the attributes are set.
+Line 6 loses text & graphics, since its order is Text, Graphics, Attributes.
+Line 5 has the text printed on top of the image because the double-
+width attribute that makes columns twice as wide was reset.
 
 EOF
