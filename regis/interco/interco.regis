@@ -23,29 +23,29 @@ P(B)			;"Begin: save starting location."
 
 ;"FIRST STRIPE"
 W(I(R))			;"Write foreground Red"
-F(			;"Filled polygon"
-   V(B)			;"Begin: push current location onto the stack." 
-   P 66666 66666 66666	;"Move position down 15 units."
-   V[]			;"Place a vertex there."
-   P 2 0000 0000	;"Move position up one and right eight units."
-   V[]			;"Vertex"
-   P 2222 22222 2222	;"Move position up 13 units"
-   V[]			;"Vertex"
-   V(E)			;"End: pop the stack to close the polygon."
+F(			"Filled polygon"
+   V(B)			"Begin: push current location onto the stack." 
+   P 66666 66666 66666	"Move position down 15 units."
+   V[]			"Place a vertex there."
+   P 2 0000 0000	"Move position up one and right eight units."
+   V[]			"Vertex"
+   P 2222 22222 2222	"Move position up 13 units"
+   V[]			"Vertex"
+   V(E)			"End: pop the stack to close the polygon."
 )
 
 ;"SECOND STRIPE"
 W(I(W))			;"White"
 P 6 0000 0000		;"Down one and right eight units."
-F(			;"Filled polygon"
-   V(B)			;"Begin" 
-   P 6666 66666 6666	;"Down 13 units."
+F(			"Filled polygon"
+   V(B)			"Begin" 
+   P 6666 66666 6666	"Down 13 units."
    V[]
-   P 2 0000 0000	;"Move up one and right eight units."
+   P 2 0000 0000	"Move up one and right eight units."
    V[]
-   P 222 22222 222	;"Up 11 units."
+   P 222 22222 222	"Up 11 units."
    V[]
-   V(E)			;"End: close the polygon"
+   V(E)			"End: close the polygon"
 )
 
 ;"THIRD STRIPE"
@@ -53,11 +53,11 @@ W(I(R))			;"Red"
 P 6 0000 0000
 F(
    V(B)
-   P 666 66666 666	;"Down 11 units."
+   P 666 66666 666	"Down 11 units."
    V[]
    P 2 0000 0000
    V[]
-   P 22 22222 22        ;"Up 9 units."
+   P 22 22222 22        "Up 9 units."
    V[]
    V(E)
 )
@@ -67,11 +67,11 @@ W(I(W))			;"White"
 P 6 0000 0000
 F(
    V(B)
-   P 66 66666 66	;"Down 9 units."
+   P 66 66666 66	"Down 9 units."
    V[]
    P 2 0000 0000
    V[]
-   P 2 22222 2		;"Up 7 units"
+   P 2 22222 2		"Up 7 units"
    V[]
    V(E)
 )
@@ -81,11 +81,11 @@ W(I(R))			;"Red"
 P 6 0000 0000
 F(
    V(B)
-   P 6 66666 6		;"Down 7 units."
+   P 6 66666 6		"Down 7 units."
    V[]
    P 2 0000 0000
    V[]
-   P 22222		;"Up 5 units"
+   P 22222		"Up 5 units"
    V[]
    V(E)
 )
