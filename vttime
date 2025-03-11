@@ -30,7 +30,7 @@ latency=end-start
 printf "%12s: %'12d ns\n" "Latency" $latency
 
 printf "%12s: " "Executing"
-echo "$*"
+echo "$*" | cat -v
 read -s -d "n" -p $'\e[5n'	# Make sure terminal is ready.
 start=$(date +%s%N)
 "$@"				# Run the command
