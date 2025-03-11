@@ -44,7 +44,7 @@ the foreground text color to "dark orchid" (Hue 40°, Lightness 50%,
 Saturation 60%), set color index 7: `␛P0pS(M7(AH40L50s60))␛\` .
 
 Displaying images also changes the color map which can mess up text
-legibility. (See [Resetting the colormap](Resetting-the-colormap).
+legibility. (See [Resetting the colormap](Resetting-the-colormap).)
 
 
 ## Documentation differs
