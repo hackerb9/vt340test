@@ -1,0 +1,21 @@
+;"November. 4x4 natural size. Use W(M30) for 120x120.
+  This uses Complement writing of F14 (fields 111x) which
+  turns blue (0001) into white (1111) and vice-versa."
+
+@:N
+    W(I(B))
+    F(V 0000 6666 4444 2222)
+    W(F14,C)
+    P6
+    F(V0000 6 4444 2)
+    P66
+    F(V0000 6 4444 2)
+    P7
+    F(V2222 0 6666 4)
+    P00
+    F(V2222 0 6666 4)
+    P3332    
+    W(F15,V)    
+@;
+
+;"The command W(F15,V) restores oVerlay writing to all bitplanes."

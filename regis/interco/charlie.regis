@@ -1,0 +1,24 @@
+;"Charlie. When Movement multiplier is x1, flag size is 5x5 pixels.";
+@:C
+    W(I(B)) 
+    F( V 00000 6 44444 2 )
+    P6
+
+    W(I(W)) 
+    F( V 00000 6 44444 2 )
+    P6
+
+    W(I(R)) 
+    F( V 00000 6 44444 2 )
+    P6
+
+    W(I(W)) 
+    F( V 00000 6 44444 2 )
+    P6
+
+    W(I(B)) 
+    F( V 00000 6 44444 2 )
+
+    P2222
+@;
+

@@ -1,0 +1,10 @@
+;"Echo. 2x2 natural size. Use W(M60) for 120x120."
+@:E
+    W(I(B))
+    F( V 00 6 44 2 )
+    P6
+    W(I(R))
+    F( V 00 6 44 2 )
+    P2
+@;
+

@@ -1,0 +1,13 @@
+;"Juliet. 3x3 natural size. Use W(M40) for 120x120."
+@:J
+    W(I(B))
+    F( V 000 6 444 2 )
+    P6
+    W(I(W))
+    F( V 000 6 444 2 )
+    P6
+    W(I(B))
+    F( V 000 6 444 2 )
+    P22
+@;
+

@@ -1,0 +1,10 @@
+;"Alfa. 4x4 natural size. Use W(M30) for 120x120."
+
+@:A
+    W(I(W))
+    F( V 00 6666 44 2222 )
+    W(I(B))
+    P00
+    F( V 00 P56 V[] P76 V[] 44 2222 )
+    P44
+@;

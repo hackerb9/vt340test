@@ -1,0 +1,32 @@
+;"Zulu. Natural flag size is 2x2 pixels. Use multiplier 240 for full size."
+
+@:Z
+    P7
+    W(I(Y))
+    F(
+        V(B)
+	300
+	(E)
+    )
+    W(I(B))
+    F(
+        V(B)
+	166
+	(E)
+    )
+    W(I(R))
+    F(
+        V(B)
+	744
+	(E)
+    )
+    W(I(D))
+    F(
+        V(B)
+	522
+	(E)
+    )
+    P3
+@;
+
+

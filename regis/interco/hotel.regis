@@ -1,0 +1,10 @@
+;"Hotel. 2x2 natural size. Use W(M60) for 120x120."
+
+@:H
+    W(I(W))
+    F( V 0 66 4 22 )
+    W(I(R))
+    P0
+    F( V 0 66 4 22 )
+    P4
+@;

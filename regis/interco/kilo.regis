@@ -1,0 +1,10 @@
+;"Kilo. 2x2 natural size. Use W(M60) for 120x120."
+
+@:K
+    W(I(Y))
+    F( V 0 66 4 22 )
+    P0
+    W(I(B))
+    F( V 0 66 4 22 )
+    P4
+@;

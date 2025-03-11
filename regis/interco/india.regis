@@ -1,0 +1,10 @@
+;"India. 4x4 natural size. Use W(M30) for 120x120."
+
+@:I
+    W(I(Y))
+    F(V 0000 6666 4444 2222)
+    W(I(D))
+    P77
+    F(C0)
+    P33
+@;

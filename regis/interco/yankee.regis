@@ -1,0 +1,21 @@
+;"Yankee. 5x5 natural size. Use W(M24) for 120x120."
+
+;"hackerb9 expected this flag to be the slowest to render, but at
+  480x480 it takes 600ms on a VT340+, which is actually faster than
+  golf.regis (700ms). Weird."
+
+@:Y
+    W(I(Y))
+    F(V 00000 66666 44444 22222)
+
+    W(I(R))
+    P0 F(V 5 6 11 4)
+    P00 F(V 555 6 1111 4)
+    P00 F(V 55555 0 1111 2)
+    P66 F(V 555 0 11 2)
+    P66 F(V 5 0 2)
+
+    P33334    
+@;    
+
+ 

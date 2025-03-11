@@ -1,0 +1,6 @@
+;"Bravo. 4x4 natural size. Use W(M30) for 120x120."
+
+@:B
+    W(I(R))
+    F( V 0000 P56 V[] P76 V[] 4444 2222 )
+@;

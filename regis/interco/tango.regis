@@ -1,0 +1,13 @@
+;"Tango. 3x3 natural size. Use W(M40) for 120x120."
+@:T
+    W(I(R))
+    F( V 0 666 4 222 )
+    P0
+    W(I(W))
+    F( V 0 666 4 222 )
+    P0
+    W(I(B))
+    F( V 0 666 4 222 )
+    P44
+@;
+

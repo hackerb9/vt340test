@@ -1,0 +1,10 @@
+;"Lima. 2x2 natural size. Use W(M60) for 120x120."
+
+@:L
+    W(I(Y))
+    F( V 0 6 0 6 4 2 4 2 )
+    P00
+    W(I(D))
+    F( V 4 6 4 6 0 2 0 2 )
+    P44
+@;
