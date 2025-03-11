@@ -35,22 +35,21 @@
 main() {
     init
     clear
-    tput cup 1
     cat <<EOF
-	      The effect of ordering upon sixel graphics
-	       with line attributes (double-size text)
+		   The effect of ordering upon sixel graphics
+		     with line attributes (double-size text)
 EOF
 
-    tput cup 5 10
+    tput cup 3 8
     echo ${DECDWL}"1. Attributes, Text, Graphics"
 
-    tput cup 7 10
+    tput cup 5 8
     echo "3. Text, Attributes, Graphics"${DECDWL}
 
-    tput cup 9			# Line 5. AGT
+    tput cup 7			# Line 5. AGT
     echo ${DECDWL}
 
-    tput cup 10 10
+    tput cup 8 8
     echo "6. Text, Graphics, Attributes"
 
     sleep .5
@@ -60,28 +59,28 @@ EOF
 
     sleep .5
 
-    tput cup 6 10
+    tput cup 4 8
     echo ${DECDWL}"2. Graphics, Attributes, Text"
 
-    tput cup 8 10
+    tput cup 6 8
     echo "4. Graphics, Text, Attributes"${DECDWL}
 
-    tput cup 9 10
+    tput cup 7 8
     echo "5. Attributes, Graphics, Text"
 
-    tput cup 10			# Line 6. TGA
+    tput cup 8			# Line 6. TGA
     echo ${DECDWL}
 
-    tput cup 12 0
+    tput cup 10 0
     cat <<EOF
 The VT340 resets all line attributes to single-width and clears the
 underlying text buffer when a sixel image is received. Existing text
 is retained only in the bitmap buffer and cannot be edited.
 
 Lines 2 and 4 of the graphic are erased when the attributes are set.
-Line 6 loses text & graphics, since its order is Text, Graphics, Attributes.
-Line 5 has the text printed on top of the image because the double-
-width attribute that makes columns twice as wide was reset.
+Line 6 clears text & graphics, since its order is Text, Graphics, Attributes.
+Line 5 has text overwriting the image because the double-width attribute
+that makes columns twice as wide was reset.
 
 EOF
 }
@@ -106,29 +105,30 @@ CREATOR=James Holderness
 \P//~
 URL=https://github.com/j4james/vtinterco/
 \P9;1q
-"1;1----- ----- ----- --!50?
-"20;1#2!120~$
+"1;1----- -----
+"20;1
+!30?#2!120~$
 "1;1
-!50?#6!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}-
-!50?!13?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!6~-
-!50?!7?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!12~-
-!50??_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!18~-
-!50?!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}-
-!50?!13?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!6~-
-!50?!7?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!12~-
-!50??_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!18~-
-!50?!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
-!50?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@\'
+!30?#6!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}-
+!30?!13?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!6~-
+!30?!7?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!12~-
+!30??_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!18~-
+!30?!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}-
+!30?!13?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!6~-
+!30?!7?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!12~-
+!30??_ow{}!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!18~-
+!30?!19~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!13~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?!7~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@-
+!30?~^NFB@!19?_ow{}!19~^NFB@!19?_ow{}!19~^NFB@\'
 
     # For VT240 compatibility, we need to be able to get and set DECSDM
     CSI=$'\e['			# Control Sequence Introducer
