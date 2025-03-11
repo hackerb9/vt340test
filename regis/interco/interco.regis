@@ -1,0 +1,94 @@
+;"Interco: The code flag for the International Code of Signals."
+;"Snub-nosed pennant. Red, white, red, white, red."
+;"Natural size is 40px by 15px (at the hoist) and 5px (at the fly)."
+
+;"Garrulously commented PV Regis sample for pedagogic purposes."
+
+;"ReGIS has three different coordinate methods: absolute, relative,
+  and Pixel Vectors (PV). We use PV here to allow for resizable
+  graphics. Each number from 0 to 7 is a vector in a compass direction
+
+    3 2 1
+    4   0  The PV compass rose
+    5 6 7 
+
+  Diagonals are longer than horizontal or vertical so that, for
+  example, V 0 3 6 describes a right triangle.
+
+  To scale a PV graphic, use the write multiplier. 
+  W(M3) would make this pennant 120px wide and 45px (at the hoist).
+ "
+
+P(B)			;"Begin: save starting location." 
+
+;"FIRST STRIPE"
+W(I(R))			;"Write foreground Red"
+F(			;"Filled polygon"
+   V(B)			;"Begin: push current location onto the stack." 
+   P 66666 66666 66666	;"Move position down 15 units."
+   V[]			;"Place a vertex there."
+   P 2 0000 0000	;"Move position up one and right eight units."
+   V[]			;"Vertex"
+   P 2222 22222 2222	;"Move position up 13 units"
+   V[]			;"Vertex"
+   V(E)			;"End: pop the stack to close the polygon."
+)
+
+;"SECOND STRIPE"
+W(I(W))			;"White"
+P 6 0000 0000		;"Down one and right eight units."
+F(			;"Filled polygon"
+   V(B)			;"Begin" 
+   P 6666 66666 6666	;"Down 13 units."
+   V[]
+   P 2 0000 0000	;"Move up one and right eight units."
+   V[]
+   P 222 22222 222	;"Up 11 units."
+   V[]
+   V(E)			;"End: close the polygon"
+)
+
+;"THIRD STRIPE"
+W(I(R))			;"Red"
+P 6 0000 0000
+F(
+   V(B)
+   P 666 66666 666	;"Down 11 units."
+   V[]
+   P 2 0000 0000
+   V[]
+   P 22 22222 22        ;"Up 9 units."
+   V[]
+   V(E)
+)
+
+;"FOURTH STRIPE"
+W(I(W))			;"White"
+P 6 0000 0000
+F(
+   V(B)
+   P 66 66666 66	;"Down 9 units."
+   V[]
+   P 2 0000 0000
+   V[]
+   P 2 22222 2		;"Up 7 units"
+   V[]
+   V(E)
+)
+
+;"FIFTH STRIPE"
+W(I(R))			;"Red"
+P 6 0000 0000
+F(
+   V(B)
+   P 6 66666 6		;"Down 7 units."
+   V[]
+   P 2 0000 0000
+   V[]
+   P 22222		;"Up 5 units"
+   V[]
+   V(E)
+)
+
+;"Return graphics cursor to the top left, where we started."
+P(E)			;"End: Pop graphics cursor location"
