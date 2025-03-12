@@ -54,7 +54,7 @@ EOF
 
     sleep .5
 
-    # Draw the flag. (Hardcoded to column 6, row 6.)
+    # Draw the flag. (Hardcoded to column 4, row 4.)
     echo -n "$Y"
 
     sleep .5
@@ -91,8 +91,8 @@ init() {
 
     DECDWL=$'\e#6'
 
-    # Define a sixel image to draw a 120x120 flag at text column 6,
-    # row 6. For compatibility with the VT240, this image uses DECSDM
+    # Define a sixel image to draw a 120x120 flag at text column 4,
+    # row 4. For compatibility with the VT240, this image uses DECSDM
     # (Sixel Display Mode) to position it absolutely on the screen
     # instead of relative to the text cursor.
 
