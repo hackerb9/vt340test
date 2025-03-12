@@ -13,6 +13,7 @@
 # Unlike sixel graphics, ReGIS does not reset the line attribute flags
 # to single width nor does it clear the underlying text buffer.
 # (This is a good thing as it helps wide text and graphics coexist.)
+# See also, ../sixeltests/decdwl-quirk1.sh and quirk2.sh.
 
 # This tests all orderings of Line Attributes, Text, and Graphics.
 #
@@ -58,42 +59,42 @@ cat <<EOF
 	       with line attributes (double-size text)
 EOF
 
-tput cup 5 10
+tput cup 3 8
 echo ${DECDWL}"1. Attributes, Text, Graphics"
 
-tput cup 7 10
+tput cup 5 8
 echo "3. Text, Attributes, Graphics"${DECDWL}
 
-tput cup 9			# Line 5. AGT
+tput cup 7			# Line 5. AGT
 echo ${DECDWL}
 
-tput cup 10 10
+tput cup 8 8
 echo "6. Text, Graphics, Attributes"
 
 
 sleep .5
 
-# Draw the flag using macro starting at line 6
+# Draw the flag using macro starting at row 4
 echo -n $'\eP0p'
-echo -n "P[50,100]@Z"
+echo -n "P[30,60]@Z"
 echo -n $'\e\\'
 
 sleep .5
 
-tput cup 6 10
+tput cup 4 8
 echo ${DECDWL}"2. Graphics, Attributes, Text"
 
-tput cup 8 10
+tput cup 6 8
 echo "4. Graphics, Text, Attributes"${DECDWL}
 
-tput cup 9 10
+tput cup 7 8
 echo "5. Attributes, Graphics, Text"
 
-tput cup 10			# Line 6. TGA
+tput cup 8			# Line 6. TGA
 echo ${DECDWL}
 
 
-tput cup 12 0
+tput cup 10 0
 cat <<EOF
 Line attributes were changed after drawing ReGIS graphics for 2, 4, & 6.
 On a genuine VT340, the graphics on those lines are erased, regardless
