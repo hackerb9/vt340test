@@ -29,23 +29,25 @@ $$
 handle underbrace?}} \\
 $$
 
+Do I need the extra curly braces to make MathJAX happy?
+
+$$
+\underbrace{\text{Esc P}}_\text{DCS}
+$$
+
+$$
+  \underbrace{\text{Esc P}}_{\text{DCS}} \quad
+  \underbrace{Ps1 ; Ps2 ; Pn3 q}_{\text{Protocol Selector}}
+$$
+
 What about nested underbraces?
 
 $$
 \underbrace{
   \underbrace{\text{Esc P}}_{\text{DCS}} \quad
-  \underbrace{Ps1 ; Ps2 ; Pn3 q}_{\text{Protocol Selector}
-}_{\text{DCS Introducer Sequence}}}
+  \underbrace{Ps1 ; Ps2 ; Pn3 q}_{\text{Protocol Selector}}}_{\text{DCS Introducer Sequence}}}
 $$
 
-Do I need the extra curly braces to make MathJAX happy?
-
-$$
-\underbrace{
-  \underbrace{\text{Esc P}}_{\text{DCS}} \quad
-  \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
-}_\text{DCS Introducer Sequence}
-$$
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
 
