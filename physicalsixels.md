@@ -36,13 +36,17 @@ $$
 $$
 
 $$
+\[
 \underbrace{Esc P}_{\text{DCS}} \quad \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
+\]
 $$
 
 What about nested underbraces?
 
 $$
+\[
 \underbrace{\underbrace{A B}_{C} underbrace{C D}_{F} }_\text{yup}
+\]
 $$
 
 
