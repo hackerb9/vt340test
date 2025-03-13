@@ -287,12 +287,15 @@ equal to $round(10 / Ps_1)$ for values 2 through 9. For all other
 values, it is $2$.
 
 ``` math
-\text{Vertical stretch multiplier}=
-\begin {cases}
+
+\text{Vertical stretch multiplier}=\begin{cases}
 round(10/Ps_1) & \text{if} 2\leq Ps_1 \leq 9\\
-                    2 & \text{otherwise}
-\end {cases}
+2 & \text{otherwise}
+\end{cases}
+
 ```
 
+
 <!-- End of PS1 macros detail section -->
+
 </details>
