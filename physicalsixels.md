@@ -42,7 +42,17 @@ $$
 $$
 
 $$
-{\underbrace{Esc P}_{\text{DCS}}} {\underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}}
+\underbrace{Esc P}_\text{DCS}
+\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
+$$
+
+$$
+\underbrace{Esc P}_\text{DCS}\\
+\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
+$$
+
+$$
+{{\underbrace{Esc P}_\text{DCS}} {\underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}}}
 $$
 
 What about nested underbraces?
