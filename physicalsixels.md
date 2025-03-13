@@ -25,30 +25,36 @@ work on the "point" system inherited from typesetting.
 The sixel control strings are sent as follows:
 
 $$
-\underbrace{\text{Testing github flavored markdown}}_{\text{Can it
-handle underbrace?}} \\
+\underbrace\text{Testing github flavored markdown}_\text{Can it
+handle underbrace?} \\
 $$
 
-Do I need the extra curly braces to make MathJAX happy?
+Do I need the extra curly braces to make MathJAX happy? Nope.
 
 $$
-\underbrace{\text{Esc P}}_\text{DCS}
+\underbrace{Esc P}_\text{DCS}
+$$
+
+
+
+$$
+\underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
 $$
 
 $$
-\[
-\underbrace{Esc P}_{\text{DCS}} \quad \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
-\]
+\underbrace{Esc P}_{\text{DCS}}  \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
 $$
 
 What about nested underbraces?
 
 $$
-\[
 \underbrace{\underbrace{A B}_{C} underbrace{C D}_{F} }_\text{yup}
-\]
 $$
 
+$$
+5{\underbrace{00\dots0}_{\text{$n$ $0$'s}}}^3 \quad\text{vs.}\quad
+ 5\underbrace{00\dots0}_{\text{$n$ $0$'s}}{}^3
+$$
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
 
