@@ -33,7 +33,7 @@ The sixel control strings are sent as follows:
 } \quad
 \underbrace{
   \underbrace{
-      \tt \text{"}\ Pn_4 \ ;\ Pn_5\ ;\ Pn_6\ ;\ $Pn_7$
+      \texttt{"}\ Pn_4 \ \texttt{;}\ Pn_5 \texttt{;} Pn_6\ ;\ $Pn_7$
     }_{
       \text{Raster Attributes} 
 	}
