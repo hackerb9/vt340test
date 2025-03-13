@@ -11,7 +11,8 @@ work on the "point" system inherited from typesetting.
 * The **"grid"** size is the distance between pixels. There are both
   horizontal and vertical grid sizes. (While the VT340 has the square
   pixels we are familiar with, back in the day that wasn't a given!)
-* The **Pn3 parameter** specifies the numeric value of the horizontal grid size.
+* The **Pn3 parameter** (see below) specifies the numeric value of the
+  horizontal grid size.
 * ANSI **SSU** defines the realworld units (DPI) for **Pn3**.
 * The **vertical grid size** is not specified directly by sixel
   images, but calculated as the horizontal grid size times the aspect
@@ -39,12 +40,11 @@ The sixel control strings are sent as follows:
     }_{
       \textbf{Raster Attributes} 
 	}
+    \quad
+      \underbrace{******}_\textbf{Picture data}
+  }_\textbf{sixel data}
   \quad
-  \underbrace{******}_\textbf{Picture data} \quad
-	  \underbrace{\textbf{Esc \\}}_\textbf{ST}
-  }_{
-   \textbf{sixel data}
-}
+  \underbrace{\textbf{Esc \\}}_\textbf{ST}
 ```
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
