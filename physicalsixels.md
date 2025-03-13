@@ -65,13 +65,15 @@ The sixel control strings are sent as follows:
 * The CRT of the VT340 has a fixed horizontal grid of 1/72nd of an
   inch (0.0195 cm). 
 * The CRT's pixel height to width aspect ratio is 1:1.
-* Each pixel is exactly 1 pt × 1 pt, which is perfect for sixel.
+* With exactly one typographer's point per pixel, the VT340 screen can
+  handle sixel images precisely, but only at the lowest resolution.
 * The VT340 ignores any requests by a sixel file to change the
   horizontal grid. This may be because all the other possible grid
   sizes are higher resolution than the screen.
 * The VT340 _does_ honor changes to the aspect ratio, including the
-  implicit request made when choosing a different horizontal grid in
-  Ps1.
+  implicit request made by Ps1 with no **DECGRA**. If Ps1 is not _9_,
+  the VT340 will no longer be showing images at their true (printed)
+  size.
 * The VT340's aspect ratio change is done by multiplying pixels
   vertically for each "rectangular pixel". It can only handle whole
   numbers of pixels, so aspect ratios will be rounded.
