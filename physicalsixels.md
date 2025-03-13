@@ -14,7 +14,7 @@ work on the "point" system inherited from typesetting.
   with, back in the day that wasn't a given!)
 * The horizontal grid size is set by **Pn3**'s numeric value
   using the realworld units selected by **SSU**.
-* **Pn3** is third parameter of the sixel protocol selector.
+* **Pn3** is the third parameter of the sixel protocol selector.
 * ANSI **SSU** is the _Select Size Unit_ escape sequence.
 * The **vertical grid size** is implicitly set as the horizontal grid
   size times the aspect ratio.
