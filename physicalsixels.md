@@ -35,7 +35,7 @@ The sixel control strings are sent as follows:
   \underbrace{\tt "\ Pn_4 \ ;\ Pn_5\ ;\ Pn_6\ Pn_7}_\text{Raster Attributes} 
   \quad
   \underbrace{******}_\text{Picture data}
-  \underbrace{\tt Esc \\}_\text{ST}
+	\underbrace{\tt Esc \backslash}_\text{ST}
   }_{
    \text{sixel data}
 }
