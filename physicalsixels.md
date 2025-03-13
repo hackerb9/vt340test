@@ -33,10 +33,10 @@ The sixel control strings are sent as follows:
 } \quad
 \underbrace{
   \underbrace{\text{"}\ {Pn}_4 \ ;\ {Pn}_5\ ;\ {Pn}_6\ {Pn}_7
-  }_{\text{Raster Attributes}
+  }_\text{Raster Attributes}
 }_{
-\text{sixel data}}
-
+ \text{sixel data}
+}
 
 ```
 
