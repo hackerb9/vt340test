@@ -197,15 +197,15 @@ as setting the unit of measurement for all numeric parameters to the
 > 8 DECIPOINT - 0,035 14 mm (35/996 mm)  
 
 The VT340 sends ANSI SSU to ensure that the "[horizontal
-grid](../physicalsixels.md)" parameter in the sixel image is interpreted
-correctly and the image is printed at the correct size. The VT340's
-horizontal grid (space between pixels) on the screen is about .012
-inches. For "rotated" printing, the VT340 sets the grid size in the
-sixel output to 9/720 = 0.0125", which makes hardcopy almost exactly
-the same size as the screen, 10" x 6". For "normal" printing, the
-VT340 sets the grid to 6/720 ≈ .00833, which shrinks the image to 6.66" 
-x 4" so the width will fit on the 8.5" width of US Letter sized
-paper.
+grid](../physicalsixels.md)" parameter, Ps3, in the sixel image is
+interpreted correctly and the image is printed at the correct size.
+The VT340's horizontal grid (space between pixels) on the screen is
+about .012 inches. For "rotated" printing, the VT340 sets the grid
+size in the sixel output to 9/720 = 0.0125", which makes hardcopy
+almost exactly the same size as the screen, 10" x 6". For "normal"
+printing, the VT340 sets the grid to 6/720 ≈ .00833, which shrinks the
+image to 6.66" x 4" so the width will fit on the width of either A4 or
+US Letter sized paper.
 
   * [ ] While the SSU data is currently thrown away by mediacopy.sh,
   the correct thing to do would be to embed the DPI information in the
