@@ -34,7 +34,7 @@ The sixel control strings are sent as follows:
 } \quad
 \underbrace{
   \underbrace{
-      \textbf{"}\ Pn_4 \ \textbf{\;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7
+      \texttt{"}\ Pn_4 \ \textbf{;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7
     }_{
       \textbf{Raster Attributes} 
 	}
