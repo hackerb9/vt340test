@@ -141,18 +141,22 @@ Sidenote: if you wish your image to be shown on whatever the display
 device happens to consider its native resolution, then ANSI SSU can
 set units to be "pixels" using `Esc [ 7 Space I`. 
 
-### Protocol Selector
+### Protocol Selector: _Pn3_
 
 * _Ps1_: Always zero, but see below for more on the Macro parameter.
 * _Ps2_: Background select: 1: opaque background, 2: transparent background.
-* _Pn3_: Horizontal Grid Size, given in units specified
+* _Pn3_: Horizontal Grid Size, integer value given in the units specified
   by ANSI SSU (default is decipoints, 1/720 inch).
 
-For example, the VT340 screen's horizontal grid screen is about .012
-inches. When making WYSIWYG printouts, the VT340 specifies a
-horizontal grid size of _9_, as $9/720 = 0.0125"$. A modern terminal
+Pn3 is the important value here. 
+
+For example, the VT340 screen's horizontal grid is documented to be
+about .012 inches. When making WYSIWYG printouts, the VT340 specifies
+a horizontal grid size of _9_, as $9/720 = 0.0125"$. A modern terminal
 emulator could either use a smaller _Pn3_, or, if the display can show
 more than 720 dots per inch, use a different **SSU**.
+
+To-do: Find out why the VT340 uses _9_ instead of _10_. 
 
 ### DECGRA
 
