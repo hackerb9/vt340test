@@ -26,16 +26,17 @@ The sixel control strings are sent as follows:
 
 ``` math
 \underbrace{
-  \underbrace{Esc\ \text{P}}_\text{DCS} \quad
-  \underbrace{{Ps}_1 \ ;\ {Ps}_2\ ;\ {Pn}_3\ \text{q}}_\text{Protocol Selector}
+ \underbrace{Esc\ \text{P}}_\text{DCS} \quad
+ \underbrace{{Ps}_1 \ ;\ {Ps}_2\ ;\ {Pn}_3\ \text{`q`}}_\text{Protocol Selector}
 }_{
 \text{DCS Introducer Sequence}
 } \quad
 \underbrace{
-  \underbrace{\text{"}\ {Pn}_4 \ ;\ {Pn}_5\ ;\ {Pn}_6\ {Pn}_7
-  }_\text{Raster Attributes}
-}_{
- \text{sixel data}
+  \underbrace{\tt{"}\ {Pn}_4 \ ;\ {Pn}_5\ ;\ {Pn}_6\ {Pn}_7
+    }_\text{Raster Attributes} \quad
+  \underbrace{*********}_\text{Picture data}
+  }_{
+   \text{sixel data}
 }
 
 ```
