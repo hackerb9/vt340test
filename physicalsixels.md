@@ -25,7 +25,7 @@ work on the "point" system inherited from typesetting.
 The sixel control strings are sent as follows:
 
 ``` math
-\large
+\Large
 \underbrace{
  \underbrace{\textbf{Esc}\ \textbf{P}}_\textbf{DCS} \quad
  \underbrace{Ps_1 \ \textbf{;}\ Ps_2\ \textbf{;}\ Pn_3\ \textbf{q}
