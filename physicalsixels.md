@@ -11,16 +11,16 @@ work on the "point" system inherited from typesetting.
 * The **"grid"** size is the distance between pixels. There are both
   horizontal and vertical grid sizes. (While the VT340 has the square
   pixels we are familiar with, back in the day that wasn't a given!)
+* The **Pn3 parameter** specifies the numeric value of the horizontal grid size.
+* ANSI **SSU** defines the realworld units (DPI) for **Pn3**.
 * The **vertical grid size** is not specified directly by sixel
   images, but calculated as the horizontal grid size times the aspect
   ratio.
-* **
 * **DECGRA** ("Raster Attributes) is the method for setting the aspect
   ratio in sixel images. 
 * The **Ps1 Macro parameter** is an alternative, less flexible way of
-  setting the grid's aspect ratio from a lookup table.
-* ANSI **SSU** is the escape sequence which maps the sixel grid to
-  realworld dimensions.
+  setting the grid's aspect ratio by choosing from a lookup table.
+  It is overridden by **DECGRA**.
 
 The sixel control strings are sent as follows:
 
@@ -45,7 +45,6 @@ The sixel control strings are sent as follows:
   }_{
    \textbf{sixel data}
 }
-
 ```
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
