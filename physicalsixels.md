@@ -4,7 +4,21 @@ The dot density of sixel images can be specified in realworld
 dimensions. Unlike the DPI (dots per inch) common nowadays, sixels
 work on the "point" system inherited from typesetting. 
 
-### Definitions
+## Quick example
+
+```
+Esc [ 2 I
+Esc P0;1;9q"1;1;480;800
+...[sixel data]...
+Esc \
+```
+
+This specifies that the image resolution is 72 dpi, with dimensions of
+[11 inches by 6½ inches.][actually]
+
+  [actually]: ## "Okay, technically it is $11\frac{1}{9}$ by $6\frac{2}{3}$"
+
+## Definitions
 
 * A **"point"** on a computer is 1/72nds of an inch. 
 * The **default unit** in sixels is "decipoints" (1/720th of an inch).
