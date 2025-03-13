@@ -122,9 +122,6 @@ Esc [ 2 Space I
 
 The parameter value of _2_, "computer decipoint", refers specifically
 to the "horizontal grid" (space between pixels) of the sixel image.
-For example, the VT340 screen's horizontal grid screen is about .012
-inches. When making WYSIWYG printouts, the VT340 specifies a
-horizontal grid size of _9_, as $9/720 = 0.0125"$, and 
 
 Sidenote: if you wish your image to be shown on whatever the display
 device happens to consider its native resolution, then ANSI SSU can
@@ -137,11 +134,11 @@ set units to be "pixels" using `Esc [ 7 Space I`.
 * _Pn3_: Horizontal Grid Size, given in units specified
   by ANSI SSU (default is decipoints, 1/720 inch).
 
-Example: The VT340 sets _Pn3_ to 9 when printing so the hardcopy
-images will be the same size as on the screen. This works because
-9/720" ≈ 1/72" which is the dot pitch of the VT340's CRT. A modern
-terminal emulator could either use a smaller _Pn3_, or if they have
-more than 720 dots per inch resolution, use a different **SSU**.
+For example, the VT340 screen's horizontal grid screen is about .012
+inches. When making WYSIWYG printouts, the VT340 specifies a
+horizontal grid size of _9_, as $9/720 = 0.0125"$. A modern terminal
+emulator could either use a smaller _Pn3_, or, if the display can show
+more than 720 dots per inch, use a different **SSU**.
 
 ### DECGRA
 
