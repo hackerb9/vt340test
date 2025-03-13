@@ -78,12 +78,12 @@ The sixel control strings are sent as follows:
   vertically for each "rectangular pixel". It can only handle whole
   numbers of pixels, so aspect ratios will be rounded.
 
-## DECGRA and ANSI Set Size Unit (SSU)
+## Pn3, DECGRA, and SSU
 
 The primary way to set a physical size of an image is to send ANSI SSU
-to pick a real-world unit for the grid measurements and use the
-**DECGRA** sixel control code to set the Raster Attributes. (The
-alternative is to use the Macro parameter, discussed later.)
+to pick a real-world unit for the horizontal grid measurement, given
+numerically in _Pn3_, and use the **DECGRA** sixel control code to set
+the aspect ratio.
 
 ### SSU - Select Size Unit
 
@@ -130,24 +130,34 @@ Sidenote: if you wish your image to be shown on whatever the display
 device happens to consider its native resolution, then ANSI SSU can
 set units to be "pixels" using `Esc [ 7 Space I`. 
 
+### Protocol Selector
+
+* _Ps1_: Always zero, but see below for more on the Macro parameter.
+* _Ps2_: Background select: 1: opaque background, 2: transparent background.
+* _Pn3_: Horizontal Grid Size, given in units specified
+  by ANSI SSU (default is decipoints, 1/720 inch).
+
+Example: The VT340 sets _Pn3_ to 9 when printing so the hardcopy
+images will be the same size as on the screen. This works because
+9/720" ≈ 1/72" which is the dot pitch of the VT340's CRT. A modern
+terminal emulator could either use a smaller _Pn3_, or if they have
+more than 720 dots per inch resolution, use a different **SSU**.
+
 ### DECGRA
 
-`"` _Pn1_ `;`  _Pn2_ `;`  _Pn3_ `;`  _Pn4_ 
+`"` _Pn4_ `;`  _Pn5_ `;`  _Pn6_ `;`  _Pn7_ 
 
-* Pn1: Pixel aspect ratio numerator
-* Pn2: Pixel aspect ratio denominator
-* Pn3: Horizontal extent
-* Pn4: Vertical extent
+* Pn4: Pixel aspect ratio numerator, usually 1
+* Pn5: Pixel aspect ratio denominator, usually 1
+* Pn6: Horizontal extent
+* Pn7: Vertical extent
 
-Pn1 and Pn2 override the older style Macro parameter (see below) given
+Pn4 and Pn5 override the older style Macro parameter (see below) given
 in the sixel's DCS string protocol selector as Ps1.
 
-<!-- XXX give a clear example -->
+#### Extent: Pn6, Pn7: nominal Width and Height
 
-
-### Extent: Pn3, Pn4: nominal Width and Height
-
-This is often taken to mean the size of an image in pixels, but that
+This is often taken to mean the "size" of an image in pixels, but that
 is not what the Sixel standard says.
 
 1. On a screen, it is merely the size of the rectangle that is cleared
@@ -165,9 +175,9 @@ to the text background color before drawing.
 
 </details>
 
-2. The size is not necessarily specified in pixels. This is the crux
-   of how sixels can have a physical size. The actual units are
-   specified by the ANSI **SSU** sequence.
+2. The extent is not technically a measurement of screen pixels. 
+   The horizontal units are specified by the ANSI **SSU** sequence and
+   the vertical by the aspect ratio.
 
 ## The Macro parameter _Ps1_: _x_/660"
 
@@ -176,6 +186,10 @@ specify the "Macro" (Ps1 parameter from the protocol selector of the
 sixel DCS string.)
 
 `Esc` `P` _Ps1_ `q`
+
+It should not be used for new programs.
+
+<details>
 
 _Ps1_ is (supposedly) measured in units of 1/660ths of an inch, from
 2/660ths to 9/660ths. Anything other than a single digit from 2 to 9
@@ -274,6 +288,9 @@ values, it is $2$.
 
 $$
 \text{Vertical stretch multiplier}= \begin {cases} 
-round(10/Ps1)&\text{if}&2\leq PS1 \leq 9\\
+\textbf{round}(10/Ps1)&\text{if}&2\leq PS_1 \leq 9\\
 2 & \text{otherwise} \end {cases}
 $$
+
+<!-- End of PS1 macros detail section -->
+</details>
