@@ -32,42 +32,32 @@ $$
 Do I need the extra curly braces to make MathJAX happy? Nope.
 
 ``` math
-\underbrace{Esc P}_\text{DCS}
+\underbrace{Esc\ P}_\text{DCS}
 
 ```
 
 ```math
-\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
-
-```
-
-```math
-\underbrace{Esc P}_\text{DCS}
-\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
-```
-
-
-``` math
-\underbrace{Esc P}_\text{DCS}\\
-\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
-
-```
-
-``` math
-{{\underbrace{Esc P}_\text{DCS}} {\underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}}}
-
+\underbrace{P_s1 \ ;\ P_s2\ ;\ P_n3\ q}_\text{Protocol Selector}
 ```
 
 What about nested underbraces?
 
-``` math
-\underbrace{\underbrace{A B}_{C} underbrace{C D}_{F} }_\text{yup}
 
+``` math
+\underbrace{
+  \underbrace{Esc\ P}_\text{DCS}
+}_{
+  \underbrace{P_s1 \ ;\ P_s2\ ;\ P_n3\ q}_\text{Protocol Selector}
+}
+```
+
+``` math
+\underbrace{\underbrace{A\ B}_{C} \underbrace{C\ D}_{F} }_\text{yup!}
 ```
 
 ``` math
 5{\underbrace{00\dots0}_{\text{$n$ $0$'s}}}^3 \quad\text{vs.}\quad
- 5\underbrace{00\dots0}_{\text{$n$ $0$'s}}{}^3
+5\underbrace{00\dots0}_{\text{$n$ $0$'s}}{}^3
 ```
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
