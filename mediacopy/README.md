@@ -46,6 +46,10 @@ echo -n ${CSI}'?45h'		# Print using RGB colors (ImageMagick reqs)
 echo -n ${CSI}'?46l'		# Do not send background when printing
 #echo -n ${CSI}'?46h'		# Include background when printing
 
+# DECGRPM: Print Graphics Rotated Print Mode
+echo -n ${CSI}'?47l'		# Print normally (sets DPI to shrink image)
+#echo -n ${CSI}'?47h'		# Print rotated  (sets DPI equal to VT340 screen)
+
 echo -n ${DCS}'p'		# Enter REGIS mode
 echo -n $'S(H)'			# Screen hard copy
 echo -n ${ST}			# Exit REGIS mode
@@ -192,8 +196,8 @@ as setting the unit of measurement for all numeric parameters to the
 > 7 PIXEL - The smallest increment that can be specified in a device   <br/>
 > 8 DECIPOINT - 0,035 14 mm (35/996 mm)  
 
-The VT340 sends SSU to ensure that the "[horizontal
-grid](../sixelmagic.md)" parameter in the sixel image is interpreted
+The VT340 sends ANSI SSU to ensure that the "[horizontal
+grid](../physicalsixels.md)" parameter in the sixel image is interpreted
 correctly and the image is printed at the correct size. The VT340's
 horizontal grid (space between pixels) on the screen is about .012
 inches. For "rotated" printing, the VT340 sets the grid size in the
