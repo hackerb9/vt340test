@@ -286,10 +286,12 @@ pixels vertically can be calculated instead of held in a table; it is
 equal to $round(10 / Ps1)$ for values 2 through 9. For all other
 values, it is $2$.
 
-```math
-\text{Vertical stretch multiplier}= \begin {cases} 
-\textbf{round}(10/Ps1)&\text{if}&2\leq PS_1 \leq 9\\
-2 & \text{otherwise} \end {cases}
+``` math
+\text{Vertical stretch multiplier}=
+\begin {cases}
+\text{round}(10/Ps_1) & \text{if} &2\leq Ps_1 \leq 9\\
+                    2 & \text{otherwise}
+\end {cases}
 ```
 
 <!-- End of PS1 macros detail section -->
