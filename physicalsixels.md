@@ -45,9 +45,10 @@ What about nested underbraces?
 
 ``` math
 \underbrace{
-  \underbrace{Esc\ P}_\text{DCS}
-}_{
+  \underbrace{Esc\ P}_\text{DCS} \quad
   \underbrace{P_s1 \ ;\ P_s2\ ;\ P_n3\ q}_\text{Protocol Selector}
+}_{
+\text{DCS Introducer Sequence}
 }
 ```
 
