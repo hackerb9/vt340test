@@ -296,6 +296,19 @@ round(10/Ps_1) & \text{if} 2\leq Ps_1 \leq 9\\
 ```
 
 
+$$
+\text{Vertical stretch multiplier}= \begin {cases} 
+round(10/Ps1)&\text{if}&2\leq PS1 \leq 9\\
+2 & \text{otherwise} \end {cases}
+$$
+
 <!-- End of PS1 macros detail section -->
 
 </details>
+
+
+$$
+\text{Vertical stretch multiplier}= \begin {cases} 
+round(10/Ps1)&\text{if}&2\leq PS1 \leq 9\\
+2 & \text{otherwise} \end {cases}
+$$
