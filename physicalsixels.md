@@ -16,7 +16,7 @@ Esc \
 This specifies that the image resolution is 72 dpi, with dimensions of
 [11 inches by 6½ inches.][actually]
 
-  [actually]: ## "Okay, technically it is $11\frac{1}{9}$ by $6\frac{2}{3}$"
+  [actually]: ## "11⅑ by 6⅔, to be precise"
 
 ## Definitions
 
