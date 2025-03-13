@@ -8,15 +8,16 @@ work on the "point" system inherited from typesetting.
 
 * A **"point"** on a computer is 1/72nds of an inch. 
 * The **default unit** in sixels is "decipoints" (1/720th of an inch).
-* The **"grid"** size is the distance between pixels. There are both
-  _horizontal_ and _vertical_ grid sizes. (While the VT340 has the square
-  pixels we are familiar with, back in the day that wasn't a given!)
+* The **"grid"** size is the distance between pixels. 
+* The **"aspect ratio"** is the _vertical_ divided by the _horizontal_
+  grid sizes. (While the VT340 has the square pixels we are familiar
+  with, back in the day that wasn't a given!)
 * The horizontal grid size is set by the **Pn3 parameter**'s numeric value
   using the realworld units selected by **SSU**.
 * **Pn3** is third parameter of the sixel protocol selector.
 * ANSI **SSU** is the Select Size Units escape sequence.
-* The **vertical grid size** is defined as the horizontal grid size
-  times the aspect ratio.
+* The **vertical grid size** is implicitly set as the horizontal grid
+  size times the aspect ratio.
 * **DECGRA** ("Raster Attributes) is the primary method for setting
   the aspect ratio in sixel images using a numerator and denominator
   (**Pn4** and **Pn5**).
