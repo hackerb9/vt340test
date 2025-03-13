@@ -40,7 +40,7 @@ The sixel control strings are sent as follows:
 	}
   \quad
   \underbrace{******}_\textbf{Picture data} \quad
-	  \underbrace{\textbf{Esc \textbackslash}}_\textbf{ST}
+	  \underbrace{\textbf{Esc \\}}_\textbf{ST}
   }_{
    \textbf{sixel data}
 }
