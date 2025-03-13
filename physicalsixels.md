@@ -26,7 +26,7 @@ The sixel control strings are sent as follows:
 
 $$
 \underbrace\text{Testing github flavored markdown}_\text{Can it
-handle underbrace?} \\
+ handle underbrace?} \\
 $$
 
 Do I need the extra curly braces to make MathJAX happy? Nope.
@@ -38,11 +38,11 @@ $$
 
 
 $$
-\underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
+\underbrace{Ps1 \ ;\ Ps2\ ;\ Pn3\ q}_\text{Protocol Selector}
 $$
 
 $$
-\underbrace{Esc P}_{\text{DCS}}  \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}
+{\underbrace{Esc P}_{\text{DCS}}  \underbrace{Ps1 ; Ps2 ; Pn3 q}_\text{Protocol Selector}}
 $$
 
 What about nested underbraces?
