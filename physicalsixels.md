@@ -34,13 +34,13 @@ The sixel control strings are sent as follows:
 } \quad
 \underbrace{
   \underbrace{
-      \textbf{"}\ Pn_4 \ \textbf{;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7
+      \textbf{"}\ Pn_4 \ \textbf{\;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7
     }_{
       \textbf{Raster Attributes} 
 	}
   \quad
   \underbrace{******}_\textbf{Picture data} \quad
-	\underbrace{\tt Esc \backslash}_\textbf{ST}
+	  \underbrace{\textbf{Esc \backslash}}_\textbf{ST}
   }_{
    \textbf{sixel data}
 }
