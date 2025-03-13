@@ -2,26 +2,27 @@
 
 The dot density of sixel images can be specified in realworld
 dimensions. Unlike the DPI (dots per inch) common nowadays, sixels
-work on the "point" system inherited from typesetting.
+work on the "point" system inherited from typesetting. 
 
-## Definitions
+### Definitions
 
 * A **"point"** on a computer is 1/72nds of an inch. 
 * The **default unit** in sixels is "decipoints" (1/720th of an inch).
 * The **"grid"** size is the distance between pixels. There are both
-  horizontal and vertical grid sizes. (While the VT340 has the square
+  _horizontal_ and _vertical_ grid sizes. (While the VT340 has the square
   pixels we are familiar with, back in the day that wasn't a given!)
-* The **Pn3 parameter** (see below) specifies the numeric value of the
-  horizontal grid size.
-* ANSI **SSU** defines the realworld units (DPI) for **Pn3**.
-* The **vertical grid size** is not specified directly by sixel
-  images, but calculated as the horizontal grid size times the aspect
-  ratio.
-* **DECGRA** ("Raster Attributes) is the method for setting the aspect
-  ratio in sixel images. 
+* The horizontal grid size is set by the **Pn3 parameter**'s numeric value
+  using the realworld units selected by **SSU**.
+* **Pn3** is third parameter of the sixel protocol selector.
+* ANSI **SSU** is the Select Size Units escape sequence.
+* The **vertical grid size** is defined as the horizontal grid size
+  times the aspect ratio.
+* **DECGRA** ("Raster Attributes) is the primary method for setting
+  the aspect ratio in sixel images using a numerator and denominator
+  (**Pn4** and **Pn5**).
 * The **Ps1 Macro parameter** is an alternative, less flexible way of
-  setting the grid's aspect ratio by choosing from a lookup table.
-  It is overridden by **DECGRA**.
+  setting the aspect ratio by choosing from a lookup table. It is
+  overridden by **DECGRA**.
 
 The sixel control strings are sent as follows:
 
