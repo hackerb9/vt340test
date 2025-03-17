@@ -58,7 +58,7 @@ _{\textbf{DCS Introducer Sequence}}
       \underbrace{******}_{\textbf{Picture data}}}
 _{\textbf{sixel data}}
   \quad
-  \underbrace{\textbf{Esc \textbackslash}}_{\textbf{ST}}
+  \underbrace{\textbf{Esc }\backslash}_{\textbf{ST}}
 ```
 
 
