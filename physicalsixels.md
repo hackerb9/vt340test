@@ -44,24 +44,24 @@ The sixel control strings are sent as follows:
 ``` math
 \Large
 \underbrace{
- \underbrace{\textbf{Esc}\ \textbf{P}}_\textbf{DCS} \quad
- \underbrace{Ps_1 \ \textbf{;}\ Ps_2\ \textbf{;}\ Pn_3\ \textbf{q}
-   }_\textbf{Protocol Selector}
-}_{
-  \textbf{DCS Introducer Sequence}
-} \quad
+  \underbrace{\textbf{Esc}\ \textbf{P}}
+  	    _{\textbf{DCS}} \quad
+  \underbrace{Ps_1 \ \textbf{;}\ Ps_2\ \textbf{;}\ Pn_3\ \textbf{q}}
+             _{\textbf{Protocol Selector}}}
+_{\textbf{DCS Introducer Sequence}}
+\quad
 \underbrace{
-  \underbrace{
-      \texttt{"}\ Pn_4 \ \textbf{;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7
-    }_{
-      \textbf{Raster Attributes} 
-	}
-    \quad
-      \underbrace{******}_\textbf{Picture data}
-  }_\textbf{sixel data}
+  \underbrace
+      {\texttt{"}\ Pn_4 \ \textbf{;}\ Pn_5\ \textbf{;}\ Pn_6\ \textbf{;}\ Pn_7}
+      _{\textbf{Raster Attributes} }
+      \quad
+      \underbrace{******}_{\textbf{Picture data}}}
+_{\textbf{sixel data}}
   \quad
-  \underbrace{\textbf{Esc \\}}_\textbf{ST}
+  \underbrace{\textbf{Esc \textbackslash}}_{\textbf{ST}}
 ```
+
+
 
     ESC P  Ps1 ; Ps2 ; Pn3 q " Pn4 ; Pn5 ; Pn6 ; Pn7  ******  ESC \
 
