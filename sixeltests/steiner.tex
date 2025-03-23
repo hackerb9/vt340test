@@ -1,0 +1,46 @@
+% This plot of Steiner circles is viewable on a VT340 through sixels.
+% Written by Jasper Nice, January 2025, https://tikz.net/7997-2/
+
+% Being mostly vector curves, it would likely be faster, or at least
+% more interesting, to plot using ReGIS, but there is no easy way to
+% convert tikz to ReGIS at the moment.
+
+%     pdflatex steiner.tex
+%     convert -density 300 steiner.pdf -geometry 800x480 \
+%             -background black -fill white -colorize 100% -flatten \
+%             +dither -depth 4 -colors 15 sixel:- > steiner.vt340.six
+% 
+
+\documentclass[tikz]{standalone}
+\usepackage{tikz-3dplot}
+\begin{document}
+    \tdplotsetmaincoords{65}{165}
+    \begin{tikzpicture}[tdplot_main_coords]
+        \draw[tdplot_screen_coords] (0,0) circle [radius=1];
+        \foreach \t in {0, 10, ..., 350}{
+            \tdplotsetrotatedcoords{90}{\t}{0}
+            \draw[tdplot_rotated_coords,very thin] (0,0) circle [radius=1];
+            \tdplotsetrotatedcoords{180}{90}{0}
+            \draw[tdplot_rotated_coords,very thin] (0,0,{sin(\t)}) circle [radius={cos(\t)}];
+        }
+        \clip[tdplot_screen_coords] (-5,-3) rectangle (5,3);
+        \draw[tdplot_screen_coords,white] (-4.9,-2.9) rectangle (4.9,2.9);
+        \foreach \k in {10,20,...,80}{
+            % steiner circles on the plane
+            \draw[] ({1/cos(\k)},0) circle [radius={sqrt(1/(cos(\k)^2)-cos(\k))}];
+            \draw[] (0,{-sin(\k)/cos(\k)}) circle [radius={1/cos(\k)}];
+        }
+        \foreach \k in {100,110,...,170}{
+            % steiner circles on the plane
+            \draw[] ({1/cos(\k)},0) circle [radius={sqrt(1/(abs(cos(\k))^2)-abs(cos(\k)))}];
+            \draw[] (0,{-sin(\k)/cos(\k)}) circle [radius={1/cos(\k)}];
+        }
+        \draw[] (0,0) circle [radius=1]; % central steiner circle
+        \draw[] (0,-7,0) -- (0,7,0); % circle at infinity
+        \draw[] (-7,0,0) -- (7,0,0); % circle at infinity
+        % axes
+        \draw[-latex,thick] (-2,0,0) -- (2,0,0) node[pos=1,below left]{$x,\xi$}; % x-axis
+        \draw[-latex,thick] (0,-3.5,0) -- (0,3.5,0) node[pos=1,below right]{$y,\eta$}; % y-axis
+        \draw[-latex,thick] (0,0,-2) -- (0,0,1.5) node[pos=1,above right]{$z,\zeta$}; % z-axis
+    \end{tikzpicture}
+\end{document}
