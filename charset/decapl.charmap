@@ -207,7 +207,7 @@ CHARMAP
 <U2359>     /xc2         Delta Underbar
 % Is this how modern APL emits the underscore characters?
 % Mathematical Italic Capital letters (+ combining low line (U+0332))?
-<U1D434>    /xc3         A
+<U1D434>    /xc3         A - Alphabet is not right, should have underscore
 <U1D435>    /xc4         B
 <U1D436>    /xc5         C
 <U1D437>    /xc6         D
@@ -268,7 +268,7 @@ CHARMAP
 % Did /xfd, the APL OUT character, never get added to Unicode? It is
 % specified in IBM's APL Codepage, so this isn't just some random
 % thing DEC added.
-<U2404>     /xfd         OUT
+<U2404>     /xfd         OUT - no matching unicode, substituting EOT
 <U2337>     /xfe         Squad
 <UFFFD>     /xff         (Undefined)
 END CHARMAP
