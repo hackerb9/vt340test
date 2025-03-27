@@ -115,7 +115,7 @@ void save_region_to_file(char *filename, int x1, int y1, int x2, int y2) {
   FILE *fp = fopen(filename, "w");
   if (!fp) { perror(filename);  _exit(1); } /* Flush stdout of REGIS MC */
   
-  fprintf(fp, "\eP%s\e\\", buf);
+  fprintf(fp, "\eP%s\\", buf);
   
   if (buf) { free(buf); buf=NULL; }
   if (regis_h) { free(regis_h); regis_h=NULL; }
