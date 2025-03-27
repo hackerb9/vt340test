@@ -71,25 +71,23 @@ char *receive_media_copy() {
   //   sixels using those characters, even in 8-bit mode. This has
   //   been confirmed on hackerb9's vt340).
 
-  FILE *stream;
   char *line = NULL;
   size_t len = 0;
   ssize_t nread;
   
-  stream = stdin;
   int delim='\e';		/* Chop up input on Esc */
 
   /* Read data from terminal until next Esc character. */
   char c = '\0';
   while (c != 'P') {
     /* Skip everything until we get to a Device Control String (Esc P) */
-    nread = getdelim(&line, &len, delim, stream); 
+    nread = getdelim(&line, &len, delim, stdin); 
     if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
     c = getchar(); // Character after the Esc ("P" for DCS string)
   }
 
   /* We got Esc P, now read the rest of the string up to the first Esc */
-  nread = getdelim(&line, &len, delim, stream); 
+  nread = getdelim(&line, &len, delim, stdin); 
   if (nread == -1) {perror("receive_media_copy, getdelim"); _exit(1);}
   c = getchar(); // Character after the Esc ("\" for String Terminator)
 #ifdef DEBUG
