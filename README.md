@@ -204,10 +204,10 @@ manually change the Sixel Graphics Mode to "Level 2" before using
 media copy. Without that, it sends Level 1 output with pixel aspect
 ratio set to 2:1. 
 
-~~The script isn't working quite right yet because occasionally the
-VT340 pauses transmission in the middle and causes an 8-bit glitch in
-the output data. (Could just be hackerb9's terminal or his serial port
-connection?)~~ _[Bug was in hackerb9's script]_
+Note that despite [the VT340 manual][VT340TP] stating that the status
+line (the 25th line) is included in any print outs if it is visible,
+that is not true when graphics are being print. The status line is
+never included.
 
 ### Keyboard
 
