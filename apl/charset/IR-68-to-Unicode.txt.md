@@ -11,7 +11,7 @@ chart.
 1. Note 7 of the [IR-68][IR68] standard gives examples of characters
    composed using backspace (0x08) that should be "imaged so as to be
    clearly recognizable". One of those, underscored alphabetics, is
-   completely missing from the mapping.
+   completely missing from the Unicode mapping file.
 
      * 0x460861 to 0x46087A: `_` + `𝐴` to `_` + `𝑍`.
 
