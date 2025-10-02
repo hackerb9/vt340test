@@ -1,7 +1,7 @@
-# Notes on Unicode's conversion table from APL (IR-68)
+# Notes on Unicode's mapping table from APL (IR-68)
 
 This document refers to [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt),
-b9's modification of [Unicode's file of the same name][Uni68], dated:
+b9's fixed copy of [Unicode's file of the same name][Uni68], dated
 2020-07-17 22:58:00 GMT.
 
 [Uni68]: https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT "Unicode's old IR-68 mapping, circa 2020"
@@ -13,12 +13,11 @@ examples of composition. (In particular, underscore, 0x46, with the
 capital letters, 0x61 to 0x7A, are valid characters and should map to
 _something_ in Unicode.)
 
-Even worse, it lists a few of the IR-68 characters twice, which can't
-be right. While there should be duplicates of the Unicode characters
--- composition occurred by backspace overprinting, which can happen in
-either order -- every IR-68 sequence should map to a single Unicode
-character.
-
+It also lists some IR-68 characters twice, which can't be right. While
+there should be duplicates of the Unicode characters — composition by
+backspace overprinting can happen in either order — every IR-68
+sequence should map to a single Unicode character. The duplicated
+characters are as follows:
 
 ## QUAD DOWNWARDS ARROW
 
@@ -63,4 +62,7 @@ IR-68 character 2A is NOT EQUALS, the correct entry should be 25 for EQUALS.
     0x2A084C	0x236F	#	APL FUNCTIONAL SYMBOL QUAD NOT EQUAL
 ```
 
+## Download fixed version
 
+Hackerb9's version of [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
+contains the fixes mentioned above.
