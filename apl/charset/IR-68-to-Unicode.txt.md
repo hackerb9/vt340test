@@ -1,10 +1,9 @@
 # Notes on Unicode's mapping table from APL (IR-68)
 
-This document refers to [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt),
-b9's fixed copy of [Unicode's file of the same name][Uni68], dated
-2020-07-17 22:58:00 GMT.
+This document refers to b9's [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
+(2025), a fixed copy of [Unicode's file of the same name][Uni68] (2020).
 
-[Uni68]: https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT "Unicode's old IR-68 mapping, circa 2020"
+[Uni68]: https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT "Unicode's old IR-68 mapping, 2020-07-17 22:58:00 GMT."
 
 Hackerb9 notes that there appear to be some mistakes in Unicode's
 chart. It is missing some of the characters composed by backspace,
