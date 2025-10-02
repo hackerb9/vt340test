@@ -1,4 +1,4 @@
-# Notes on Unicode's mapping table from APL
+# Notes on Unicode's mapping table from IR-68
 
 This document refers to [Unicode's IR-68-to-Unicode.txt][Uni68]
 mapping table, last changed in 2020. [IR-68][IR68] is the pre-Unicode
