@@ -1,5 +1,12 @@
 # APL-ISO-IR-68.TXT
 # Date: 2025-03-24 20:43:43 GMT
+#
+# UNOFFICIAL! Bugs have been removed from this version. For details see:
+# https://raw.githubusercontent.com/hackerb9/vt340test/main/apl/charset/IR-68-to-Unicode.txt.md
+#
+# For the original from Unicode (last modified 2020) please see:
+# https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT
+#
 # © 202x Unicode®, Inc.
 # For terms of use, see http://www.unicode.org/terms_of_use.html
 #
@@ -54,7 +61,7 @@
 0x23	0x003C	#	LESS-THAN SIGN
 0x23084C	0x2343	#	APL FUNCTIONAL SYMBOL QUAD LESS-THAN
 0x24	0x2264	#	LESS-THAN OR EQUAL TO
-0x25	0x003D	#	EQUALS SIGN
+--0x25	0x003D	#	EQUALS SIGN
 0x25084C	0x2338	#	APL FUNCTIONAL SYMBOL QUAD EQUAL
 0x26	0x003E	#	GREATER-THAN SIGN
 0x260821	0x2369	#	APL FUNCTIONAL SYMBOL GREATER-THAN DIAERESIS
