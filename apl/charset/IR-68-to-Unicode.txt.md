@@ -8,26 +8,28 @@ This document refers to b9's [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
 Hackerb9 notes that there appear to be some mistakes in Unicode's
 chart. 
 
-1. It is missing some of the characters composed by backspace, even
-ones that are specifically listed in the [IR-68][IR68] standard as
-examples of composition. In particular, underscore, 0x46, with the
-capital letters, 0x61 to 0x7A, are valid characters and should map to
-_something_ in Unicode. It is possible that the mapping was omitted
-due to confusion about what to map to. Fortunately, it appears the APL
-community has come to [consensus][consensus] that the underscored
-letters were merely a way to differentiate lower and uppercase
-alphabets given the mechanical limitations of the IBM selectric type
-ball.
+1. Note 7 of the [IR-68][IR68] standard gives examples of characters
+composed using backspace (0x08) that should be "imaged so as to be
+clearly recognizable". One of those, underscored alphabetics, is
+completely missing from the mapping.
+
+  * 0x460861 to 0x46087A: `_` + `𝐴` to `_` + `𝑍`.
+
+  The modern [consensus][consensus] of the APL community is that
+underscored letters were merely a way to differentiate lower and
+uppercase alphabets given the mechanical limitations of the IBM
+selectric type ball. The IR-68-to-Unicode.txt file already maps
+0x61 to 0x41 (CAPITAL LETTER A), therefore, when composed with
+underscore the alphabet should be rendered as lowercase.
 
 [IR68]: https://github.com/hackerb9/vt340test/blob/main/docs/standards/IR068-APL.pdf "APL Character Set encoding standard, 1983-06-01"
 [consensus]: https://www.math.uwaterloo.ca/~ljdickey/apl-rep/tables "Working Draft of an unpublished standard for APL, 2000"
 
-
-2. It also lists a couple IR-68 characters twice, which can't be right.
-While there should be duplicates of the Unicode characters —
-composition by backspace overprinting can happen in either order —
-every IR-68 sequence should map to a single Unicode character. The
-duplicated characters are as follows:
+2. The IR-68-to-Unicode file also lists a couple IR-68 characters
+twice, which can't be right. While there should be duplicates of the
+Unicode characters — composition by backspace overprinting can happen
+in either order — every IR-68 sequence should map to a single Unicode
+character. The duplicated characters are as follows:
 
 ### QUAD DOWNWARDS ARROW
 
