@@ -1,4 +1,4 @@
-# Notes on Unicode's mapping table from APL (IR-68)
+# Notes on Unicode's mapping table from APL
 
 This document refers to b9's [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
 (2025), a fixed copy of [Unicode's file of the same name][Uni68] (2020).
@@ -7,18 +7,20 @@ This document refers to b9's [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
 
 Hackerb9 notes that there appear to be some mistakes in Unicode's
 chart. It is missing some of the characters composed by backspace,
-even ones that are specifically listed in the IR-68 standard as
+even ones that are specifically listed in the [IR-68][IR68] standard as
 examples of composition. (In particular, underscore, 0x46, with the
 capital letters, 0x61 to 0x7A, are valid characters and should map to
 _something_ in Unicode.)
 
-It also lists some IR-68 characters twice, which can't be right. While
-there should be duplicates of the Unicode characters — composition by
-backspace overprinting can happen in either order — every IR-68
-sequence should map to a single Unicode character. The duplicated
-characters are as follows:
+[IR68]: https://github.com/hackerb9/vt340test/blob/main/docs/standards/IR068-APL.pdf "APL Character Set encoding standard, 1983-06-01"
 
-## QUAD DOWNWARDS ARROW
+It also lists a couple IR-68 characters twice, which can't be right.
+While there should be duplicates of the Unicode characters —
+composition by backspace overprinting can happen in either order —
+every IR-68 sequence should map to a single Unicode character. The
+duplicated characters are as follows:
+
+### QUAD DOWNWARDS ARROW
 
 ```
 IR-68       UNICODE
@@ -41,7 +43,7 @@ of QUAD (4C) and DOWN ARROW (55), but the chart is missing that entry
 0x4B0846	0x2358	#	APL FUNCTIONAL SYMBOL QUOTE UNDERBAR
 ```
 
-## QUAD EQUAL
+### QUAD EQUAL
 
 ```
     IR-68 	UNICODE
