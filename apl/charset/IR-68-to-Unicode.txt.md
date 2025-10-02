@@ -1,7 +1,8 @@
 # Notes on Unicode's mapping table from APL
 
-This document refers to b9's [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
-(2025), a fixed copy of [Unicode's file of the same name][Uni68] (2020).
+This document refers to [Unicode's IR-68-to-Unicode.txt][Uni68]
+mapping table, last changed in 2020. [IR-68][IR68] is the pre-Unicode
+standard for encoding of APL characters.
 
 [Uni68]: https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT "Unicode's old IR-68 mapping, 2020-07-17 22:58:00 GMT."
 
@@ -9,17 +10,37 @@ There appear to be some mistakes in Unicode's chart.
 
 1. Note 7 of the [IR-68][IR68] standard gives examples of characters
    composed using backspace (0x08) that should be "imaged so as to be
-   clearly recognizable". One of those, underscored alphabetics, is
-   completely missing from the Unicode mapping file.
+   clearly recognizable". One of those is underscored alphabetics:
 
-     * 0x460861 to 0x46087A: `_` + `𝐴` to `_` + `𝑍`.
+   * 0x460861: `_` + `𝐴` → `𝐴̲`.
+	 
+	 to 
+
+	 0x46087A: `_` + `𝑍` → `𝑍̲`.
+
+   Underscored alphabetics is notably missing from Unicode's IR-68
+   mapping file. This may be because of uncertainty about what it
+   should map to. Unicode, of course, does not contain underscored
+   letters as separate characters.
 
    The modern [consensus][consensus] of the APL community is that
    underscored letters were merely a way to differentiate lower and
    uppercase alphabets given the mechanical limitations of the IBM
-   selectric type ball. Since, Unicode's IR-68-to-Unicode.txt file
-   maps 0x61 to 0x41 (CAPITAL LETTER A), we can safely conclude that
-   the underscored alphabet should be rendered as lowercase.
+   selectric type ball. The IR-68-to-Unicode.txt file maps the
+   non-underscored alphabet to capital letters — APL's `𝐴` at 0x61 →
+   U+0041 `A`.
+   
+   ```
+   0x61    	0x0041	#	LATIN CAPITAL LETTER A
+   ```
+   
+   Therefore, we can safely conclude that the underscored alphabet
+   should be rendered as lowercase — `𝐴` + `_` → U+0061 `a`.
+
+   ```
+   0x460861	0x0061	#	LATIN SMALL LETTER A
+   0x610846	0x0061	#	LATIN SMALL LETTER A
+   ```
 
 [IR68]: https://github.com/hackerb9/vt340test/blob/main/docs/standards/IR068-APL.pdf "APL Character Set encoding standard, 1983-06-01"
 [consensus]: https://www.math.uwaterloo.ca/~ljdickey/apl-rep/tables "Working Draft of an unpublished standard for APL, 2000"
