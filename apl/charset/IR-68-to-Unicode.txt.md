@@ -13,9 +13,11 @@ There appear to be some mistakes in Unicode's chart.
    recognizable". One of those is underscored alphabetics:
 
    <ul>
+
    0x460861: `_` + `𝐴` → `𝐴̲`.<br/>
    &nbsp;&nbsp;to<br/>
    0x46087A: `_` + `𝑍` → `𝑍̲`.
+
    </ul>
 
    Underscored alphabetics is notably missing from Unicode's IR-68
