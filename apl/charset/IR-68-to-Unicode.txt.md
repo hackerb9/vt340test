@@ -8,15 +8,15 @@ standard for encoding of APL characters.
 
 There appear to be some mistakes in Unicode's chart.
 
-1. Note 7 of the [IR-68][IR68] standard gives examples of characters
-   composed using backspace (0x08) that should be "imaged so as to be
-   clearly recognizable". One of those is underscored alphabetics:
+1. The [IR-68][IR68] standard gives examples of characters composed
+   using backspace (0x08) that should be "imaged so as to be clearly
+   recognizable". One of those is underscored alphabetics:
 
-   * 0x460861: `_` + `𝐴` → `𝐴̲`.
-	 
-	 to 
-
-	 0x46087A: `_` + `𝑍` → `𝑍̲`.
+   <ul>
+   0x460861: `_` + `𝐴` → `𝐴̲`.<br/>
+   &nbsp;&nbsp;to<br/>
+   0x46087A: `_` + `𝑍` → `𝑍̲`.
+   </ul>
 
    Underscored alphabetics is notably missing from Unicode's IR-68
    mapping file. This may be because of uncertainty about what it
@@ -26,8 +26,11 @@ There appear to be some mistakes in Unicode's chart.
    The modern [consensus][consensus] of the APL community is that
    underscored letters were merely a way to differentiate lower and
    uppercase alphabets given the mechanical limitations of the IBM
-   selectric type ball. The IR-68-to-Unicode.txt file maps the
-   non-underscored alphabet to capital letters — APL's `𝐴` at 0x61 →
+   selectric type ball. But, does an underscore indicate the letter is
+   small or capital?
+   
+   The IR-68-to-Unicode.txt file already maps the non-underscored
+   alphabet to capital letters — APL's `𝐴` at IR-68 0x61 → Unicode
    U+0041 `A`.
    
    ```
@@ -35,7 +38,8 @@ There appear to be some mistakes in Unicode's chart.
    ```
    
    Therefore, we can safely conclude that the underscored alphabet
-   should be rendered as lowercase — `𝐴` + `_` → U+0061 `a`.
+   should be rendered in Unicode as lowercase — `_` + `𝐴` → U+0061
+   `a`.
 
    ```
    0x460861	0x0061	#	LATIN SMALL LETTER A
