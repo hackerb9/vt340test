@@ -14,7 +14,7 @@ There appear to be some mistakes in Unicode's chart.
 
    <ul>
 
-   0x460861: `_` + `𝐴` → `𝐴̲`.<br/>
+   0x460861: `_` + `𝐴` → `𝐴̲`<br/>
    &nbsp;&nbsp;to<br/>
    0x46087A: `_` + `𝑍` → `𝑍̲`.
 
