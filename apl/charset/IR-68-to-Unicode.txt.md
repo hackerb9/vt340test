@@ -38,7 +38,7 @@ There appear to be some mistakes in Unicode's chart.
    ```
    
    Therefore, we can safely conclude that the underscored alphabet
-   should be rendered in Unicode as lowercase — `_` + `𝐴` → U+0061
+   should be rendered in Unicode as lowercase: `_` + `𝐴` → U+0061
    `a`.
 
    ```
