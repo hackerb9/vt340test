@@ -2,7 +2,7 @@
 # Date: 2025-10-02 13:17:15 GMT
 #
 # UNOFFICIAL! Bugs have been removed from this version. For details see:
-# https://github.com/hackerb9/vt340test/blob/main/apl/charset/IR-68-to-Unicode.txt.md
+# github.com/hackerb9/vt340test/blob/main/apl/charset/APL-ISO-IR-68.TXT.md
 #
 # Based on Unicode's  (last modified 2020):
 # https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT
