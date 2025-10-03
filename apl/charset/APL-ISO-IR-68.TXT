@@ -1,20 +1,20 @@
 # APL-ISO-IR-68.TXT
-# Date: 2025-03-24 20:43:43 GMT
+# Date: 2025-10-02 13:17:15 GMT
 #
 # UNOFFICIAL! Bugs have been removed from this version. For details see:
-# https://raw.githubusercontent.com/hackerb9/vt340test/main/apl/charset/IR-68-to-Unicode.txt.md
+# https://github.com/hackerb9/vt340test/blob/main/apl/charset/IR-68-to-Unicode.txt.md
 #
-# For the original from Unicode (last modified 2020) please see:
+# Based on Unicode's  (last modified 2020):
 # https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT
 #
 # © 202x Unicode®, Inc.
 # For terms of use, see http://www.unicode.org/terms_of_use.html
 #
 #	Name:             ISO-IR-68 to Unicode
-#	Unicode version:  4.0
-#	Table version:    3.0
+#	Unicode version:  14.0
+#	Table version:    ?3.1?
 #	Table format:     Format A
-#	Date:             2025 March 24
+#	Date:             2025 October 2
 #	Authors:          John Cowan <cowan@ccil.org>,
 			  b9 <hackerb9@member.fsf.org>
 #
@@ -34,7 +34,8 @@
 #	The entries are in ISO-IR-68 order.
 #
 #	Version history
-#	    3.0 version: Removed incorrect (and duplicate) values of:
+#	   ?3.1 version: Underscored alphabetics become lowercase.
+#	   ?3.0 version: Removed incorrect (and duplicate) values of:
 #			   0x46084B, 0x4B0846, 0x4C082A, 0x2A084c
 #			 Replaced them with:
 #			   0x4C0855, 0x55084C, 0x4C0825, 0x25084C
