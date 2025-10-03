@@ -1,12 +1,12 @@
 # Notes on Unicode's mapping table from IR-68
 
-This document refers to [Unicode's IR-68-to-Unicode.txt][Uni68]
+This document refers to [Unicode's APL-ISO-IR-68.TXT][Uni68]
 mapping table, last changed in 2020. [IR-68][IR68] is the pre-Unicode
 standard for encoding of APL characters.
 
 [Uni68]: https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/APL-ISO-IR-68.TXT "Unicode's old IR-68 mapping, 2020-07-17 22:58:00 GMT."
 
-There appear to be some mistakes in Unicode's chart.
+There appear to be some mistakes in Unicode's map.
 
 ## 1. `_` + `A`  = ?
 
@@ -33,7 +33,7 @@ uppercase alphabets given the mechanical limitations of the IBM
 selectric type ball. But, should an underscore indicate a letter is
 small or capital?
 
-The IR-68-to-Unicode.txt file maps non-underscored to capital letters:
+The APL-ISO-IR-68.TXT file maps non-underscored to capital letters:
 APL's `𝐴` at IR-68 0x61 → Unicode U+0041 `A`.
 
 ```
@@ -104,5 +104,5 @@ IR-68 character 2A is NOT EQUALS, the correct entry should be 25 for EQUALS.
 
 ## Download fixed version
 
-Hackerb9's version of [IR-68-to-Unicode.txt](IR-68-to-Unicode.txt)
+Hackerb9's version of [APL-ISO-IR-68.TXT](APL-ISO-IR-68.TXT)
 contains the fixes mentioned above.
