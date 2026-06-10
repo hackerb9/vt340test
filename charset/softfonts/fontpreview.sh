@@ -78,7 +78,7 @@ main() {
 		if ! (( Pcmw >= 2 && Pcmw <= 4 )); then
 		    echo "${DCS}9;1;q"	# Start sixel image (1:1 pixels)
 		else
-		    echo "${DCS}q"	# Start with 2:1 pixels for VT220 fonts
+		    echo "${DCS}0;1;q"	# Start with 2:1 pixels for VT220 fonts
 		fi
 		echo "${c//\//-/}"	# Replace / with - (graphic newline)
 		echo "${ST}"	# End sixel image
