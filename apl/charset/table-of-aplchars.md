@@ -1,6 +1,6 @@
 # ISO Table of APL Characters
 
-Unfotunately, ISO never standardized a table of APL characters with
+Unfortunately, ISO never standardized a table of APL characters with
 code points. A working draft found preserved in amber at
 -https://www.math.uwaterloo.ca/~ljdickey/apl-rep/tables/ shows the
 thoughts of the standardization committee, a few of which are relevant
@@ -14,7 +14,7 @@ for the DEC VT340.
 
 * One character that the VT340 font can show that isn't part of the
   standard is 7D, "OUT". In the original version of APL, this was
-  shown by having the letters 'O', 'U', and 'T' typed overstuck in the
+  shown by having the letters 'O', 'U', and 'T' typed overstruck in the
   same place on the paper.
 
 * Digital's [APL Font](../aplfontb9/) could have saved 26 characters
@@ -183,6 +183,6 @@ DEC's recommended ["Composite APL Character Set"](../../charset/DECAPL.md).
 
 Sidenote: TCS, the Technical Character Set, despite having many Greek
 letters that might have been useful, is not part of the Composite APL
-Character Set. If TCS had been used intead of Latin-1, it could have
+Character Set. If TCS had been used instead of Latin-1, it could have
 saved many glyphs that the DEC APL font redundantly provided: (⍺, ∇,
 ∆, ÷, ↓, ∨, ∪, ⌊, ⊤, ≥, ⍳, ←, ⊂, ≤, ≠, ⍴, →, ⊃, ≡, ⍵, ↑, ∧, ∩).
