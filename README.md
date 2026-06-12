@@ -228,13 +228,13 @@ The VT340 could be attached to a mouse (VSXXX-AA) or a graphics tablet
 (VSXXX-AB). The tablet could use either a stylus or a special "puck"
 which was like a mouse with a very precise reticule for clicking on
 locations on maps. There may also have been a barcode attachment and
-possibly a lightpen. (See: [VSXXXX-CA/CB peripheral repeater][VSXPR]).
-There is good information about the common protocol they spoke in the
-[VCB02 manual][vcb], particularly the appendices on the [keyboard][],
+possibly a lightpen. See: [VSXXXX-CA/CB peripheral repeater][VSXPR].
+Information about the common protocol they spoke is in the [VCB02
+manual][vcb], particularly the appendices on the [keyboard][],
 [mouse][], and [tablet][].
  
 Hackerb9's vt340 has been tested with a VSXXX-AA mouse as input via
-ReGIS and Tektronix commands. See [locator.md][locator.md]
+ReGIS and Tektronix commands. See [locator.md](locator/locator.md).
 
 [vcb]: https://hackerb9.github.io/vt340test/docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"
 
