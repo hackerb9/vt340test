@@ -9,21 +9,19 @@ VT340+ and is running tests, many of which were submitted by
 here.
 
 Anyone who has questions or knowledge that can fill in the gaps in the
-Archaeological Computation record is encouraged to [file an
-issue](https://github.com/hackerb9/vt340test/issues/new).
+Archaeological Computation record is encouraged to
+[file an issue](https://github.com/hackerb9/vt340test/issues/new).
 
 ## Test files and output
 
 Please see
 
-* The [j4james](j4james) directory for test files and their output.
+* The [j4james](j4james) directory for most test files and their output.
 
 * [sixeltests](sixeltests) for sample sixel graphics images and test
   scripts; [WordPerfect for Character Terminal Unix](sixeltests/wp).
 
 * [regis](regis) for a ReGIS graphics test scripts and notes.
-
-* [docs](docs) for documentation on the VT340, usually in PDF format.
 
 * [charset](charset) examines the VT340's multilingual capabilities,
   [soft fonts](charset/softfonts), and [mathematics](charset/math.md).
@@ -37,6 +35,27 @@ Please see
   [mediacopy/mediacopy.sh](mediacopy/mediacopy.sh) which takes a
   screenshot of the VT340 and saves it to the host computer system as
   a file. 
+
+* [locator.md](locator/locator.md) for tests of the VSXXX-AA mouse as input via
+  ReGIS and Tektronix commands.
+
+
+## Directories
+
+* [docs](docs) for documentation on the VT340, usually in PDF format.
+
+  Most important docs:
+   
+  * [EK-VT3XX-TP-002 VT330/VT340 Text Programming (May88).pdf][VT340TP]
+  * [EK-VT3XX-GP-002 VT330/VT340 Graphics Programming (May88).pdf][VT340GP]
+
+  See also:
+  
+   * EK-VT340-IP	VT340 Illustrated Parts Breakdown
+   * EK-VT340-PS	VT340 Pocket Service Guide
+   * MP-02412-01	VT340 Field Maintenance Printset
+   * FB-VT340-00	VT340 Tech Documentation Kit
+   * EK-VT3XX-UP	VT330/VT340 User Documentation Package/Kit
 
 * [vms](vms) VT340 support files and programs that originally came
   from VAX VMS systems.
@@ -67,12 +86,27 @@ Please see
   
 * Unlike its primitive ancestor, the [VK100][VK100] (AKA "Gigi"), the
   VT340 does not use "ANSI color" for text. Instead, the VT340 shows
-  _all_ text on the screen in one color. It is not yet clear why DEC
-  did not add escape sequences to change what value is used for
-  drawing pixels of text on the VT340. Likely there were other
-  concerns, such as backwards compatibility with the VT241 or that the
-  VT340's indexed color model doesn't fit well with ANSI's direct
-  color model.
+  _all_ text on the screen in one color (index 7). The background is
+  always color index 0. One can use ReGIS to map those indices to any
+  color, but doing so changes text already on the screen.
+
+  It is not yet clear why DEC did not permit each character cell to
+  have its own foreground and background text color attributes. (The
+  "bold" text attribute is actually an interesting case as it renders
+  text using color index 15 instead of 7.)
+  
+  Hackerb9 suspects that the reason is because the VT340 was built on
+  the VCB02 Dragon graphics architecture. Colors are stored _per
+  pixel_ via 16 color indices, each of which can be changed to
+  represents any of 4096 possible colors. "ANSI color", on the other
+  hand, specifies for each _character cell_ two colors from a fixed
+  set of 16. 
+  
+<!-- That makes the VT340 ideal as a ReGIS graphics workstation, but -->
+<!-- the indexed color model doesn't fit well with ANSI's -->
+<!-- direct  color. While the VT340 has the theoretically more -->
+<!-- powerful model, it is not  fast enough for multicolored text. -->
+
   
   [VK100]: https://hackerb9.github.io/vt340test/docs/kindred/AA-K336A-TK_GIGI_ReGIS_Handbook_Jun81.pdf "GIGI ReGIS Handbook"
 
@@ -225,13 +259,13 @@ never included.
 ### Locator Devices
 
 The VT340 could be attached to a mouse (VSXXX-AA) or a graphics tablet
-(VSXXX-AB). The tablet could use either a stylus or a special "puck"
-which was like a mouse with a very precise reticule for clicking on
-locations on maps. There may also have been a barcode attachment and
-possibly a lightpen. See: [VSXXXX-CA/CB peripheral repeater][VSXPR].
-Information about the common protocol they spoke is in the [VCB02
-manual][vcb], particularly the appendices on the [keyboard][],
-[mouse][], and [tablet][].
+(VSXXX-AB). The tablet could use either a stylus or a special
+"digitizer" which was like a mouse with a very precise reticule for
+selecting locations on maps. There may also have been a barcode
+attachment and possibly a lightpen. See: [VSXXXX-CA/CB peripheral
+repeater][VSXPR]. Information about the common protocol they spoke is
+in the [VCB02 manual][vcb], particularly the appendices on the
+[keyboard][], [mouse][], and [tablet][].
  
 Hackerb9's vt340 has been tested with a VSXXX-AA mouse as input via
 ReGIS and Tektronix commands. See [locator.md](locator/locator.md).
@@ -262,6 +296,7 @@ ReGIS and Tektronix commands. See [locator.md](locator/locator.md).
   between 80 and 132 column mode, they do not appear to be equivalent.
 
   [VT340TP]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-TP-002_VT330_VT340_Text_Programming_May88.pdf "VT340 Text Programming Manual"
+  [VT340GP]: https://hackerb9.github.io/vt340test/docs/EK-VT3XX-GP-002_VT330_VT340_Text_Programming_May88.pdf "VT340 Graphics Programming Manual"
 
 
   * **DECSCPP**: `Esc` `[` `80` `$` `|`   or  `Esc` `[` `132` `$` `|`
