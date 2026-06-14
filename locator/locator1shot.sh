@@ -12,6 +12,7 @@
 
 # Notes:
 
+# * R(I0) sets the terminal to "one-shot mode".
 # * R(P) immediately types the current graphics cursor position as a
 #   plain text string of the form "[799,479]" followed by a linefeed.
 # * R(P(I)) allows the user to interactively position the graphics
@@ -35,7 +36,7 @@ ST=$'\e\\'			# String Terminator
 
 main() {
     echo -n ${DCS}p 		# ReGIS
-    echo -n "W(M10,P1,I7,V)S(E)V[400,240]"
+    echo -n "W(M10,P1,I7,V)S(E)V[400,240]R(I0)"
     echo -n ${ST}		# End ReGIS
 
     while true; do
