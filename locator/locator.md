@@ -10,13 +10,17 @@ The [Linux kernel][linux] describes the VT340's locator devices like so:
  */
 ```
 
+"Locator devices" is what DEC calls input devices that provide a
+coordinate on the screen. The VT340 could be used with a circular
+mouse (VSXXX-AA) or a tablet (VSXXX-AB). The tablet could use either a
+mouse-like digitizer (with crosshairs and four buttons) or a stylus.
+
 ## Documentation
 
-* [VT340 Programmer's Reference: Chapter 10 Report Command (in ReGIS)][ch10]
 * [VT340 Programmer's Reference: Chapter 15 Using a Mouse or Tablet][ch15]
+* [VT340 Programmer's Reference: Chapter 10 Report Command (in ReGIS)][ch10]
+* [VT340 Programmer's Reference: Chapter 13 Tektronix 4014 Emulation][ch13]
 * [VCB02 Video Subsystem Technical Manual][vcb02]
-*
-
 
 [ch15]: https://vt100.net/docs/vt3xx-gp/chapter15.html "Using a Mouse or Tablet"
 [ch10]: https://vt100.net/docs/vt3xx-gp/chapter10.html "ReGIS Report Command"
@@ -26,7 +30,115 @@ The [Linux kernel][linux] describes the VT340's locator devices like so:
 ## Testing
 
 The VT340 manual describes two ways to read input from a locator
-device: ReGIS and GIN. 
+device: ReGIS and GIN. Various terminal emulators from DEC also
+implemented a third method, DEC Locator Mode, which the VT340 does
+_not_ support. 
+
+### ReGIS test
+
+ReGIS mouse tracking can be configured to work in either _1-shot mode_
+which request a single location or _multimode_ which keeps sending
+mouse data until it is turned off. The following scripts test those
+modes. One-shot is quite simple to use.
+
+* [locator1shot.sh][]
+
+The primary advantage of multimode is that the terminal continues to
+process input data. In one-shot mode, the terminal locks up while
+waiting for the user to press a button; any data received is buffered
+for later.
+
+* [locatormulti.sh][]
+
+By default the VT340 only sends events on "mouse down" (button
+pressed), but it can be configured to also report "mouse up" (button
+released) events. It can also be configured to send an arbitrary
+string for each of the four mouse buttons. (Note: Only the tablet
+actually has four buttons.) Use the following program to test that
+functionality.
+
+* [locatorprog.sh][]
+
+### Tektronix GIN mode test
+
+* Enter Tek mode: Send Esc [ ? 3 8 h 
+
+* Enter GIN mode: Send ESC SUB (^Z)
+
+* Receive Report: Format? 
+
+  Chapter 15 says, "See Chapter 13 for the format of the 4010/4014
+  mode position report."
+  
+  Chapter 13 says, "Chapter 15 describes how to use a mouse or tablet
+  in GIN mode."
+
+* Exit Tek mode: Send Esc [ ? 3 8 l
+
+### DEC Locator test
+
+The DEC Locator sequences can be tested using Thomas Dickey's `vttest`
+program under the menu Non-VT100 Tests → XTERM Special → Mouse → DEC
+Locator.
+
+The following documentation of DEC Locator was borrowed from XTerm's
+[ctlseqs](https://www.invisible-island.net/xterm/ctlseqs/ctlseqs.html)
+file.
+
+<details><summary>DECRQLP and DECLRP</summary>
+
+* **DECRQLP** Locator Position 
+
+  |         |        |     |      |
+  |:--------|:-------|:----|:-----|
+  | **CSI** | **Ps** | '   | \|   |
+  | 9/11    | 3/?    | 2/7 | 7/12 |
+
+  Valid values for the parameter are:
+
+  Ps = 0, 1 or omitted → transmit a single **DECLRP** locator report
+
+If Locator Reporting has been enabled by a **DECELR**, xterm will respond
+with a DECLRP Locator Report. This report is also generated on button
+up and down events if they have been enabled with a **DECSLE**, or when
+the locator is detected outside of a filter rectangle, if filter
+rectangles have been enabled with a **DECEFR**.
+
+* **DECLRP** Locator Report
+
+  |         | event  |      | button |      | row     |      | column  |      | page    |     |     |
+  |:-------:|:------:|:----:|:------:|:----:|:-------:|:----:|:-------:|:----:|:-------:|:---:|:---:|
+  | **CSI** | **Pe** | ;    | **Pb** | ;    | **Pr**  | ;    | **Pc**  | ;    | **Pp**  | &   | w   |
+  | 9/11    | 3/?    | 3/11 | 3/?    | 3/11 | 3/? ... | 3/11 | 3/? ... | 3/11 | 3/? ... | 2/6 | 7/7 |
+
+  Valid values for the event:
+
+  * Pe = 0 → locator unavailable - no other parameters sent
+  * Pe = 1 → request - xterm received a DECRQLP
+  * Pe = 2 → left button down
+  * Pe = 3 → left button up
+  * Pe = 4 → middle button down
+  * Pe = 5 → middle button up
+  * Pe = 6 → right button down
+  * Pe = 7 → right button up
+  * Pe = 8 → M4 button down
+  * Pe = 9 → M4 button up
+  * Pe = 1 0 → locator outside filter rectangle
+
+  ‘‘button’’ parameter is a bitmask indicating which buttons are pressed:
+  * Pb = 0 → no buttons down
+  * Pb & 1 → right button down
+  * Pb & 2 → middle button down
+  * Pb & 4 → left button down
+  * Pb & 8 → M4 button down
+
+  ‘‘row’’ and ‘‘column’’ parameters are the coordinates of the locator
+  position in the xterm window, encoded as ASCII decimal. The ‘‘page’’
+  parameter is not used by xterm, and will be omitted.
+
+</details>
+
+
 
 
 ## Hardware Adapters
@@ -104,24 +216,5 @@ Building an adaptor so it can be plugged into a standard RS-232 bus.
 ```
 
 </details>
-
-
-
-Hackerb9 only has a VSXXX-AA mouse so tests of VSXXX
-
-"Locator devices" is what DEC calls input devices that provide a
-coordinate on the screen. The VT340 could be used with a circular
-mouse (VSXXX-AA) or a tablet (VSXXX-AB). The tablet could use either a
-
-## Overview
-
-* ReGIS "One-Shot" mode
-  [locator1shot.sh](locator1shot.sh)
-
-* ReGIS Multi mode.
-
-* Tek GIN mode.
-
-* Custom events for button up/down.
 
 

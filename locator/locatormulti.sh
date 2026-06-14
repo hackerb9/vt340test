@@ -18,9 +18,9 @@
 #   turned off with R(I0).
  # * R(P(I)) immediately returns a position report. This can be used
 #   for tracking mouse movements.
+#   The output is an escape sequence: `Esc [ 241 ~ [799,479]`.
 # * Pressing any locator button immediately sends coordinates to the
-#   host applications.
-#???   The output is an escape sequence: `Esc [ 241 ~ [799,479]`.
+#   host applications. Output is a plain string: "[X, Y]".
 # * The number between the CSI and tilde indicates which device and
 #   button was pressed. On hackerb9's VSXXX-AA mouse, the buttons are
 #   Left: 241, Middle: 243, Right: 245.
