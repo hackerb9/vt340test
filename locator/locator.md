@@ -95,6 +95,10 @@ functionality.
   select() timeout of about a tenth of a second, then sending a
   request for a position report. (See [locatormulti.sh][].)
 
+* vttest has a "dec locator" test, but it only implements the DECTERM
+  protocol, not the VT340 mouse.
+
+
 
 ### Tektronix GIN mode test
 
@@ -111,6 +115,15 @@ functionality.
   in GIN mode."
 
 * Exit Tek mode: Send Esc [ ? 3 8 l
+
+#### Notes
+
+* For some reason vttest's Tek mouse test does not work with the
+  VT340. The GIN crosshairs do appear and pressing a key on the
+  keyboard shows the keycode and correct location, but clicks always
+  send roughly the same position repeatedly --- 27 (657, 882).
+
+
 
 ### DEC Locator test
 
