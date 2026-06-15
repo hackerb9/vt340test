@@ -45,8 +45,6 @@ main() {
     echo -n "P[400,240]"
     echo -n "R(I1)"		# multiple input mode
 
-
-
     p1="[400,240]"
     oldpos=$p1
     while true; do
@@ -57,7 +55,6 @@ main() {
 	    # Read timed out, so just poll mouse's current position
 	    IFS="~" read -sp ";R(P(I))" bt pos
 	    bt="${bt#*[}"
-	    if [[ $bt && ! $pos ]]; then pos=$bt; bt="0"; fi
 	    if [[ ${button[bt]} ]]; then bt="$bt (${button[bt]})"; fi
 	    if [[ $pos && ( "$pos" != "$oldpos" ) ]]; then
 		    echo -n ";W(I0)F(V[0,0][799,0][799,20][0,20]);"
@@ -89,15 +86,17 @@ main() {
 	fi
 
 	if [[ $p2 ]]; then
-	    # Exit ReGIS briefly to send VT escape & print info text
-	    echo -n ${ST}		
-	    echo -n $'\e[H\n\n\e[K'"start: $p1, end: $p2, button: $bt" 
-	    # Note that when entering ReGIS we need to reenable multimode,
-	    # but the VT340 remembers the last graphics cursor location.
-	    echo -n "${DCS}1p;R(I1)"
+#	    # We could exit ReGIS briefly to send VT escape & print info text.
+#	    # However, it loses rapid mouse movements and clicks.
+#	    echo -n ${ST}		
+#	    echo -n $'\e[H\n\n\e[K'"start: $p1, end: $p2, button: $bt" 
+#	    # Note that when entering ReGIS we need to reenable multimode,
+#	    # but the VT340 remembers the last graphics cursor location.
+#	    echo -n "${DCS}1p;R(I1)"
 
-	    # We could also draw the information using ReGIS but it is slow.
-	    # (Though how much time to enter and exit ReGIS?)
+	    # Instead, stay inside ReGIS to draw the information.
+	    # A bit slower to render, but the mouse is more responsive.
+	    # The VT340 queues up rapid clicks for later delivery.
 	    echo -n ";W(I0)F(V[0,20][799,20][799,40][0,40]);"
 	    echo -n "W(I1);P[0,20];T'start: $p1, end: $p2, button: $bt';"
 	    echo -n "P${p2};W(I7)" 
