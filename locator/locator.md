@@ -31,16 +31,15 @@ mouse-like digitizer (with crosshairs and four buttons) or a stylus.
 
 The VT340 manual describes two ways to read input from a locator
 device: ReGIS and GIN. Various terminal emulators from DEC also
-implemented a third method, DEC Locator Mode, which the VT340 does
+implemented a third method, [DEC Locator Mode], which the VT340 does
 _not_ support. 
 
-### ReGIS test
+### ReGIS locator test
 
 ReGIS mouse tracking can be configured to work in either _1-shot mode_
 which request a single location or _multimode_ which keeps sending
 mouse data until it is turned off. The following scripts test those
-modes. One-shot is quite simple to use and allows arrows keys to move
-the grapics input cursor.
+modes. One-shot is quite simple to use, even without a mouse.
 
 * [locator1shot.sh][]
 
@@ -60,7 +59,10 @@ functionality.
 
 * [locatorprog.sh][]
 
-#### Notes on ReGIS Locator Mode
+<details><summary>Notes on ReGIS Locator Mode</summary><ul>
+
+* According to a [DEC memo][decloc], “REGIS One-shot Graphics Input
+  Mode is provided for backward compatibility with the VT240.”
 
 * The documentation says that the terminal continues to process input
   normally in Multiple Mode. This only refers to ReGIS mode. Switching
@@ -98,7 +100,7 @@ functionality.
 * vttest has a "dec locator" test, but it only implements the DECTERM
   protocol, not the VT340 mouse.
 
-
+</ul></details>
 
 ### Tektronix GIN mode test
 
@@ -127,15 +129,20 @@ functionality.
 
 ### DEC Locator test
 
-The DEC Locator sequences can be tested using Thomas Dickey's `vttest`
-program under the menu:
-Non-VT100 Tests → XTERM Special → Mouse → DEC Locator.
+As mentioned previously, these sequences do not work on the VT340.
+They are merely mentioned as they are quite common in emulators.
 
-The following documentation of DEC Locator was borrowed from XTerm's
+Some of the [DEC Locator][decloc] sequences can be tested using Thomas
+Dickey's `vttest` program under the menu: Non-VT100 Tests → XTERM
+Special → Mouse → DEC Locator.
+
+[decloc]: https://espterm.github.io/docs/Locator%20Input%20Model%20for%20ANSI%20Terminals%20(sixth%20revision).html
+
+The following summary was borrowed from XTerm's
 [ctlseqs](https://www.invisible-island.net/xterm/ctlseqs/ctlseqs.html)
 file.
 
-<details><summary>DECRQLP and DECLRP</summary>
+<details><summary>DECRQLP and DECLRP</summary><ul>
 
 * **DECRQLP** Locator Position 
 
@@ -186,9 +193,7 @@ rectangles have been enabled with a **DECEFR**.
   position in the xterm window, encoded as ASCII decimal. The ‘‘page’’
   parameter is not used by xterm, and will be omitted.
 
-</details>
-
-
+</ul></details>
 
 
 ## Hardware Adapters
@@ -217,7 +222,7 @@ can be plugged into a PC's standard RS-232 bus.
 
 [linux]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/mouse/vsxxxaa.c
 
-<details><summary>Linux kernel's comment from vsxxxaa.c</summary>
+<details><summary>Linux kernel's comment from vsxxxaa.c</summary><ul>
 
 ```C
 /*
@@ -270,6 +275,6 @@ can be plugged into a PC's standard RS-232 bus.
  */
 ```
 
-</details>
+</ul></details>
 
 
