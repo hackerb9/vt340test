@@ -5,10 +5,10 @@
 # point, and button clicked.
 
 # Use VSXXX-AA (mouse) or VSXXX-AB (tablet) to select a point.
-# Arrow keys move by pixels; shift+arrows, by ten. Return when done.
-
-# Based on the Etch-a-Sketch from the GIGI/ReGIS Handbook, chapter 15.
+# Arrow keys do NOT work to move the cursor in multimode!
 # Hit 'q' to quit.
+
+# Inspired by the Etch-a-Sketch from the GIGI/ReGIS Handbook, chapter 15.
 
 
 # Notes:
@@ -16,51 +16,103 @@
 # * R(I1) sets the terminal to "multimode" where mouse button events
 #   are sent continuously. Events will continue to be sent until it is
 #   turned off with R(I0).
- # * R(P(I)) immediately returns a position report. This can be used
+# * R(P(I)) immediately returns a position report. This can be used
 #   for tracking mouse movements.
 #   The output is an escape sequence: `Esc [ 241 ~ [799,479]`.
 # * Pressing any locator button immediately sends coordinates to the
-#   host applications. Output is a plain string: "[X, Y]".
+#   host applications. Output is a position report. 
 # * The number between the CSI and tilde indicates which device and
 #   button was pressed. On hackerb9's VSXXX-AA mouse, the buttons are
 #   Left: 241, Middle: 243, Right: 245.
-# * Hitting any key other than arrowkeys will cause R(P(I)) to stop
-#   and type out the location as a string, as if R(P) had been used.
-# * The key used to stop the interactive selection will be typed first
-#   and thus included in any `read` from stdin.
-# * If that key was "Return" or "Enter", it may prematurely stop a
-#   line-based input routine. The correct solution is to read the
-#   characters one at a time. That extra step is not taken in this
-#   script. Instead, it simply runs `read` again.
+# * Button "240" means the report was a result of polling the mouse.
 
 CSI=$'\e['			# Control Sequence Introducer
 DCS=$'\eP'			# Device Control String
 ST=$'\e\\'			# String Terminator
 
+button[240]="Report"
+button[241]="Left down"
+button[243]="Middle down"
+button[245]="Right down"
+
+
 main() {
-    echo -n ${DCS}p 		# ReGIS
-    echo -n "W(M10,P1,I7,V)S(E)V[400,240]R(I1)"
-    echo -n ${ST}		# Exit REGIS mode
+    echo -n "${DCS}1p;" 		# ReGIS
+    echo -n "W(M10,P1,I7,V)S(E)"
+    echo -n "P[0,0]T(S1,W(I2))'Move the mouse'"
+    echo -n "P[0,20]T(W(I1))'Click the buttons'"
+    echo -n "P[0,40]T'Press ''q'' to quit'"
+    echo -n "P[400,240]"
+    echo -n "R(I1)"		# multiple input mode
+
+
+
     p1="[400,240]"
+    oldpos=$p1
     while true; do
-	if ! read -t 0; then
-	    IFS=~ read -sp ";R(P(I))" dummy pos    # Report_Position
-	    echo -n $'\e[H\e[K'"current: $pos" 
+	read -s -n1 -t .5 key	# Get first character of esc seq or timeout
+	status=$?
+	if [[ $key == q ]]; then exit; fi
+	if (( $status > 128 )); then
+	    # Read timed out, so just poll mouse's current position
+	    IFS="~" read -sp ";R(P(I))" bt pos
+	    bt="${bt#*[}"
+	    if [[ $bt && ! $pos ]]; then pos=$bt; bt="0"; fi
+	    if [[ ${button[bt]} ]]; then bt="$bt (${button[bt]})"; fi
+	    if [[ $pos && ( "$pos" != "$oldpos" ) ]]; then
+		    echo -n ";W(I0)F(V[0,0][799,0][799,20][0,20]);"
+		    echo -n ";P[0,0];T(S1,W(I2))"
+		    echo -n "'current: ${pos}, button ${bt}'"
+		    echo -n ";P$p1;W(I7)" # Diamond mark on last spot
+		    oldpos=$pos
+	    fi
+	    continue
+	fi		
+
+	# "Captain! We get signal!"
+	# Report format: Esc [241~[799,479] Linefeed
+	#           or : [799,479] Linefeed
+
+	IFS="~" read -s -t .5 bt p2	# Read button event or timeout
+	bt="${bt#*[}"
+	if [[ -z "$p2" && "$bt" ]]; then
+	    p2=$bt
+	    bt=0
+	fi
+	if [[ ${button[bt]} ]]; then bt="$bt (${button[bt]})"; fi
+	if [[ -z $p2 ]]; then
 	    continue
 	fi
-	# Got data waiting for us!
-	IFS="~" read -s b2 p2	# Got button event!
-	# If user hits Return, terminal sends coordinates after!
-	if [[ -z "$b2" ]]; then
-	    read -s p2
-	    b2="Return"
-	elif [[ -z "$p2" ]]; then       # User hit a key, so exit
+
+	if [[ ! $p2 =~ ^[]0-9,\n[]*$ ]]; then
+	    echo $ST;
+	    echo "Huh? Got non-coordinates: $p2"
+	    echo "Exiting."
 	    exit
 	fi
-	b2="${b2#*[}"
-	echo -n $'\e[H\n\e[K'"start: $p1, end: $p2, button: $b2" 
-	echo -n "P${p1}V${p2}${ST}"	# Draw a vector from p1 to p2.
-	p1=$p2
+	    
+
+	if [[ $p1 && $p2 ]]; then
+	    echo -n ";P${p1}V${p2}"	# Draw a vector from p1 to p2.
+	fi
+
+	if [[ $p2 ]]; then
+	    # Exit ReGIS briefly to send VT escape & print info text
+	    echo -n ${ST}		
+	    echo -n $'\e[H\n\n\e[K'"start: $p1, end: $p2, button: $bt" 
+	    # Note that when entering ReGIS we need to reenable multimode,
+	    # but the VT340 remembers the last graphics cursor location.
+	    echo -n "${DCS}1p;R(I1)"
+
+	    # We could also draw the information using ReGIS but it is slow.
+	    # (Though how much time to enter and exit ReGIS?)
+	    echo -n ";W(I0)F(V[0,20][799,20][799,40][0,40]);"
+	    echo -n "W(I1);P[0,20];T'start: $p1, end: $p2, button: $bt';"
+	    echo -n "P${p2};W(I7)" 
+
+	    p1=$p2
+	fi
+
     done
 }
 
@@ -86,3 +138,11 @@ flushstdin() {
 }
 
 main "$@"
+
+
+# Notes:
+# * Need to enter in ReGIS modes 1p or 3p. 0 and 2 don't do multimode?
+# * Graphics input disappears when ReGIS mode is exited with ST or ^L.
+# * Despite documentation, exiting ReGIS mode turns off multimode.
+
+
