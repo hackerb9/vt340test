@@ -70,27 +70,19 @@ main() {
 	fi		
 
 	# "Captain! We get signal!"
-	# Report format: Esc [241~[799,479] Linefeed
-	#           or : [799,479] Linefeed
-
+	# Report format: Esc [245~[799,479] Linefeed
 	IFS="~" read -s -t .5 bt p2	# Read button event or timeout
+	if [[ -z $p2 ]]; then continue;	fi
 	bt="${bt#*[}"
-	if [[ -z "$p2" && "$bt" ]]; then
-	    p2=$bt
-	    bt=0
-	fi
 	if [[ ${button[bt]} ]]; then bt="$bt (${button[bt]})"; fi
-	if [[ -z $p2 ]]; then
-	    continue
-	fi
 
+	# Sanity check. This should only happen if user hits keys.
 	if [[ ! $p2 =~ ^[]0-9,\n[]*$ ]]; then
 	    echo $ST;
 	    echo "Huh? Got non-coordinates: $p2"
 	    echo "Exiting."
 	    exit
 	fi
-	    
 
 	if [[ $p1 && $p2 ]]; then
 	    echo -n ";P${p1}V${p2}"	# Draw a vector from p1 to p2.
