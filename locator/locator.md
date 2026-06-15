@@ -39,7 +39,8 @@ _not_ support.
 ReGIS mouse tracking can be configured to work in either _1-shot mode_
 which request a single location or _multimode_ which keeps sending
 mouse data until it is turned off. The following scripts test those
-modes. One-shot is quite simple to use.
+modes. One-shot is quite simple to use and allows arrows keys to move
+the grapics input cursor.
 
 * [locator1shot.sh][]
 
@@ -58,6 +59,42 @@ actually has four buttons.) Use the following program to test that
 functionality.
 
 * [locatorprog.sh][]
+
+#### Notes on ReGIS Locator Mode
+
+* The documentation says that the terminal continues to process input
+  normally in Multiple Mode. This only refers to ReGIS mode. Switching
+  back to the standard VT340 escape sequences disables the Graphics
+  Input and all mouse events are lost.
+
+* The documentation says the Multiple Mode stays on until it is
+  explicitly set back to "one shot mode" or the terminal is reset.
+  Actually, exiting and reentering ReGIS mode switches to one shot
+  mode.
+  
+* Exiting ReGIS mode is not a good idea with multimode as very rapid
+  mouse movements and clicks will be lost, causing a poorly responding
+  application. 
+  
+  However, that means text output must use ReGIS's text rendering
+  which seems to be slow, mainly because the line it is on must first
+  be cleared... Or does it? Is there a way to the make ReGIS's text
+  background opaque? If not, is there a faster rectangle clear routine
+  than "polyfill"? [XXX todo: investigate]
+
+* ReGIS's DCS string can be opened in one of four modes, 0 through 3.
+  Multiple Mode only seems to work with ReGIS modes 1 and 3. I'm not
+  sure why yet. [XXX]
+
+* Multiple mode always returns reports as escape sequences, never
+  plain text.
+
+* Unlike button clicks, moving the mouse is not an event sent by the
+  VT340 spontaneously in multimode. The location must be polled by the
+  application. This can be done by waiting for a button event with a
+  select() timeout of about a tenth of a second, then sending a
+  request for a position report. (See [locatormulti.sh][].)
+
 
 ### Tektronix GIN mode test
 
@@ -78,8 +115,8 @@ functionality.
 ### DEC Locator test
 
 The DEC Locator sequences can be tested using Thomas Dickey's `vttest`
-program under the menu Non-VT100 Tests → XTERM Special → Mouse → DEC
-Locator.
+program under the menu:
+Non-VT100 Tests → XTERM Special → Mouse → DEC Locator.
 
 The following documentation of DEC Locator was borrowed from XTerm's
 [ctlseqs](https://www.invisible-island.net/xterm/ctlseqs/ctlseqs.html)
@@ -152,13 +189,18 @@ https://hackaday.io/project/19576-dec-mouse-adapter
 
 ### From USB mouse to VT340
 
+[...]
 
+### From USB or PS/2 tablet to VT340
+
+No projects exist yet to recreate the tablet digitizer with its
+precision crosshairs or the stylus.
 
 ### From DEC mouse to PC serial port
 
 The [Linux kernel][linux] has a builtin driver for the VT340's mouse
-peripherals which includes as a comment how to build an adapter
-Building an adaptor so it can be plugged into a standard RS-232 bus.
+peripherals which includes in a comment how to build an adapter so it
+can be plugged into a PC's standard RS-232 bus.
 
 [linux]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/mouse/vsxxxaa.c
 
