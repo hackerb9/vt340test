@@ -9,10 +9,10 @@
 # Based on the Etch-a-Sketch from the GIGI/ReGIS Handbook, chapter 15.
 # Hit 'q' to quit.
 
-
 # Notes:
 
-# * R(I0) sets the terminal to "one-shot mode".
+# * R(I0) sets the terminal to "one-shot mode". A request for the
+#   position will need to be sent before each event is received. 
 # * R(P) immediately types the current graphics cursor position as a
 #   plain text string of the form "[799,479]" followed by a linefeed.
 # * R(P(I)) allows the user to interactively position the graphics
