@@ -15,11 +15,14 @@ coordinate on the screen. The VT340 could be used with a circular
 mouse (VSXXX-AA) or a tablet (VSXXX-AB). The tablet could use either a
 mouse-like digitizer (with a reticule and four buttons) or a stylus.
 
+![Tablet Stylus](stylus.png "Tablet Stylus")
+![Tablet puck (digitizer with reticule)](puck.png "Tablet digitizer with reticule")
+
 As with all data from the VT340, locator data is sent to the host as
 keyboard input. The reports can be wrapped as escape sequences or as
 plain text ("[314,159]")
 
-[XXX insert screenshot here cross hairs]
+[XXX insert screenshot here cross-hair cursor]
 
 When locator input is enabled, the VT340 shows fine crosshairs on the
 screen that are moved by the device with no need for application
