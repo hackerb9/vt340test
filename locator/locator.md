@@ -13,7 +13,18 @@ The [Linux kernel][linux] describes the VT340's locator devices like so:
 "Locator devices" is what DEC calls input devices that provide a
 coordinate on the screen. The VT340 could be used with a circular
 mouse (VSXXX-AA) or a tablet (VSXXX-AB). The tablet could use either a
-mouse-like digitizer (with crosshairs and four buttons) or a stylus.
+mouse-like digitizer (with a reticule and four buttons) or a stylus.
+
+As with all data from the VT340, locator data is sent to the host as
+keyboard input. The reports can be wrapped as escape sequences or as
+plain text ("[314,159]")
+
+[XXX insert screenshot here cross hairs]
+
+When locator input is enabled, the VT340 shows fine crosshairs on the
+screen that are moved by the device with no need for application
+control. The status bar, which normally shows text cursor row and
+column, changes to show the X and Y pixel coordinates.
 
 ## Documentation
 
@@ -31,62 +42,114 @@ mouse-like digitizer (with crosshairs and four buttons) or a stylus.
 
 The VT340 manual describes two ways to read input from a locator
 device: ReGIS and GIN. Various terminal emulators from DEC also
-implemented a third method, [DEC Locator Mode], which the VT340 does
-_not_ support. 
+implemented a third method, [DEC Locator Mode][decloc], which the
+VT340 does _not_ support.
 
 ### ReGIS locator test
 
-ReGIS mouse tracking can be configured to work in either _1-shot mode_
-which request a single location or _multimode_ which keeps sending
-mouse data until it is turned off. The following scripts test those
-modes. One-shot is quite simple to use, even without a mouse.
+The primary method for the VT340 is the **ReGIS** method which can be
+configured to work in either _1-shot mode_ which request a single
+location or _multimode_ which keeps sending mouse data until it is
+turned off. The following scripts test those modes.
+
+#### ReGIS One-Shot
+
+<details><summary>One-shot protocol</summary><ul>
+
+The VT340 terminals defaults to one-shot mode when ReGIS is entered.
+
+  |         |     |      |
+  |:--------|-----|------|
+  | **DCS** | p   | R(P) |
+  | 9/11    | 7/0 |      |
+
+  Valid values for the parameter are:
+
+  
+
+</ul></details>
+
+One-shot is quite simple to use as it is synchronous: The host asks
+for a location and the terminal lets the user picks a spot on the
+screen. The terminal blocks while waiting for the user to press a
+button; any data received from the host is buffered to be processed
+later.
+
+This method has the advantage of being usable without a mouse. The
+arrow keys move the crosshairs and any other key acts as a button
+click, sending character and pixel location to the host. 
+
+One-shot mode is documented as being backwards compatible with the
+VT240 but not the VT125. It may also work with the VK100 (GIGI).
 
 * [locator1shot.sh][]
 
-The primary advantage of multimode is that the terminal continues to
-process input data. In one-shot mode, the terminal locks up while
-waiting for the user to press a button; any data received is buffered
-for later.
+#### Multiple Graphics Input Mode
+
+The primary advantages of Multiple Graphics Input Mode ("multimode")
+are that the terminal continues to process input data and that the
+keyboard can be used to interact with the application normally.
 
 * [locatormulti.sh][]
 
-By default the VT340 only sends events on "mouse down" (button
+#### Locator Key Definition: DECLKD
+
+By default, the VT340 only sends events on "mouse down" (button
 pressed), but it can be configured to also report "mouse up" (button
-released) events. It can also be configured to send an arbitrary
-string for each of the four mouse buttons. (Note: Only the tablet
-actually has four buttons.) Use the following program to test that
-functionality.
+released) events. The same method is also be used to configure an
+arbitrary response string for each of the four possible locator
+buttons. Use the following program to test that functionality.
+
+Note that different input devices have different numbers of buttons,
+but the documentation suggests they return the same values. It is
+unknown as of yet how an application can detect the different devices,
+but they do have unique identifiers according to the VCB02.
+
+|                       | Key 1     | Key 2     | Key 3     | Key 4     |
+|-----------------------|-----------|-----------|-----------|-----------|
+| Mouse                 | Left      | Middle    | Right     |           |
+| Digitizer             | B1        | B2        | B3        | B4        |
+| Stylus                | Barrel    | Tip       |           |           |
+|-----------------------|-----------|-----------|-----------|-----------|
+| Default<br/>down defn | Esc [241~ | Esc [243~ | Esc [245~ | Esc [247~ |
+|-----------------------|-----------|-----------|-----------|-----------|
+| Default<br/>up defn   | None      | None      | None      | None      |
 
 * [locatorprog.sh][]
 
+
+#### ReGIS Locator Notes
+
 <details><summary>Notes on ReGIS Locator Mode</summary><ul>
 
-* According to a [DEC memo][decloc], “REGIS One-shot Graphics Input
-  Mode is provided for backward compatibility with the VT240.”
+* According to a [DEC memo][decloc] from 1989, “REGIS One-shot
+  Graphics Input Mode is provided for backward compatibility with the
+  VT240.” However, that memo does not mention the VT340's Graphics
+  Multiple Input Mode at all.
 
-* The documentation says that the terminal continues to process input
-  normally in Multiple Mode. This only refers to ReGIS mode. Switching
-  back to the standard VT340 escape sequences disables the Graphics
-  Input and all mouse events are lost.
+* The VT340 documentation says that the terminal continues to process
+  input normally in Multiple Mode. It turns out this only refers to
+  ReGIS mode. Switching back to the standard VT340 escape sequences
+  disables the Graphics Input and all mouse events are lost.
 
 * The documentation says the Multiple Mode stays on until it is
   explicitly set back to "one shot mode" or the terminal is reset.
   Actually, exiting and reentering ReGIS mode switches to one shot
   mode.
   
-* Exiting ReGIS mode is not a good idea with multimode as very rapid
-  mouse movements and clicks will be lost, causing a poorly responding
-  application. 
+* Exiting ReGIS mode is not a good idea with multimode as rapid
+  movements and clicks will be lost, causing the application to feel
+  unresponsive.
   
-  However, that means text output must use ReGIS's text rendering
+  However, that implies text output must use ReGIS's text rendering
   which seems to be slow, mainly because the line it is on must first
   be cleared... Or does it? Is there a way to the make ReGIS's text
   background opaque? If not, is there a faster rectangle clear routine
   than "polyfill"? [XXX todo: investigate]
 
 * ReGIS's DCS string can be opened in one of four modes, 0 through 3.
-  Multiple Mode only seems to work with ReGIS modes 1 and 3. I'm not
-  sure why yet. [XXX]
+  Multimode only seems to work with ReGIS modes 1 and 3. I'm not sure
+  why yet. [XXX Investigate]
 
 * Multiple mode always returns reports as escape sequences, never
   plain text.
@@ -94,8 +157,8 @@ functionality.
 * Unlike button clicks, moving the mouse is not an event sent by the
   VT340 spontaneously in multimode. The location must be polled by the
   application. This can be done by waiting for a button event with a
-  select() timeout of about a tenth of a second, then sending a
-  request for a position report. (See [locatormulti.sh][].)
+  select() timeout of about a tenth of a second, and polling for the
+  current position. (See [locatormulti.sh][].)
 
 * vttest has a "dec locator" test, but it only implements the DECTERM
   protocol, not the VT340 mouse.
@@ -118,19 +181,20 @@ functionality.
 
 * Exit Tek mode: Send Esc [ ? 3 8 l
 
-#### Notes
+#### Tek Notes
 
-* For some reason vttest's Tek mouse test does not work with the
-  VT340. The GIN crosshairs do appear and pressing a key on the
-  keyboard shows the keycode and correct location, but clicks always
-  send roughly the same position repeatedly --- 27 (657, 882).
-
+* For some reason vttest's Tek mouse test does not work properly with
+  the VT340. The GIN crosshairs appear and pressing a key on the
+  keyboard shows the keycode and correct location, but mouse clicks
+  always send (roughly) the same position repeatedly --- 27 (657, 882).
+  [Setting the VT340's Tek GIN terminator from None to CR did not help.]
 
 
 ### DEC Locator test
 
-As mentioned previously, these sequences do not work on the VT340.
-They are merely mentioned as they are quite common in emulators.
+As mentioned previously, the following sequences do not work on the
+VT340. They are merely mentioned as they are quite common in terminal
+emulators.
 
 Some of the [DEC Locator][decloc] sequences can be tested using Thomas
 Dickey's `vttest` program under the menu: Non-VT100 Tests → XTERM
