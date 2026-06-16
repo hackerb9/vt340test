@@ -34,6 +34,7 @@ button[240]="Report"
 button[241]="Left down"
 button[243]="Middle down"
 button[245]="Right down"
+button[247]="Button 4 down"
 
 
 main() {
