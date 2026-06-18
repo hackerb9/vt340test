@@ -8,6 +8,9 @@ ST=$'\e\\'			# String Terminator
 
 declare -a functions		# List of test functions that can be run.
 
+shopt -s expand_aliases 
+alias p='echo -n'
+
 main() {
     if [[ -z "$1" ]]; then
 	select c in "${functions[@]}"; do
@@ -33,10 +36,13 @@ main() {
     echo -n ${DCS}'3p'		# Enter interactive REGIS mode
     echo -n "W(F15)"    	# Bitmask 111 => Write to all color planes
     echo -n "S(EA[0,0][799,479])P[0,0]" # Clear screen.
-    
-    $c
-
+    # $c
+    { errors=$($c 2>&1 >&5 ); } 5>&1 	# $errors gets stderr, stdout unchanged.
     echo -n ${ST}			# Exit REGIS mode
+
+    if [[ $errors ]]; then
+	echo "$errors" >&2
+    fi
 }
  
 
@@ -146,6 +152,47 @@ plaid() {
 	echo -n "P[+32]"
     done
     echo -n "W(F15 I15)"
+}
+
+functions+=(grid)
+grid() {
+    local -i w=799
+    local -i h=479
+    cat <<-"EOF"
+	;S(E A[0,0][$w,$h]) W(I7R)
+	W(P11001100(M10))
+
+	P[0,$h]V[,-$h]
+	T(s1)' 0,0'
+	P[0,0]V[+$((w+1)),]
+	EOF
+
+    local -i y x
+    for (( y=100; y<=w && x<=h; y=y+100 )); do
+	x=y*2-100
+	p "P[$x,$y]P[+30,]T(B)'$y'T(E)"
+	p "P[-40,+30]T(B D-90 S1)'$x'T(E)"
+    done
+    p "T(E)"
+
+    cat <<-"EOF"
+	P[$w,0]T(B D180 S1 W(I1V))' $w,1 ' T(E)' $w,1 '"
+	P[$w,0]V[,+$h]"
+
+	P[0,$h]T22' 0,$h '"
+	P[0,$h]V[+$w',]"
+	P[500,$h]T22' $h '"
+	P[$w,300]T4(B D270 S1)' $w 'T(E)"
+
+	W(P11001100(M10))"
+
+	P[0,0]"
+	EOF
+    local -i count
+    for (( count=0; count*100 <= $w+1; count=count+1 )); do
+	p "P[+100,]V[,+$h]"
+	p "P[+100,]V[,-$h]"
+    done
 }
 
 functions+=(resetpalette)
