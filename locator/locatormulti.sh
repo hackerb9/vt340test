@@ -58,9 +58,8 @@ main() {
 	    bt="${bt#*[}"
 	    if [[ ${button[bt]} ]]; then bt="$bt (${button[bt]})"; fi
 	    if [[ $pos && ( "$pos" != "$oldpos" ) ]]; then
-		    echo -n ";W(I0)F(V[0,0][799,0][799,20][0,20]);"
-		    echo -n ";P[0,0];T(S1,W(I2))"
-		    echo -n "'current: ${pos}, button ${bt}'"
+		    echo -n ";P[0,0];T(S1,W(I2R))"
+		    echo -n "'current: ${pos}, button ${bt}    '"
 		    echo -n ";P$p1;W(I7)" # Diamond mark on last spot
 		    oldpos=$pos
 	    fi
@@ -98,8 +97,7 @@ main() {
 	    # Instead, stay inside ReGIS to draw the information.
 	    # A bit slower to render, but the mouse is more responsive.
 	    # The VT340 queues up rapid clicks for later delivery.
-	    echo -n ";W(I0)F(V[0,20][799,20][799,40][0,40]);"
-	    echo -n "W(I1);P[0,20];T'start: $p1, end: $p2, button: $bt';"
+	    echo -n "W(I1R);P[0,20];T'start: $p1, end: $p2, button: $bt    ';"
 	    echo -n "P${p2};W(I7)" 
 
 	    p1=$p2
