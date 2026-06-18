@@ -33,11 +33,12 @@ main() {
 	exit
     fi
 
-    echo -n ${DCS}'3p'		# Enter interactive REGIS mode
+#   echo -n ${DCS}'3p'		# Enter interactive REGIS mode
+    echo -n ${DCS}'1p'		# Enter non-interactive REGIS mode
     echo -n "W(F15)"    	# Bitmask 111 => Write to all color planes
     echo -n "S(EA[0,0][799,479])P[0,0]" # Clear screen.
-    # $c
-    { errors=$($c 2>&1 >&5 ); } 5>&1 	# $errors gets stderr, stdout unchanged.
+#    $c
+    { errors=$($c 2>&1 >&5 ); } 5>&1 	# $errors=stderr. stdout unchanged.
     echo -n ${ST}			# Exit REGIS mode
 
     if [[ $errors ]]; then
@@ -158,41 +159,46 @@ functions+=(grid)
 grid() {
     local -i w=799
     local -i h=479
-    cat <<-"EOF"
-	;S(E A[0,0][$w,$h]) W(I7R)
-	W(P11001100(M10))
+    cat <<-EOF
+	;S(E A[0,0][$w,$h]) W(I7RV)
+	W(P10(M2))
 
 	P[0,$h]V[,-$h]
 	T(s1)' 0,0'
-	P[0,0]V[+$((w+1)),]
+	P[0,0]
+	V[$w,]
 	EOF
 
+
+    cat <<-EOF
+	P[$w,0]T(B D180 S1 W(I1V))' $w,1 ' T(E)' $w,0 '
+	P[$w,0]V[,+$h]
+
+	P[0,$h]T22' 0,$h '
+	P[0,$h]V[+$w',]
+
+	P[$((w/2)),$h]T22' $h '
+	P[$w,$((h/2))]T4(B D270 S1)' $w 'T(E)
+	EOF
+
+    p "W(P1(M10))"
     local -i y x
-    for (( y=100; y<=w && x<=h; y=y+100 )); do
+    for (( y=100; y<=w; y=y+100 )); do
 	x=y*2-100
-	p "P[$x,$y]P[+30,]T(B)'$y'T(E)"
+	echo
+	p "P[0,$y]V[$w,]"
+	p "P[$x,$y]P[+30,]T(B S1)'$y'T(E)"
 	p "P[-40,+30]T(B D-90 S1)'$x'T(E)"
     done
-    p "T(E)"
 
-    cat <<-"EOF"
-	P[$w,0]T(B D180 S1 W(I1V))' $w,1 ' T(E)' $w,1 '"
-	P[$w,0]V[,+$h]"
-
-	P[0,$h]T22' 0,$h '"
-	P[0,$h]V[+$w',]"
-	P[500,$h]T22' $h '"
-	P[$w,300]T4(B D270 S1)' $w 'T(E)"
-
-	W(P11001100(M10))"
-
-	P[0,0]"
-	EOF
+    p "P[0,0]"
     local -i count
-    for (( count=0; count*100 <= $w+1; count=count+1 )); do
+    for (( count=0; count*200 <= $w+1; count=count+1 )); do
 	p "P[+100,]V[,+$h]"
 	p "P[+100,]V[,-$h]"
     done
+
+    sleep 5			# Before printing prompt over lower left
 }
 
 functions+=(resetpalette)
