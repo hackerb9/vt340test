@@ -33,16 +33,25 @@ main() {
 	exit
     fi
 
-#   echo -n ${DCS}'3p'		# Enter interactive REGIS mode
     echo -n ${DCS}'1p'		# Enter non-interactive REGIS mode
     echo -n "W(F15)"    	# Bitmask 111 => Write to all color planes
     echo -n "S(EA[0,0][799,479])P[0,0]" # Clear screen.
-#    $c
+    # Run $c
     { errors=$($c 2>&1 >&5 ); } 5>&1 	# $errors=stderr. stdout unchanged.
     echo -n ${ST}			# Exit REGIS mode
 
     if [[ $errors ]]; then
 	echo "$errors" >&2
+    fi
+
+    if [[ $pflag ]]; then
+	echo -n "${CSI}2$~"	# User defined status line
+	echo -n "${CSI}1$}"	# Cursor to status line
+	echo -n "${CSI}5m"	# Blinking text
+	echo -n "Please wait, writing screenshot to registest-$c.png"
+	echo -n "${CSI}$}"	# Return from status line
+	../mediacopy/mediacopy.sh -o registest-$c.png 
+	echo -n "${CSI}1$~"	# Return to system status line 
     fi
 }
  
@@ -230,4 +239,10 @@ functions+=(quit)
 quit() {
     exit
 }
+
+if [[ $1 == "-p" || $1 == "--media-copy" ]]; then
+    pflag=yup
+    shift
+fi
+
 main "$@"
