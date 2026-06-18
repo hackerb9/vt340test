@@ -148,11 +148,10 @@ but they do have unique identifiers according to the VCB02.
   movements and clicks will be lost, causing the application to feel
   unresponsive.
   
-  However, that implies text output must use ReGIS's text rendering
-  which seems to be slow, mainly because the line it is on must first
-  be cleared... Or does it? Is there a way to the make ReGIS's text
-  background opaque? If not, is there a faster rectangle clear routine
-  than "polyfill"? [XXX todo: investigate]
+  Note, that implies text output must use ReGIS's text rendering.
+  For faster rendering, do not clear the rectangle first.
+  Use Write Replacement mode (`W(R)`) instead of the default of 
+  Write Overlay (`W(V)`).
 
 * ReGIS's DCS string can be opened in one of four modes, 0 through 3.
   Multimode only seems to work with ReGIS modes 1 and 3. I'm not sure
