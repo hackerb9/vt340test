@@ -16,66 +16,84 @@ that can be used on other machines. The bitmaps include double-wide
 and double-size versions, the DEC Special Graphics, and Technical
 Character Set. 
 
-## 256 Colors
+## 8-plane bitmap (256 Colors)
 
-This terminal is
-[documented](http://www.bitsavers.org/pdf/dec/vax/vms/vms_workstation/AA-MI67A-TE_A_Guide_to_Migrating_VWS_Applications_to_DECwindows_Sep1989.pdf)
-as supporting 256 color graphics, which is more colors than any other
-terminal from DEC (that I know of).
+This terminal is [documented][] as supporting up to 256 color graphics,
+which is more simultaneous colors than any other terminal from DEC
+(that I know of). Would it be possible to upgrade a VT340 from 4-plane
+color to 8-plane color the same as one can do in a Vaxstation II?
+
+[documented]: http://www.bitsavers.org/pdf/dec/vax/vms/vms_workstation/AA-MI67A-TE_A_Guide_to_Migrating_VWS_Applications_to_DECwindows_Sep1989.pdf "VWS to DECwindows Migration Guide"
 
 <ul>
-<details>
+<details><summary>Table of terminals and color depth</summary>
 
-| Terminal        | # colors | palette | sixel | ReGIS | Resolution  | year  |
-|-----------------|----------|---------|-------|-------|-------------|-------|
-| GIGI/VK100      | 8        | -       | -     | Y     | 768 x 240   | 1980  |
-| VT125           | 4        | -       |       | Y     | 768 x 240   | 1981  |
-| DECwriter IV    | 2        | -       | Y     | -     | 72 dpi      | 1981  |
-| Rainbow Med Res | 16       | 4096    | -     | Y     | 384 x 240   | 1982  |
-| Rainbow Hi Res  | 4        | 4096    | -     | Y     | 800 x 240   | 1982  |
-| VT241           | 4        | 64      | Y     | Y     | 800 x 240   | 1984  |
-| VWS VT200       | 256      | ?       | y¹    | y¹    | 1000 x 600² | 1987? |
-| VT340           | 16       | 4096    | Y     | Y     | 800 x 480   | 1988  |
-| DECterm         | 16       | ?       | Y     | Y     | 800 x 480   | 1989  |
+| Terminal        | # colors | palette | sixel | ReGIS | Resolution | year  |
+|-----------------|----------|---------|-------|-------|------------|-------|
+| GIGI/VK100      | 8        | -       | -     | Y     | 768 x 240  | 1980  |
+| VT125           | 4        | -       |       | Y     | 768 x 240  | 1981  |
+| DECwriter IV    | 2        | -       | Y     | -     | 72 dpi     | 1981  |
+| Rainbow Med Res | 16       | 4096    | -     | Y     | 384 x 240  | 1982  |
+| Rainbow Hi Res  | 4        | 4096    | -     | Y     | 800 x 240  | 1982  |
+| VT241           | 4        | 64      | Y     | Y     | 800 x 240  | 1984  |
+| VWS VT200       | 256      | ?       | y¹    | y¹    | 800 x 480² | 1987? |
+| VT340           | 16       | 4096    | Y     | Y     | 800 x 480  | 1988  |
+| DECterm         | 16       | ?       | Y     | Y     | 800 x 480  | 1989  |
 
-1. The VWS VT200 could display both sixel and ReGIS graphics, sort of.
+</details>
+</ul>
 
-    <ul>
-	<details>
+<ul>
+<details><summary>¹ The VWS VT200 had optional graphics.</summary>
 
-	<img src="WorkstationOptions.png" align="right">
+<img src="WorkstationOptions.png" align="right">
 
-   There seem to actually have been two different programs: "VT200
-   window" (with a white background) and "ReGIS VT200 window" (with a
-   black background). 
+There are two "VT200 window" options in VWS.
    
-   * The normal "VT200 window" claims to support sixel (when enquired
-   with `write sys$output f$getdvi( f$getjpi("","terminal"),
-   "tt_sixel")`), but not ReGIS. Testing shows that to be correct.
-
-   * The ReGIS version, however, claims to support both, but it
-   doesn't actually display sixels in my tests. (I am running VWS in
-   simulation using `simh`, so that may be part of the problem.)
+   * **ReGIS VT200 window** supports both ReGIS and Sixel graphics
+     which makes it most like a VT340. Defaults to white text on a
+     black background, similar to hardware terminals. 
    
-   </details> </ul>
-   <br clear=all>
+   * **VT200 window** only supports Sixel. Has black text on a white
+     background. 
+	
+<ul><details><summary>In VMS, one can enquire if the current terminal supports graphics</summary>
 
-2. The resolution is 800x480 by default when a VT200 ReGIS terminal is
-   first opened. However, in my tests, the maximum actual resolution
-   can be increased to 1000x600. Resizing the VT200 window to
-   full-screen is a necessary first step, but is not sufficient.
-   ReGIS's coordinate system remains at 800x480 as seen here:
+   ```DCL
+	$ write sys$output f$getdvi( f$getjpi("","terminal"), "tt_sixel")
+	TRUE
+	$ write sys$output f$getdvi( f$getjpi("","terminal"), "tt_regis")
+	TRUE
+   ```
+
+   The VWS HELP documentation suggests turning off ReGIS graphics if
+   memory is tight. 
+   
+  </details> </ul>
+</details></ul>
+<br clear=all>
+
+<ul>
+<details><summary>² 800x480 default resolution, 1000x600 max.</summary>
+
+The resolution is 800x480 by default when a VT200 ReGIS terminal is
+first opened. However, in my tests, the maximum actual resolution can
+be increased to 1000x600. Resizing the VT200 window to full-screen is
+a necessary first step, but is not sufficient. ReGIS's coordinate
+system remains at 800x480 as seen here:
    
    <ul>
-   <details>
-
+   <details><summary>Screenshots of resizing VWS VT200</summary>
    <img src="vwsvt200-regis.png" width="40%">
    <img src="vwsvt200-fullscreenregis.png" width="40%">
+   </details></ul>
 
-	The second step to change the resolution is to use the ReGIS command
-   `S[0,0][999,599]` to set the coordinate system.
 
-   <img src="vwsvt200-fullscreenregis-1000x600.png" width="80%">
+The second step to change the resolution is to use the ReGIS command
+`S[0,0][999,599]` to reset the coordinate system.
+
+<details><summary>ReGIS graphics at 1000x600 pixels</summary>
+<img src="vwsvt200-fullscreenregis-1000x600.png" width="80%">
 
    <details> <summary>How do I know it is 1000x600?</summary>
    
@@ -90,9 +108,6 @@ terminal from DEC (that I know of).
    </details>
 
 	<br clear=all>
-
-   </details>
-   </ul>
 
 </details>
 </ul>
@@ -147,12 +162,20 @@ perhaps bugs or perhaps just an error in my method of testing.
 
 </details></ul>
 
-I was unable to test colors because the [VAXstation simulator][osimh]
-I am using does not yet support the color graphics card. ("Dragon",
-which just happens to be the same chips used in the VT340!)
+## Further testing
+
+* Because I am not comfortable with VMS, I prefer to use the VWS VT200
+  terminal to login to a UNIX host to run tests. 
+  
+  See [hostshell.md]() for details.
+
+* 256 colors
+
+  The [VAXstation simulator][osimh] I am using supports the GPX color
+  graphics card on the Vaxstation II. ("Dragon", which just happens to
+  be the same chips used in the VT340!)
 
 [osimh]: https://opensimh.org/
-
 
 <br><br>
 <hr>
