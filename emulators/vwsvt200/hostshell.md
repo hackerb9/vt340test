@@ -40,12 +40,18 @@ The downside is that it requires running telnetd on the host computer.
 
 1. Install telnetd on the localhost (TCP port 23)
 2. Connect the ports using shell redirection
-  ```
+  ```bash
   exec 23<>/dev/tcp/localhost/23
   exec 6<>/dev/tcp/localhost/6666
   cat <&6  >&23 & 
   cat <&23 >&6  &
  ```
+3. (Optional) When done, logout of the shell, hit Enter twice, and
+   clean up the TCP connections. 
+   ```bash
+   wait
+   exec 6<&-
+   ```
 
 ### Option 2. Run a subshell and redirect I/O
 
