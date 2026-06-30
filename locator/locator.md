@@ -38,12 +38,12 @@ column, changes to show the X and Y pixel coordinates.
 * [VT340 Programmer's Reference: Chapter 15 Using a Mouse or Tablet][ch15]
 * [VT340 Programmer's Reference: Chapter 10 Report Command (in ReGIS)][ch10]
 * [VT340 Programmer's Reference: Chapter 13 Tektronix 4014 Emulation][ch13]
-* [VCB02 Video Subsystem Technical Manual][vcb02]
+* [VCB02 Video Subsystem Technical Manual][VCB02]
 
 [ch15]: https://vt100.net/docs/vt3xx-gp/chapter15.html "Using a Mouse or Tablet"
 [ch10]: https://vt100.net/docs/vt3xx-gp/chapter10.html "ReGIS Report Command"
 [ch13]: https://vt100.net/docs/vt3xx-gp/chapter13.html "Tektronix 4014 Emulation"
-
+[VCB02]: https://hackerb9.github.io/vt340test/docs/kindred/EK-104AA-TM-001_VCB02_Video_Subsystem_Feb87.pdf "VCB02 Video Subsystem Technical Manual"
 
 ## Testing
 
@@ -99,7 +99,7 @@ keyboard can be used to interact with the application normally.
 
 * [locatormulti.sh][]
 
-#### Locator Key Definition: DECLKD
+#### Locator Button Definition: DECLBD
 
 By default, the VT340 only sends events on "mouse down" (button
 pressed), but it can be configured to also report "mouse up" (button
@@ -107,10 +107,12 @@ released) events. The same method is also be used to configure an
 arbitrary response string for each of the four possible locator
 buttons. Use the following program to test that functionality.
 
+* [locatorprog.sh][]
+
 Note that different input devices have different numbers of buttons,
-but the documentation suggests they return the same values. It is
+but the documentation suggests they all return the same values. It is
 unknown as of yet how an application can detect the different devices,
-but they do have unique identifiers according to the VCB02.
+but they do have unique identifiers according to [VCB02][].
 
 |                       | Key 1     | Key 2     | Key 3     | Key 4     |
 |-----------------------|-----------|-----------|-----------|-----------|
@@ -121,8 +123,6 @@ but they do have unique identifiers according to the VCB02.
 | Default<br/>down defn | Esc [241~ | Esc [243~ | Esc [245~ | Esc [247~ |
 |-----------------------|-----------|-----------|-----------|-----------|
 | Default<br/>up defn   | None      | None      | None      | None      |
-
-* [locatorprog.sh][]
 
 
 #### ReGIS Locator Notes
@@ -149,9 +149,9 @@ but they do have unique identifiers according to the VCB02.
   unresponsive.
   
   Note, that implies text output must use ReGIS's text rendering.
-  For faster rendering, do not clear the rectangle first.
+  [Tip: For faster rendering, do not clear the rectangle first.
   Use Write Replacement mode (`W(R)`) instead of the default of 
-  Write Overlay (`W(V)`).
+  Write Overlay (`W(V)`).]
 
 * ReGIS's DCS string can be opened in one of four modes, 0 through 3.
   Multimode only seems to work with ReGIS modes 1 and 3. I'm not sure
