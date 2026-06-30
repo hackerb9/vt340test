@@ -15,7 +15,7 @@
 
 # * R(I1) sets the terminal to "multimode" where mouse button events
 #   are sent continuously. Events will continue to be sent until it is
-#   turned off with R(I0).
+#   turned off with R(I0) or ReGIS mode is exited.
 # * R(P(I)) immediately returns a position report. This can be used
 #   for tracking mouse movements.
 #   The output is an escape sequence: `Esc [ 241 ~ [799,479]`.
