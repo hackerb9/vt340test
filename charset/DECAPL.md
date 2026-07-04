@@ -4,8 +4,8 @@
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 2_ |    | ¨  | ≤  | ∨  | ∧  | ≠  | ÷  | ×  | ¯  | ⍺  | ⊥  | ∩  | ⌊  | ∊  | ∇  | ∆  |
 | 3_ | ⍳  | ∘  | ⎕  | ⊤  | ○  | ⍴  | ⌈  | ↓  | ∪  | ⍵  | ⊃  | ⊂  | ←  | ⊢  | →  | ≥  |
-| 4_ | ⋄  | ⊣  | ⍙  | 𝐴  | 𝐵  | 𝐶  | 𝐷  | 𝐸  | 𝐹  | 𝐺  | 𝐻  | 𝐼  | 𝐽  | 𝐾  | 𝐿  | 𝑀  |
-| 5_ | 𝑁  | 𝑂  | 𝑃  | 𝑄  | 𝑅  | 𝑆  | 𝑇  | 𝑈  | 𝑉  | 𝑊  | 𝑋  | 𝑌  | 𝑍  | ⍝  | ⌶  | ⍎  |
+| 4_ | ⋄  | ⊣  | ⍙  | 𝐴̲  | 𝐵̲  | 𝐶̲  | 𝐷̲  | 𝐸̲  | 𝐹̲  | 𝐺̲  | 𝐻̲  | 𝐼̲  | 𝐽̲  | 𝐾̲  | 𝐿̲  | 𝑀̲  |
+| 5_ | 𝑁̲  | 𝑂̲  | 𝑃̲  | 𝑄̲  | 𝑅̲  | 𝑆̲  | 𝑇̲  | 𝑈̲  | 𝑉̲  | 𝑊̲  | 𝑋̲  | 𝑌̲  | 𝑍̲  | ⍝  | ⌶  | ⍎  |
 | 6_ | ⍕  | ⌹  | ⍇  | ⍈  | ⍞  | ⍌  | ⍋  | ⍒  | ⍫  | ⍱  | ⍲  | ⍟  | ⊖  | ⍉  | ⌽  | ⍪  |
 | 7_ | ⌿  | ⍀  | ⊆  | ⊇  | ≡  | ↑  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ⌷  | ␄  | ⌷  |    |
 
@@ -13,7 +13,7 @@ This is the 7-bit character set which is embedded in the
 [fonts](README.md) which DEC included with APL for the VAX circa 1990
 as documented in the [Users Guide][APLUG]. 
 
-Note that this differs from both the character set APL uses internally
+Note that this differs from both the character set VAX APL uses internally
 and from the older chart in DEC STD 107 (1980). It can be used as an
 8-bit charset by setting GR to G1 (see [Composite APL Character Set] below).
 
