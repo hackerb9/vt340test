@@ -52,7 +52,7 @@ Therefore, underscored letters must be lowercase: `_` + `𝐴` → U+0061 `a`.
 
 ## 2. Incorrect IR-68 sequences
 
-The IR-68-to-Unicode file also lists incorrect IR-68 sequences for
+The APL-ISO-IR-68.TXT file also contains incorrect IR-68 sequences for
 some characters:
 
 ### QUAD DOWNWARDS ARROW
