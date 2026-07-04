@@ -65,9 +65,9 @@ the tune’s my own invention.”
 | ⋄         | Diamond                  |                |                      |                 |                       | Diamond               | .DM               |
 | ⊣         | Left Tack                |                |                      |                 |                       | Right Tack _[sic]_    | .RK               |
 | ⍙         | Delta Underbar           |                |                      |                 |                       | Underscored Delta     | .UD               |
-| 𝐴         | Underlined CAPITAL A     |                |                      |                 |                       | Underscored A         | .ZA               |
+| 𝐴̲         | Underlined CAPITAL A     |                |                      |                 |                       | Underscored A         | .ZA               |
 | ...       |                          |                |                      |                 |                       |                       | ...               |
-| 𝑍         | Underlined  CAPITAL Z    |                |                      |                 |                       | Underscored Z         | .ZZ               |
+| 𝑍̲         | Underlined  CAPITAL Z    |                |                      |                 |                       | Underscored Z         | .ZZ               |
 | ⍝         | Lamp                     |                |                      |                 |                       | Lamp (Comment)        | \"                |
 | ⌶         | I-Beam                   |                |                      |                 |                       | I-Beam                | .IB               |
 | ⍎         | Hydrant                  |                |                      |                 |                       | Hydrant (Execute)     | .XQ               |
@@ -91,7 +91,7 @@ the tune’s my own invention.”
 | ⍀         | Slope Bar                |                |                      |                 |                       | Column Backslash      | .CB               |
 | ⊆         | Left Shoe Underbar       |                |                      |                 |                       | Subset                | .SS               |
 | ⊇         | Right Shoe Underbar      |                |                      |                 |                       | Contains              | .CO               |
-| ≡         | Equal Underbar           |                |                      |                 |                       | Match                 | .MT               |
+| ≡         | Equal Underbar           |                | Same                 |                 |                       | Match                 | .MT               |
 | ↑         | Up Arrow                 |                |                      |                 |                       | Up Arrow              | \^                |
 | ⌷         | Squad                    |                |                      |                 |                       | Squish Quad           | .SQ               |
 | ⌷         | Squad                    |                |                      |                 |                       |                       |                   |
