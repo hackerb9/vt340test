@@ -2,7 +2,7 @@
 
 This is a page for accruing the errors I've found in the manuals.
 
-### EK-VT3XX-GP-002
+### EK-VT3XX-GP-002 ("Volume 2")
 
 DEC VT330/340 Graphics Programming, second edition
 
@@ -12,11 +12,29 @@ DEC VT330/340 Graphics Programming, second edition
   - When DECSDM is set (`Esc` `[?80h`), sixel scrolling is disabled. 
   - When DECSDM is reset (`Esc` `[?80l`), sixel scrolling is enabled.
 
-* DECLBD "Ky1" is merely the first Ky, not an identifier. Also,
-  indentation for Pc is incorrect.
+* Pages 251 and 254. DECLBD "Ky1" should be simply "Ky". Ky_1_ refers to
+  only the the first Key, from 1 to n, not an identifier.
+  
+* Page 252: DECLBD actually defines button press before release.
 
+* Page 254  Indentation for Pc is incorrect.
 
-### EK-VT3XX-TP-002
+  The manual should read:
+  
+  <ul>
+
+  The rest of the DECLBD sequence after the first slash would look like this.
+
+  | 8F50        | /    | D            | ST   |
+  |-------------|------|--------------|------|
+  | button      | 2/15 | button       | 9/12 |
+  | **pressed** |      | **released** |      |
+
+  </ul>
+
+The printed manual has "pressed" and "released" reversed.
+
+### EK-VT3XX-TP-002 ("Volume 1")
 
 DEC VT330/340 Text Programming, second edition
 
