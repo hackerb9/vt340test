@@ -190,7 +190,7 @@ element 7 may be used to specify a tolerance value (an integer) and
 the parameter element 8 may be used to specify a colour space
 associated with the tolerance (0 for CIELUV, 1 for CIELAB).
 
-<sub>
+<font size=1>
 
 _NOTE 3 – The “colour space id” component will refer to the applicable
 colour space description in the document profile which may contain
@@ -201,7 +201,7 @@ colour values required into the integer encoding space provided. This
 may be particularly important if concatenated content requires the
 insertion of such SGR sequences by the content layout process._
 
-</sub>
+</font>
 </blockquote>
 
 I note that ISO 8613-6's Direct Color is almost exactly what
