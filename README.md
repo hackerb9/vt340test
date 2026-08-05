@@ -43,11 +43,11 @@ Please see
   Mode (feature toggle switches) the VT340 responds to and what it is
   set to by default. Uses the [checkmode](checkmode) script.
 
-* [docs/standards/graphicrenditions.md](graphicrenditions.md) shows a
+* [graphicrenditions.md](docs/standards/graphicrenditions.md) shows a
   listing of the 65 Select Graphic Rendition options (bold,
   underlined, blinking) defined by the ANSI standard and which ones
   the VT340 can display. Try the
-  [docs/standards/graphicrenditions.sh](graphicrenditions.sh) script
+   [graphicrenditions.sh](docs/standards/graphicrenditions.sh) script
   to check your own terminal's capabilities. (Can any actually do
   encircled text?)
 
@@ -63,7 +63,7 @@ Please see
   See also:
   
    * EK-VT340-IP	VT340 Illustrated Parts Breakdown
-   * EK-VT340-PS	VT340 Pocket Service Guide
+   * EK-VT340-PS	VT340 Pocket Ser340-PS	VT340 Pocket Service Guide
    * MP-02412-01	VT340 Field Maintenance Printset
    * FB-VT340-00	VT340 Tech Documentation Kit
    * EK-VT3XX-UP	VT330/VT340 User Documentation Package/Kit
