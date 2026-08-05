@@ -2,8 +2,9 @@
 
 This table is adapted from section 8.3.117 of the [ECMA-48][ANSI]
 (1991) standard (colloquially known as "The ANSI Standard"), with
-notes on whether the VT340 supports each mode or not. 
-As a bonus, [ISO 8613-6][ISO8613]'s direct color setting is
+notes on whether the VT340 supports each mode or not. All modes have
+been tested on hackerb9's vt340 using the [graphicrenditions.sh][]
+script. As a bonus, [ISO 8613-6][ISO8613]'s direct color setting is
 discussed at the end.
 
 [ANSI]: https://hackerb9.github.io/vt340test/docs/standards/ECMA-48_1991.pdf "ANSI 1991"
@@ -216,11 +217,14 @@ colors. What does this have to do with the VT340? When drawing
 graphics using ReGIS or sixel, the VT340 can easily draw a color
 leaving the background, but it cannot do so for character cell
 text.[^1] It's a seemingly useful feature, so why is it hard to find
-terminals that do it?
+terminals that do it?[^2]
 
 
 [^1]: Technically the VT340's ReGIS text had a transparent background,
     but that's not related to the character cell text.
 
+[^2]: @j4james notes that the VK100 (GIGI) terminal does support DEC
+    Private mode #20, "overstrike", which prints text without erasing
+    the background. (The escape sequence is `\e[?20h`)
 
 </details>
