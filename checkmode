@@ -190,10 +190,10 @@ Ps[0]="Invalid mode"
 Ps[1]="Application Cursor Key Mode (DECCKM), VT100." # From std-070
 	Nt[1]="When SET, arrow keys send special application commands to the host"
 Ps[2]="Designate US ASCII/ANSI for character sets G0-G3 (DECANM), VT100." # From Xterm
-Ps[2]="VT52 (ANSI) Mode (DECANM), VT100." 		# From ek-520-rm
+Ps[2]="ANSI/VT52 Mode (DECANM), VT100." 		# From ek-520-rm, tp83
 	Nt[2]="RESET to enter VT52 mode. To leave VT52 mode, use Esc <."
 Ps[3]="132 Column Mode (DECCOLM), VT100."
-	Nt[3]="VT340 docs claim DECCOLM is deprecated for DECSCPP (`CSI 132 $ |`). However, DECSCPP sets the columns per _page_, not screen. Unlike DECCOLM, DECSCPP does not change the visible number of columns on the screen; instead DECSCPP requires horizontal scrolling (see mode 60, DECHCCM)." # ek-vt3xx-tp
+	Nt[3]="VT340 docs claim DECCOLM is deprecated for DECSCPP (`CSI 132 $ ¦`). However, DECSCPP sets the columns per _page_, not screen. Unlike DECCOLM, DECSCPP does not change the visible number of columns on the screen; instead DECSCPP requires horizontal scrolling (see mode 60, DECHCCM)." # ek-vt3xx-tp
 	Nt[3]+=" On the VT5x0, see mode 95 (DECNCSM) to prevent the page from being cleared by DECCOLM." # ek-520-rm
 Ps[4]="Smooth (Slow) Scroll (DECSCLM), VT100."
 	Nt[4]="On the VT340 and possibly other terminals, this option is not binary. In the SetUp menu, scrolling can be 'Jump' (same as RESET), or 'Smooth-1', '-2', or '-4' which scroll by scanlines instead of character cells. The VT340 factory default is 'Smooth-2', which is 25 scanlines (2.5 text lines) per second. Smooth-1 is half and Smooth-4 is twice the speed. If any of the Smooth options are selected, then the result from DECRQM (Request DEC Private Mode) will show mode 4 as SET. However, when mode 4 is SET using DECSET (CSI ? 4 h), the VT340 always selects Smooth-2. See also the VT5x0's DECSSCLS (Set Scroll Speed, CSI Ps SP p)."
@@ -201,13 +201,14 @@ Ps[5]="Reverse Video Screen (DECSCNM), VT100."
 	Nt[5]="SET is light bg, RESET is dark bg." 	# From EK-VT38T-UG.
 Ps[6]="Origin Mode (DECOM), VT100."
 Ps[7]="Auto-Wrap Mode (DECAWM), VT100."
-	Nt[7]="When RESET, cursor will not advance beyond right-most column."	# From std-070
+	Nt[7]="When RESET, cursor will not advance beyond right-most column. When SET characters beyond the last column will be printed on the next line."	# From std-070
 Ps[8]="Auto-Repeat Keys (DECARM), VT100."
 Ps[9]="Interlace mode (DECINLM), VT1xx only."   # Documented in VT100-UG
 Ps[9]="Send Mouse X & Y on button press, X10 XTerm." # Conflicts with VT100-UG
 	Nt[9]="VT100 used mode 9 for interlace, but dropped it in VT200+."
 Ps[10]="Show toolbar, rxvt."			# Conflicts with ek-vt3xx-tp.
-Ps[10]="Edit Mode (DECEDM)." 			# As documented by ek-vt3xx-tp.
+Ps[10]="Edit Mode (DECEDM)." 			# As documented by ek-vt3xx-tp, ch 9 "Local Editing".
+	Nt[10]="When SET, the terminal does not interactively send data to the host on each keystroke. Instead, all data in page memory can be edited on the terminal and sent to the host as a block."
 Ps[11]="Line Transmit Mode (DECLTM)."	 	# Added from ek-vt3xx-tp.
 Ps[12]="Start blinking cursor (AT&T 610)."	# Conflicts with ek-vt382-rm.
 Ps[12]="Katakana Shift Mode (DECKANAM), VT382-J" # Documented in ek-vt382-rm.
@@ -215,9 +216,10 @@ Ps[13]="Start blinking cursor, xterm." 		# Conflicts with ek-vt3xx-tp.
 Ps[13]="Space compression field delimiter (DECSCFDM)" # As documented by ek-vt3xx-tp.
 Ps[14]="XOR of blinking cursor control sequence and menu." # Conflicts with ek-vt3xx-tp.
 Ps[14]="Transmit execution (DECTEM)."	# As documented by ek-vt3xx-tp.
-
-Ps[16]="Edit key execution (DECEKEM)."	# Added from ek-vt3xx-tp.
-
+# Missing 15
+Ps[16]="Edit key execution (DECEKEM)."	# Added from ek-vt3xx-tp, chapter 9 "Local Editing".
+	Nt[16]="When SET, Shift+Edit on the VT340 switches immediately between interactive and edit mode. When RESET, the terminals sends DECEDM to the host to switch modes and waits for the host return DECEDM before changing the terminal's local editing mode. See also, mode 10 (DECEDM)."
+# Missing 17
 Ps[18]="Print Form Feed (DECPFF), VT220."
 	Nt[18]="When SET, the terminal sends a form feed (FF) to the printer at the end of a printing function. The default, RESET, is to send to nothing. DECPFF does not affect the Print Cursor Line function."	# ek-vt3xx-tp
 Ps[19]="Set printer extent to full screen (DECPEX), VT220."
@@ -228,22 +230,22 @@ Ps[22]="Host BASIC Mode (BA), VK100." 		# Documented in ek-vk100-tm-001
 Ps[23]="Programmed Keypad Mode (PK), VK100." 	# Documented in ek-vk100-tm-001
 Ps[24]="Auto Hardcopy Mode (AH), VK100."	# Documented in ek-vk100-tm-001
 Ps[25]="Text cursor enable (DECTCEM), VT220."
-
+# Missing 26
 Ps[27]="Proportional Spacing, printers."	# Added from ppl2
-
+# Missing 28
 Ps[29]="Pitch Select Mode, printers."		# Added from ppl2
 
 Ps[30]="Show scrollbar, rxvt."
-
+# Missing 31-33
 Ps[34]="Cursor direction, right to left." 	# Added from ek-520-rm
 Ps[35]="Tektronix mode (DECTEK), incorrect."	# As erroneously documented by ek-vt3xx-tp.
 	Nt[35]="ek-vt3xx-tp is in error. DECTEK is actually 38."
 Ps[35]="Font-shifting functions, rxvt."	# As documented by Xterm
 Ps[35]="Hebrew keyboard mapping."	 	# Added from ek-520-rm
 Ps[36]="Hebrew encoding mode."			# Added from ek-520-rm
-
+# Missing 37
 Ps[38]="Tektronix mode (DECTEK), VT240, xterm."	# As documented by Xterm
-
+# Missing 39
 Ps[40]="Carriage Return/New Line Mode (DECCRNLM), printers." # From ppl2
 Ps[40]="Allow 80/132 mode, xterm."			   # From xterm. Conflicts with ppl2.
 	Nt[40]="Allow DECCOLM (mode 3) to switch columns."
@@ -262,22 +264,23 @@ Ps[46]="Start logging, xterm."			# Conflicts with ek-vt3xx-tp.
 Ps[46]="Graphics Print Background (DECGPBM)."	# As documented by ek-vt3xx-tp.
 Ps[47]="Use Alternate Screen Buffer, xterm."	# Conflicts with ek-vt3xx-tp.
 Ps[47]="Graphics Rotated Print Mode (DECGRPM)."	# As documented by ek-vt3xx-tp.
-
+# Missing 48
 Ps[49]="Thai Keyboard Input Mode (DECTHAIM), VT382-T" 	# Added from ek-vt38t-ug
 Ps[50]="Thai Cursor Mode (DECTHAICM), VT382-T" 	# Added from ek-vt38t-ug
 	Nt[50]="SET is internal cursor, RESET is physical cursor"
-
-Ps[53]="VT131 transmit (DEC131TM)."		# Added from ek-vt3xx-tp.
-
+# Missing 51-52
+Ps[53]="VT131 transmit (DEC131TM)."		# Added from ek-vt3xx-tp, Ch 9, "Local Editing"
+	Nt[53]="For local editing, If both the Line Transmit Mode (DECLTM) and the Transmit Termination Mode (ANSI TTM) are RESET, then this mode controls the character block size. If SET, the VT131 partial page (last marker to cursor) is used; if RESET, ANSI partial page (selected text)."
+# Missing 54-56
 Ps[57]="North American / Greek keyboard mapping (DECNAKB)" 	# Added from ek-520-rm
 Ps[58]="IBM ProPrinter Emulation (DECIPEM)" 	# Added from ek-520-rm
 	Nt[58]="Interpret subsequent data according to the IBM ProPrinter protocol syntax instead of the DEC protocol."
 Ps[59]="Kanji/Katakana Display Mode (DECKKDM), VT382-J"	# Documented in ek-vt382-rm.
 Ps[60]="Horizontal cursor coupling (DECHCCM)."	# Added from ek-vt3xx-tp.
 Ps[61]="Vertical cursor coupling (DECVCCM)."	# Added from ek-vt3xx-tp.
-
+# Missing 62-63
 Ps[64]="Page cursor coupling (DECPCCM)."	# Added from ek-vt3xx-tp.
-
+# Missing 65
 Ps[66]="Application/Numeric keypad mode (DECNKM), VT320"
 Ps[67]="Backarrow key sends backspace (DECBKM), VT340, VT420, VT520."
 	Nt[67]="When RESET (the default), backarrow key sends delete."
@@ -285,13 +288,14 @@ Ps[68]="Keyboard Usage: Data Processing or Typewriter Keys (DECKBUM)." # Added f
 	Nt[68]="Data Processing characters are printed on the right half of the keycaps. According to ek-520-rm, 'If you use the North American language, then DECKBUM should always be RESET (typewriter). For all other languages, you can use either mode.'"
 Ps[69]="Left and right margin mode (DECLRMM), VT420 and up." # Allows DECSLRM to set margins
 Ps[69]="Vertical split screen / Left and right margin mode (DECVSSM/DECLRMM), VT420 and up." 	# Added from ek-520-rm. (Yes, it gives two different mnemonics!)
-
+# Missing 70-72
 Ps[73]="Transmit rate limiting (DECXRLM)."	# Added from ek-vt3xx-tp.
-
+# Missing 74-79
 Ps[80]="Sixel Display Mode (DECSDM)."
 Ps[81]="Keyboard sends key position reports instead of character codes (DECKPM)." 	# Added from ek-520-rm
+# Missing 82-89
 Ps[90]="Thai Space Compensating Mode (DECTHAISCM), VT382-T" # Added from ek-vt38t-ug
-
+# Missing 91-94
 Ps[95]="Do not clear screen when DECCOLM is set/reset (DECNCSM), VT510 and up."
 Ps[96]="Perform a copy/paste from right-to-left (DECRLCM), VT520" 	# Added from ek-520-rm
 	Nt[96]="Only valid with Hebrew keyboard language, see DEC mode 35"
@@ -303,9 +307,9 @@ Ps[101]="Conceal Answerback Message (DECCANSM), VT520" 	# Added from ek-520-rm
 Ps[102]="Discard NUL characters upon receipt, or pass them on to the printer (DECNULM)" 	# Added from ek-520-rm
 Ps[103]="Half-Duplex Mode (DECHDPXM), VT520" 	# Added from ek-520-rm
 Ps[104]="Enable Secondary Keyboard Language (DECESKM), VT520" 	# Added from ek-520-rm
-
+# Missing 105
 Ps[106]="Overscan mode for monochrome VT520 terminal (DECOSCNM)" 	# Added from ek-520-rm
-
+# Missing 107
 Ps[108]="Num Lock Mode of keyboard (DECNUMLK)"		# Added from ek-520-rm
 Ps[109]="Caps Lock Mode of keyboard (DECCAPSLK)" 	# Added from ek-520-rm
 Ps[110]="Keyboard LED's Host Indicator Mode (DECKLHIM)"	# Added from ek-520-rm
@@ -317,6 +321,8 @@ Ps[115]="Use an alternate text color for blinking text (DECATCMB), VT520" 	# Add
 Ps[116]="Bold and blink styles affect background as well as foreground (DECBSM), VT520" 	# Added from ek-520-rm
 Ps[117]="Erase Color is screen background (VT) or text background (PC) (DECECM), VT520" 	# Added from ek-520-rm
 	Nt[117]="Background color used when text is erased or new text is scrolled on to the screen"
+
+# Missing 118-999
 
 Ps[1000]="Send Mouse X & Y on button press and release. (X11 XTerm mouse)."
 Ps[1001]="Use Hilite Mouse Tracking, xterm."
