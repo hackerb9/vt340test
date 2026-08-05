@@ -244,9 +244,9 @@ Ps[36]="Hebrew encoding mode."			# Added from ek-520-rm
 
 Ps[38]="Tektronix mode (DECTEK), VT240, xterm."	# As documented by Xterm
 
+Ps[40]="Carriage Return/New Line Mode (DECCRNLM), printers." # From ppl2
 Ps[40]="Allow 80/132 mode, xterm."			   # From xterm. Conflicts with ppl2.
 	Nt[40]="Allow DECCOLM (mode 3) to switch columns."
-Ps[40]="Carriage Return/New Line Mode (DECCRNLM), printers." # From ppl2
 Ps[41]="more(1) fix."					     # From xterm. Conflicts with ppl2.
 Ps[41]="Unidirectional Print Mode (DECUPM), printers."	     # From ppl2
 	Nt[41]="Bidirectional when RESET."
