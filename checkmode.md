@@ -12,9 +12,8 @@ columns.
 * `Esc [ ? 3 l` 80-column mode (that's an "L" as in "low")
 * `Esc [ ? 3 $ p` Prints the status of private mode #3.
 
-See the script [checkmode](checkmode) for a way to easily see what
-private modes are available on your terminal. The following tables
-were created using that script on hackerb9's vt340.
+See the script [checkmode](checkmode) to check what private modes are
+available on your terminal. 
 
 ## Supported by the VT340
 
