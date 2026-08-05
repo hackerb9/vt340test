@@ -39,6 +39,17 @@ Please see
 * [locator.md](locator/locator.md) for tests of the VSXXX-AA mouse as input via
   ReGIS and Tektronix commands.
 
+* [checkmode.md](checkmode.md) for an examination of which DEC Private
+  Mode (feature toggle switches) the VT340 responds to and what it is
+  set to by default. Uses the [checkmode](checkmode) script.
+
+* [docs/standards/graphicrenditions.md](graphicrenditions.md) shows a
+  listing of the 65 Select Graphic Rendition options (bold,
+  underlined, blinking) defined by the ANSI standard and which ones
+  the VT340 can display. Try the
+  [docs/standards/graphicrenditions.sh](graphicrenditions.sh) script
+  to check your own terminal's capabilities. (Can any actually do
+  encircled text?)
 
 ## Directories
 
