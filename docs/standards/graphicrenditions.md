@@ -3,7 +3,7 @@
 This table is adapted from section 8.3.117 of the [ECMA-48][ANSI]
 (1991) standard (colloquially known as "The ANSI Standard"), with
 notes on whether the VT340 supports each mode or not. All modes have
-been tested on hackerb9's vt340 using the [graphicrenditions.sh]()
+been tested on hackerb9's vt340 using the [graphicrenditions.sh](graphicrenditions.sh)
 script. As a bonus, [ISO 8613-6][ISO8613]'s direct color setting is
 discussed at the end.
 
