@@ -183,7 +183,7 @@ main() {
 }
 
 
-# Ps holds the array of DEC Private Mode. (See end for list of scoures.)
+# Ps holds the array of DEC Private Mode. (See end for list of sources.)
 Ps=()
 Ps[0]="Invalid mode"
 	Nt[0]="Use of mode #0 is an error and always ignored."		# std-070
