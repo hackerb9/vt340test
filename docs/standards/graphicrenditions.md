@@ -54,14 +54,14 @@ Parameter default value: Ps = 0
 | 19 | ninth alternative font                                                                           |        |        |              | 19 |
 | 20 | Fraktur (Gothic)                                                                                 |        |        |              | 20 |
 | 21 | doubly underlined                                                                                |        |        | y (thicker)  | 21 |
-| 22 | normal colour or normal intensity (neither bold nor faint)                                       |        |        | y            | 22 |
-| 23 | not italicized, not fraktur                                                                      |        | Y      | y            | 23 |
+| 22 | normal colour or normal intensity (neither bold nor faint)                                       |        | Y      | y            | 22 |
+| 23 | not italicized, not fraktur                                                                      |        |        | y            | 23 |
 | 24 | not underlined (neither singly nor doubly)                                                       |        | Y      | y            | 24 |
 | 25 | steady (not blinking)                                                                            |        | Y      | y            | 25 |
 | 26 | _(reserved for proportional spacing as specified in CCITT Recommendation T.61)_                  |        |        |              | 26 |
-| 27 | positive image (negative image off)                                                              |        |        | y            | 27 |
+| 27 | positive image (negative image off)                                                              |        | Y      | y            | 27 |
 | 28 | revealed characters (invisible off)                                                              |        | Y      | y            | 28 |
-| 29 | not crossed out                                                                                  |        | Y      | y            | 29 |
+| 29 | not crossed out                                                                                  |        |        | y            | 29 |
 | 30 | black display                                                                                    |        |        | y            | 30 |
 | 31 | red display                                                                                      |        |        | y            | 31 |
 | 32 | green display                                                                                    |        |        | y            | 32 |
