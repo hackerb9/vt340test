@@ -218,7 +218,7 @@ Ps[14]="XOR of blinking cursor control sequence and menu." # Conflicts with ek-v
 Ps[14]="Transmit execution (DECTEM)."	# As documented by ek-vt3xx-tp.
 # Missing 15
 Ps[16]="Edit key execution (DECEKEM)."	# Added from ek-vt3xx-tp, chapter 9 "Local Editing".
-	Nt[16]="When SET, Shift+Edit on the VT340 switches immediately between interactive and edit mode. When RESET, the terminals sends DECEDM to the host to switch modes and waits for the host return DECEDM before changing the terminal's local editing mode. See also, mode 10 (DECEDM)."
+	Nt[16]="When SET, Shift+Edit on the VT340 switches immediately between interactive and edit mode. When RESET, the terminal sends DECEDM to the host to switch modes and waits for the host return DECEDM before changing the terminal's local editing mode. See also, mode 10 (DECEDM)."
 # Missing 17
 Ps[18]="Print Form Feed (DECPFF), VT220."
 	Nt[18]="When SET, the terminal sends a form feed (FF) to the printer at the end of a printing function. The default, RESET, is to send to nothing. DECPFF does not affect the Print Cursor Line function."	# ek-vt3xx-tp
